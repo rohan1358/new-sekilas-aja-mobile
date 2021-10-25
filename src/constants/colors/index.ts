@@ -1,5 +1,6 @@
 const neutralColor = {
   10: "#FBFCFC",
+  90: "#464D6F",
 };
 
 const primaryColor = {
