@@ -1,3 +1,7 @@
+const dangerColor = {
+  main: "#CB3168",
+};
+
 const neutralColor = {
   10: "#FBFCFC",
   90: "#464D6F",
@@ -7,8 +11,13 @@ const primaryColor = {
   main: "#FBCF32",
 };
 
-const colors = {
-  white: "#FFFFFF",
+const successColor = {
+  main: "#2BA67A",
 };
 
-export { neutralColor, primaryColor, colors };
+const colors = {
+  white: "#FFFFFF",
+  white1: "#BBC0CE",
+};
+
+export { dangerColor, neutralColor, primaryColor, successColor, colors };

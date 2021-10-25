@@ -1,7 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
-import { Base, BigButton, Button, Gap, TextItem } from "../../components";
+import {
+  Base,
+  BigButton,
+  Button,
+  Gap,
+  TextField,
+  TextItem,
+} from "../../components";
 import { spacing as sp } from "../../constants";
 import styles from "./styles";
 
@@ -12,16 +19,7 @@ const SignIn = () => {
         <Gap vertical={sp.sm} />
         <TextItem type="b.20.nc.90">Nama</TextItem>
         <Gap vertical={sp.xs} />
-        <TextInput
-          style={{
-            borderRadius: 12,
-            borderWidth: 2,
-            borderColor: "#BBC0CE",
-            height: 48,
-            padding: sp.sm,
-          }}
-          placeholder="Isi password di sini..."
-        />
+        <TextField placeholder="Isi nama disini ..." />
         <Gap vertical={sp.sm} />
         <View style={styles.centering}>
           <TextItem type="r.14.nc.90" style={{ textAlign: "center" }}>
