@@ -1,19 +1,24 @@
 import React from "react";
 import { TextInput, View } from "react-native";
-import { Gap, TextItem } from "../../atom";
 import { defaultValue, spacing } from "../../../constants";
+import { Gap, TextItem } from "../../atom";
 import styles from "./styles";
 import { TextFieldProps } from "./types";
 
 const { none } = defaultValue.textFieldState;
 
-const TextField = ({ message, state = none, ...props }: TextFieldProps) => {
+const TextField = ({
+  message,
+  state = none,
+  Icon,
+  ...props
+}: TextFieldProps) => {
   const s = styles({ state });
   return (
     <View>
       <View style={s.container}>
         <TextInput style={s.input} {...props} />
-        <View style={s.iconContainer} />
+        <View style={s.iconContainer}>{Icon && Icon}</View>
         <Gap horizontal={spacing.xxs} />
       </View>
       <Gap vertical={spacing.xs} />

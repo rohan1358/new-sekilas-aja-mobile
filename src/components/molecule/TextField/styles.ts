@@ -33,7 +33,6 @@ const styles = ({ state }: { state: string }) => {
     },
 
     iconContainer: {
-      backgroundColor: "grey",
       width: FIELD_HEIGHT - 8,
       height: FIELD_HEIGHT - 8,
       justifyContent: "center",

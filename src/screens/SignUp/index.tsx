@@ -12,7 +12,7 @@ import {
 import { spacing as sp } from "../../constants";
 import styles from "./styles";
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <Base>
       <ScrollView
@@ -70,4 +70,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
