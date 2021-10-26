@@ -17,6 +17,7 @@ import {
   spacing as sp,
   strings,
   successColor,
+  snackState as ss,
 } from "../../constants";
 import styles from "./styles";
 import { SignUpProps } from "./types";
@@ -27,14 +28,21 @@ const { textFieldState } = dv;
 
 const SignUp = ({ navigation }: SignUpProps) => {
   const [email, setEmail] = useState<string>();
+  const [isLoading, setIsLoading] = useState<boolean>();
   const [isSecurePassword, setIsSecurePassword] = useState<boolean>(true);
   const [isSecureRePassword, setIsSecureRepassword] = useState<boolean>(true);
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
+  const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
 
   const ctaDisabling = () => {
-    const check = [nameCheck.state, passwordCheck.state, repasswordCheck.state];
+    const check = [
+      nameCheck.state,
+      emailCheck.state,
+      passwordCheck.state,
+      repasswordCheck.state,
+    ];
     return !check.every((item) => item === textFieldState.success);
   };
 
@@ -92,7 +100,6 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
       };
     }
     if (password.length === 0) {
@@ -115,7 +122,6 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
       };
     }
     return {
@@ -128,6 +134,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (!email || !password) {
       return;
     }
+    setIsLoading(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
@@ -139,25 +146,24 @@ const SignUp = ({ navigation }: SignUpProps) => {
             sign_up_date: firestore.FieldValue.serverTimestamp(),
           })
           .then(() => {
-            console.log("User account created & signed in!");
+            // navigation.navigate()
             // redux management and navigate
           });
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
-          console.log("That email address is already in use!");
+          setSnackState(ss.failState("Email sudah terdaftar"));
         }
 
         if (error.code === "auth/invalid-email") {
-          console.log("That email address is invalid!");
+          setSnackState(ss.failState("Email tidak valid"));
         }
-
-        console.error(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
-    <Base>
+    <Base {...{ snackState, setSnackState }}>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
@@ -240,6 +246,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           label={strings.regist}
           disabled={ctaDisabling()}
           onPress={RegistPress}
+          isLoading={isLoading}
         />
         <Gap vertical={sp.sm} />
         <View style={styles.bottomCta}>

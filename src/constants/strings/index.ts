@@ -15,7 +15,7 @@ export const strings = {
   namePlaceholder: "Isi nama disini ...",
 
   passwordCantBeEmpty: "Password tidak boleh kosong",
-  passwordDontMatch: '"Password tidak sama"',
+  passwordDontMatch: "Password tidak sama",
   passwordMinChar: "Password minimal berisi 8 karakter",
   passwordPlaceholder: "Isi password disini ...",
   policy: "Kebijakan Privasi",
