@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
     paddingBottom: sp.l,
   },
 
+  textCenter: { textAlign: "center" },
+
   underlineText: { textAlign: "center", textDecorationLine: "underline" },
 });
 

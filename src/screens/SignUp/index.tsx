@@ -15,6 +15,7 @@ import {
   neutralColor,
   pages,
   spacing as sp,
+  strings,
   successColor,
 } from "../../constants";
 import styles from "./styles";
@@ -43,12 +44,12 @@ const SignUp = ({ navigation }: SignUpProps) => {
     }
     if (email.length === 0) {
       return {
-        message: "Email tidak boleh kosong",
+        message: strings.emailCantBeEmpty,
         state: textFieldState.warn,
       };
     }
     return {
-      message: "Email tidak valid",
+      message: strings.invalidEmail,
       state: textFieldState.warn,
     };
   }, [email]);
@@ -66,12 +67,12 @@ const SignUp = ({ navigation }: SignUpProps) => {
     }
     if (name.length === 0) {
       return {
-        message: "Nama tidak boleh kosong",
+        message: strings.nameCantBeEmpty,
         state: textFieldState.warn,
       };
     }
     return {
-      message: "Nama minimal berisi 3 karakter",
+      message: strings.nameMinChar,
       state: textFieldState.warn,
     };
   }, [name]);
@@ -89,12 +90,12 @@ const SignUp = ({ navigation }: SignUpProps) => {
     }
     if (password.length === 0) {
       return {
-        message: "Password tidak boleh kosong",
+        message: strings.passwordCantBeEmpty,
         state: textFieldState.warn,
       };
     }
     return {
-      message: "Password minimal berisi 8 karakter",
+      message: strings.passwordMinChar,
       state: textFieldState.warn,
     };
   }, [password]);
@@ -111,7 +112,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
       };
     }
     return {
-      message: "Password tidak sama",
+      message: strings.passwordDontMatch,
       state: textFieldState.warn,
     };
   }, [repassword, password]);
@@ -132,7 +133,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
         <TextItem type="b.20.nc.90">Nama</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
-          placeholder="Isi nama disini ..."
+          placeholder={strings.namePlaceholder}
           onChangeText={setName}
           autoCapitalize="words"
           {...nameCheck}
@@ -141,17 +142,17 @@ const SignUp = ({ navigation }: SignUpProps) => {
         <TextItem type="b.20.nc.90">Alamat Email</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
-          placeholder="Isi email disini ..."
+          placeholder={strings.emailPlaceholder}
           onChangeText={setEmail}
           keyboardType="email-address"
-          autoCapitalize="none"
+          autoCapitalize={"none"}
           {...emailCheck}
         />
         <Gap vertical={sp.xs} />
         <TextItem type="b.20.nc.90">Masukin Password</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
-          placeholder="Isi password disini ..."
+          placeholder={strings.passwordPlaceholder}
           Icon={
             isSecurePassword ? (
               <EyeOff stroke={neutralColor[50]} />
@@ -169,7 +170,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
         <Gap vertical={sp.xs} />
         <TextField
           onChangeText={setRepassword}
-          placeholder="Konfirmasi password disini ..."
+          placeholder={strings.repasswordPlaceholder}
           Icon={
             isSecureRePassword ? (
               <EyeOff stroke={neutralColor[50]} />
@@ -183,31 +184,31 @@ const SignUp = ({ navigation }: SignUpProps) => {
         />
         <Gap vertical={sp.sm} />
         <View style={styles.centering}>
-          <TextItem type="r.14.nc.90" style={{ textAlign: "center" }}>
-            Dengan membuat akun baru saya menyetujui{" "}
+          <TextItem type="r.14.nc.90" style={styles.textCenter}>
+            {`${strings.agreeByCreate} `}
           </TextItem>
           <View style={styles.centerEnd}>
             <Button>
               <TextItem type="b.14.nc.90" style={styles.underlineText}>
-                Ketentuan Layanan
+                {strings.terms}
               </TextItem>
             </Button>
             <TextItem type="r.14.nc.90">{` & `}</TextItem>
             <Button>
               <TextItem type="b.14.nc.90" style={styles.underlineText}>
-                Kebijakan Privasi
+                {strings.policy}
               </TextItem>
             </Button>
           </View>
         </View>
         <Gap vertical={sp.sm} />
-        <BigButton label="Daftar!" disabled={ctaDisabling()} />
+        <BigButton label={strings.regist} disabled={ctaDisabling()} />
         <Gap vertical={sp.sm} />
         <View style={styles.bottomCta}>
-          <TextItem type="r.14.nc.90">Sudah punya akun? </TextItem>
+          <TextItem type="r.14.nc.90">{`${strings.doHaveAcc} `}</TextItem>
           <Button onPress={() => navigation.navigate(pages.SignIn)}>
             <TextItem type="b.14.nc.90" style={styles.underlineText}>
-              Login di sini.
+              {strings.loginHere}
             </TextItem>
           </Button>
         </View>
