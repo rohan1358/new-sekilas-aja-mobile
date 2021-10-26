@@ -20,6 +20,8 @@ import {
 } from "../../constants";
 import styles from "./styles";
 import { SignUpProps } from "./types";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
 const { textFieldState } = dv;
 
@@ -30,6 +32,11 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
+
+  const ctaDisabling = () => {
+    const check = [nameCheck.state, passwordCheck.state, repasswordCheck.state];
+    return !check.every((item) => item === textFieldState.success);
+  };
 
   const emailCheck = useMemo(() => {
     if (email === undefined) {
@@ -81,7 +88,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (password === undefined) {
       return { state: textFieldState.none };
     }
-    if (password?.length > 8) {
+    if (password?.length >= 8) {
       return {
         message: "",
         state: textFieldState.success,
@@ -117,9 +124,36 @@ const SignUp = ({ navigation }: SignUpProps) => {
     };
   }, [repassword, password]);
 
-  const ctaDisabling = () => {
-    const check = [nameCheck.state, passwordCheck.state, repasswordCheck.state];
-    return !check.every((item) => item === textFieldState.success);
+  const RegistPress = () => {
+    if (!email || !password) {
+      return;
+    }
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        firestore()
+          .collection("users")
+          .add({
+            firstName: name,
+            email,
+            sign_up_date: firestore.FieldValue.serverTimestamp(),
+          })
+          .then(() => {
+            console.log("User account created & signed in!");
+            // redux management and navigate
+          });
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          console.log("That email address is already in use!");
+        }
+
+        if (error.code === "auth/invalid-email") {
+          console.log("That email address is invalid!");
+        }
+
+        console.error(error);
+      });
   };
 
   return (
@@ -202,7 +236,11 @@ const SignUp = ({ navigation }: SignUpProps) => {
           </View>
         </View>
         <Gap vertical={sp.sm} />
-        <BigButton label={strings.regist} disabled={ctaDisabling()} />
+        <BigButton
+          label={strings.regist}
+          disabled={ctaDisabling()}
+          onPress={RegistPress}
+        />
         <Gap vertical={sp.sm} />
         <View style={styles.bottomCta}>
           <TextItem type="r.14.nc.90">{`${strings.doHaveAcc} `}</TextItem>
