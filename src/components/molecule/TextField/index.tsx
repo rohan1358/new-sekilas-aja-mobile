@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, View } from "react-native";
 import { defaultValue, spacing } from "../../../constants";
-import { Gap, TextItem } from "../../atom";
+import { Gap, TextItem, Button } from "../../atom";
 import styles from "./styles";
 import { TextFieldProps } from "./types";
 
@@ -11,6 +11,8 @@ const TextField = ({
   message,
   state = none,
   Icon,
+  iconPress,
+  iconDisbabled = false,
   ...props
 }: TextFieldProps) => {
   const s = styles({ state });
@@ -18,7 +20,15 @@ const TextField = ({
     <View>
       <View style={s.container}>
         <TextInput style={s.input} {...props} />
-        <View style={s.iconContainer}>{Icon && Icon}</View>
+        {Icon && (
+          <Button
+            onPress={iconPress}
+            disabled={iconDisbabled}
+            style={s.iconContainer}
+          >
+            {Icon}
+          </Button>
+        )}
         <Gap horizontal={spacing.xxs} />
       </View>
       <Gap vertical={spacing.xs} />

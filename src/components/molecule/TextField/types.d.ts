@@ -5,4 +5,6 @@ interface TextFieldProps extends TextInputProps {
   message?: string;
   state?: string;
   Icon?: ReactElement;
+  iconPress?(): void;
+  iconDisbabled?: boolean;
 }

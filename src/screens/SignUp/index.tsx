@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Check, EyeOff } from "../../../assets";
+import { Check, Eye, EyeOff } from "../../../assets";
 import {
   Base,
   BigButton,
@@ -24,6 +24,8 @@ const { textFieldState } = dv;
 
 const SignUp = ({ navigation }: SignUpProps) => {
   const [email, setEmail] = useState<string>();
+  const [isSecurePassword, setIsSecurePassword] = useState<boolean>(true);
+  const [isSecureRePassword, setIsSecureRepassword] = useState<boolean>(true);
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
@@ -124,6 +126,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <Gap vertical={sp.sm} />
         <TextItem type="b.20.nc.90">Nama</TextItem>
@@ -149,19 +152,33 @@ const SignUp = ({ navigation }: SignUpProps) => {
         <Gap vertical={sp.xs} />
         <TextField
           placeholder="Isi password disini ..."
-          Icon={<EyeOff stroke={neutralColor[50]} />}
-          {...passwordCheck}
+          Icon={
+            isSecurePassword ? (
+              <EyeOff stroke={neutralColor[50]} />
+            ) : (
+              <Eye stroke={neutralColor[50]} />
+            )
+          }
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={isSecurePassword}
+          iconPress={() => setIsSecurePassword((current) => !current)}
+          {...passwordCheck}
         />
         <Gap vertical={sp.xs} />
         <TextItem type="b.20.nc.90">Konfirmasi Password</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           onChangeText={setRepassword}
-          placeholder="Isi password disini ..."
-          Icon={<EyeOff stroke={neutralColor[50]} />}
-          secureTextEntry
+          placeholder="Konfirmasi password disini ..."
+          Icon={
+            isSecureRePassword ? (
+              <EyeOff stroke={neutralColor[50]} />
+            ) : (
+              <Eye stroke={neutralColor[50]} />
+            )
+          }
+          secureTextEntry={isSecureRePassword}
+          iconPress={() => setIsSecureRepassword((current) => !current)}
           {...repasswordCheck}
         />
         <Gap vertical={sp.sm} />
