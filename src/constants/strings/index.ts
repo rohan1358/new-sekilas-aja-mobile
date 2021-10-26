@@ -1,10 +1,14 @@
 export const strings = {
   agreeByCreate: "Dengan membuat akun baru saya menyetujui",
 
+  continueReading: "Lanjutkan membaca",
+
   doHaveAcc: "Sudah punya akun?",
 
   emailCantBeEmpty: "Email tidak boleh kosong",
   emailPlaceholder: "Isi email disini ...",
+
+  happyReading: "Selamat membaca",
 
   invalidEmail: "Email tidak valid",
 

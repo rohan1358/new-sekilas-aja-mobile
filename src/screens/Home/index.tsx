@@ -1,50 +1,29 @@
 import React from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { Base, TextItem, Gap } from "../../components";
-import { primaryColor, spacing as sp } from "../../constants";
+import { Base, TextItem } from "../../components";
+import { HomeHeader, OngoingTile } from "../../components/organism";
+import {
+  neutralColor,
+  primaryColor,
+  spacing as sp,
+  successColor,
+} from "../../constants";
+import { logger, widthPercent } from "../../helpers/helper";
+import styles from "./styles";
 
 const Home = () => {
   const ListHeaderComponent = (
     <>
-      <View
-        style={{
-          flexDirection: "row",
-          paddingVertical: sp.m,
-          paddingHorizontal: sp.sl,
-          backgroundColor: primaryColor.main,
-          borderBottomLeftRadius: 24,
-          borderBottomRightRadius: 24,
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            width: 48,
-            height: 48,
-            backgroundColor: "red",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 48,
-            overflow: "hidden",
-          }}
-        ></View>
-        <Gap horizontal={sp.xs} />
-        <View style={{ flex: 1 }}>
-          <TextItem type="r.14.nc.80">Selamat membaca</TextItem>
-          <TextItem type="b.24.nc.90">Grace Natanael</TextItem>
-        </View>
-        <View style={{ width: 48, height: 48, backgroundColor: "red" }}></View>
+      <HomeHeader
+        name="Taufan"
+        uri=""
+        onBellPress={() => logger("bell pressed")}
+      />
+      <View>
+        <View style={styles.dummyHeader} />
+        <OngoingTile bookTitle="The Design of Everyday Thinking" bookUri="" />
       </View>
-      <View
-        style={{
-          height: 64,
-          backgroundColor: primaryColor.main,
-          borderBottomLeftRadius: 24,
-          borderBottomRightRadius: 24,
-          top: -sp.m,
-        }}
-      ></View>
     </>
   );
   return (

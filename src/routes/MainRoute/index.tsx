@@ -11,8 +11,8 @@ const MainRoute = () => {
       initialRouteName={pages.Home}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={pages.SignIn} component={SignIn} />
       <Stack.Screen name={pages.Home} component={Home} />
+      <Stack.Screen name={pages.SignIn} component={SignIn} />
     </Stack.Navigator>
   );
 };

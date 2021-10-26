@@ -1,0 +1,3 @@
+interface AmageProps {
+  source?: string;
+}
