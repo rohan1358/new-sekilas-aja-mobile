@@ -3,10 +3,12 @@ import { Button, TextItem } from "../../atom";
 import styles from "./styles";
 import { BigButtonProps } from "./types";
 
-const BigButton = ({ label }: BigButtonProps) => {
+const BigButton = ({ label, disabled = false, ...props }: BigButtonProps) => {
+  const s = styles({ disabled });
+  const textType = disabled ? "b.24.nc.60" : "b.24.pc.main";
   return (
-    <Button style={styles.container}>
-      <TextItem type="b.24.pc.main">{label}</TextItem>
+    <Button style={s.container} disabled={disabled} {...props}>
+      <TextItem type={textType}>{label}</TextItem>
     </Button>
   );
 };

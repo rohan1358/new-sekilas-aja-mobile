@@ -1,11 +1,5 @@
-type SignUpFormIfc = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { CompositeNavigationProp } from "@react-navigation/core";
 
-interface ErrorFormIfc {
-  field: string;
-  message: string;
-  state: string;
+interface SignUpProps {
+  navigation: CompositeNavigationProp<any, any>;
 }

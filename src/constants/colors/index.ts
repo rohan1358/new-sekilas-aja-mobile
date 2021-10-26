@@ -4,6 +4,9 @@ const dangerColor = {
 
 const neutralColor = {
   10: "#FBFCFC",
+  30: "#E3E8EF",
+  50: "#BBC0CE",
+  60: "#9BA2B5",
   90: "#464D6F",
 };
 
