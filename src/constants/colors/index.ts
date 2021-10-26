@@ -7,6 +7,7 @@ const neutralColor = {
   30: "#E3E8EF",
   50: "#BBC0CE",
   60: "#9BA2B5",
+  80: "#5F647E",
   90: "#464D6F",
 };
 

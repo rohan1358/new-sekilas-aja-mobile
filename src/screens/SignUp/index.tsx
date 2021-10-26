@@ -1,3 +1,5 @@
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 import React, { useMemo, useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -14,19 +16,21 @@ import {
   defaultValue as dv,
   neutralColor,
   pages,
+  snackState as ss,
   spacing as sp,
   strings,
   successColor,
-  snackState as ss,
 } from "../../constants";
 import styles from "./styles";
 import { SignUpProps } from "./types";
-import auth from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
+import { useDispatch } from "react-redux";
+import { loggingIn } from "../../redux/actions";
 
 const { textFieldState } = dv;
 
 const SignUp = ({ navigation }: SignUpProps) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>();
   const [isSecurePassword, setIsSecurePassword] = useState<boolean>(true);
@@ -131,6 +135,9 @@ const SignUp = ({ navigation }: SignUpProps) => {
   }, [repassword, password]);
 
   const RegistPress = () => {
+    if (isLoading) {
+      return;
+    }
     if (!email || !password) {
       return;
     }
@@ -146,8 +153,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
             sign_up_date: firestore.FieldValue.serverTimestamp(),
           })
           .then(() => {
-            // navigation.navigate()
-            // redux management and navigate
+            navigation.navigate(pages.Home);
+            dispatch(loggingIn({ isLogin: true, email }));
           });
       })
       .catch((error) => {

@@ -5,8 +5,8 @@ interface SnackStateProps {
 }
 
 interface BaseProps {
-  barColor: string;
-  barStyle: "dark-content" | "light-content" | "default";
+  barColor?: string;
+  barStyle?: "dark-content" | "light-content" | "default";
   setSnackState?(arg0: SnackStateProps): void;
   snackState?: SnackStateProps;
 }
