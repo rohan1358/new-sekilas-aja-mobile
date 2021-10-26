@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from "react";
 import { Text } from "react-native";
 import {
   colors,
+  dangerColor,
   fontFamily as ff,
   neutralColor,
   primaryColor,
@@ -40,6 +41,8 @@ const familyFinder = (code: string) => {
 
 const colorFinder = (code: string) => {
   switch (code) {
+    case "dc":
+      return dangerColor;
     case "nc":
       return neutralColor;
     case "c":
