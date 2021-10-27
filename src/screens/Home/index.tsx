@@ -1,0 +1,71 @@
+import React from "react";
+import { View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { Base, DummyFlatList, Gap, TextItem } from "../../components";
+import {
+  HomeHeader,
+  ImageBanner,
+  MiniCollectionTile,
+  OngoingTile,
+} from "../../components/organism";
+import {
+  neutralColor,
+  primaryColor,
+  spacing as sp,
+  strings,
+} from "../../constants";
+import { logger, widthPercent } from "../../helpers/helper";
+import { dummyBanner } from "./dummy";
+import styles from "./styles";
+
+const Home = () => {
+  return (
+    <Base barColor={primaryColor.main}>
+      <DummyFlatList>
+        <HomeHeader
+          name="Taufan"
+          uri=""
+          onBellPress={() => logger("bell pressed")}
+        />
+        <View>
+          <View style={styles.dummyHeader} />
+          <OngoingTile bookTitle="The Design of Everyday Thinking" bookUri="" />
+        </View>
+        <View style={styles.adjuster}>
+          <Gap horizontal={sp.sl * 2}>
+            <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
+          </Gap>
+          <Gap vertical={sp.sm} />
+          <FlatList
+            contentContainerStyle={styles.newCollectionContentContainerStyle}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={dummyBanner}
+            renderItem={({ item }) => (
+              <View style={styles.newCollectionContainer}>
+                <ImageBanner placeholder={item.placeholder} />
+                <Gap horizontal={sp.m} />
+              </View>
+            )}
+            keyExtractor={({ id }) => `${id}`}
+          />
+          <Gap vertical={sp.m} />
+          <Gap horizontal={sp.sl * 2}>
+            <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
+            <TextItem type="r.14.nc.70">{strings.bookCollectionsDesc}</TextItem>
+          </Gap>
+          <Gap vertical={sp.sm} />
+          <Gap horizontal={sp.sl * 2}>
+            <MiniCollectionTile
+              title="10 Kilas buku"
+              subtitle="Pengembangan Diri"
+              bookCount={10}
+            />
+          </Gap>
+        </View>
+      </DummyFlatList>
+    </Base>
+  );
+};
+
+export default Home;

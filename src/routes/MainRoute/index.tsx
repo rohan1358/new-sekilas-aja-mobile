@@ -1,21 +1,20 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { pages } from "../../constants";
-import { Home, SignIn, SignUp } from "../../screens";
+import { Home, SignIn } from "../../screens";
 
 const Stack = createStackNavigator();
 
-const AuthRoute = () => {
+const MainRoute = () => {
   return (
     <Stack.Navigator
-      initialRouteName={pages.SignUp}
+      initialRouteName={pages.Home}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={pages.SignUp} component={SignUp} />
-      <Stack.Screen name={pages.SignIn} component={SignIn} />
       <Stack.Screen name={pages.Home} component={Home} />
+      <Stack.Screen name={pages.SignIn} component={SignIn} />
     </Stack.Navigator>
   );
 };
 
-export default AuthRoute;
+export default MainRoute;
