@@ -5,7 +5,7 @@ import { Bell } from "../../../../assets";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
 import styles from "./styles";
 
-const HomeHeader = ({ name, uri, onBellPress }: HomeHeaderProps) => {
+const HomeHeader = ({ name = "", uri, onBellPress }: HomeHeaderProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>

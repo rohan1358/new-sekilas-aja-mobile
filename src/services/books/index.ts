@@ -1,16 +1,16 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
 
-const fetchProfile = (email: string) => {
+const fetchReadingBook = (email: string) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       const raw = await firestore()
         .collection(firebaseNode.users)
         .where("email", "==", email)
         .get();
-      const user = raw.docs[0].data();
+      const book = raw.docs[0].data()?.owned_books[0];
       resolve({
-        data: user,
+        data: book,
         isSuccess: true,
         error: null,
         message: "Profile successfuly fetched.",
@@ -26,4 +26,4 @@ const fetchProfile = (email: string) => {
   });
 };
 
-export { fetchProfile };
+export { fetchReadingBook };

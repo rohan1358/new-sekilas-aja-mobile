@@ -4,7 +4,7 @@ import { Amage, TextItem } from "../..";
 import { strings } from "../../../constants";
 import styles from "./styles";
 
-const OngoingTile = ({ bookTitle, bookUri }: OngoingTileProps) => {
+const OngoingTile = ({ bookTitle = "", bookUri }: OngoingTileProps) => {
   const [tileHeight, setTileHeight] = useState<number>(74);
   const s = styles({ tileHeight });
   return (

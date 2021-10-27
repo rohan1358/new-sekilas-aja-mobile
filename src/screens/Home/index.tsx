@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { fetchProfile } from "../../services";
@@ -10,30 +10,81 @@ import {
   MiniCollectionTile,
   OngoingTile,
 } from "../../components/organism";
-import { primaryColor, spacing as sp, strings } from "../../constants";
+import {
+  primaryColor,
+  spacing as sp,
+  strings,
+  snackState as ss,
+} from "../../constants";
 import { logger } from "../../helpers/helper";
 import { dummyBanner } from "./dummy";
 import styles from "./styles";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../redux/reducers";
+import { fetchReadingBook } from "../../services/books";
 
 const Home = () => {
+  const {
+    sessionReducer: { email },
+  } = useSelector((state: ReduxState) => state);
+  const isMounted = useRef<boolean>();
+
+  const [profile, setProfile] = useState<ProfileProps>();
+  const [readingBook, setReadingBook] = useState<string>();
+  const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
+
   const getProfile = async () => {
-    await fetchProfile("fennarex@gmail.com");
+    try {
+      const { data } = await fetchProfile(email);
+      if (!isMounted.current) {
+        return;
+      }
+      setProfile(data);
+    } catch (error) {
+      setSnackState(ss.failState("Kesalahan dalam mendapatkan profil"));
+      logger("Home, getProfile", error);
+    }
+  };
+
+  const getReadingBook = async () => {
+    try {
+      const { data } = await fetchReadingBook(email);
+      if (!isMounted.current) {
+        return;
+      }
+      setReadingBook(data);
+    } catch (error) {
+      setSnackState(
+        ss.failState("Kesalahan dalam mendapatkan buku yang dibaca")
+      );
+      logger("Home, getReadingBook", error);
+    }
   };
 
   useEffect(() => {
+    isMounted.current = true;
     getProfile();
+    getReadingBook();
+
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
   return (
-    <Base barColor={primaryColor.main}>
+    <Base
+      barColor={primaryColor.main}
+      snackState={snackState}
+      setSnackState={setSnackState}
+    >
       <DummyFlatList>
         <HomeHeader
-          name="Taufan"
+          name={profile?.firstName}
           uri=""
           onBellPress={() => logger("bell pressed")}
         />
         <View>
           <View style={styles.dummyHeader} />
-          <OngoingTile bookTitle="The Design of Everyday Thinking" bookUri="" />
+          <OngoingTile bookTitle={readingBook} bookUri="" />
         </View>
         <View style={styles.adjuster}>
           <Gap horizontal={sp.sl * 2}>
