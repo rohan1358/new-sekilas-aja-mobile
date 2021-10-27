@@ -1,7 +1,7 @@
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import React, { useMemo, useState } from "react";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Check, Eye, EyeOff } from "../../../assets";
 import {
@@ -142,6 +142,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return;
     }
     setIsLoading(true);
+    Keyboard.dismiss();
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
@@ -153,17 +154,17 @@ const SignUp = ({ navigation }: SignUpProps) => {
             sign_up_date: firestore.FieldValue.serverTimestamp(),
           })
           .then(() => {
-            navigation.navigate(pages.Home);
+            navigation.replace(pages.Home);
             dispatch(loggingIn({ isLogin: true, email }));
           });
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
-          setSnackState(ss.failState("Email sudah terdaftar"));
+          setSnackState(ss.failState(strings.emailUsed));
         }
 
         if (error.code === "auth/invalid-email") {
-          setSnackState(ss.failState("Email tidak valid"));
+          setSnackState(ss.failState(strings.invalidEmail));
         }
       })
       .finally(() => setIsLoading(false));
@@ -177,7 +178,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
         keyboardShouldPersistTaps="handled"
       >
         <Gap vertical={sp.sm} />
-        <TextItem type="b.20.nc.90">Nama</TextItem>
+        <TextItem type="b.20.nc.90.c">{strings.name}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           placeholder={strings.namePlaceholder}
@@ -186,7 +187,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           {...nameCheck}
         />
         <Gap vertical={sp.xs} />
-        <TextItem type="b.20.nc.90">Alamat Email</TextItem>
+        <TextItem type="b.20.nc.90.c">{strings.emailAddress}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           placeholder={strings.emailPlaceholder}
@@ -196,7 +197,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           {...emailCheck}
         />
         <Gap vertical={sp.xs} />
-        <TextItem type="b.20.nc.90">Masukin Password</TextItem>
+        <TextItem type="b.20.nc.90.c">{strings.enterPassword}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           placeholder={strings.passwordPlaceholder}
@@ -207,13 +208,13 @@ const SignUp = ({ navigation }: SignUpProps) => {
               <Eye stroke={neutralColor[50]} />
             )
           }
-          onChangeText={setPassword}
           secureTextEntry={isSecurePassword}
+          onChangeText={setPassword}
           iconPress={() => setIsSecurePassword((current) => !current)}
           {...passwordCheck}
         />
         <Gap vertical={sp.xs} />
-        <TextItem type="b.20.nc.90">Konfirmasi Password</TextItem>
+        <TextItem type="b.20.nc.90.c">{strings.enterConfirmPassword}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           onChangeText={setRepassword}
