@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { fetchProfile } from "../../services";
+import { useSelector } from "react-redux";
 import { Base, Button, DummyFlatList, Gap, TextItem } from "../../components";
 import {
   BookTile,
@@ -12,20 +12,20 @@ import {
 } from "../../components/organism";
 import {
   primaryColor,
+  snackState as ss,
   spacing as sp,
   strings,
-  snackState as ss,
 } from "../../constants";
 import { logger } from "../../helpers/helper";
-import { dummyBanner } from "./dummy";
-import styles from "./styles";
-import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
+import { fetchProfile } from "../../services";
 import {
   fetchMostBooks,
   fetchReadingBook,
   fetchRecommendedBooks,
 } from "../../services/books";
+import { dummyBanner } from "./dummy";
+import styles from "./styles";
 
 const Home = () => {
   const {
@@ -39,6 +39,21 @@ const Home = () => {
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
+
+  const bannerRenderItem = ({ item }: { item: any }) => (
+    <View style={styles.newCollectionContainer}>
+      <ImageBanner placeholder={item.placeholder} />
+      <Gap horizontal={sp.m} />
+    </View>
+  );
+
+  const booksRenderItem = ({ item }: { item: CompactBooksProps }) => (
+    <BookTile
+      title={item?.book_title}
+      author={`${item?.author}`}
+      duration={item?.read_time}
+    />
+  );
 
   const getProfile = async () => {
     try {
@@ -94,6 +109,8 @@ const Home = () => {
     }
   };
 
+  const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
+
   useEffect(() => {
     isMounted.current = true;
 
@@ -106,6 +123,7 @@ const Home = () => {
       isMounted.current = false;
     };
   }, []);
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -132,13 +150,9 @@ const Home = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             data={dummyBanner}
-            renderItem={({ item }) => (
-              <View style={styles.newCollectionContainer}>
-                <ImageBanner placeholder={item.placeholder} />
-                <Gap horizontal={sp.m} />
-              </View>
-            )}
-            keyExtractor={({ id }) => `${id}`}
+            renderItem={bannerRenderItem}
+            keyExtractor={idKeyExtractor}
+            listKey={"bannerlist"}
           />
           <Gap vertical={sp.m} />
           <Gap horizontal={sp.sl * 2}>
@@ -167,16 +181,11 @@ const Home = () => {
           <Gap horizontal={sp.sl * 2}>
             <FlatList
               data={recommendedBooks}
-              keyExtractor={({ id }) => `${id}`}
+              keyExtractor={idKeyExtractor}
               numColumns={2}
-              renderItem={({ item }) => (
-                <BookTile
-                  title={item?.book_title}
-                  author={`${item?.author}`}
-                  duration={item?.read_time}
-                />
-              )}
-              columnWrapperStyle={{ justifyContent: "space-between" }}
+              renderItem={booksRenderItem}
+              columnWrapperStyle={styles.columnWrapperStyle}
+              listKey={"recommendedbooklist"}
             />
           </Gap>
           <Gap vertical={sp.sl} />
@@ -195,16 +204,11 @@ const Home = () => {
           <Gap horizontal={sp.sl * 2}>
             <FlatList
               data={mostReadBooks}
-              keyExtractor={({ id }) => `${id}`}
+              keyExtractor={idKeyExtractor}
               numColumns={2}
-              renderItem={({ item }) => (
-                <BookTile
-                  title={item?.book_title}
-                  author={`${item?.author}`}
-                  duration={item?.read_time}
-                />
-              )}
-              columnWrapperStyle={{ justifyContent: "space-between" }}
+              renderItem={booksRenderItem}
+              columnWrapperStyle={styles.columnWrapperStyle}
+              listKey="mostreadbooklist"
             />
           </Gap>
         </View>

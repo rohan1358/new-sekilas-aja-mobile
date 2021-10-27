@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  columnWrapperStyle: { justifyContent: "space-between" },
 
   dummyHeader: {
     height: 64,

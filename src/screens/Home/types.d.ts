@@ -6,5 +6,5 @@ interface CompactBooksProps {
   id: string;
   book_title: string;
   author: string;
-  read_time: string;
+  read_time: number;
 }
