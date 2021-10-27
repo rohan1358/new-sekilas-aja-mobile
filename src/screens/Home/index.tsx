@@ -1,59 +1,69 @@
 import React from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { Base, TextItem, Gap } from "../../components";
-import { primaryColor, spacing as sp } from "../../constants";
+import { Base, DummyFlatList, Gap, TextItem } from "../../components";
+import {
+  HomeHeader,
+  ImageBanner,
+  MiniCollectionTile,
+  OngoingTile,
+} from "../../components/organism";
+import {
+  neutralColor,
+  primaryColor,
+  spacing as sp,
+  strings,
+} from "../../constants";
+import { logger, widthPercent } from "../../helpers/helper";
+import { dummyBanner } from "./dummy";
+import styles from "./styles";
 
 const Home = () => {
-  const ListHeaderComponent = (
-    <>
-      <View
-        style={{
-          flexDirection: "row",
-          paddingVertical: sp.m,
-          paddingHorizontal: sp.sl,
-          backgroundColor: primaryColor.main,
-          borderBottomLeftRadius: 24,
-          borderBottomRightRadius: 24,
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            width: 48,
-            height: 48,
-            backgroundColor: "red",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 48,
-            overflow: "hidden",
-          }}
-        ></View>
-        <Gap horizontal={sp.xs} />
-        <View style={{ flex: 1 }}>
-          <TextItem type="r.14.nc.80">Selamat membaca</TextItem>
-          <TextItem type="b.24.nc.90">Grace Natanael</TextItem>
-        </View>
-        <View style={{ width: 48, height: 48, backgroundColor: "red" }}></View>
-      </View>
-      <View
-        style={{
-          height: 64,
-          backgroundColor: primaryColor.main,
-          borderBottomLeftRadius: 24,
-          borderBottomRightRadius: 24,
-          top: -sp.m,
-        }}
-      ></View>
-    </>
-  );
   return (
     <Base barColor={primaryColor.main}>
-      <FlatList
-        data={[]}
-        renderItem={() => null}
-        ListHeaderComponent={ListHeaderComponent}
-      />
+      <DummyFlatList>
+        <HomeHeader
+          name="Taufan"
+          uri=""
+          onBellPress={() => logger("bell pressed")}
+        />
+        <View>
+          <View style={styles.dummyHeader} />
+          <OngoingTile bookTitle="The Design of Everyday Thinking" bookUri="" />
+        </View>
+        <View style={styles.adjuster}>
+          <Gap horizontal={sp.sl * 2}>
+            <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
+          </Gap>
+          <Gap vertical={sp.sm} />
+          <FlatList
+            contentContainerStyle={styles.newCollectionContentContainerStyle}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={dummyBanner}
+            renderItem={({ item }) => (
+              <View style={styles.newCollectionContainer}>
+                <ImageBanner placeholder={item.placeholder} />
+                <Gap horizontal={sp.m} />
+              </View>
+            )}
+            keyExtractor={({ id }) => `${id}`}
+          />
+          <Gap vertical={sp.m} />
+          <Gap horizontal={sp.sl * 2}>
+            <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
+            <TextItem type="r.14.nc.70">{strings.bookCollectionsDesc}</TextItem>
+          </Gap>
+          <Gap vertical={sp.sm} />
+          <Gap horizontal={sp.sl * 2}>
+            <MiniCollectionTile
+              title="10 Kilas buku"
+              subtitle="Pengembangan Diri"
+              bookCount={10}
+            />
+          </Gap>
+        </View>
+      </DummyFlatList>
     </Base>
   );
 };
