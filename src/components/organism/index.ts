@@ -1,4 +1,5 @@
 import HomeHeader from "./HomeHeader";
+import ImageBanner from "./ImageBanner";
 import OngoingTile from "./OngoingTile";
 
-export { HomeHeader, OngoingTile };
+export { HomeHeader, ImageBanner, OngoingTile };

@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 24,
     top: -sp.m,
   },
+
+  newCollectionContainer: { flexDirection: "row" },
+  newCollectionContentContainerStyle: { paddingLeft: sp.m },
 });
 
 export default styles;
