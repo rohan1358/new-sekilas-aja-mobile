@@ -3,6 +3,8 @@ import { primaryColor, spacing as sp } from "../../constants";
 import { widthPercent } from "../../helpers/helper";
 
 const styles = StyleSheet.create({
+  adjuster: { top: -sp.m },
+
   dummyHeader: {
     height: 64,
     width: widthPercent(100),

@@ -1,6 +1,10 @@
 export const strings = {
   agreeByCreate: "Dengan membuat akun baru saya menyetujui",
 
+  bookCollections: "Koleksi buku",
+  bookCollectionsDesc:
+    "Koleksi sejumlah buku berdasarkan kategori yang kamu minati.",
+
   continueReading: "Lanjutkan membaca",
 
   doHaveAcc: "Sudah punya akun?",
@@ -29,4 +33,6 @@ export const strings = {
   regist: "Daftar!",
 
   terms: "Ketentuan Layanan",
+
+  weekNewCollection: "Kilas Baru minggu ini!",
 };
