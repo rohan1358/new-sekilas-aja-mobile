@@ -27,6 +27,8 @@ export const strings = {
   login: "Masuk!",
   loginHere: "Login di sini",
 
+  mostRead: "Paling banyak dibaca",
+
   name: "Nama",
   nameCantBeEmpty: "Nama tidak boleh kosong",
   nameMinChar: "Nama minimal berisi 3 karakter",
@@ -41,8 +43,11 @@ export const strings = {
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
 
+  recommendedBook: "Rekomendasi buku",
   regist: "Daftar!",
   registHere: "Daftar di sini.",
+
+  seeAll: "Lihat semua",
 
   terms: "Ketentuan Layanan",
 

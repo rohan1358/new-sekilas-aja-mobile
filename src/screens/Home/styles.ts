@@ -5,6 +5,13 @@ import { widthPercent } from "../../helpers/helper";
 const styles = StyleSheet.create({
   adjuster: { top: -sp.m },
 
+  clickTitle: {
+    paddingHorizontal: sp.sl,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
   dummyHeader: {
     height: 64,
     width: widthPercent(100),
@@ -16,6 +23,8 @@ const styles = StyleSheet.create({
 
   newCollectionContainer: { flexDirection: "row" },
   newCollectionContentContainerStyle: { paddingLeft: sp.m },
+
+  underline: { textDecorationLine: "underline" },
 });
 
 export default styles;

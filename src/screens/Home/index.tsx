@@ -1,8 +1,16 @@
 import React from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { Base, DummyFlatList, Gap, TextItem } from "../../components";
 import {
+  Base,
+  Button,
+  DummyFlatList,
+  Gap,
+  Seed,
+  TextItem,
+} from "../../components";
+import {
+  BookTile,
   HomeHeader,
   ImageBanner,
   MiniCollectionTile,
@@ -60,6 +68,44 @@ const Home = () => {
               title="10 Kilas buku"
               subtitle="Pengembangan Diri"
               bookCount={10}
+            />
+          </Gap>
+          <Gap vertical={sp.sl} />
+          <View style={styles.clickTitle}>
+            <TextItem type="b.24.nc.90">{strings.recommendedBook}</TextItem>
+            <Gap horizontal={20} />
+            <Button>
+              <TextItem type="b.14.nc.90" style={styles.underline}>
+                {strings.seeAll}
+              </TextItem>
+            </Button>
+          </View>
+          <Gap vertical={sp.sm} />
+          <Gap horizontal={sp.sl * 2}>
+            <BookTile
+              title="Rework"
+              author={`David H. H. & Jason F.`}
+              duration={10}
+            />
+          </Gap>
+          <Gap vertical={sp.sl} />
+          <View style={styles.clickTitle}>
+            <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
+              {strings.mostRead}
+            </TextItem>
+            <Gap horizontal={20} />
+            <Button>
+              <TextItem type="b.14.nc.90" style={styles.underline}>
+                {strings.seeAll}
+              </TextItem>
+            </Button>
+          </View>
+          <Gap vertical={sp.sm} />
+          <Gap horizontal={sp.sl * 2}>
+            <BookTile
+              title="Rework"
+              author={`David H. H. & Jason F.`}
+              duration={10}
             />
           </Gap>
         </View>

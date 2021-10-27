@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Amage, Gap, TextItem } from "../..";
+import { Amage, Gap, Seed, TextItem } from "../..";
 import { spacing as sp } from "../../../constants";
 import styles from "./styles";
 
@@ -22,9 +22,7 @@ const MiniCollectionTile = ({
         <TextItem type="r.12.nc.70" numberOfLines={1}>
           {subtitle}
         </TextItem>
-        <View style={styles.seed}>
-          <TextItem type="r.10.nc.100">{`${bookCount} buku`}</TextItem>
-        </View>
+        <Seed label={`${bookCount} buku`} />
       </View>
     </View>
   );

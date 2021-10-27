@@ -1,0 +1,3 @@
+interface SeedProps {
+  label: string;
+}

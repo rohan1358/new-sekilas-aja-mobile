@@ -1,6 +1,8 @@
+import auth from "@react-native-firebase/auth";
 import React, { useMemo, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
 import { Alert, Check, Eye, EyeOff } from "../../../assets";
 import {
   Base,
@@ -11,20 +13,17 @@ import {
   TextItem,
 } from "../../components";
 import {
+  dangerColor,
   defaultValue as dv,
   neutralColor,
   pages,
+  snackState as ss,
   spacing as sp,
   strings,
   successColor,
-  snackState as ss,
-  dangerColor,
 } from "../../constants";
-import styles from "./styles";
-import auth from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
-import { useDispatch } from "react-redux";
 import { loggingIn } from "../../redux/actions";
+import styles from "./styles";
 
 const { textFieldState } = dv;
 
