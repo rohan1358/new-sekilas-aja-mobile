@@ -12,6 +12,7 @@ const DummyFlatList = ({ children }: PropsWithChildren<any>) => {
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

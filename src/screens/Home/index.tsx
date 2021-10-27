@@ -1,14 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import {
-  Base,
-  Button,
-  DummyFlatList,
-  Gap,
-  Seed,
-  TextItem,
-} from "../../components";
+import { fetchProfile } from "../../services";
+import { Base, Button, DummyFlatList, Gap, TextItem } from "../../components";
 import {
   BookTile,
   HomeHeader,
@@ -16,17 +10,19 @@ import {
   MiniCollectionTile,
   OngoingTile,
 } from "../../components/organism";
-import {
-  neutralColor,
-  primaryColor,
-  spacing as sp,
-  strings,
-} from "../../constants";
-import { logger, widthPercent } from "../../helpers/helper";
+import { primaryColor, spacing as sp, strings } from "../../constants";
+import { logger } from "../../helpers/helper";
 import { dummyBanner } from "./dummy";
 import styles from "./styles";
 
 const Home = () => {
+  const getProfile = async () => {
+    await fetchProfile("fennarex@gmail.com");
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
   return (
     <Base barColor={primaryColor.main}>
       <DummyFlatList>
