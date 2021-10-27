@@ -21,7 +21,11 @@ import { dummyBanner } from "./dummy";
 import styles from "./styles";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
-import { fetchReadingBook } from "../../services/books";
+import {
+  fetchMostBooks,
+  fetchReadingBook,
+  fetchRecommendedBooks,
+} from "../../services/books";
 
 const Home = () => {
   const {
@@ -31,6 +35,9 @@ const Home = () => {
 
   const [profile, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<string>();
+  const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
+  const [recommendedBooks, setRecommendedBooks] =
+    useState<CompactBooksProps[]>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
 
   const getProfile = async () => {
@@ -61,10 +68,39 @@ const Home = () => {
     }
   };
 
+  const getRecommendedBooks = async () => {
+    try {
+      const { data } = await fetchRecommendedBooks();
+      if (!isMounted.current) {
+        return;
+      }
+
+      setRecommendedBooks(data);
+    } catch (error) {
+      logger("Home, getRecommendedBooks", error);
+    }
+  };
+
+  const getMostReadBooks = async () => {
+    try {
+      const { data } = await fetchMostBooks();
+      if (!isMounted.current) {
+        return;
+      }
+
+      setMostReadBooks(data);
+    } catch (error) {
+      logger("Home, getMostReadBooks", error);
+    }
+  };
+
   useEffect(() => {
     isMounted.current = true;
+
     getProfile();
     getReadingBook();
+    getRecommendedBooks();
+    getMostReadBooks();
 
     return () => {
       isMounted.current = false;
@@ -129,10 +165,18 @@ const Home = () => {
           </View>
           <Gap vertical={sp.sm} />
           <Gap horizontal={sp.sl * 2}>
-            <BookTile
-              title="Rework"
-              author={`David H. H. & Jason F.`}
-              duration={10}
+            <FlatList
+              data={recommendedBooks}
+              keyExtractor={({ id }) => `${id}`}
+              numColumns={2}
+              renderItem={({ item }) => (
+                <BookTile
+                  title={item?.book_title}
+                  author={`${item?.author}`}
+                  duration={item?.read_time}
+                />
+              )}
+              columnWrapperStyle={{ justifyContent: "space-between" }}
             />
           </Gap>
           <Gap vertical={sp.sl} />
@@ -149,10 +193,18 @@ const Home = () => {
           </View>
           <Gap vertical={sp.sm} />
           <Gap horizontal={sp.sl * 2}>
-            <BookTile
-              title="Rework"
-              author={`David H. H. & Jason F.`}
-              duration={10}
+            <FlatList
+              data={mostReadBooks}
+              keyExtractor={({ id }) => `${id}`}
+              numColumns={2}
+              renderItem={({ item }) => (
+                <BookTile
+                  title={item?.book_title}
+                  author={`${item?.author}`}
+                  duration={item?.read_time}
+                />
+              )}
+              columnWrapperStyle={{ justifyContent: "space-between" }}
             />
           </Gap>
         </View>
