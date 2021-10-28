@@ -4,11 +4,16 @@ import { Amage, Button, Gap, Seed, TextItem } from "../..";
 import { spacing as sp } from "../../../constants";
 import styles from "./styles";
 
-const BookTile = ({ title, author, duration }: BookTileProps) => {
+const BookTile = ({ title, author, duration, cover }: BookTileProps) => {
   return (
     <Button style={styles.container}>
       <View style={styles.imageContainer}>
-        <Amage style={styles.image} />
+        <View style={styles.background}>
+          <View style={styles.innerBackgorund} />
+        </View>
+        <View>
+          <Amage style={styles.image} source={cover} resizeMode="contain" />
+        </View>
       </View>
       <Gap vertical={sp.sm} />
       <View style={{ flex: 1 }}>

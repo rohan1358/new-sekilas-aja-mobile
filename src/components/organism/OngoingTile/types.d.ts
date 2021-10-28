@@ -1,4 +1,4 @@
 interface OngoingTileProps {
   bookTitle: string | undefined;
-  bookUri: string;
+  bookUri: string | undefined;
 }

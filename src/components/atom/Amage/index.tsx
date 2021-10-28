@@ -6,14 +6,15 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { ProfilePlaceholder } from "../../../../assets";
+import { SelfDevImg } from "../../../../assets";
 import styles from "./styles";
 import { AmageProps } from "./types";
 
 const Amage = ({
   source,
   style,
-  placeholder = ProfilePlaceholder,
+  placeholder = SelfDevImg,
+  resizeMode,
 }: AmageProps) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -30,6 +31,7 @@ const Amage = ({
         style={[styles.image, imageStyle]}
         resizeMethod="resize"
         onLoad={() => setIsLoaded(true)}
+        resizeMode={resizeMode}
       />
       {!isLoaded && (
         <View style={[styles.container, styles.overlay]}>

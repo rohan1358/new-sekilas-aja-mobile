@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Amage, Button, Gap, TextItem } from "../..";
-import { Bell } from "../../../../assets";
+import { Bell, UserPlaceholder } from "../../../../assets";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
 import styles from "./styles";
 
@@ -9,7 +9,11 @@ const HomeHeader = ({ name = "", uri, onBellPress }: HomeHeaderProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
-        <Amage source={uri} />
+        {!!uri ? (
+          <Amage source={uri} />
+        ) : (
+          <Amage placeholder={UserPlaceholder} />
+        )}
       </View>
       <Gap horizontal={sp.xs} />
       <View style={styles.detailContainer}>

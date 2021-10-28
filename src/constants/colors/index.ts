@@ -25,6 +25,7 @@ const successColor = {
 const colors = {
   white: "#FFFFFF",
   white1: "#BBC0CE",
+  lightYellow: "#FDD95E",
 };
 
 export { dangerColor, neutralColor, primaryColor, successColor, colors };

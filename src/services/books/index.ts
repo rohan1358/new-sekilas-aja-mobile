@@ -8,7 +8,12 @@ const fetchReadingBook = (email: string) => {
         .collection(firebaseNode.users)
         .where("email", "==", email)
         .get();
-      const book = raw.docs[0].data()?.owned_books[0];
+      const bookName = raw.docs[0].data()?.owned_books[0];
+      const bookDetail = await firestore()
+        .collection(firebaseNode.books)
+        .where("book_title", "==", bookName)
+        .get();
+      const book = bookDetail.docs[0].data();
       resolve({
         data: book,
         isSuccess: true,
@@ -39,6 +44,7 @@ const fetchRecommendedBooks = () => {
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
+        book_cover: item.data()?.book_cover,
       }));
       resolve({
         data: books,
@@ -63,6 +69,7 @@ const fetchMostBooks = () => {
       const raw = await firestore()
         .collection(firebaseNode.books)
         .where("read_time", "!=", "")
+        .orderBy("read_time", "desc")
         .limit(2)
         .get();
       const books = raw.docs.map((item) => ({
@@ -70,6 +77,7 @@ const fetchMostBooks = () => {
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
+        book_cover: item.data()?.book_cover,
       }));
       resolve({
         data: books,

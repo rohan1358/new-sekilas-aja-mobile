@@ -7,4 +7,10 @@ interface CompactBooksProps {
   book_title: string;
   author: string;
   read_time: number;
+  book_cover: string | undefined;
+}
+
+interface ReadingBookProps {
+  book_title: string;
+  book_cover: string;
 }

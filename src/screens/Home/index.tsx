@@ -34,7 +34,7 @@ const Home = () => {
   const isMounted = useRef<boolean>();
 
   const [profile, setProfile] = useState<ProfileProps>();
-  const [readingBook, setReadingBook] = useState<string>();
+  const [readingBook, setReadingBook] = useState<ReadingBookProps>();
   const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
@@ -48,11 +48,15 @@ const Home = () => {
   );
 
   const booksRenderItem = ({ item }: { item: CompactBooksProps }) => (
-    <BookTile
-      title={item?.book_title}
-      author={`${item?.author}`}
-      duration={item?.read_time}
-    />
+    <View>
+      <BookTile
+        title={item?.book_title}
+        author={`${item?.author}`}
+        duration={item?.read_time}
+        cover={item?.book_cover}
+      />
+      <Gap vertical={sp.sl} />
+    </View>
   );
 
   const getProfile = async () => {
@@ -138,7 +142,10 @@ const Home = () => {
         />
         <View>
           <View style={styles.dummyHeader} />
-          <OngoingTile bookTitle={readingBook} bookUri="" />
+          <OngoingTile
+            bookTitle={readingBook?.book_title}
+            bookUri={readingBook?.book_cover}
+          />
         </View>
         <View style={styles.adjuster}>
           <Gap horizontal={sp.sl * 2}>
