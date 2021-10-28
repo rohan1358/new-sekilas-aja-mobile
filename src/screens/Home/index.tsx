@@ -24,7 +24,7 @@ import {
   fetchReadingBook,
   fetchRecommendedBooks,
 } from "../../services/books";
-import { dummyBanner } from "./dummy";
+import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
 
 const Home = () => {
@@ -167,13 +167,42 @@ const Home = () => {
             <TextItem type="r.14.nc.70">{strings.bookCollectionsDesc}</TextItem>
           </Gap>
           <Gap vertical={sp.sm} />
-          <Gap horizontal={sp.sl * 2}>
-            <MiniCollectionTile
-              title="10 Kilas buku"
-              subtitle="Pengembangan Diri"
-              bookCount={10}
-            />
-          </Gap>
+          <FlatList
+            contentContainerStyle={styles.newCollectionContentContainerStyle}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={dummyCollection.map((item, index, value) => {
+              if (index % 2 !== 0) {
+                return;
+              }
+              return [item, value[index + 1]];
+            })}
+            renderItem={({ item, index }) => {
+              if (!item) {
+                return null;
+              }
+              return (
+                <View>
+                  {item.map((value: any) => (
+                    <View>
+                      <MiniCollectionTile
+                        key={`${value.id}${index}`}
+                        title={value.title}
+                        subtitle={value.category}
+                        bookCount={value.count}
+                        placeholder={value.placeholder}
+                      />
+                      <Gap vertical={sp.sm} />
+                    </View>
+                  ))}
+                </View>
+              );
+            }}
+            keyExtractor={(item, index) =>
+              !item ? `${item}${index}` : `${item[0].id}`
+            }
+            listKey={"kilaslist"}
+          />
           <Gap vertical={sp.sl} />
           <View style={styles.clickTitle}>
             <TextItem type="b.24.nc.90">{strings.recommendedBook}</TextItem>

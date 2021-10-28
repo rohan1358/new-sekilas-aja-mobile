@@ -5,10 +5,11 @@ import { widthPercent } from "../../../helpers/helper";
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    width: widthPercent(59.36),
+    width: widthPercent(59.36) + sp.sm,
+    paddingRight: sp.sm,
   },
 
-  detail: { justifyContent: "space-between" },
+  detail: { justifyContent: "space-between", flex: 1 },
 
   image: { borderRadius: 12 },
   imageContainer: {

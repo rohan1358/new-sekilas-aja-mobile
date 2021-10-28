@@ -8,11 +8,12 @@ const MiniCollectionTile = ({
   title,
   subtitle,
   bookCount,
+  placeholder,
 }: MiniCollectionTileProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Amage style={styles.image} />
+        <Amage style={styles.image} placeholder={placeholder} />
       </View>
       <Gap horizontal={sp.xs} />
       <View style={styles.detail}>
