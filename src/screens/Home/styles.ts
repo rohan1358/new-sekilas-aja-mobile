@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
   newCollectionContainer: { flexDirection: "row" },
   newCollectionContentContainerStyle: { paddingLeft: sp.m },
 
+  skeleton: { flex: 1 },
+
   underline: { textDecorationLine: "underline" },
 });
 

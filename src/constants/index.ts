@@ -3,6 +3,7 @@ export * from "./defaultValue";
 export * from "./firebaseNode";
 export * from "./fontFamily";
 export * from "./pages";
+export * from "./skeleton";
 export * from "./snackState";
 export * from "./spacing";
 export * from "./strings";

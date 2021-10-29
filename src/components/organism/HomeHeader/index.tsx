@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Amage, Button, Gap, TextItem } from "../..";
+import { Amage, Button, Gap, TextItem } from "../../atom";
 import { Bell, UserPlaceholder } from "../../../../assets";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
 import styles from "./styles";

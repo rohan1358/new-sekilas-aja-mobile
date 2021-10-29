@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { Amage, TextItem } from "../..";
+import { Amage, TextItem } from "../../atom";
 import { strings } from "../../../constants";
 import styles from "./styles";
 

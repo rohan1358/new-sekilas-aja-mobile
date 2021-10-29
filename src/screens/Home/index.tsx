@@ -16,6 +16,7 @@ import {
 } from "@components";
 import {
   primaryColor,
+  skeleton,
   snackState as ss,
   spacing as sp,
   strings,
@@ -38,6 +39,7 @@ const Home = () => {
   } = useSelector((state: ReduxState) => state);
   const isMounted = useRef<boolean>();
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [profile, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
   const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
@@ -64,57 +66,43 @@ const Home = () => {
     </View>
   );
 
-  const getProfile = async () => {
+  const getHomeData = async () => {
+    setIsLoading(true);
     try {
-      const { data } = await fetchProfile(email);
+      const [profileData, readingData, recomData, mostBookData] =
+        await Promise.all([
+          fetchProfile(email),
+          fetchReadingBook(email),
+          fetchRecommendedBooks(),
+          fetchMostBooks(),
+        ]);
       if (!isMounted.current) {
         return;
       }
-      setProfile(data);
-    } catch (error) {
-      setSnackState(ss.failState("Kesalahan dalam mendapatkan profil"));
-      logger("Home, getProfile", error);
-    }
-  };
-
-  const getReadingBook = async () => {
-    try {
-      const { data } = await fetchReadingBook(email);
-      if (!isMounted.current) {
-        return;
+      if (profileData.isSuccess) {
+        setProfile(profileData.data);
+      } else {
+        throw new Error("Fail on fetching profile data");
       }
-      setReadingBook(data);
-    } catch (error) {
-      setSnackState(
-        ss.failState("Kesalahan dalam mendapatkan buku yang dibaca")
-      );
-      logger("Home, getReadingBook", error);
-    }
-  };
-
-  const getRecommendedBooks = async () => {
-    try {
-      const { data } = await fetchRecommendedBooks();
-      if (!isMounted.current) {
-        return;
+      if (readingData.isSuccess) {
+        setReadingBook(readingData.data);
+      } else {
+        throw new Error("Fail on fetching reading book data");
       }
-
-      setRecommendedBooks(data);
-    } catch (error) {
-      logger("Home, getRecommendedBooks", error);
-    }
-  };
-
-  const getMostReadBooks = async () => {
-    try {
-      const { data } = await fetchMostBooks();
-      if (!isMounted.current) {
-        return;
+      if (recomData.isSuccess) {
+        setRecommendedBooks(recomData.data);
+      } else {
+        throw new Error("Fail on fetching recommended books data");
       }
-
-      setMostReadBooks(data);
+      if (mostBookData.isSuccess) {
+        setMostReadBooks(mostBookData.data);
+      } else {
+        throw new Error("Fail on fetching most read books data");
+      }
     } catch (error) {
-      logger("Home, getMostReadBooks", error);
+      logger("Home, getHomeData", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -123,10 +111,7 @@ const Home = () => {
   useEffect(() => {
     isMounted.current = true;
 
-    // getProfile();
-    // getReadingBook();
-    // getRecommendedBooks();
-    // getMostReadBooks();
+    getHomeData();
 
     return () => {
       isMounted.current = false;
@@ -140,50 +125,9 @@ const Home = () => {
       setSnackState={setSnackState}
     >
       <SkeletonContent
-        containerStyle={{ flex: 1 }}
-        isLoading={false}
-        layout={[
-          {
-            key: "header",
-            width: widthPercent(100),
-            height: sp.xxl * 3,
-            marginBottom: sp.sl,
-          },
-          {
-            key: "bannerTitle",
-            width: widthPercent(80),
-            height: 32,
-            marginLeft: sp.sl,
-            marginBottom: sp.sm,
-          },
-          {
-            key: "banner",
-            width: widthPercent(100) - sp.sl * 2,
-            height: 160,
-            marginLeft: sp.sl,
-            marginBottom: sp.sl,
-          },
-          {
-            key: "collectionTitle",
-            width: widthPercent(80),
-            height: 32,
-            marginLeft: sp.sl,
-            marginBottom: sp.xxs,
-          },
-          {
-            key: "collectionDesc",
-            width: widthPercent(80),
-            height: 16,
-            marginLeft: sp.sl,
-            marginBottom: sp.sm,
-          },
-          {
-            key: "collection",
-            width: widthPercent(80) - sp.sl * 2,
-            height: 68,
-            marginLeft: sp.sl,
-          },
-        ]}
+        containerStyle={styles.skeleton}
+        isLoading={isLoading}
+        layout={skeleton.mainHome}
       >
         <DummyFlatList>
           <HomeHeader

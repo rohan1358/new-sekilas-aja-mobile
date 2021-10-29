@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Amage, Gap, Seed, TextItem } from "../..";
+import { Amage, Gap, Seed, TextItem } from "../../atom";
 import { spacing as sp } from "../../../constants";
 import styles from "./styles";
 
