@@ -1,5 +1,5 @@
 interface HomeHeaderProps {
-  name: string;
+  name: string | undefined;
   uri: string;
   onBellPress(): void;
 }

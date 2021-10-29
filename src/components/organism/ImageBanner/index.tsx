@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Amage } from "../..";
+import { Amage } from "../../atom";
 import styles from "./styles";
 
 const ImageBanner = ({ placeholder }: ImageBannerProps) => {

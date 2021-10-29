@@ -6,9 +6,16 @@ const styles = StyleSheet.create({
     height: "100%",
     overflow: "hidden",
   },
+
   image: {
     width: "100%",
     height: "100%",
+  },
+
+  overlay: {
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

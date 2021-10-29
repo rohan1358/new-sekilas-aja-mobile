@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Amage, Gap, TextItem } from "../..";
+import { Amage, Gap, Seed, TextItem } from "../../atom";
 import { spacing as sp } from "../../../constants";
 import styles from "./styles";
 
@@ -8,11 +8,12 @@ const MiniCollectionTile = ({
   title,
   subtitle,
   bookCount,
+  placeholder,
 }: MiniCollectionTileProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Amage style={styles.image} />
+        <Amage style={styles.image} placeholder={placeholder} />
       </View>
       <Gap horizontal={sp.xs} />
       <View style={styles.detail}>
@@ -22,9 +23,7 @@ const MiniCollectionTile = ({
         <TextItem type="r.12.nc.70" numberOfLines={1}>
           {subtitle}
         </TextItem>
-        <View style={styles.seed}>
-          <TextItem type="r.10.nc.100">{`${bookCount} buku`}</TextItem>
-        </View>
+        <Seed label={`${bookCount} buku`} />
       </View>
     </View>
   );
