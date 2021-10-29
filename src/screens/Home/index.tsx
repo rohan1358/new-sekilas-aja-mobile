@@ -2,21 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
-import { Base, Button, DummyFlatList, Gap, TextItem } from "../../components";
 import {
+  Base,
+  Button,
+  DummyFlatList,
+  Gap,
+  TextItem,
   BookTile,
   HomeHeader,
   ImageBanner,
   MiniCollectionTile,
   OngoingTile,
-} from "../../components/organism";
+} from "@components";
 import {
   primaryColor,
   snackState as ss,
   spacing as sp,
   strings,
-} from "../../constants";
-import { logger } from "../../helpers/helper";
+} from "@constants";
+import { logger, widthPercent } from "../../helpers/helper";
 import { ReduxState } from "../../redux/reducers";
 import { fetchProfile } from "../../services";
 import {
@@ -26,6 +30,7 @@ import {
 } from "../../services/books";
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
 
 const Home = () => {
   const {
@@ -118,10 +123,10 @@ const Home = () => {
   useEffect(() => {
     isMounted.current = true;
 
-    getProfile();
-    getReadingBook();
-    getRecommendedBooks();
-    getMostReadBooks();
+    // getProfile();
+    // getReadingBook();
+    // getRecommendedBooks();
+    // getMostReadBooks();
 
     return () => {
       isMounted.current = false;
@@ -134,121 +139,170 @@ const Home = () => {
       snackState={snackState}
       setSnackState={setSnackState}
     >
-      <DummyFlatList>
-        <HomeHeader
-          name={profile?.firstName}
-          uri=""
-          onBellPress={() => logger("bell pressed")}
-        />
-        <View>
-          <View style={styles.dummyHeader} />
-          <OngoingTile
-            bookTitle={readingBook?.book_title}
-            bookUri={readingBook?.book_cover}
+      <SkeletonContent
+        containerStyle={{ flex: 1 }}
+        isLoading={false}
+        layout={[
+          {
+            key: "header",
+            width: widthPercent(100),
+            height: sp.xxl * 3,
+            marginBottom: sp.sl,
+          },
+          {
+            key: "bannerTitle",
+            width: widthPercent(80),
+            height: 32,
+            marginLeft: sp.sl,
+            marginBottom: sp.sm,
+          },
+          {
+            key: "banner",
+            width: widthPercent(100) - sp.sl * 2,
+            height: 160,
+            marginLeft: sp.sl,
+            marginBottom: sp.sl,
+          },
+          {
+            key: "collectionTitle",
+            width: widthPercent(80),
+            height: 32,
+            marginLeft: sp.sl,
+            marginBottom: sp.xxs,
+          },
+          {
+            key: "collectionDesc",
+            width: widthPercent(80),
+            height: 16,
+            marginLeft: sp.sl,
+            marginBottom: sp.sm,
+          },
+          {
+            key: "collection",
+            width: widthPercent(80) - sp.sl * 2,
+            height: 68,
+            marginLeft: sp.sl,
+          },
+        ]}
+      >
+        <DummyFlatList>
+          <HomeHeader
+            name={profile?.firstName}
+            uri=""
+            onBellPress={() => logger("bell pressed")}
           />
-        </View>
-        <View style={styles.adjuster}>
-          <Gap horizontal={sp.sl * 2}>
-            <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
-          </Gap>
-          <Gap vertical={sp.sm} />
-          <FlatList
-            contentContainerStyle={styles.newCollectionContentContainerStyle}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={dummyBanner}
-            renderItem={bannerRenderItem}
-            keyExtractor={idKeyExtractor}
-            listKey={"bannerlist"}
-          />
-          <Gap vertical={sp.m} />
-          <Gap horizontal={sp.sl * 2}>
-            <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
-            <TextItem type="r.14.nc.70">{strings.bookCollectionsDesc}</TextItem>
-          </Gap>
-          <Gap vertical={sp.sm} />
-          <FlatList
-            contentContainerStyle={styles.newCollectionContentContainerStyle}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={dummyCollection.map((item, index, value) => {
-              if (index % 2 !== 0) {
-                return;
-              }
-              return [item, value[index + 1]];
-            })}
-            renderItem={({ item, index }) => {
-              if (!item) {
-                return null;
-              }
-              return (
-                <View>
-                  {item.map((value: any) => (
-                    <View>
-                      <MiniCollectionTile
-                        key={`${value.id}${index}`}
-                        title={value.title}
-                        subtitle={value.category}
-                        bookCount={value.count}
-                        placeholder={value.placeholder}
-                      />
-                      <Gap vertical={sp.sm} />
-                    </View>
-                  ))}
-                </View>
-              );
-            }}
-            keyExtractor={(item, index) =>
-              !item ? `${item}${index}` : `${item[0].id}`
-            }
-            listKey={"kilaslist"}
-          />
-          <Gap vertical={sp.sl} />
-          <View style={styles.clickTitle}>
-            <TextItem type="b.24.nc.90">{strings.recommendedBook}</TextItem>
-            <Gap horizontal={20} />
-            <Button>
-              <TextItem type="b.14.nc.90" style={styles.underline}>
-                {strings.seeAll}
-              </TextItem>
-            </Button>
-          </View>
-          <Gap vertical={sp.sm} />
-          <Gap horizontal={sp.sl * 2}>
-            <FlatList
-              data={recommendedBooks}
-              keyExtractor={idKeyExtractor}
-              numColumns={2}
-              renderItem={booksRenderItem}
-              columnWrapperStyle={styles.columnWrapperStyle}
-              listKey={"recommendedbooklist"}
+          <View>
+            <View style={styles.dummyHeader} />
+            <OngoingTile
+              bookTitle={readingBook?.book_title}
+              bookUri={readingBook?.book_cover}
             />
-          </Gap>
-          <Gap vertical={sp.sl} />
-          <View style={styles.clickTitle}>
-            <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
-              {strings.mostRead}
-            </TextItem>
-            <Gap horizontal={20} />
-            <Button>
-              <TextItem type="b.14.nc.90" style={styles.underline}>
-                {strings.seeAll}
-              </TextItem>
-            </Button>
           </View>
-          <Gap vertical={sp.sm} />
-          <Gap horizontal={sp.sl * 2}>
+          <View style={styles.adjuster}>
+            <Gap horizontal={sp.sl * 2}>
+              <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
+            </Gap>
+            <Gap vertical={sp.sm} />
             <FlatList
-              data={mostReadBooks}
+              contentContainerStyle={styles.newCollectionContentContainerStyle}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={dummyBanner}
+              renderItem={bannerRenderItem}
               keyExtractor={idKeyExtractor}
-              numColumns={2}
-              renderItem={booksRenderItem}
-              columnWrapperStyle={styles.columnWrapperStyle}
-              listKey="mostreadbooklist"
+              listKey={"bannerlist"}
             />
-          </Gap>
-        </View>
-      </DummyFlatList>
+            <Gap vertical={sp.m} />
+            <Gap horizontal={sp.sl * 2}>
+              <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
+              <TextItem type="r.14.nc.70">
+                {strings.bookCollectionsDesc}
+              </TextItem>
+            </Gap>
+            <Gap vertical={sp.sm} />
+            <FlatList
+              contentContainerStyle={styles.newCollectionContentContainerStyle}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={dummyCollection.map((item, index, value) => {
+                if (index % 2 !== 0) {
+                  return;
+                }
+                return [item, value[index + 1]];
+              })}
+              renderItem={({ item, index }) => {
+                if (!item) {
+                  return null;
+                }
+                return (
+                  <View>
+                    {item.map((value: any) => (
+                      <View key={`${value.id}`}>
+                        <MiniCollectionTile
+                          key={`${value.id}${index}`}
+                          title={value.title}
+                          subtitle={value.category}
+                          bookCount={value.count}
+                          placeholder={value.placeholder}
+                        />
+                        <Gap vertical={sp.sm} />
+                      </View>
+                    ))}
+                  </View>
+                );
+              }}
+              keyExtractor={(item, index) =>
+                !item ? `${item}${index}` : `${item[0].id}`
+              }
+              listKey={"kilaslist"}
+            />
+            <Gap vertical={sp.sl} />
+            <View style={styles.clickTitle}>
+              <TextItem type="b.24.nc.90">{strings.recommendedBook}</TextItem>
+              <Gap horizontal={20} />
+              <Button>
+                <TextItem type="b.14.nc.90" style={styles.underline}>
+                  {strings.seeAll}
+                </TextItem>
+              </Button>
+            </View>
+            <Gap vertical={sp.sm} />
+            <Gap horizontal={sp.sl * 2}>
+              <FlatList
+                data={recommendedBooks}
+                keyExtractor={idKeyExtractor}
+                numColumns={2}
+                renderItem={booksRenderItem}
+                columnWrapperStyle={styles.columnWrapperStyle}
+                listKey={"recommendedbooklist"}
+              />
+            </Gap>
+            <Gap vertical={sp.sl} />
+            <View style={styles.clickTitle}>
+              <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
+                {strings.mostRead}
+              </TextItem>
+              <Gap horizontal={20} />
+              <Button>
+                <TextItem type="b.14.nc.90" style={styles.underline}>
+                  {strings.seeAll}
+                </TextItem>
+              </Button>
+            </View>
+            <Gap vertical={sp.sm} />
+            <Gap horizontal={sp.sl * 2}>
+              <FlatList
+                data={mostReadBooks}
+                keyExtractor={idKeyExtractor}
+                numColumns={2}
+                renderItem={booksRenderItem}
+                columnWrapperStyle={styles.columnWrapperStyle}
+                listKey="mostreadbooklist"
+              />
+            </Gap>
+          </View>
+        </DummyFlatList>
+      </SkeletonContent>
     </Base>
   );
 };
