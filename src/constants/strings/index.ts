@@ -52,4 +52,20 @@ export const strings = {
   terms: "Ketentuan Layanan",
 
   weekNewCollection: "Kilas Baru minggu ini!",
+
+  onBoard_1: 'Males baca buku? Baca SekilasAja!',
+  sub_onBoard_1: 'Solusi buat kamu yang malas baca buku, tapi kepo pengen tau isinya.',
+  
+  onBoard_2: 'Membaca adalah habit orang sukses!',
+  sub_onBoard_2: 'Banyak orang sukses menyisihkan waktuuntuk membaca buku. ',
+  
+  onBoard_3: 'Udah nyerah sebelum membaca.',
+  sub_onBoard_3: 'Banyak orang udah males duluan kalo liat buku yang panjang...',
+  
+  onBoard_4: 'Belajar dimanapun dan kapanpun!',
+  sub_onBoard_4: 'Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!',
+  
+  button_onBoard_1: 'Yuk mulai!',
+  btnLewati: 'Lewati',
+  btnLanjut: 'Lanjut'
 };
