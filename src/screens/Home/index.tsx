@@ -1,18 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
 import {
   Base,
+  BookTile,
   Button,
   DummyFlatList,
   Gap,
-  TextItem,
-  BookTile,
   HomeHeader,
   ImageBanner,
   MiniCollectionTile,
   OngoingTile,
+  TextItem,
 } from "@components";
 import {
   primaryColor,
@@ -21,17 +17,21 @@ import {
   spacing as sp,
   strings,
 } from "@constants";
-import { logger, widthPercent } from "../../helpers/helper";
+import React, { useEffect, useRef, useState } from "react";
+import { View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { useSelector } from "react-redux";
+import { logger } from "../../helpers/helper";
 import { ReduxState } from "../../redux/reducers";
-import { fetchProfile } from "../../services";
 import {
   fetchMostBooks,
+  fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-} from "../../services/books";
+} from "../../services";
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
-import SkeletonContent from "react-native-skeleton-content-nonexpo";
 
 const Home = () => {
   const {
