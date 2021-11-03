@@ -1,5 +1,5 @@
-const IS_LIVE = false;
 // const IS_LIVE = false;
+const IS_LIVE = true;
 
 const logger = (payload: any, extra?: any) => {
   if (IS_LIVE) {
