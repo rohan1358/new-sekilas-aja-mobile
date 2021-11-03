@@ -118,7 +118,7 @@ const SignIn = ({ navigation }: any) => {
     if (password === undefined) {
       return { state: textFieldState.none };
     }
-    if (password?.length >= 8) {
+    if (password?.length >= 6) {
       return {
         message: "",
         state: textFieldState.success,
