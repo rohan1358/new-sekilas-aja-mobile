@@ -1,9 +1,49 @@
-import { Base, DummyFlatList, Gap, TextField, TextItem } from "@components";
+import { Camera, CloseX, Search } from "@assets";
+import {
+  Base,
+  Button,
+  DummyFlatList,
+  Gap,
+  TextField,
+  TextItem,
+} from "@components";
 import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
+import { logger } from "../../helpers/helper";
 
 const Explore = () => {
+  const cameraPosition = useSharedValue(-48);
+  const [keyword, setKeyword] = useState<string>();
+
+  const cameraStyle = useAnimatedStyle(() => ({
+    left: cameraPosition.value,
+  }));
+
+  const closeStyle = useAnimatedStyle(() => {
+    const opacity =
+      !!keyword && keyword.length > 2 ? 1 : withDelay(400, withTiming(0));
+    return { opacity };
+  });
+
+  const inputHandle = () => {
+    if (!!keyword && keyword?.length > 2) {
+      cameraPosition.value = withTiming(0);
+    } else {
+      cameraPosition.value = withTiming(-48);
+    }
+  };
+
+  useEffect(() => {
+    inputHandle();
+  }, [keyword]);
+
   return (
     <Base barColor={primaryColor.main}>
       <DummyFlatList>
@@ -28,13 +68,15 @@ const Explore = () => {
           >
             <View
               style={{
-                backgroundColor: "blue",
+                backgroundColor: neutralColor[10],
                 width: 48,
                 height: 48,
                 justifyContent: "center",
                 alignItems: "center",
               }}
-            ></View>
+            >
+              <Search stroke={neutralColor[90]} />
+            </View>
             <TextField
               placeholder="Cari buku favoritmu di sini.."
               containerStyle={{ flex: 1 }}
@@ -44,17 +86,39 @@ const Explore = () => {
                 backgroundColor: neutralColor[10],
                 borderRadius: 0,
               }}
+              inputStyle={{ paddingLeft: 0 }}
+              onChangeText={setKeyword}
             />
-
-            <View
-              style={{
-                backgroundColor: "blue",
-                width: 48,
-                height: 48,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            ></View>
+            <View style={{ flexDirection: "row", width: 48 }}>
+              <Animated.View style={closeStyle}>
+                <Button
+                  onPress={() => logger("red")}
+                  style={{
+                    backgroundColor: neutralColor[10],
+                    width: 48,
+                    height: 48,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CloseX stroke={neutralColor[100]} />
+                </Button>
+              </Animated.View>
+              <Animated.View style={cameraStyle}>
+                <Button
+                  onPress={() => logger("primary")}
+                  style={{
+                    backgroundColor: neutralColor[90],
+                    width: 48,
+                    height: 48,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Camera stroke={primaryColor.main} />
+                </Button>
+              </Animated.View>
+            </View>
           </View>
           <Gap vertical={sp.m} />
         </View>

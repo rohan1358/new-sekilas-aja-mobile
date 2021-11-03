@@ -13,6 +13,7 @@ const DummyFlatList = ({ children, ...props }: PropsWithChildren<any>) => {
       keyExtractor={keyExtractor}
       ListHeaderComponent={ListHeaderComponent}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       {...props}
     />
   );

@@ -8,21 +8,22 @@ import { TextFieldProps } from "./types";
 const { none } = defaultValue.textFieldState;
 
 const TextField = ({
-  message,
-  state = none,
-  Icon,
-  iconPress,
-  iconDisbabled = false,
   containerStyle,
+  Icon,
+  iconDisbabled = false,
+  iconPress,
   innerContainerStyle,
+  message,
   noBottomGap = false,
+  state = none,
+  inputStyle,
   ...props
 }: TextFieldProps) => {
   const s = styles({ state });
   return (
     <View style={containerStyle}>
       <View style={[s.container, innerContainerStyle]}>
-        <TextInput style={s.input} {...props} />
+        <TextInput style={[s.input, inputStyle]} {...props} />
         {Icon && (
           <Button
             onPress={iconPress}
