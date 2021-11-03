@@ -13,12 +13,15 @@ const TextField = ({
   Icon,
   iconPress,
   iconDisbabled = false,
+  containerStyle,
+  innerContainerStyle,
+  noBottomGap = false,
   ...props
 }: TextFieldProps) => {
   const s = styles({ state });
   return (
-    <View>
-      <View style={s.container}>
+    <View style={containerStyle}>
+      <View style={[s.container, innerContainerStyle]}>
         <TextInput style={s.input} {...props} />
         {Icon && (
           <Button
@@ -31,7 +34,7 @@ const TextField = ({
         )}
         <Gap horizontal={spacing.xxs} />
       </View>
-      <Gap vertical={spacing.xs} />
+      {!noBottomGap && <Gap vertical={spacing.xs} />}
       {!!message && message.length !== 0 && (
         <TextItem type="r.14.dc.main">{message}</TextItem>
       )}

@@ -17,13 +17,17 @@ export const strings = {
   emailUsed: "Email sudah terdaftar",
   enterPassword: "Masukin Password",
   enterConfirmPassword: "Konfirmasi Password",
+  explore: "Eksplor",
 
+  findFavBook: "Cari Buku Favoritmu!",
   forgotPassword: "Lupa password?",
 
   happyReading: "Selamat membaca",
+  home: "Beranda",
 
   invalidEmail: "Email tidak valid",
 
+  library: "Bukuku",
   login: "Masuk!",
   loginHere: "Login di sini",
 
