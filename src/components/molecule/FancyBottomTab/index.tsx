@@ -11,7 +11,7 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { widthPercent } from "../../../helpers/helper";
-import { TextItem } from "../../atom";
+import { TextItem, Gap } from "../../atom";
 
 const activeColor = primaryColor.main;
 const inactiveColor = neutralColor[50];
@@ -151,6 +151,7 @@ const FancyBottomTab = ({
                     justifyContent: "center",
                     alignItems: "center",
                     flex: 1,
+                    top: isFocused ? sp.xxs / 2 : 0,
                   }}
                 >
                   <View
@@ -164,7 +165,10 @@ const FancyBottomTab = ({
                     <Icon />
                   </View>
                   {isFocused && (
-                    <TextItem type="b.10.pc.main">{recentLabel()}</TextItem>
+                    <>
+                      <Gap vertical={sp.xxs} />
+                      <TextItem type="b.10.pc.main">{recentLabel()}</TextItem>
+                    </>
                   )}
                 </View>
               </TouchableOpacity>
