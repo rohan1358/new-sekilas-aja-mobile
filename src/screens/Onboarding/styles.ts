@@ -12,36 +12,6 @@ const styles = StyleSheet.create({
         height: heightPercent(90)
     },
 
-    pageContainer: {
-        width: widthPercent(100),
-        height: heightPercent(80),
-    },
-
-    boxImage: {
-        height: '70%',
-        overflow:'hidden'
-    },
-
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: "cover",
-    },
-
-    boxtitle: {
-        paddingHorizontal: 40,
-        marginTop: 20,
-    },
-
-    title: {
-        textAlign:'center',
-    },
-
-    sub_title: {
-        marginTop: 20,
-        textAlign:'center'
-    },
-
     boxCircle: {
         // marginTop: 20,
         // paddingHorizontal: widthPercent(30),

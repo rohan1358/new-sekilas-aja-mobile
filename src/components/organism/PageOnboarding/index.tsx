@@ -3,7 +3,7 @@ import { Button, TextItem } from '@components';
 import { strings } from '@constants';
 import React from 'react'
 import { View, Image } from 'react-native';
-import styles from '../../../screens/Onboarding/styles'
+import styles from './styles'
 
 export default function PagesOnboarding({
     image,
