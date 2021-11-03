@@ -5,7 +5,7 @@ import React from 'react'
 import { View, Image } from 'react-native';
 import styles from './styles'
 
-export default function Pages({
+export default function PagesOnboarding({
     image,
     title,
     subTitle

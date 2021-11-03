@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { pages } from "../../constants";
-import { Onboarding, SignIn } from "../../screens";
+import { SignIn } from "../../screens";
 import MainBottomRoute from "../MainBottomRoute";
 
 const Stack = createStackNavigator();
@@ -14,7 +14,6 @@ const MainRoute = () => {
     >
       <Stack.Screen name={pages.MainBottomRoute} component={MainBottomRoute} />
       <Stack.Screen name={pages.SignIn} component={SignIn} />
-      <Stack.Screen name={pages.Onboarding} component={Onboarding} />
     </Stack.Navigator>
   );
 };

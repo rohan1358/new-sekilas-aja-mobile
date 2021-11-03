@@ -3,6 +3,7 @@ import {
   colors,
   dangerColor,
   defaultValue,
+  neutralColor,
   primaryColor,
   spacing,
   successColor,
@@ -41,6 +42,7 @@ const styles = ({ state }: { state: string }) => {
     input: {
       flex: 1,
       paddingHorizontal: spacing.sm,
+      color: neutralColor[100],
     },
   });
 };
