@@ -3,9 +3,9 @@ import { Button, TextItem } from '@components';
 import { strings } from '@constants';
 import React from 'react'
 import { View, Image } from 'react-native';
-import styles from './styles'
+import styles from '../../../screens/Onboarding/styles'
 
-export default function Pages({
+export default function PagesOnboarding({
     image,
     title,
     subTitle
