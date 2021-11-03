@@ -8,13 +8,91 @@ import {
 } from "@assets";
 import { neutralColor, pages, primaryColor, spacing as sp } from "@constants";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { LabelPosition } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { widthPercent } from "../../../helpers/helper";
-import { TextItem, Gap } from "../../atom";
+import { Gap, TextItem } from "../../atom";
+import styles from "./styles";
 
 const activeColor = primaryColor.main;
 const inactiveColor = neutralColor[50];
+const ACTIVE_ICON_SIZE = 32;
+
+const recentLabel = (
+  label:
+    | string
+    | ((props: {
+        focused: boolean;
+        color: string;
+        position: LabelPosition;
+      }) => React.ReactNode)
+) => {
+  switch (label) {
+    case pages.Home:
+      return "Beranda";
+
+    case pages.Explore:
+      return "Eksplor";
+
+    case pages.Library:
+      return "Bukuku";
+
+    default:
+      return "Beranda";
+  }
+};
+
+const Icon = ({
+  label,
+  isFocused,
+}: {
+  label:
+    | string
+    | ((props: {
+        focused: boolean;
+        color: string;
+        position: LabelPosition;
+      }) => React.ReactNode);
+  isFocused: boolean;
+}) => {
+  switch (label) {
+    case pages.Home:
+      return isFocused ? (
+        <HomeFilled
+          fill={activeColor}
+          width={ACTIVE_ICON_SIZE}
+          height={ACTIVE_ICON_SIZE}
+        />
+      ) : (
+        <Home stroke={inactiveColor} />
+      );
+
+    case pages.Explore:
+      return isFocused ? (
+        <GridFilled
+          fill={activeColor}
+          width={ACTIVE_ICON_SIZE}
+          height={ACTIVE_ICON_SIZE}
+        />
+      ) : (
+        <Grid stroke={inactiveColor} />
+      );
+
+    case pages.Library:
+      return isFocused ? (
+        <BookOpenFilled
+          fill={activeColor}
+          width={ACTIVE_ICON_SIZE}
+          height={ACTIVE_ICON_SIZE}
+        />
+      ) : (
+        <BookOpen stroke={inactiveColor} />
+      );
+
+    default:
+      return <Home stroke={inactiveColor} />;
+  }
+};
 
 const FancyBottomTab = ({
   state,
@@ -22,41 +100,10 @@ const FancyBottomTab = ({
   navigation,
 }: BottomTabBarProps) => {
   return (
-    <View
-      style={{
-        alignItems: "center",
-        backgroundColor: "red",
-      }}
-    >
-      <View
-        style={{
-          height: 64,
-          width: widthPercent(100) - sp.sl * 2,
-          borderRadius: 16,
-          position: "absolute",
-          bottom: sp.m,
-        }}
-      >
-        <View
-          style={{
-            width: widthPercent(100),
-            position: "absolute",
-            height: 64,
-            backgroundColor: `${neutralColor[10]}99`,
-            left: -sp.sl,
-            top: sp.m,
-          }}
-        />
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: neutralColor[90],
-            borderRadius: 16,
-            flexDirection: "row",
-            overflow: "hidden",
-          }}
-        >
+    <View style={styles.container}>
+      <View style={styles.innerContainer}>
+        <View style={styles.overlay} />
+        <View style={styles.tabsContainer}>
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key];
             const label =
@@ -67,50 +114,6 @@ const FancyBottomTab = ({
                 : route.name;
 
             const isFocused = state.index === index;
-
-            const Icon = () => {
-              switch (label) {
-                case pages.Home:
-                  return isFocused ? (
-                    <HomeFilled fill={activeColor} width={32} height={32} />
-                  ) : (
-                    <Home stroke={inactiveColor} />
-                  );
-
-                case pages.Explore:
-                  return isFocused ? (
-                    <GridFilled fill={activeColor} width={32} height={32} />
-                  ) : (
-                    <Grid stroke={inactiveColor} />
-                  );
-
-                case pages.Library:
-                  return isFocused ? (
-                    <BookOpenFilled fill={activeColor} width={32} height={32} />
-                  ) : (
-                    <BookOpen stroke={inactiveColor} />
-                  );
-
-                default:
-                  return <Home stroke={inactiveColor} />;
-              }
-            };
-
-            const recentLabel = () => {
-              switch (label) {
-                case pages.Home:
-                  return "Beranda";
-
-                case pages.Explore:
-                  return "Eksplor";
-
-                case pages.Library:
-                  return "Bukuku";
-
-                default:
-                  return "Beranda";
-              }
-            };
 
             const onPress = () => {
               const event = navigation.emit({
@@ -141,33 +144,25 @@ const FancyBottomTab = ({
                 testID={options.tabBarTestID}
                 onPress={onPress}
                 onLongPress={onLongPress}
-                style={{
-                  flex: 1,
-                  backgroundColor: neutralColor[90],
-                }}
+                style={styles.tabContainer}
               >
                 <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flex: 1,
-                    top: isFocused ? sp.xxs / 2 : 0,
-                  }}
+                  style={[
+                    styles.tab,
+                    {
+                      top: isFocused ? sp.xxs / 2 : 0,
+                    },
+                  ]}
                 >
-                  <View
-                    style={{
-                      width: 24,
-                      height: 24,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Icon />
+                  <View style={styles.iconContainer}>
+                    <Icon {...{ label, isFocused }} />
                   </View>
                   {isFocused && (
                     <>
                       <Gap vertical={sp.xxs} />
-                      <TextItem type="b.10.pc.main">{recentLabel()}</TextItem>
+                      <TextItem type="b.10.pc.main">
+                        {recentLabel(label)}
+                      </TextItem>
                     </>
                   )}
                 </View>
