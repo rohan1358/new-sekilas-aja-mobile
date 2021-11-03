@@ -66,6 +66,44 @@ const Home = () => {
     </View>
   );
 
+  const dummyMiniCollectionData = dummyCollection.map((item, index, value) => {
+    if (index % 2 !== 0) {
+      return;
+    }
+    return [item, value[index + 1]];
+  });
+
+  const dummyMiniCollectionKey = (item: any, index: number) =>
+    !item ? `${item}${index}` : `${item[0].id}`;
+
+  const dummyMiniCollectionRender = ({
+    item,
+    index,
+  }: {
+    item: any;
+    index: number;
+  }) => {
+    if (!item) {
+      return null;
+    }
+    return (
+      <View>
+        {item.map((value: any) => (
+          <View key={`${value.id}`}>
+            <MiniCollectionTile
+              key={`${value.id}${index}`}
+              title={value.title}
+              subtitle={value.category}
+              bookCount={value.count}
+              placeholder={value.placeholder}
+            />
+            <Gap vertical={sp.sm} />
+          </View>
+        ))}
+      </View>
+    );
+  };
+
   const getHomeData = async () => {
     setIsLoading(true);
     try {
@@ -168,36 +206,9 @@ const Home = () => {
               contentContainerStyle={styles.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
-              data={dummyCollection.map((item, index, value) => {
-                if (index % 2 !== 0) {
-                  return;
-                }
-                return [item, value[index + 1]];
-              })}
-              renderItem={({ item, index }) => {
-                if (!item) {
-                  return null;
-                }
-                return (
-                  <View>
-                    {item.map((value: any) => (
-                      <View key={`${value.id}`}>
-                        <MiniCollectionTile
-                          key={`${value.id}${index}`}
-                          title={value.title}
-                          subtitle={value.category}
-                          bookCount={value.count}
-                          placeholder={value.placeholder}
-                        />
-                        <Gap vertical={sp.sm} />
-                      </View>
-                    ))}
-                  </View>
-                );
-              }}
-              keyExtractor={(item, index) =>
-                !item ? `${item}${index}` : `${item[0].id}`
-              }
+              data={dummyMiniCollectionData}
+              renderItem={dummyMiniCollectionRender}
+              keyExtractor={dummyMiniCollectionKey}
               listKey={"kilaslist"}
             />
             <Gap vertical={sp.sl} />
