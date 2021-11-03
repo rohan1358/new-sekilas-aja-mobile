@@ -2,7 +2,7 @@ import { FancyBottomTab } from "@components";
 import { pages } from "@constants";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { Home, SignUp } from "../../screens";
+import { Home, Explore, Library } from "../../screens";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +13,8 @@ const MainBottomRoute = () => {
       tabBar={(props) => <FancyBottomTab {...props} />}
     >
       <Tab.Screen name={pages.Home} component={Home} />
-      <Tab.Screen name={pages.SignUp} component={SignUp} />
+      <Tab.Screen name={pages.Explore} component={Explore} />
+      <Tab.Screen name={pages.Library} component={Library} />
     </Tab.Navigator>
   );
 };
