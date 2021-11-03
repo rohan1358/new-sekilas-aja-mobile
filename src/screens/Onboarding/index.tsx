@@ -2,8 +2,7 @@ import React, { useRef, useState } from 'react'
 import { StatusBar, View, Dimensions } from 'react-native';
 import styles from './styles'
 import { pages, primaryColor, spacing as sp, strings } from "../../constants";
-import Pages from './Pages';
-import { Button, TextItem } from '@components';
+import { Button, PagesOnboarding, TextItem } from '@components';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Arrowright, Hero1, Hero2, Hero3, Hero4, } from '@assets';
 import { widthPercent } from '../../helpers/helper';
@@ -82,7 +81,7 @@ export default function Onboarding({navigation}: any) {
                         {
                             dataPage.map((item, index) => {
                                 return (
-                                    <Pages
+                                    <PagesOnboarding
                                         key={index}
                                         image={item.image}
                                         title={item.title}
