@@ -7,10 +7,10 @@ import ProfilePlaceholder from "./ProfilePlaceholder.jpg";
 import SelfDevImg from "./SelfDevImg.jpg";
 import StatueImg from "./StatueImg.jpg";
 import UserPlaceholder from "./UserPlaceholder.jpg";
-import Hero1 from "./Hero1.jpg";
-import Hero2 from "./Hero2.jpg";
-import Hero3 from "./Hero3.jpg";
-import Hero4 from "./Hero4.jpg";
+import Hero1 from "./Hero1.png";
+import Hero2 from "./Hero2.png";
+import Hero3 from "./Hero3.png";
+import Hero4 from "./Hero4.png";
 
 export {
   Banner1,

@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: neutralColor[80],
         width: '80%',
-        height: 50,
-        borderRadius: 10,
+        height: 64,
+        borderRadius: 16,
         alignItems: 'center',
         justifyContent:'center',
     },
@@ -56,16 +56,15 @@ const styles = StyleSheet.create({
 
     boxBtnAction: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         width: widthPercent(100),
-        paddingHorizontal: 20
+        paddingHorizontal: 50
     },
 
     buttonLewati: {
-        width: '45%',
-        height: 50,
+        height: 64,
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
+        flex:1
     },
 
     textBtnLewati: {
@@ -73,13 +72,17 @@ const styles = StyleSheet.create({
     },
 
     buttonLanjut: {
-        width: '45%',
-        height: 50,
+        flex:1,
+        height: 64,
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         backgroundColor: neutralColor[80],
-        borderRadius: 8,
+        borderRadius: 16,
         flexDirection: 'row',
+    },
+
+    iconArrow: {
+        marginLeft: 8
     }
 
 })

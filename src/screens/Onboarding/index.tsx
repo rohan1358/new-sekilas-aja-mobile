@@ -113,7 +113,7 @@ export default function Onboarding({navigation}: any) {
                                     </Button>
                                     <Button onPress={()=> handleNext()} style={styles.buttonLanjut}>
                                         <TextItem type='b.20' style={styles.textBtn}>{strings.btnLanjut}</TextItem>
-                                        <Arrowright />
+                                        <Arrowright style={styles.iconArrow} />
                                     </Button>
                                 </View>
 
