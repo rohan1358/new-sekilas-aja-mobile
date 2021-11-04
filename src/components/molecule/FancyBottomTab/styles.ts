@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     backgroundColor: "red",
-    // bottom: -(TAB_HEIGHT + TAB_BOTTOM_GAP),
   },
 
   iconContainer: {

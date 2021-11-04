@@ -12,11 +12,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
+  columnWrapperStyle: { justifyContent: "space-between" },
   container: {
     backgroundColor: primaryColor.main,
     paddingHorizontal: sp.sl,
     borderBottomLeftRadius: CONTAINER_RADIUS,
     borderBottomRightRadius: CONTAINER_RADIUS,
+    zIndex: 2,
   },
 
   iconContainer: {
