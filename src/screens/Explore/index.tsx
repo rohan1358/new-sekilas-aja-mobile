@@ -67,60 +67,66 @@ const Explore = () => {
         <Gap vertical={sp.sm} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View>
-            <View style={{ flexDirection: "row" }}>
-              {topChips.map((item, index) => (
-                <View key={item.id} style={{ flexDirection: "row" }}>
-                  {index == 0 && <Gap horizontal={sp.sl} />}
-                  <Chips
-                    label={item.label}
-                    id={item.id}
-                    Icon={item.Icon}
-                    isSelected={
-                      selectedCategories.findIndex(
-                        (value) => value === item.id
-                      ) !== -1
+            <View style={styles.row}>
+              {topChips.map((item, index) => {
+                const isSelected =
+                  selectedCategories.findIndex((value) => value === item.id) !==
+                  -1;
+
+                const onPress = (id: string) =>
+                  setSelectedCategories((current) => {
+                    const index = current?.findIndex((item) => item === id);
+                    if (index === -1) {
+                      return [...current, id];
                     }
-                    onPress={(id) =>
-                      setSelectedCategories((current) => {
-                        const index = current?.findIndex((item) => item === id);
-                        if (index === -1) {
-                          return [...current, id];
-                        }
-                        return current?.filter((item) => item !== id);
-                      })
-                    }
-                  />
-                  <Gap horizontal={index === boundary - 1 ? sp.sl : sp.xs} />
-                </View>
-              ))}
+                    return current?.filter((item) => item !== id);
+                  });
+
+                return (
+                  <View key={item.id} style={styles.row}>
+                    {index == 0 && <Gap horizontal={sp.sl} />}
+                    <Chips
+                      label={item.label}
+                      id={item.id}
+                      Icon={item.Icon}
+                      isSelected={isSelected}
+                      onPress={onPress}
+                    />
+                    <Gap horizontal={index === boundary - 1 ? sp.sl : sp.xs} />
+                  </View>
+                );
+              })}
             </View>
             <Gap vertical={sp.sm} />
-            <View style={{ flexDirection: "row" }}>
-              {bottomChips.map((item, index) => (
-                <View key={item.id} style={{ flexDirection: "row" }}>
-                  {index == 0 && <Gap horizontal={sp.sl} />}
-                  <Chips
-                    label={item.label}
-                    id={item.id}
-                    Icon={item.Icon}
-                    isSelected={
-                      selectedCategories.findIndex(
-                        (value) => value === item.id
-                      ) !== -1
+            <View style={styles.row}>
+              {bottomChips.map((item, index) => {
+                const isSelected =
+                  selectedCategories.findIndex((value) => value === item.id) !==
+                  -1;
+
+                const onPress = (id: string) =>
+                  setSelectedCategories((current) => {
+                    const index = current?.findIndex((item) => item === id);
+                    if (index === -1) {
+                      return [...current, id];
                     }
-                    onPress={(id) =>
-                      setSelectedCategories((current) => {
-                        const index = current?.findIndex((item) => item === id);
-                        if (index === -1) {
-                          return [...current, id];
-                        }
-                        return current?.filter((item) => item !== id);
-                      })
-                    }
-                  />
-                  <Gap horizontal={index === boundary - 1 ? sp.sl : sp.xs} />
-                </View>
-              ))}
+                    return current?.filter((item) => item !== id);
+                  });
+
+                return (
+                  <View key={item.id} style={styles.row}>
+                    {index == 0 && <Gap horizontal={sp.sl} />}
+                    <Chips
+                      label={item.label}
+                      id={item.id}
+                      Icon={item.Icon}
+                      isSelected={isSelected}
+                      onPress={onPress}
+                    />
+                    <Gap horizontal={index === boundary - 1 ? sp.sl : sp.xs} />
+                  </View>
+                );
+              })}
             </View>
           </View>
         </ScrollView>

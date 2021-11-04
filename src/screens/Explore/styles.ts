@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
   primaryIcon: {
     backgroundColor: neutralColor[90],
   },
+
+  row: { flexDirection: "row" },
 });
 
 export default styles;
