@@ -41,6 +41,8 @@ const HORIZONTAL_GAP = sp.sl * 2;
 
 const Explore = () => {
   const isMounted = useRef<boolean>();
+  const searchRef = useRef<any>();
+
   const cameraPosition = useSharedValue(-48);
   const scrollY = useSharedValue(0);
 
@@ -64,6 +66,11 @@ const Explore = () => {
       <Gap vertical={sp.sl} />
     </View>
   );
+
+  const closePress = () => {
+    setKeyword("");
+    searchRef.current?.clear();
+  };
 
   const getExploreData = async () => {
     setIsLoading(true);
@@ -125,7 +132,7 @@ const Explore = () => {
 
   useEffect(() => {
     isMounted.current = true;
-    // getExploreData();
+    getExploreData();
 
     () => {
       isMounted.current = false;
@@ -147,10 +154,11 @@ const Explore = () => {
           <Gap vertical={sp.sm} />
           <ExploreSearch
             cameraPress={() => logger("camera")}
-            closePress={() => logger("close")}
+            closePress={closePress}
             onChangeText={setKeyword}
             position={cameraPosition}
             keyword={keyword}
+            ref={searchRef}
           />
           <Animated.View style={{ paddingVertical: sp.sm / 2 }} />
         </Animated.View>
@@ -280,7 +288,7 @@ const Explore = () => {
                 listKey={"recommendedbooklist"}
               />
             </Gap>
-            <Gap vertical={sp.xxl * 4} />
+            <Gap vertical={sp.xxl * 6} />
           </DummyFlatList>
         </View>
       </SkeletonContent>

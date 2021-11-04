@@ -9,4 +9,6 @@ interface ExploreSesarchProps {
   onChangeText(text: string): void;
 
   position: Animated.SharedValue<number>;
+
+  ref: any;
 }
