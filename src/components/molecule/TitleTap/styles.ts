@@ -9,6 +9,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  title: { flex: 1.25 },
+
   underline: { textDecorationLine: "underline" },
 });
 

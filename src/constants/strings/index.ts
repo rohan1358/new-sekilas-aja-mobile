@@ -58,6 +58,8 @@ export const strings = {
 
   terms: "Ketentuan Layanan",
 
+  trendingBook: "Trending buku",
+
   weekNewCollection: "Kilas Baru minggu ini!",
 
   onBoard_1: "Males baca buku? Baca SekilasAja!",

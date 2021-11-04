@@ -213,7 +213,9 @@ const Home = () => {
             />
             <Gap vertical={sp.sl} />
             <View style={styles.clickTitle}>
-              <TextItem type="b.24.nc.90">{strings.recommendedBook}</TextItem>
+              <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
+                {strings.recommendedBook}
+              </TextItem>
               <Gap horizontal={20} />
               <Button>
                 <TextItem type="b.14.nc.90" style={styles.underline}>
