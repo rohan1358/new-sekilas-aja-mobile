@@ -41,6 +41,21 @@ const mainHome = [
     width: widthPercent(80) - sp.sl * 2,
     height: 68,
     marginLeft: sp.sl,
+    marginBottom: sp.sm,
+  },
+  {
+    key: "collection2",
+    width: widthPercent(80) - sp.sl * 2,
+    height: 68,
+    marginLeft: sp.sl,
+    marginBottom: sp.sl,
+  },
+  {
+    key: "booksTitle",
+    width: widthPercent(80),
+    height: 32,
+    marginLeft: sp.sl,
+    marginBottom: sp.xxs,
   },
 ];
 

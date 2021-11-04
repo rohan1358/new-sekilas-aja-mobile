@@ -1,6 +1,39 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
 
+const fetchMostBooks = () => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore()
+        .collection(firebaseNode.books)
+        .where("read_time", "!=", "")
+        .orderBy("read_time", "desc")
+        .limit(2)
+        .get();
+      const books = raw.docs.map((item) => ({
+        book_title: item.data()?.book_title,
+        author: item.data()?.author,
+        read_time: item.data()?.read_time,
+        id: item.id,
+        book_cover: item.data()?.book_cover,
+      }));
+      resolve({
+        data: books,
+        isSuccess: true,
+        error: null,
+        message: "Most read books successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch most read books failed.",
+      });
+    }
+  });
+};
+
 const fetchReadingBook = (email: string) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
@@ -63,13 +96,46 @@ const fetchRecommendedBooks = () => {
   });
 };
 
-const fetchMostBooks = () => {
+const fetchReleasedBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       const raw = await firestore()
         .collection(firebaseNode.books)
         .where("read_time", "!=", "")
         .orderBy("read_time", "desc")
+        .limit(4)
+        .get();
+      const books = raw.docs.map((item) => ({
+        book_title: item.data()?.book_title,
+        author: item.data()?.author,
+        read_time: item.data()?.read_time,
+        id: item.id,
+        book_cover: item.data()?.book_cover,
+      }));
+      resolve({
+        data: books.slice(2, 4),
+        isSuccess: true,
+        error: null,
+        message: "New released books successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch new released books failed.",
+      });
+    }
+  });
+};
+
+const fetchTrendBooks = () => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore()
+        .collection(firebaseNode.books)
+        .where("read_time", "!=", "")
+        .orderBy("read_time", "asc")
         .limit(2)
         .get();
       const books = raw.docs.map((item) => ({
@@ -83,17 +149,23 @@ const fetchMostBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: "Most read books successfuly fetched.",
+        message: "Trend books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch most read books failed.",
+        message: "Fetch most trend books failed.",
       });
     }
   });
 };
 
-export { fetchReadingBook, fetchRecommendedBooks, fetchMostBooks };
+export {
+  fetchMostBooks,
+  fetchReadingBook,
+  fetchRecommendedBooks,
+  fetchReleasedBooks,
+  fetchTrendBooks,
+};

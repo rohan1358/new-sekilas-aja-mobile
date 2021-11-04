@@ -21,7 +21,6 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { Gap, TextItem } from "../../atom";
@@ -132,11 +131,7 @@ const FancyBottomTab = ({
     );
     Keyboard.addListener(
       "keyboardDidHide",
-      () =>
-        (navPosition.value = withDelay(
-          400,
-          withSpring(TAB_BOTTOM_GAP, { damping: 12 })
-        ))
+      () => (navPosition.value = withDelay(400, withTiming(TAB_BOTTOM_GAP)))
     );
   };
 
