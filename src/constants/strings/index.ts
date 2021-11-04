@@ -1,6 +1,7 @@
 export const strings = {
   agreeByCreate: "Dengan membuat akun baru saya menyetujui",
 
+  bookCategory: "Kategori buku",
   bookCollections: "Koleksi buku",
   bookCollectionsDesc:
     "Koleksi sejumlah buku berdasarkan kategori yang kamu minati.",
@@ -20,6 +21,7 @@ export const strings = {
   explore: "Eksplor",
 
   findFavBook: "Cari Buku Favoritmu!",
+  findFavBookPlaceholder: "Cari buku favoritmu di sini..",
   forgotPassword: "Lupa password?",
 
   happyReading: "Selamat membaca",
@@ -37,6 +39,7 @@ export const strings = {
   nameCantBeEmpty: "Nama tidak boleh kosong",
   nameMinChar: "Nama minimal berisi 3 karakter",
   namePlaceholder: "Isi nama disini ...",
+  newRelease: "Baru rilis",
 
   passwordCantBeEmpty: "Password tidak boleh kosong",
   passwordDontMatch: "Password tidak sama",
