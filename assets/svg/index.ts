@@ -10,6 +10,9 @@ import Grid from "./Grid.svg";
 import GridFilled from "./GridFilled.svg";
 import Home from "./Home.svg";
 import HomeFilled from "./HomeFilled.svg";
+import Exit from "./Exit.svg";
+import Edit from "./Edit.svg";
+import ChevronRight from "./chevron-right.svg";
 
 export {
   Alert,
@@ -24,4 +27,7 @@ export {
   GridFilled,
   Home,
   HomeFilled,
+  Exit,
+  Edit,
+  ChevronRight,
 };

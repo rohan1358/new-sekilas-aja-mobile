@@ -71,4 +71,21 @@ export const strings = {
   button_onBoard_1: "Yuk mulai!",
   btnLewati: "Lewati",
   btnLanjut: "Lanjut",
+
+  title_Account: 'Pengaturan',
+  berlangganan_Account: 'Berlangganan',
+  preferensi_Account: 'Preferensi',
+  tipeAkun_Account: 'Tipe Akun',
+  premium_Account: 'Premium',
+  masa_Account: 'Masa Berlaku Premium',
+  btnBatal: 'Batal berlangganan',
+
+  bahasa: 'Pilihan Bahasa',
+  pilih_bahasa: 'Pilih bahasa yang kamu mengerti.',
+  mode_offline: 'Mode Offline',
+  text_mode_offline: 'Saat koneksimu buruk atau gak ada internet, kamu masih bisa menggunakan aplikasi dengan memilih mode offline.',
+  mode_gelap: 'Mode Gelap',
+  text_mode_gelap: 'SEGERA!',
+  notif: 'Notifikasi',
+  text_notif: 'Sesuaikan notifikasi.'
 };

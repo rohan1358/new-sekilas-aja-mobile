@@ -11,6 +11,7 @@ import {
   TextItem,
 } from "@components";
 import {
+  pages,
   primaryColor,
   skeleton,
   snackState as ss,
@@ -33,7 +34,7 @@ import {
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
 
-const Home = () => {
+const Home = ({navigation}: any) => {
   const {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
@@ -172,6 +173,7 @@ const Home = () => {
             name={profile?.firstName}
             uri=""
             onBellPress={() => logger("bell pressed")}
+            onPressProfile={()=> navigation.navigate(pages.AccountSettings)}
           />
           <View>
             <View style={styles.dummyHeader} />

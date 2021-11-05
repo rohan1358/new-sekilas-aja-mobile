@@ -9,6 +9,8 @@ export const pages = {
 
   Onboarding: "Onboarding",
 
+  AccountSettings: "AccountSettings",
+
   SignIn: "SignIn",
   SignUp: "SignUp",
 };
