@@ -34,10 +34,16 @@ const boundary =
     ? dummyChips.length / 2
     : Math.ceil(dummyChips.length / 2);
 
-const topChips = dummyChips.slice(0, boundary);
 const bottomChips = dummyChips.slice(boundary, dummyChips.length + 1);
+const topChips = dummyChips.slice(0, boundary);
 
 const HORIZONTAL_GAP = sp.sl * 2;
+
+const bottomHeaderGap = sp.sm;
+const bottomNavHeight = 64;
+const topHeaderGap = sp.m;
+
+const flatlistSecondGap = sp.sl * 2;
 
 const Explore = () => {
   const isMounted = useRef<boolean>();
@@ -54,6 +60,9 @@ const Explore = () => {
   const [trendBooks, setTrendBooks] = useState<CompactBooksProps[]>();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const flatListTopAdjuster = headerHeight + topHeaderGap * 2;
+
+  const headerTranslate = headerHeight + topHeaderGap + bottomHeaderGap / 2;
 
   const booksRenderItem = ({ item }: { item: CompactBooksProps }) => (
     <View>
@@ -109,9 +118,7 @@ const Explore = () => {
     transform: [
       {
         translateY:
-          scrollY.value >= 32
-            ? withTiming(-(headerHeight + sp.m + sp.sm / 2))
-            : withTiming(0),
+          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0),
       },
     ],
   }));
@@ -147,11 +154,11 @@ const Explore = () => {
         layout={skeleton.mainExplore}
       >
         <Animated.View style={[styles.container, headerStyle]}>
-          <Gap vertical={sp.m} />
+          <Gap vertical={topHeaderGap} />
           <View onLayout={(e) => setHeaderHeight(e.nativeEvent.layout.height)}>
             <TextItem type="b.24.nc.90">{strings.findFavBook}</TextItem>
           </View>
-          <Gap vertical={sp.sm} />
+          <Gap vertical={bottomHeaderGap} />
           <ExploreSearch
             cameraPress={() => logger("camera")}
             closePress={closePress}
@@ -160,12 +167,12 @@ const Explore = () => {
             keyword={keyword}
             ref={searchRef}
           />
-          <Animated.View style={{ paddingVertical: sp.sm / 2 }} />
+          <Gap vertical={sp.sm} />
         </Animated.View>
         <View
           style={{
-            top: -headerHeight - sp.m * 2,
-            height: heightPercent(100) + headerHeight + sp.m * 2,
+            top: -flatListTopAdjuster,
+            height: heightPercent(100) + flatListTopAdjuster,
           }}
         >
           <DummyFlatList
@@ -174,8 +181,7 @@ const Explore = () => {
             }
             scrollEventThrottle={16}
           >
-            <Gap vertical={headerHeight + sp.m} />
-            <Gap vertical={sp.sl * 2} />
+            <Gap vertical={flatListTopAdjuster - sp.m + flatlistSecondGap} />
             <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCategory}</TextItem>
             </Gap>
@@ -288,7 +294,11 @@ const Explore = () => {
                 listKey={"recommendedbooklist"}
               />
             </Gap>
-            <Gap vertical={sp.xxl * 6} />
+            <Gap
+              vertical={
+                flatListTopAdjuster + flatlistSecondGap + bottomNavHeight * 2
+              }
+            />
           </DummyFlatList>
         </View>
       </SkeletonContent>

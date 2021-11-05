@@ -258,6 +258,7 @@ const Home = () => {
               />
             </Gap>
           </View>
+          <Gap vertical={sp.xxl} />
         </DummyFlatList>
       </SkeletonContent>
     </Base>
