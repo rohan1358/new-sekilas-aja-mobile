@@ -10,6 +10,7 @@ export const strings = {
 
   doHaveAcc: "Sudah punya akun?",
   dontHaveAcc: "Belum punya akun?",
+  downloadedBooks: "Buku yang diunduh",
 
   emailAddress: "Alamat Email",
   emailCantBeEmpty: "Email tidak boleh kosong",
@@ -20,8 +21,10 @@ export const strings = {
   enterConfirmPassword: "Konfirmasi Password",
   explore: "Eksplor",
 
+  favBooks: "Buku favoritku",
   findFavBook: "Cari Buku Favoritmu!",
   findFavBookPlaceholder: "Cari buku favoritmu di sini..",
+  finishedBooks: "Buku yang selesai dibaca",
   forgotPassword: "Lupa password?",
 
   happyReading: "Selamat membaca",

@@ -8,11 +8,13 @@ import BookOpenFilled from "./BookOpenFilled.svg";
 import Camera from "./Camera.svg";
 import ChatBubble from "./ChatBubble.svg";
 import Check from "./Check.svg";
+import ChevronRight from "./ChevronRight.svg";
 import Clipboard from "./Clipboard.svg";
 import CloseX from "./CloseX.svg";
 import ComputerRobot from "./ComputerRobot.svg";
 import Cross from "./Cross.svg";
 import Crown from "./Crown.svg";
+import Download from "./Download.svg";
 import Eye from "./Eye.svg";
 import EyeOff from "./EyeOff.svg";
 import Fire from "./Fire.svg";
@@ -44,11 +46,13 @@ export {
   Camera,
   ChatBubble,
   Check,
+  ChevronRight,
   Clipboard,
   CloseX,
   ComputerRobot,
   Cross,
   Crown,
+  Download,
   Eye,
   EyeOff,
   Fire,
