@@ -74,12 +74,12 @@ export const strings = {
 
   title_Account: 'Pengaturan',
   berlangganan_Account: 'Berlangganan',
-  preferensi_Account: 'Preferensi',
   tipeAkun_Account: 'Tipe Akun',
   premium_Account: 'Premium',
   masa_Account: 'Masa Berlaku Premium',
   btnBatal: 'Batal berlangganan',
-
+  
+  preferensi_Account: 'Preferensi',
   bahasa: 'Pilihan Bahasa',
   pilih_bahasa: 'Pilih bahasa yang kamu mengerti.',
   mode_offline: 'Mode Offline',
@@ -87,5 +87,32 @@ export const strings = {
   mode_gelap: 'Mode Gelap',
   text_mode_gelap: 'SEGERA!',
   notif: 'Notifikasi',
-  text_notif: 'Sesuaikan notifikasi.'
+  text_notif: 'Sesuaikan notifikasi.',
+
+  audio_Account: 'Pengaturan Audio',
+  putar: 'Putar Otomatis',
+  text_putar: 'Dengarkan ringkasan buku berikutnya secara otomatis.',
+  kualitas: 'Kualitas Audio',
+  text_kualitas: 'Sesuaikan kualitas audio agar tetap mendengarkan dengan nyaman.',
+
+  video_Account: 'Pengaturan Video',
+  video_putar: 'Putar Otomatis',
+  text_putar_video: 'Tonton ringkasan buku berikutnya secara otomatis.',
+  kualitas_video: 'Kualitas Video',
+  text_kualitas_video: 'Sesuaikan kualitas video agar tetap menonton dengan nyaman.',
+
+  download_Account: 'Pengaturan Download',
+  kualitas_download: 'Kualitas Download',
+  text_kualitas_download: 'Tentukan kualitas download ringkasan buku, untuk membuka ketika offline.',
+  hapus_download: 'Hapus Download',
+  text_hapus_download: 'Hapus semua ringkasan buku yang telah didownload.',
+  text_btn_hapus: 'Hapus',
+
+  tentang: 'Tentang',
+  tentang_kami: 'Tentang Kami',
+  text_tentang: 'Kepo sama kita? Yuk, liat yang ada dibelakang layar SekilasAja!',
+  
+  btn_kebijakan: 'Kebijakan Privasi',
+  btn_ketentuan: 'Ketentuan Layanan',
+  btn_berikan_ulasan:'Berikan Kami Ulasan',
 };

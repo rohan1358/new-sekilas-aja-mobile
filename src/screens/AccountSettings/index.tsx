@@ -8,6 +8,7 @@ import AccountSettingsHeader from '../../components/organism/AccountSettingsHead
 import { logger } from '../../helpers/helper';
 import { ReduxState } from '../../redux/reducers';
 import { fetchProfile } from '../../services';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import styles from './styles';
 import { ChevronRight, Exit } from '@assets';
@@ -29,6 +30,17 @@ export default function AccountSettings({
   const [language, setLanguage] = useState<string>('Indoneisa');
   const [modeOffline, setModeOffline] = useState(false);
   const [modeGelap, setModeGelap] = useState(false);
+  const [putarAudio, setPutarAudio] = useState(false);
+  const [putarVideo, setPutarVideo] = useState(false);
+  const [kualitasDown, setKualitasDown] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Tinggi', value: 'tinggi'},
+    {label: 'Sedang', value: 'sedang'},
+    {label: 'Rendah', value: 'rendah'},
+  ]);
   
   const getDataAccount = async () => {
     setIsLoading(true)
@@ -50,15 +62,15 @@ export default function AccountSettings({
     }
   }
 
-  useEffect(() => {
-    isMounted.current = true
-    getDataAccount();
+  // useEffect(() => {
+  //   isMounted.current = true
+  //   getDataAccount();
 
-    return () => {
-      isMounted.current = false
-    }
+  //   return () => {
+  //     isMounted.current = false
+  //   }
 
-  },[])
+  // },[])
 
   const handleLanguage = (lang :string) => {
     setLanguage(lang)
@@ -85,6 +97,7 @@ export default function AccountSettings({
           />
           <View style={styles.sectionContent}>
             <TextItem type="b.24.nc.90" style={styles.title}>{strings.title_Account}</TextItem>
+
             <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>{strings.berlangganan_Account}</TextItem>
               <View style={styles.list}>
@@ -99,6 +112,7 @@ export default function AccountSettings({
                 <TextItem type="r.16">{strings.btnBatal}</TextItem>
               </Button>
             </View>
+
             <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>{strings.preferensi_Account}</TextItem>
               <View style={[styles.list, styles.listPreferens]}>
@@ -144,7 +158,137 @@ export default function AccountSettings({
                 <ChevronRight/>
               </Button>
             </View>
+
+            <View style={styles.listContent}>
+              <TextItem type="b.16.nc.90" style={styles.subTitle}>{strings.audio_Account}</TextItem>
+              <View style={[styles.list, styles.listPreferens]}>
+                <View style={styles.boxText}>
+                  <TextItem style={styles.titleList}>{strings.putar}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.text_putar}</TextItem>
+                </View>
+                <Switch
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={putarAudio ? "#f5dd4b" : "#BBC0CE"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={()=>setPutarAudio(!putarAudio)}
+                  value={putarAudio}
+                />
+              </View>
+              <View style={[styles.list, styles.listPreferens]}>
+                <View style={styles.boxText}>
+                  <TextItem style={styles.titleList}>{strings.kualitas}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.text_kualitas}</TextItem>
+                </View>
+                <DropDownPicker
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  setItems={setItems}
+                  placeholder='Tinggi'
+                  containerStyle={styles.containerDropdown}
+                  style={styles.dropdown}
+                  placeholderStyle={styles.textDropdown}
+                  selectedItemLabelStyle={styles.textDropdown}
+                  listMessageTextStyle={styles.textDropdown}
+                  dropDownContainerStyle={styles.containerList}
+                />
+              </View>
+            </View>
+            
+            <View style={styles.listContent}>
+              <TextItem type="b.16.nc.90" style={styles.subTitle}>{strings.video_Account}</TextItem>
+              <View style={[styles.list, styles.listPreferens]}>
+                <View style={styles.boxText}>
+                  <TextItem style={styles.titleList}>{strings.video_putar}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.text_putar_video}</TextItem>
+                </View>
+                <Switch
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={putarVideo ? "#f5dd4b" : "#BBC0CE"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={()=>setPutarVideo(!putarVideo)}
+                  value={putarVideo}
+                />
+              </View>
+              <View style={[styles.list, styles.listPreferens]}>
+                <View style={styles.boxText}>
+                  <TextItem style={styles.titleList}>{strings.kualitas_video}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.text_kualitas_video}</TextItem>
+                </View>
+                <DropDownPicker
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  setItems={setItems}
+                  placeholder='Tinggi'
+                  containerStyle={styles.containerDropdown}
+                  style={styles.dropdown}
+                  placeholderStyle={styles.textDropdown}
+                  selectedItemLabelStyle={styles.textDropdown}
+                  listMessageTextStyle={styles.textDropdown}
+                  dropDownContainerStyle={styles.containerList}
+                />
+              </View>
+            </View>
+
+            <View style={styles.listContent}>
+              <TextItem type="b.16.nc.90" style={styles.subTitle}>{strings.download_Account}</TextItem>
+              <View style={[styles.list, styles.listPreferens]}>
+                <View style={styles.boxText}>
+                  <TextItem style={styles.titleList}>{strings.kualitas_download}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.text_kualitas_download}</TextItem>
+                </View>
+                <Switch
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={kualitasDown ? "#f5dd4b" : "#BBC0CE"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={()=>setKualitasDown(!kualitasDown)}
+                  value={kualitasDown}
+                />
+              </View>
+              <View style={[styles.list, styles.listPreferens, styles.boxHapusDownload]}>
+                <View style={styles.boxText}>
+                  <TextItem style={styles.titleList}>{strings.hapus_download}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.text_hapus_download}</TextItem>
+                </View>
+                <Button>
+                  <TextItem style={[styles.titleList, styles.textBtnHapus]}>{strings.text_btn_hapus}</TextItem>
+              </Button>
+              </View>
+            </View>
           </View>
+
+          <View style={styles.sectionContent}>
+            <TextItem type="b.24.nc.90" style={styles.title}>{strings.tentang}</TextItem>
+            <Button style={[styles.list, styles.listPreferens, styles.boxTentang]}>
+              <View style={styles.boxText}>
+                <TextItem style={styles.titleList}>{strings.tentang}</TextItem>
+                <TextItem style={styles.textContent}>{strings.text_tentang}</TextItem>
+              </View>
+              <ChevronRight/>
+            </Button>
+            
+            <Button style={[styles.btnAction, styles.btnUp]}>
+              <TextItem type="r.16">{strings.btn_kebijakan}</TextItem>
+            </Button>
+            <Button style={[styles.btnAction, styles.btnUp]}>
+              <TextItem type="r.16">{strings.btn_ketentuan}</TextItem>
+            </Button>
+            <Button style={styles.btnAction}>
+              <TextItem type="r.16">{strings.btn_berikan_ulasan}</TextItem>
+            </Button>
+          </View>
+
+          <View style={styles.sectionContent}>
+            <View style={[styles.list, styles.listPreferens]}>
+              <TextItem style={styles.titleList}>{strings.tentang}</TextItem>
+            </View>
+          </View>
+
         </DummyFlatList>
       </SkeletonContent>
       <Modal

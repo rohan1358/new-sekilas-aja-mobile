@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     skeleton: { flex: 1 },
 
     sectionContent: {
-        paddingTop: 32,
+        paddingTop: 24,
     },
 
     title: {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
 
     titleList: {
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: "500",
         color: neutralColor[80]
     },
@@ -43,16 +43,15 @@ const styles = StyleSheet.create({
     },
 
     boxText: {
-        maxWidth: '73%',
+        maxWidth: '65%',
     },
 
     btnAction: {
         borderTopWidth: 1,
         borderBottomWidth: 1,
         paddingHorizontal: 32,
-        marginTop: 6,
         paddingVertical: 8,
-        borderColor: '#BBC0CE'
+        borderColor: '#BBC0CE',
     },
 
     listPreferens: {
@@ -91,6 +90,38 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: neutralColor[90]
+    },
+
+    dropdown: {
+        borderWidth: 0
+    },
+    containerDropdown: {
+        width: 100,
+    },
+    textDropdown: {
+        fontSize: 14,
+        color: neutralColor[80],
+        fontWeight: 'bold'
+    },
+    containerList: {
+        borderWidth: 0.5,
+        borderColor: neutralColor[30]
+    },
+
+    boxHapusDownload: {
+        alignItems:'center'
+    },
+
+    textBtnHapus: {
+        color: '#CB3168'
+    },
+
+    btnUp: {
+        borderBottomWidth: 0
+    },
+
+    boxTentang: {
+        marginBottom: 16
     }
 
 })
