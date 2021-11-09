@@ -1,19 +1,20 @@
-import { BgHeader1, Edit, Exit, UserPlaceholder } from '@assets';
+import { Button, TextItem, Amage } from '../../../components'
 import React from 'react'
-import { Image, View } from 'react-native';
-import styles from './styles';
-import { Button, TextItem, Amage } from '../../../components';
+import { Image, View } from 'react-native'
+import styles from './styles'
+import { ArrowLeft, BgHeader1, UserPlaceholder } from '@assets'
+import { neutralColor, strings } from '@constants'
 
-export default function AccountSettingsHeader({
-    uri,
+
+export default function ProfileHeader({
     navigation,
-    name
+    uri
 }: any) {
     return (
         <View style={styles.container}>
             <View style={styles.sectionMenu}>
                 <Button onPress={()=> navigation.goBack()}>
-                    <Exit />
+                    <ArrowLeft color={neutralColor[90]} />
                 </Button>
                 <TextItem type='b.20.nc.90.c' style={styles.textMenu}>Menu</TextItem>
             </View>
@@ -25,15 +26,7 @@ export default function AccountSettingsHeader({
                     <Amage placeholder={UserPlaceholder} />
                     )}
                 </View>
-                <View style={styles.profileTitle}>
-                    <View style={styles.level}>
-                        <TextItem type="r.10" style={styles.textLevel}>Akun Premium</TextItem>
-                    </View>
-                    <TextItem type="b.24.nc.90.c">{name}</TextItem>
-                </View>
-                <Button onPress={()=> navigation.navigate('Profile')}>
-                    <Edit />
-                </Button>
+                    <TextItem type="b.24.nc.90.c">{strings.edit_profile}</TextItem>
             </View>
             <Image source={BgHeader1} style={styles.bgHeader} />
         </View>

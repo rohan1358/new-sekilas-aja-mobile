@@ -15,4 +15,7 @@ export const pages = {
   SignUp: "SignUp",
 
   About: "About",
+
+  Profile: "Profile",
+  PageEditProfile: "PageEditProfile",
 };

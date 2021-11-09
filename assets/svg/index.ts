@@ -18,6 +18,7 @@ import IconFb from "./IconFb.svg";
 import IconIg from "./IconIg.svg";
 import IconTw from "./IconTw.svg";
 import ArrowLeft from "./arrow-left.svg";
+import EditGray from "./edit-gray.svg";
 
 export {
   Alert,
@@ -40,4 +41,5 @@ export {
   IconIg,
   IconTw,
   ArrowLeft,
+  EditGray,
 };

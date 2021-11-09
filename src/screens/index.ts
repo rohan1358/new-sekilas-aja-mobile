@@ -6,6 +6,8 @@ import SignUp from "./SignUp";
 import Onboarding from "./Onboarding";
 import AccountSettings from "./AccountSettings";
 import About from "./About";
+import Profile from "./Profile";
+import PageEditProfile from "./PageEditProfile";
 
 export {
     Explore,
@@ -16,4 +18,6 @@ export {
     Onboarding,
     AccountSettings,
     About,
+    Profile,
+    PageEditProfile,
 };

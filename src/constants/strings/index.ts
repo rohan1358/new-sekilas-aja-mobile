@@ -125,4 +125,25 @@ export const strings = {
   alert_button_hapus: 'Batal',
 
   textSosmed: 'Follow Sosial Media Kami',
+
+  edit_profile: 'Edit Profile',
+  nama:'Nama',
+  alamat: 'Alamat Email',
+  password: 'Password',
+  btn_keluar: 'Keluar',
+
+  btn_simpan: 'Simpan',
+  btn_batal: 'Batal',
+
+  alertEditProfile: 'Kamu hanya  bisa mengubah setiap 6 bulan sekali.',
+
+  password_minimal: 'Password minimal harus berisi 8 karakter.',
+  
+  password_lama: 'Password Lama',
+  password_baru: 'Password Baru',
+  password_konfir: 'Konfirmasi Password',
+
+  password_lama_kosong: 'Password lama kosong',
+  password_tidak_sama: 'Password tidak sama',
+  data_kosong: 'Data kosong',
 };
