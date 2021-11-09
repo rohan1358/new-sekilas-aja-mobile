@@ -1,11 +1,12 @@
 import { AboutHeader, Base, Button, DummyFlatList, TextItem } from '../../components';
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import styles from './styles';
 import { neutralColor, strings, snackState as ss, } from '@constants';
 import { Exit, Eye, EyeOff } from '@assets';
 import { useDispatch } from 'react-redux';
 import { saveEmail, saveNama, savePassword } from '../../redux/actions';
+
 
 
 export default function PageEditProfile({ route, navigation }: any) {

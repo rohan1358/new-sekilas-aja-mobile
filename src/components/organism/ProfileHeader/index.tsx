@@ -8,7 +8,8 @@ import { neutralColor, strings } from '@constants'
 
 export default function ProfileHeader({
     navigation,
-    uri
+    uri,
+    onPress
 }: any) {
     return (
         <View style={styles.container}>
@@ -16,9 +17,9 @@ export default function ProfileHeader({
                 <Button onPress={()=> navigation.goBack()}>
                     <ArrowLeft color={neutralColor[90]} />
                 </Button>
-                <TextItem type='b.20.nc.90.c' style={styles.textMenu}>Menu</TextItem>
+                <TextItem type='b.20.nc.90.c' style={styles.textMenu}>{strings.edit_profile}</TextItem>
             </View>
-            <View style={styles.sectionProfile}>
+            <Button onPress={()=> onPress()} style={styles.sectionProfile}>
                 <View style={styles.profileContainer}>
                     {!!uri ? (
                     <Amage source={uri} />
@@ -26,8 +27,8 @@ export default function ProfileHeader({
                     <Amage placeholder={UserPlaceholder} />
                     )}
                 </View>
-                    <TextItem type="b.24.nc.90.c">{strings.edit_profile}</TextItem>
-            </View>
+                <TextItem type="b.24.nc.90.c">{strings.edit_profile}</TextItem>
+            </Button>
             <Image source={BgHeader1} style={styles.bgHeader} />
         </View>
     )

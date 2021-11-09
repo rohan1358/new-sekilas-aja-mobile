@@ -1,14 +1,17 @@
 import { Base, Button, DummyFlatList, ProfileHeader, TextItem } from '../../components'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { pages, primaryColor, skeleton, snackState as ss, strings } from '@constants';
 import styles from './styles'
-import { EditGray } from '@assets';
+import { ChevronRight, EditGray } from '@assets';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '../../redux/reducers';
+import RBSheet from "react-native-raw-bottom-sheet";
 
 export default function Profile({ navigation }: any) {
+
+  const refRBSheet = useRef();
   
   const {
     editProfile: { nama, email, password },
@@ -17,7 +20,7 @@ export default function Profile({ navigation }: any) {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  console.log(nama)
+  // console.log(nama)
 
   // const [name, setname] = useState<string>('');
   // const [email, setEmail] = useState<string>('');
@@ -37,6 +40,7 @@ export default function Profile({ navigation }: any) {
         <DummyFlatList>
           <ProfileHeader
             navigation={navigation}
+            onPress={() => refRBSheet.current.open()}
           />
           <View style={styles.content}>
             <TextItem style={styles.title}>{strings.nama}</TextItem>
@@ -74,6 +78,33 @@ export default function Profile({ navigation }: any) {
           </View>
         </DummyFlatList>
       </SkeletonContent>
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown={false}
+        closeOnPressMask={true}
+        customStyles={{
+          wrapper: {
+            backgroundColor: "rgba(0,0,0,0.3)",
+          },
+          container: {
+            borderTopLeftRadius: 24,
+            borderTopRightRadius: 24,
+          }
+        }}
+        height={165}
+      >
+        <View style={styles.contaonerSheet}>
+          <TextItem style={[styles.title, styles.titleGantiFoto]}>{strings.ganti_foto}</TextItem>
+          <Button style={styles.btnTakeAction}>
+            <TextItem style={styles.textTake}>{strings.ambil_langsung}</TextItem>
+            <ChevronRight />
+          </Button>
+          <Button style={styles.btnTakeAction}>
+            <TextItem style={styles.textTake}>{strings.ambil_galery}</TextItem>
+            <ChevronRight />
+          </Button>
+        </View>
+      </RBSheet>
     </Base>
   )
 }

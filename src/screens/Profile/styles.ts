@@ -35,6 +35,30 @@ const styles = StyleSheet.create({
         marginTop: 24,
         alignItems: 'center',
         paddingVertical: 10
+    },
+
+    contaonerSheet: {
+        marginTop: 24
+    },
+
+    titleGantiFoto: {
+        marginLeft: 32,
+        marginBottom: 20
+    },
+
+    btnTakeAction: {
+        borderTopWidth: 1,
+        borderColor: neutralColor[60],
+        paddingHorizontal: 32,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent:'space-between'
+    },
+
+    textTake: {
+        fontSize: 20,
+        fontWeight: '500',
+        color: neutralColor[70]
     }
 })
 

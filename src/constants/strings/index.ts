@@ -146,4 +146,8 @@ export const strings = {
   password_lama_kosong: 'Password lama kosong',
   password_tidak_sama: 'Password tidak sama',
   data_kosong: 'Data kosong',
+
+  ganti_foto: 'Ganti Profil',
+  ambil_langsung: 'Ambil langsung',
+  ambil_galery: 'Ambil dari galeri',
 };
