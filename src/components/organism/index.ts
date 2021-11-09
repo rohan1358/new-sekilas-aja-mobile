@@ -4,5 +4,6 @@ import ImageBanner from "./ImageBanner";
 import MiniCollectionTile from "./MiniCollectionTile";
 import OngoingTile from "./OngoingTile";
 import PagesOnboarding from "./PageOnboarding"
+import AboutHeader from "./AboutHeader"
 
-export { BookTile, HomeHeader, ImageBanner, MiniCollectionTile, OngoingTile, PagesOnboarding };
+export { BookTile, HomeHeader, ImageBanner, MiniCollectionTile, OngoingTile, PagesOnboarding, AboutHeader };

@@ -5,6 +5,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Onboarding from "./Onboarding";
 import AccountSettings from "./AccountSettings";
+import About from "./About";
 
 export {
     Explore,
@@ -13,5 +14,6 @@ export {
     SignIn,
     SignUp,
     Onboarding,
-    AccountSettings
+    AccountSettings,
+    About,
 };

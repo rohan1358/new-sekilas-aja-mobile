@@ -1,4 +1,4 @@
-import { colors, neutralColor } from "@constants";
+import { colors, neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -122,6 +122,58 @@ const styles = StyleSheet.create({
 
     boxTentang: {
         marginBottom: 16
+    },
+
+    contentAlert: {
+        width: '85%',
+        maxHeight: '50%',
+        backgroundColor: colors.white,
+        padding: 20,
+        borderRadius: 8,
+    },
+
+    boxContentAlert: {
+        alignItems:'center'
+    },
+
+    textAlert: {
+        fontSize: 24,
+        color: neutralColor[90],
+        fontWeight: '700',
+        textAlign: 'center',
+        marginVertical: 16,
+        width: 250,
+    },
+
+    textActionAlert: {
+        fontSize: 24,
+        color: neutralColor[60],
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+
+    textButtonAlert: {
+        fontSize: 24,
+        color: primaryColor.main,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    
+    btnAlert: {
+        height: 64,
+        justifyContent:'center'
+    },
+
+    btnAlertSecond: {
+        backgroundColor: neutralColor[90],
+        borderRadius: 16
+    },
+
+    boxSosmed: {
+        flexDirection: 'row',
+        width: 120,
+        justifyContent: 'space-around',
+        marginVertical: 16
     }
 
 })

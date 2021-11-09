@@ -114,5 +114,15 @@ export const strings = {
   
   btn_kebijakan: 'Kebijakan Privasi',
   btn_ketentuan: 'Ketentuan Layanan',
-  btn_berikan_ulasan:'Berikan Kami Ulasan',
+  btn_berikan_ulasan: 'Berikan Kami Ulasan',
+  
+  alert_text_langganan: 'Kamu yakin ingin membatalkan langganan?',
+  alert_action: 'Batal Langganan',
+  alert_button: 'Gak jadi',
+
+  alert_text_hapus: 'Kamu yakin mau menghapus semua download?',
+  alert_action_hapus: 'Hapus',
+  alert_button_hapus: 'Batal',
+
+  textSosmed: 'Follow Sosial Media Kami',
 };

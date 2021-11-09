@@ -1,5 +1,5 @@
 import { Base, Button, DummyFlatList, TextItem } from '../../components'
-import { primaryColor, skeleton, snackState as ss, strings } from '@constants'
+import { pages, primaryColor, skeleton, snackState as ss, strings } from '@constants'
 import React, { useEffect, useRef, useState } from 'react'
 import { Modal, StyleSheet, Switch, Text, View } from 'react-native'
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
@@ -11,7 +11,13 @@ import { fetchProfile } from '../../services';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import styles from './styles';
-import { ChevronRight, Exit } from '@assets';
+import {
+  AlertModal,
+  ChevronRight,
+  Exit,
+  IconFb,
+  IconIg,
+  IconTw } from '@assets';
 
 export default function AccountSettings({
   navigation
@@ -26,6 +32,7 @@ export default function AccountSettings({
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalAlert, setModalAlert] = useState<boolean>(false);
   const [profile, setProfile] = useState<ProfileProps>();
   const [language, setLanguage] = useState<string>('Indoneisa');
   const [modeOffline, setModeOffline] = useState(false);
@@ -34,9 +41,24 @@ export default function AccountSettings({
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
+  const [textAlert, setTextAlert] = useState({
+    text: '',
+    action: '',
+    button: '',
+  });
+
+  const [openAudio, setOpenAudio] = useState(false);
+  const [openVideo, setOpenVideo] = useState(false);
+
+  const [valueAudio, setValueAudio] = useState(null);
+  const [valueVideo, setValueVideo] = useState(null);
+
+  const [itemsAudio, setItemsAudio] = useState([
+    {label: 'Tinggi', value: 'tinggi'},
+    {label: 'Sedang', value: 'sedang'},
+    {label: 'Rendah', value: 'rendah'},
+  ]);
+  const [itemsVideo, setItemsVideo] = useState([
     {label: 'Tinggi', value: 'tinggi'},
     {label: 'Sedang', value: 'sedang'},
     {label: 'Rendah', value: 'rendah'},
@@ -62,19 +84,32 @@ export default function AccountSettings({
     }
   }
 
-  useEffect(() => {
-    isMounted.current = true
-    getDataAccount();
+  // useEffect(() => {
+  //   isMounted.current = true
+  //   getDataAccount();
 
-    return () => {
-      isMounted.current = false
-    }
+  //   return () => {
+  //     isMounted.current = false
+  //   }
 
-  },[])
+  // },[])
 
   const handleLanguage = (lang :string) => {
     setLanguage(lang)
     setModalVisible(!modalVisible)
+  }
+
+  const handleModalAlert = (dataAlert = {
+    text: '',
+    action: '',
+    button: '',
+  }) => {
+    setModalAlert(!modalAlert)
+    setTextAlert({
+      text: dataAlert.text,
+      action: dataAlert.action,
+      button: dataAlert.button,
+    })
   }
 
 
@@ -108,7 +143,15 @@ export default function AccountSettings({
                 <TextItem style={styles.titleList}>{strings.masa_Account}</TextItem>
                 <TextItem style={styles.textContent}>28 Oktober 2022</TextItem>
               </View>
-              <Button style={styles.btnAction}>
+              <Button
+                onPress={() =>
+                  handleModalAlert({
+                    text: strings.alert_text_langganan,
+                    action: strings.alert_action,
+                    button: strings.alert_button,
+                  })
+                }
+                style={styles.btnAction}>
                 <TextItem type="r.16">{strings.btnBatal}</TextItem>
               </Button>
             </View>
@@ -180,12 +223,12 @@ export default function AccountSettings({
                   <TextItem style={styles.textContent}>{strings.text_kualitas}</TextItem>
                 </View>
                 <DropDownPicker
-                  open={open}
-                  value={value}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  setItems={setItems}
+                  open={openAudio}
+                  value={valueAudio}
+                  items={itemsAudio}
+                  setOpen={setOpenAudio}
+                  setValue={setValueAudio}
+                  setItems={setItemsAudio}
                   placeholder='Tinggi'
                   containerStyle={styles.containerDropdown}
                   style={styles.dropdown}
@@ -218,12 +261,12 @@ export default function AccountSettings({
                   <TextItem style={styles.textContent}>{strings.text_kualitas_video}</TextItem>
                 </View>
                 <DropDownPicker
-                  open={open}
-                  value={value}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  setItems={setItems}
+                  open={openVideo}
+                  value={valueVideo}
+                  items={itemsVideo}
+                  setOpen={setOpenVideo}
+                  setValue={setValueVideo}
+                  setItems={setItemsVideo}
                   placeholder='Tinggi'
                   containerStyle={styles.containerDropdown}
                   style={styles.dropdown}
@@ -255,7 +298,14 @@ export default function AccountSettings({
                   <TextItem style={styles.titleList}>{strings.hapus_download}</TextItem>
                   <TextItem style={styles.textContent}>{strings.text_hapus_download}</TextItem>
                 </View>
-                <Button>
+                <Button
+                  onPress={() =>
+                  handleModalAlert({
+                    text: strings.alert_text_hapus,
+                    action: strings.alert_action_hapus,
+                    button: strings.alert_button_hapus,
+                  })
+                }>
                   <TextItem style={[styles.titleList, styles.textBtnHapus]}>{strings.text_btn_hapus}</TextItem>
               </Button>
               </View>
@@ -272,20 +322,25 @@ export default function AccountSettings({
               <ChevronRight/>
             </Button>
             
-            <Button style={[styles.btnAction, styles.btnUp]}>
-              <TextItem type="r.16">{strings.btn_kebijakan}</TextItem>
+            <Button onPress={() => navigation.navigate(pages.About,{ title: 'Kebijakan Privasi' })} style={[styles.btnAction, styles.btnUp]}>
+              <TextItem type="r.16.nc.90">{strings.btn_kebijakan}</TextItem>
             </Button>
-            <Button style={[styles.btnAction, styles.btnUp]}>
-              <TextItem type="r.16">{strings.btn_ketentuan}</TextItem>
+            <Button onPress={() => navigation.navigate(pages.About,{ title: 'Ketentuan Layanan' })} style={[styles.btnAction, styles.btnUp]}>
+              <TextItem type="r.16.nc.90">{strings.btn_ketentuan}</TextItem>
             </Button>
             <Button style={styles.btnAction}>
-              <TextItem type="r.16">{strings.btn_berikan_ulasan}</TextItem>
+              <TextItem type="r.16.nc.90">{strings.btn_berikan_ulasan}</TextItem>
             </Button>
           </View>
 
           <View style={styles.sectionContent}>
-            <View style={[styles.list, styles.listPreferens]}>
-              <TextItem style={styles.titleList}>{strings.tentang}</TextItem>
+            <View style={[styles.list]}>
+              <TextItem type="b.16.nc.90">{strings.textSosmed}</TextItem>
+              <View style={styles.boxSosmed}>
+                <IconFb />
+                <IconIg />
+                <IconTw />
+              </View>
             </View>
           </View>
 
@@ -308,6 +363,31 @@ export default function AccountSettings({
             <DummyFlatList>
               <TextItem style={styles.textLanguage} onPress={()=> handleLanguage('Indonesia')}>Indonesia</TextItem>
               <TextItem style={styles.textLanguage} onPress={()=> handleLanguage('English')}>English</TextItem>
+            </DummyFlatList>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalAlert}
+        onRequestClose={() => {
+          setModalAlert(!modalAlert);
+        }}
+      >
+        <View style={styles.containerModal}>
+          <View style={styles.contentAlert}>
+            <DummyFlatList>
+              <View style={styles.boxContentAlert}>
+                <AlertModal />
+                <TextItem style={styles.textAlert} >{textAlert.text}</TextItem>
+              </View>
+              <Button style={styles.btnAlert}>
+                <TextItem style={styles.textActionAlert} >{textAlert.action}</TextItem>
+              </Button>
+              <Button onPress={()=> setModalAlert(!modalAlert)} style={[styles.btnAlert, styles.btnAlertSecond]}>
+                <TextItem style={styles.textButtonAlert} >{textAlert.button}</TextItem>
+              </Button>
             </DummyFlatList>
           </View>
         </View>

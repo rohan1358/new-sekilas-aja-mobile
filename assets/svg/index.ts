@@ -13,6 +13,11 @@ import HomeFilled from "./HomeFilled.svg";
 import Exit from "./Exit.svg";
 import Edit from "./Edit.svg";
 import ChevronRight from "./chevron-right.svg";
+import AlertModal from "./AlertModal.svg";
+import IconFb from "./IconFb.svg";
+import IconIg from "./IconIg.svg";
+import IconTw from "./IconTw.svg";
+import ArrowLeft from "./arrow-left.svg";
 
 export {
   Alert,
@@ -30,4 +35,9 @@ export {
   Exit,
   Edit,
   ChevronRight,
+  AlertModal,
+  IconFb,
+  IconIg,
+  IconTw,
+  ArrowLeft,
 };
