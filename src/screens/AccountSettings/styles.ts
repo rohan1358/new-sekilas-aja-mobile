@@ -83,7 +83,16 @@ const styles = StyleSheet.create({
     },
 
     textLanguage: {
-        marginTop: 10
+        marginTop: 10,
+        fontSize: 16,
+        color: neutralColor[90]
+    },
+
+    boxListLanguage: {
+        borderBottomWidth: 1,
+        borderBottomColor: neutralColor[60],
+        paddingBottom: 10,
+        alignItems:'center'
     },
 
     language: {

@@ -361,8 +361,12 @@ export default function AccountSettings({
             </Button>
             <TextItem>Pilih Bahasa</TextItem>
             <DummyFlatList>
-              <TextItem style={styles.textLanguage} onPress={()=> handleLanguage('Indonesia')}>Indonesia</TextItem>
-              <TextItem style={styles.textLanguage} onPress={()=> handleLanguage('English')}>English</TextItem>
+              <Button style={styles.boxListLanguage} onPress={()=> handleLanguage('Indonesia')}>
+                <TextItem style={styles.textLanguage}>Indonesia</TextItem>
+              </Button>
+              <Button style={styles.boxListLanguage} onPress={()=> handleLanguage('English')}>
+                <TextItem style={styles.textLanguage}>English</TextItem>
+              </Button>
             </DummyFlatList>
           </View>
         </View>
