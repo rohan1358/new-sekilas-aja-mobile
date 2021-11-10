@@ -84,15 +84,15 @@ export default function AccountSettings({
     }
   }
 
-  // useEffect(() => {
-  //   isMounted.current = true
-  //   getDataAccount();
+  useEffect(() => {
+    isMounted.current = true
+    getDataAccount();
 
-  //   return () => {
-  //     isMounted.current = false
-  //   }
+    return () => {
+      isMounted.current = false
+    }
 
-  // },[])
+  },[])
 
   const handleLanguage = (lang :string) => {
     setLanguage(lang)

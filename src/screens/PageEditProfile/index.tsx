@@ -84,6 +84,7 @@ export default function PageEditProfile({ route, navigation }: any) {
                                         onChangeText={(e)=> setValue(e)}
                                         value={value}
                                         keyboardType={type === 'email' ? 'email-address' : 'default'}
+                                        autoCapitalize={type === 'email' ? 'none' : 'words'}
                                     />
                                     <Button onPress={() => setValue('')}>
                                         <Exit color={neutralColor[60]} />

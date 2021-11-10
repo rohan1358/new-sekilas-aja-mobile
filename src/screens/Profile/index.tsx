@@ -8,6 +8,8 @@ import { ChevronRight, EditGray } from '@assets';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '../../redux/reducers';
 import RBSheet from "react-native-raw-bottom-sheet";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 
 export default function Profile({ navigation }: any) {
 
@@ -22,9 +24,66 @@ export default function Profile({ navigation }: any) {
 
   // console.log(nama)
 
+  const [imageUrl, setImageUrl] = useState(null);
   // const [name, setname] = useState<string>('');
   // const [email, setEmail] = useState<string>('');
   // const [password, setPassword] = useState<string>('');
+
+
+  const handleImagePicker = (type: string) => {
+    if (type == 'camera') {
+      launchCamera({
+        mediaType: 'photo',
+        quality: 1,
+        saveToPhotos: true,
+        maxHeight: 500,
+        maxWidth: 500,
+        includeBase64: true
+      }, (callback) => {
+        if (callback.errorCode === 'camera_unavailable') {
+          setSnackState(ss.failState(strings.camera_unavailable));
+          return;
+        } else if (callback.errorCode === 'permission') {
+          setSnackState(ss.failState(strings.permission));
+          return;
+        } else if (callback.errorCode === 'others') {
+          setSnackState(ss.failState(strings.other));
+          return;
+        } else if (callback.didCancel) {
+          console.log('camera cancel')
+        } else {
+          const base64 = { uri: 'data:image/jpeg;base64,' + callback.assets[0].base64 };
+          setImageUrl(base64.uri)
+          refRBSheet.current.close()
+        }
+      });
+    } else {
+      launchImageLibrary({
+        mediaType: 'photo',
+        quality: 1,
+        maxHeight: 500,
+        maxWidth: 500,
+        includeBase64: true
+      }, (callback) => {
+        if (callback.errorCode === 'camera_unavailable') {
+          setSnackState(ss.failState(strings.camera_unavailable));
+          return;
+        } else if (callback.errorCode === 'permission') {
+          setSnackState(ss.failState(strings.permission));
+          return;
+        } else if (callback.errorCode === 'others') {
+          setSnackState(ss.failState(strings.other));
+          return;
+        } else if (callback.didCancel) {
+          console.log('camera cancel')
+        } else {
+          const base64 = { uri: 'data:image/jpeg;base64,' + callback.assets[0].base64 };
+          setImageUrl(base64.uri)
+          refRBSheet.current.close()
+        }
+      })
+    }
+  }
 
   return (
     <Base
@@ -41,6 +100,7 @@ export default function Profile({ navigation }: any) {
           <ProfileHeader
             navigation={navigation}
             onPress={() => refRBSheet.current.open()}
+            uri={imageUrl}
           />
           <View style={styles.content}>
             <TextItem style={styles.title}>{strings.nama}</TextItem>
@@ -95,11 +155,11 @@ export default function Profile({ navigation }: any) {
       >
         <View style={styles.contaonerSheet}>
           <TextItem style={[styles.title, styles.titleGantiFoto]}>{strings.ganti_foto}</TextItem>
-          <Button style={styles.btnTakeAction}>
+          <Button onPress={()=> handleImagePicker('camera')} style={styles.btnTakeAction}>
             <TextItem style={styles.textTake}>{strings.ambil_langsung}</TextItem>
             <ChevronRight />
           </Button>
-          <Button style={styles.btnTakeAction}>
+          <Button onPress={()=> handleImagePicker('galery')} style={styles.btnTakeAction}>
             <TextItem style={styles.textTake}>{strings.ambil_galery}</TextItem>
             <ChevronRight />
           </Button>

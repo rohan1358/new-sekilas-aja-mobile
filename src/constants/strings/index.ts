@@ -150,4 +150,8 @@ export const strings = {
   ganti_foto: 'Ganti Profil',
   ambil_langsung: 'Ambil langsung',
   ambil_galery: 'Ambil dari galeri',
+
+  camera_unavailable: 'Kamera tidak tersedia di perangkat',
+  permission: 'Kamera tidak memiliki izin',
+  other: 'kesalahan lain'
 };
