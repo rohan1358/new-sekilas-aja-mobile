@@ -8,6 +8,7 @@ import AccountSettings from "./AccountSettings";
 import About from "./About";
 import Profile from "./Profile";
 import PageEditProfile from "./PageEditProfile";
+import NotifSettings from "./NotifSettings";
 
 export {
     Explore,
@@ -20,4 +21,5 @@ export {
     About,
     Profile,
     PageEditProfile,
+    NotifSettings,
 };

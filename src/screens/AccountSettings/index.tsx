@@ -193,7 +193,7 @@ export default function AccountSettings({
                   value={modeGelap}
                 />
               </View>
-              <Button style={[styles.list, styles.listPreferens]}>
+              <Button onPress={()=> navigation.navigate('NotifSettings')} style={[styles.list, styles.listPreferens]}>
                 <View>
                   <TextItem style={styles.titleList}>{strings.notif}</TextItem>
                   <TextItem style={styles.textContent}>{strings.text_notif}</TextItem>

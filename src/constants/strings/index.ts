@@ -153,5 +153,20 @@ export const strings = {
 
   camera_unavailable: 'Kamera tidak tersedia di perangkat',
   permission: 'Kamera tidak memiliki izin',
-  other: 'kesalahan lain'
+  other: 'kesalahan lain',
+
+  notif_sistem: 'Notifikasi Sistem',
+  pengingat: 'Pengingat Harian',
+  text_pengingat: 'Kamu akan diingatkan setiap hari.',
+  ingatkan: 'Ingatkan saya pada pukul..',
+
+  notif_promo: 'Notifikasi Promo',
+  promo_voucher: 'Promo & Voucher',
+  text_promo: 'Kamu akan diberitahu setiap ada promo diskon atau voucher.',
+
+  jam: 'Jam',
+  menit: 'Menit',
+  zona: 'Zona',
+  wib: 'WIB',
+
 };
