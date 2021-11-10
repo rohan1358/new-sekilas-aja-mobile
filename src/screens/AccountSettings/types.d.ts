@@ -1,0 +1,3 @@
+interface ProfileProps {
+  firstName: string;
+}

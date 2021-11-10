@@ -1,4 +1,6 @@
 import Alert from "./Alert.svg";
+import AlertModal from "./AlertModal.svg";
+import ArrowLeft from "./arrow-left.svg";
 import Arrowright from "./arrow-right.svg";
 import BabyBottle from "./BabyBottle.svg";
 import BankBuilding from "./BankBuilding.svg";
@@ -15,6 +17,9 @@ import ComputerRobot from "./ComputerRobot.svg";
 import Cross from "./Cross.svg";
 import Crown from "./Crown.svg";
 import Download from "./Download.svg";
+import EditGray from "./edit-gray.svg";
+import Edit from "./Edit.svg";
+import Exit from "./Exit.svg";
 import Eye from "./Eye.svg";
 import EyeOff from "./EyeOff.svg";
 import Fire from "./Fire.svg";
@@ -28,6 +33,9 @@ import HeartRate from "./HeartRate.svg";
 import Home from "./Home.svg";
 import HomeFilled from "./HomeFilled.svg";
 import HumanHead from "./HumanHead.svg";
+import IconFb from "./IconFb.svg";
+import IconIg from "./IconIg.svg";
+import IconTw from "./IconTw.svg";
 import PaintPalette from "./PaintPalette.svg";
 import Search from "./Search.svg";
 import SearchDollar from "./SearchDollar.svg";
@@ -37,6 +45,8 @@ import YinYang from "./YinYang.svg";
 
 export {
   Alert,
+  AlertModal,
+  ArrowLeft,
   Arrowright,
   BabyBottle,
   BankBuilding,
@@ -53,6 +63,9 @@ export {
   Cross,
   Crown,
   Download,
+  Edit,
+  EditGray,
+  Exit,
   Eye,
   EyeOff,
   Fire,
@@ -66,6 +79,9 @@ export {
   Home,
   HomeFilled,
   HumanHead,
+  IconFb,
+  IconIg,
+  IconTw,
   PaintPalette,
   Search,
   SearchDollar,

@@ -83,4 +83,102 @@ export const strings = {
   button_onBoard_1: "Yuk mulai!",
   btnLewati: "Lewati",
   btnLanjut: "Lanjut",
+
+  title_Account: 'Pengaturan',
+  berlangganan_Account: 'Berlangganan',
+  tipeAkun_Account: 'Tipe Akun',
+  premium_Account: 'Premium',
+  masa_Account: 'Masa Berlaku Premium',
+  btnBatal: 'Batal berlangganan',
+  
+  preferensi_Account: 'Preferensi',
+  bahasa: 'Pilihan Bahasa',
+  pilih_bahasa: 'Pilih bahasa yang kamu mengerti.',
+  mode_offline: 'Mode Offline',
+  text_mode_offline: 'Saat koneksimu buruk atau gak ada internet, kamu masih bisa menggunakan aplikasi dengan memilih mode offline.',
+  mode_gelap: 'Mode Gelap',
+  text_mode_gelap: 'SEGERA!',
+  notif: 'Notifikasi',
+  text_notif: 'Sesuaikan notifikasi.',
+
+  audio_Account: 'Pengaturan Audio',
+  putar: 'Putar Otomatis',
+  text_putar: 'Dengarkan ringkasan buku berikutnya secara otomatis.',
+  kualitas: 'Kualitas Audio',
+  text_kualitas: 'Sesuaikan kualitas audio agar tetap mendengarkan dengan nyaman.',
+
+  video_Account: 'Pengaturan Video',
+  video_putar: 'Putar Otomatis',
+  text_putar_video: 'Tonton ringkasan buku berikutnya secara otomatis.',
+  kualitas_video: 'Kualitas Video',
+  text_kualitas_video: 'Sesuaikan kualitas video agar tetap menonton dengan nyaman.',
+
+  download_Account: 'Pengaturan Download',
+  kualitas_download: 'Kualitas Download',
+  text_kualitas_download: 'Tentukan kualitas download ringkasan buku, untuk membuka ketika offline.',
+  hapus_download: 'Hapus Download',
+  text_hapus_download: 'Hapus semua ringkasan buku yang telah didownload.',
+  text_btn_hapus: 'Hapus',
+
+  tentang: 'Tentang',
+  tentang_kami: 'Tentang Kami',
+  text_tentang: 'Kepo sama kita? Yuk, liat yang ada dibelakang layar SekilasAja!',
+  
+  btn_kebijakan: 'Kebijakan Privasi',
+  btn_ketentuan: 'Ketentuan Layanan',
+  btn_berikan_ulasan: 'Berikan Kami Ulasan',
+  
+  alert_text_langganan: 'Kamu yakin ingin membatalkan langganan?',
+  alert_action: 'Batal Langganan',
+  alert_button: 'Gak jadi',
+
+  alert_text_hapus: 'Kamu yakin mau menghapus semua download?',
+  alert_action_hapus: 'Hapus',
+  alert_button_hapus: 'Batal',
+
+  textSosmed: 'Follow Sosial Media Kami',
+
+  edit_profile: 'Edit Profile',
+  nama:'Nama',
+  alamat: 'Alamat Email',
+  password: 'Password',
+  btn_keluar: 'Keluar',
+
+  btn_simpan: 'Simpan',
+  btn_batal: 'Batal',
+
+  alertEditProfile: 'Kamu hanya  bisa mengubah setiap 6 bulan sekali.',
+
+  password_minimal: 'Password minimal harus berisi 8 karakter.',
+  
+  password_lama: 'Password Lama',
+  password_baru: 'Password Baru',
+  password_konfir: 'Konfirmasi Password',
+
+  password_lama_kosong: 'Password lama kosong',
+  password_tidak_sama: 'Password tidak sama',
+  data_kosong: 'Data kosong',
+
+  ganti_foto: 'Ganti Profil',
+  ambil_langsung: 'Ambil langsung',
+  ambil_galery: 'Ambil dari galeri',
+
+  camera_unavailable: 'Kamera tidak tersedia di perangkat',
+  permission: 'Kamera tidak memiliki izin',
+  other: 'kesalahan lain',
+
+  notif_sistem: 'Notifikasi Sistem',
+  pengingat: 'Pengingat Harian',
+  text_pengingat: 'Kamu akan diingatkan setiap hari.',
+  ingatkan: 'Ingatkan saya pada pukul..',
+
+  notif_promo: 'Notifikasi Promo',
+  promo_voucher: 'Promo & Voucher',
+  text_promo: 'Kamu akan diberitahu setiap ada promo diskon atau voucher.',
+
+  jam: 'Jam',
+  menit: 'Menit',
+  zona: 'Zona',
+  wib: 'WIB',
+
 };

@@ -77,6 +77,7 @@ export default function Onboarding({navigation}: any) {
                         horizontal
                         pagingEnabled
                         onMomentumScrollEnd={handleSetIndex}
+                        scrollEnabled={false}
                     >
                         {
                             dataPage.map((item, index) => {
