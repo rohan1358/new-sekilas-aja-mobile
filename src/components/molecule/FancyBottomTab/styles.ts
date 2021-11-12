@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 import { widthPercent } from "../../../helpers/helper";
 
 const TAB_HEIGHT = 64;
-const TAB_HORIZONTAL_GAP = sp.sl;
 const TAB_BOTTOM_GAP = sp.m;
+const TAB_HORIZONTAL_GAP = sp.sl;
 const RADIUS = 16;
 const ICON_SIZE = 24;
 

@@ -1,10 +1,18 @@
 import { ReactElement } from "react";
-import { TextInputProps } from "react-native";
+import { StyleProp, TextInputProps, ViewStyle } from "react-native";
 
 interface TextFieldProps extends TextInputProps {
-  message?: string;
-  state?: string;
+  containerStyle?: StyleProp<ViewStyle>;
+
   Icon?: ReactElement;
-  iconPress?(): void;
   iconDisbabled?: boolean;
+  iconPress?(): void;
+  innerContainerStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<ViewStyle>;
+
+  message?: string;
+
+  noBottomGap?: boolean;
+
+  state?: string;
 }

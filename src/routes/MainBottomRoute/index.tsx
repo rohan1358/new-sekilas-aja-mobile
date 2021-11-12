@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 const MainBottomRoute = () => {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
       tabBar={(props) => <FancyBottomTab {...props} />}
     >
       <Tab.Screen name={pages.Home} component={Home} />

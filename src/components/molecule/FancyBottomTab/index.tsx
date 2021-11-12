@@ -6,11 +6,23 @@ import {
   Home,
   HomeFilled,
 } from "@assets";
-import { neutralColor, pages, primaryColor, spacing as sp } from "@constants";
+import {
+  neutralColor,
+  pages,
+  primaryColor,
+  spacing as sp,
+  strings,
+} from "@constants";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { LabelPosition } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { Keyboard, TouchableOpacity, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 import { Gap, TextItem } from "../../atom";
 import styles from "./styles";
 
@@ -29,16 +41,16 @@ const recentLabel = (
 ) => {
   switch (label) {
     case pages.Home:
-      return "Beranda";
+      return strings.home;
 
     case pages.Explore:
-      return "Eksplor";
+      return strings.explore;
 
     case pages.Library:
-      return "Bukuku";
+      return strings.library;
 
     default:
-      return "Beranda";
+      return strings.home;
   }
 };
 
@@ -94,14 +106,42 @@ const Icon = ({
   }
 };
 
+const TAB_HEIGHT = 64;
+const TAB_BOTTOM_GAP = sp.m;
+
 const FancyBottomTab = ({
   state,
   descriptors,
   navigation,
 }: BottomTabBarProps) => {
+  const navPosition = useSharedValue(TAB_BOTTOM_GAP);
+
+  const containerStyle = useAnimatedStyle(() => ({
+    bottom: navPosition.value,
+  }));
+
+  const detectKeyboard = () => {
+    Keyboard.addListener(
+      "keyboardDidShow",
+      () =>
+        (navPosition.value = withDelay(
+          400,
+          withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2)
+        ))
+    );
+    Keyboard.addListener(
+      "keyboardDidHide",
+      () => (navPosition.value = withDelay(400, withTiming(TAB_BOTTOM_GAP)))
+    );
+  };
+
+  useEffect(() => {
+    detectKeyboard();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
+      <Animated.View style={[styles.innerContainer, containerStyle]}>
         <View style={styles.overlay} />
         <View style={styles.tabsContainer}>
           {state.routes.map((route, index) => {
@@ -145,6 +185,7 @@ const FancyBottomTab = ({
                 onPress={onPress}
                 onLongPress={onLongPress}
                 style={styles.tabContainer}
+                key={`${label}`}
               >
                 <View
                   style={[
@@ -170,7 +211,7 @@ const FancyBottomTab = ({
             );
           })}
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 };

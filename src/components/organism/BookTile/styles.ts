@@ -36,4 +36,6 @@ const styles = StyleSheet.create({
   },
 });
 
+export { TILE_WIDTH, TILE_HEIGHT };
+
 export default styles;

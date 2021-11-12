@@ -11,6 +11,7 @@ import Hero1 from "./Hero1.png";
 import Hero2 from "./Hero2.png";
 import Hero3 from "./Hero3.png";
 import Hero4 from "./Hero4.png";
+import BgHeader1 from "./bg-header1.png";
 
 export {
   Banner1,
@@ -26,4 +27,5 @@ export {
   Hero2,
   Hero3,
   Hero4,
+  BgHeader1
 };

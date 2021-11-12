@@ -11,6 +11,7 @@ import {
   TextItem,
 } from "@components";
 import {
+  pages,
   primaryColor,
   skeleton,
   snackState as ss,
@@ -33,7 +34,7 @@ import {
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
 
-const Home = () => {
+const Home = ({navigation}: any) => {
   const {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
@@ -172,6 +173,7 @@ const Home = () => {
             name={profile?.firstName}
             uri=""
             onBellPress={() => logger("bell pressed")}
+            onPressProfile={()=> navigation.navigate(pages.AccountSettings)}
           />
           <View>
             <View style={styles.dummyHeader} />
@@ -213,7 +215,9 @@ const Home = () => {
             />
             <Gap vertical={sp.sl} />
             <View style={styles.clickTitle}>
-              <TextItem type="b.24.nc.90">{strings.recommendedBook}</TextItem>
+              <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
+                {strings.recommendedBook}
+              </TextItem>
               <Gap horizontal={20} />
               <Button>
                 <TextItem type="b.14.nc.90" style={styles.underline}>
@@ -256,6 +260,7 @@ const Home = () => {
               />
             </Gap>
           </View>
+          <Gap vertical={sp.xxl} />
         </DummyFlatList>
       </SkeletonContent>
     </Base>
