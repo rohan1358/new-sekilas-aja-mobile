@@ -8,7 +8,13 @@ import {
   TextItem,
   TitleTap,
 } from "@components";
-import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
+import {
+  pages,
+  primaryColor,
+  skeleton,
+  spacing as sp,
+  strings,
+} from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -28,6 +34,7 @@ import {
 } from "../../services";
 import { dummyChips } from "./dummy";
 import styles from "./styles";
+import { ExploreProps } from "./types";
 
 const boundary =
   dummyChips.length % 2 === 0
@@ -45,7 +52,7 @@ const topHeaderGap = sp.m;
 
 const flatlistSecondGap = sp.sl * 2;
 
-const Explore = () => {
+const Explore = ({ navigation }: ExploreProps) => {
   const isMounted = useRef<boolean>();
   const searchRef = useRef<any>();
 
@@ -161,11 +168,7 @@ const Explore = () => {
           <Gap vertical={bottomHeaderGap} />
           <ExploreSearch
             cameraPress={() => logger("camera")}
-            closePress={closePress}
-            onChangeText={setKeyword}
-            position={cameraPosition}
-            keyword={keyword}
-            ref={searchRef}
+            onPress={() => navigation.navigate(pages.Search)}
           />
           <Gap vertical={sp.sm} />
         </Animated.View>

@@ -1,25 +1,29 @@
+import About from "./About";
+import AccountSettings from "./AccountSettings";
+import Category from "./Category";
 import Explore from "./Explore";
 import Home from "./Home";
 import Library from "./Library";
+import NotifSettings from "./NotifSettings";
+import Onboarding from "./Onboarding";
+import PageEditProfile from "./PageEditProfile";
+import Profile from "./Profile";
+import Search from "./Search";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import Onboarding from "./Onboarding";
-import AccountSettings from "./AccountSettings";
-import About from "./About";
-import Profile from "./Profile";
-import PageEditProfile from "./PageEditProfile";
-import NotifSettings from "./NotifSettings";
 
 export {
-    Explore,
-    Home,
-    Library,
-    SignIn,
-    SignUp,
-    Onboarding,
-    AccountSettings,
-    About,
-    Profile,
-    PageEditProfile,
-    NotifSettings,
+  About,
+  AccountSettings,
+  Category,
+  Explore,
+  Home,
+  Library,
+  NotifSettings,
+  Onboarding,
+  PageEditProfile,
+  Profile,
+  Search,
+  SignIn,
+  SignUp,
 };

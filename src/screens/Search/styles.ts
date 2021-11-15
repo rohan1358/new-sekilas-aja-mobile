@@ -1,5 +1,7 @@
-import { neutralColor } from "@constants";
+import { neutralColor, primaryColor, spacing as sp } from "@constants";
 import { StyleSheet } from "react-native";
+
+const CONTAINER_RADIUS = 24;
 
 const styles = StyleSheet.create({
   boxes: { flexDirection: "row", width: 48 },
@@ -8,6 +10,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 12,
     overflow: "hidden",
+    flex: 1,
+  },
+
+  columnWrapperStyle: { justifyContent: "space-between" },
+  container: {
+    backgroundColor: primaryColor.main,
+    paddingHorizontal: sp.sl,
+    borderBottomLeftRadius: CONTAINER_RADIUS,
+    borderBottomRightRadius: CONTAINER_RADIUS,
+    zIndex: 2,
   },
 
   iconContainer: {
@@ -16,12 +28,6 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: "center",
     alignItems: "center",
-  },
-  input: {
-    height: 48,
-    backgroundColor: neutralColor[10],
-    justifyContent: "center",
-    flex: 1,
   },
   inputStyle: { paddingLeft: 0 },
   inputContainerStyle: { flex: 1 },
@@ -34,6 +40,10 @@ const styles = StyleSheet.create({
   primaryIcon: {
     backgroundColor: neutralColor[90],
   },
+
+  row: { flexDirection: "row" },
+
+  skeleton: { flex: 1 },
 });
 
 export default styles;

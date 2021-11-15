@@ -1,7 +1,13 @@
 import { StyleSheet } from "react-native";
-import { dangerColor, neutralColor, successColor } from "../../../constants";
+import { dangerColor, successColor } from "../../../constants";
 
-const styles = ({ snackType }: { snackType: "success" | "fail" | undefined }) =>
+const styles = ({
+  snackType,
+  backgroundColor,
+}: {
+  snackType: "success" | "fail" | undefined;
+  backgroundColor: string;
+}) =>
   StyleSheet.create({
     container: {
       top: 0,
@@ -9,7 +15,7 @@ const styles = ({ snackType }: { snackType: "success" | "fail" | undefined }) =>
       left: 0,
       right: 0,
       position: "absolute",
-      backgroundColor: neutralColor[10],
+      backgroundColor,
     },
 
     snack: {

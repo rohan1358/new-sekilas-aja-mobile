@@ -11,8 +11,9 @@ const Base = ({
   setSnackState,
   barColor = neutralColor[10],
   barStyle = "dark-content",
+  backgroundColor = neutralColor[10],
 }: PropsWithChildren<BaseProps>) => {
-  const s = styles({ snackType: snackState?.type });
+  const s = styles({ snackType: snackState?.type, backgroundColor });
   return (
     <GestureHandlerRootView style={s.container}>
       <StatusBar backgroundColor={barColor} barStyle={barStyle} />
