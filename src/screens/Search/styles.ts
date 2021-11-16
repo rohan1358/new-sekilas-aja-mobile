@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  categoriesContainer: {
+    backgroundColor: neutralColor[10],
+    padding: sp.sl,
+  },
+  categoriesWrapper: { flexDirection: "row", flexWrap: "wrap" },
+  chipsContainer: { flexDirection: "row" },
   columnWrapperStyle: { justifyContent: "space-between" },
   container: {
     backgroundColor: primaryColor.main,

@@ -1,6 +1,4 @@
 import { ArrowLeft, CloseX, Search } from "@assets";
-import { Button } from "../../atom";
-import { TextField } from "../../molecule";
 import { neutralColor, strings } from "@constants";
 import React, { forwardRef, useEffect } from "react";
 import { View } from "react-native";
@@ -9,6 +7,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { Button } from "../../atom";
+import { TextField } from "../../molecule";
 import styles from "./styles";
 import { SearchHeaderProps } from "./types";
 

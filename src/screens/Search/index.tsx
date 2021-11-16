@@ -1,9 +1,10 @@
 import { Base, Button, Chips, Gap, SearchHeader, TextItem } from "@components";
-import { neutralColor, primaryColor, spacing as sp } from "@constants";
+import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
 import React, { useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { categories } from "../../../assets/dummy";
 import { logger } from "../../helpers/helper";
+import styles from "./styles";
 
 const Search = () => {
   const searchRef = useRef<any>();
@@ -50,19 +51,13 @@ const Search = () => {
           </TextItem>
         </View>
         <Gap vertical={sp.sm} />
-        <View
-          style={{
-            backgroundColor: neutralColor[10],
-            paddingHorizontal: sp.sl,
-            paddingVertical: sp.sm,
-          }}
-        >
-          <TextItem type="b.24.nc.90">Kategori Buku</TextItem>
+        <View style={styles.categoriesContainer}>
+          <TextItem type="b.24.nc.90.c">{strings.bookCategory}</TextItem>
           <Gap vertical={sp.sm} />
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+          <View style={styles.categoriesWrapper}>
             {categories.map((item) => (
               <View key={`${item.label}`}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={styles.chipsContainer}>
                   <Chips
                     label={item.label}
                     id={item.id}
