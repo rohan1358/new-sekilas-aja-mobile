@@ -1,94 +1,82 @@
-import { ArrowLeft, CloseX, Search as SearchIcon } from "@assets";
-import { Base, Button, Gap, TextField, TextItem } from "@components";
-import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
-import React from "react";
-import { View } from "react-native";
-import Animated from "react-native-reanimated";
-import styles from "./styles";
+import { Base, Button, Chips, Gap, SearchHeader, TextItem } from "@components";
+import { neutralColor, primaryColor, spacing as sp } from "@constants";
+import React, { useRef, useState } from "react";
+import { ScrollView, View } from "react-native";
+import { categories } from "../../../assets/dummy";
+import { logger } from "../../helpers/helper";
 
 const Search = () => {
+  const searchRef = useRef<any>();
+  const [keyword, setKeyword] = useState<string>();
+
+  const closePress = () => {
+    setKeyword("");
+    searchRef.current?.clear();
+  };
+
   return (
     <Base barColor={primaryColor.main} backgroundColor={neutralColor[20]}>
-      <View
-        style={{
-          flexDirection: "row",
-          paddingRight: sp.sl,
-          paddingLeft: sp.sm,
-          paddingVertical: 10,
-          backgroundColor: primaryColor.main,
-          borderBottomLeftRadius: 24,
-          borderBottomRightRadius: 24,
-        }}
-      >
+      <SearchHeader
+        keyword={keyword}
+        onChangeText={setKeyword}
+        closePress={closePress}
+        ref={searchRef}
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
-            width: 48,
-            height: 48,
-            justifyContent: "center",
+            backgroundColor: neutralColor[10],
+            paddingHorizontal: sp.sl,
+            paddingVertical: sp.sm,
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <ArrowLeft stroke={neutralColor[90]} width={24} height={24} />
+          <TextItem type="b.24.nc.90">Pencarian terbaru</TextItem>
+          <Button>
+            <TextItem type="b.14.dc.main">Hapus</TextItem>
+          </Button>
         </View>
-        <View style={styles.boxesContainer}>
-          <View style={styles.iconContainer}>
-            <SearchIcon stroke={neutralColor[90]} />
-          </View>
-          <TextField
-            placeholder={strings.findFavBookPlaceholder}
-            containerStyle={styles.inputContainerStyle}
-            noBottomGap
-            innerContainerStyle={styles.inputInnerContainerStyle}
-            inputStyle={styles.inputStyle}
-            // onChangeText={onChangeText}
-            // defaultValue={keyword}
-            // ref={ref}
-          />
-          <View style={styles.iconContainer}>
-            <Animated.View>
-              <Button>
-                <CloseX stroke={neutralColor[90]} />
-              </Button>
-            </Animated.View>
+        <View
+          style={{
+            backgroundColor: neutralColor[10],
+            paddingHorizontal: sp.sl,
+            paddingVertical: sp.l,
+          }}
+        >
+          <TextItem type="r.16.nc.70">
+            Saat ini kamu tidak memiliki pencarian terbaru
+          </TextItem>
+        </View>
+        <Gap vertical={sp.sm} />
+        <View
+          style={{
+            backgroundColor: neutralColor[10],
+            paddingHorizontal: sp.sl,
+            paddingVertical: sp.sm,
+          }}
+        >
+          <TextItem type="b.24.nc.90">Kategori Buku</TextItem>
+          <Gap vertical={sp.sm} />
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            {categories.map((item) => (
+              <View key={`${item.label}`}>
+                <View style={{ flexDirection: "row" }}>
+                  <Chips
+                    label={item.label}
+                    id={item.id}
+                    Icon={item.Icon}
+                    onPress={() => logger("test")}
+                  />
+                  <Gap horizontal={sp.xs} />
+                </View>
+                <Gap vertical={sp.sm} />
+              </View>
+            ))}
           </View>
         </View>
-      </View>
-      <View
-        style={{
-          backgroundColor: neutralColor[10],
-          paddingHorizontal: sp.sl,
-          paddingVertical: sp.sm,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TextItem type="b.24.nc.90">Pencarian terbaru</TextItem>
-        <Button>
-          <TextItem type="b.14.dc.main">Hapus</TextItem>
-        </Button>
-      </View>
-      <View
-        style={{
-          backgroundColor: neutralColor[10],
-          paddingHorizontal: sp.sl,
-          paddingVertical: sp.l,
-        }}
-      >
-        <TextItem type="r.16.nc.70">
-          Saat ini kamu tidak memiliki pencarian terbaru
-        </TextItem>
-      </View>
-      <Gap vertical={sp.sm} />
-      <View
-        style={{
-          backgroundColor: neutralColor[10],
-          paddingHorizontal: sp.sl,
-          paddingVertical: sp.sm,
-        }}
-      >
-        <TextItem type="b.24.nc.90">Kategori Buku</TextItem>
-      </View>
+      </ScrollView>
     </Base>
   );
 };

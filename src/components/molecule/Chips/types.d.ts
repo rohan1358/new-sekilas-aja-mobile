@@ -1,5 +1,5 @@
 interface ChipsProps {
-  isSelected: boolean;
+  isSelected?: boolean;
   onPress(id: string): void;
   id: string;
   label: string;

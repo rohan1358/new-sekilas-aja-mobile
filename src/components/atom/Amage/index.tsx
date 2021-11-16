@@ -1,9 +1,11 @@
 import { primaryColor } from "@constants";
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import Animated, {
   useAnimatedStyle,
+  useSharedValue,
+  withDelay,
   withTiming,
 } from "react-native-reanimated";
 import { SelfDevImg } from "../../../../assets";
@@ -14,15 +16,24 @@ const Amage = ({
   source,
   style,
   placeholder = SelfDevImg,
-  resizeMode,
+  ...props
 }: AmageProps) => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const ready = useSharedValue(1);
 
   const src = !!source ? { uri: source } : placeholder;
 
   const imageStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: isLoaded ? withTiming(1) : withTiming(0.8) }],
+    transform: [
+      { scale: ready.value ? withTiming(0.8) : withDelay(200, withTiming(1)) },
+    ],
+    opacity: ready.value ? withTiming(0) : withTiming(1),
   }));
+
+  const overlayStyle = useAnimatedStyle(() => ({
+    opacity: ready.value,
+  }));
+
+  const onLoad = () => (ready.value = withTiming(0));
 
   return (
     <View style={[styles.container, style]}>
@@ -30,14 +41,12 @@ const Amage = ({
         source={src}
         style={[styles.image, imageStyle]}
         resizeMethod="resize"
-        onLoad={() => setIsLoaded(true)}
-        resizeMode={resizeMode}
+        onLoad={onLoad}
+        {...props}
       />
-      {!isLoaded && (
-        <View style={[styles.container, styles.overlay]}>
-          <ActivityIndicator size="small" color={primaryColor.main} />
-        </View>
-      )}
+      <Animated.View style={[styles.container, styles.overlay, overlayStyle]}>
+        <ActivityIndicator size="small" color={primaryColor.main} />
+      </Animated.View>
     </View>
   );
 };

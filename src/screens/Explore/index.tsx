@@ -26,23 +26,23 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { categories } from "../../../assets/dummy";
 import { heightPercent, logger } from "../../helpers/helper";
 import {
   fetchRecommendedBooks,
   fetchReleasedBooks,
   fetchTrendBooks,
 } from "../../services";
-import { dummyChips } from "./dummy";
 import styles from "./styles";
 import { ExploreProps } from "./types";
 
 const boundary =
-  dummyChips.length % 2 === 0
-    ? dummyChips.length / 2
-    : Math.ceil(dummyChips.length / 2);
+  categories.length % 2 === 0
+    ? categories.length / 2
+    : Math.ceil(categories.length / 2);
 
-const bottomChips = dummyChips.slice(boundary, dummyChips.length + 1);
-const topChips = dummyChips.slice(0, boundary);
+const bottomChips = categories.slice(boundary, categories.length + 1);
+const topChips = categories.slice(0, boundary);
 
 const HORIZONTAL_GAP = sp.sl * 2;
 
