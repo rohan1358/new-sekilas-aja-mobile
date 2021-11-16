@@ -22,7 +22,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logger } from "../../helpers/helper";
 import { ReduxState } from "../../redux/reducers";
 import {
@@ -34,11 +34,15 @@ import {
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
 
+import { setProfileRedux } from '../../redux/actions';
+
 const Home = ({navigation}: any) => {
   const {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
   const isMounted = useRef<boolean>();
+
+  const dispatch = useDispatch()
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [profile, setProfile] = useState<ProfileProps>();
@@ -120,6 +124,7 @@ const Home = ({navigation}: any) => {
       }
       if (profileData.isSuccess) {
         setProfile(profileData.data);
+        dispatch(setProfileRedux(profileData.data))
       } else {
         throw new Error("Fail on fetching profile data");
       }

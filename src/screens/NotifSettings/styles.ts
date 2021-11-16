@@ -79,17 +79,20 @@ const styles = StyleSheet.create({
     },
 
     boxAction: {
-        paddingHorizontal: 0
+        paddingHorizontal: 0,
     },
 
     btnAction: {
         flex: 1,
         alignItems: 'center',
         paddingVertical: 6,
+        borderTopWidth: 1,
+        borderColor: neutralColor[30]
     },
 
     btnSimpan: {
-        backgroundColor: neutralColor[90]
+        backgroundColor: neutralColor[90],
+        borderColor: neutralColor[90]
     }
 
 })
