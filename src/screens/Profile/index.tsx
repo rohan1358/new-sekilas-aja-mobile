@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '../../redux/reducers';
 import RBSheet from "react-native-raw-bottom-sheet";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import { loggingIn } from '../../redux/actions';
+import { loggingIn, setProfileRedux } from '../../redux/actions';
 import { CommonActions } from '@react-navigation/routers';
 
 
@@ -107,6 +107,7 @@ export default function Profile({ navigation }: any) {
   const logOut = () => {
     setModalAlert(!modalAlert);
     dispatch(loggingIn({ isLogin: false, email: '' }));
+    dispatch(setProfileRedux(null))
     navigation.dispatch(
       CommonActions.reset({
         index: 1,

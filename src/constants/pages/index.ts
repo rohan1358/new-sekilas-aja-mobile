@@ -20,4 +20,5 @@ export const pages = {
   PageEditProfile: "PageEditProfile",
 
   NotifSettings: "NotifSettings",
+  Notification: "Notification",
 };

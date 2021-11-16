@@ -7,6 +7,7 @@ import MiniCollectionTile from "./MiniCollectionTile";
 import OngoingTile from "./OngoingTile";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
+import HeaderNotification from "./HeaderNotification";
 
 export {
   AboutHeader,
@@ -18,4 +19,5 @@ export {
   OngoingTile,
   PagesOnboarding,
   ProfileHeader,
+  HeaderNotification,
 };

@@ -177,7 +177,7 @@ const Home = ({navigation}: any) => {
           <HomeHeader
             name={profile?.firstName}
             uri=""
-            onBellPress={() => logger("bell pressed")}
+            onBellPress={() => navigation.navigate(pages.Notification)}
             onPressProfile={()=> navigation.navigate(pages.AccountSettings)}
           />
           <View>
