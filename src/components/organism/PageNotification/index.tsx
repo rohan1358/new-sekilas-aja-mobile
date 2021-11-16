@@ -1,7 +1,5 @@
-import CardPromo from './CardPromo';
-import CardRiwayat from './CardRiwayat';
+import Card from './Card';
 
 export {
-    CardPromo,
-    CardRiwayat,
+    Card,
 }

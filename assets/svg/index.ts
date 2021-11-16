@@ -42,6 +42,8 @@ import SearchDollar from "./SearchDollar.svg";
 import Suitcase from "./Suitcase.svg";
 import Tree from "./Tree.svg";
 import YinYang from "./YinYang.svg";
+import PromoEmpty from "./PromoEmpty.svg";
+import RiwayatEmpty from "./RiwayatEmpty.svg";
 
 export {
   Alert,
@@ -88,4 +90,6 @@ export {
   Suitcase,
   Tree,
   YinYang,
+  PromoEmpty,
+  RiwayatEmpty,
 };

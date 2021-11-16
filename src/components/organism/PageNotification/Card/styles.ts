@@ -49,6 +49,24 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#CB3168'
     },
+
+    boxImage: {
+        width: '100%',
+        height: 168,
+        overflow: 'hidden',
+        borderRadius: 16,
+        marginBottom: 8,
+    },
+
+    image: {
+        width: '100%',
+        height: '100%',
+        resizeMode:"cover"
+    },
+
+    boxImageAnActive: {
+        opacity: 0.6
+    }
 })
 
 export default styles;

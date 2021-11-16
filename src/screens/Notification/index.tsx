@@ -14,7 +14,9 @@ import {
 } from "@constants";
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { CardRiwayat, CardPromo } from '../../components/organism/PageNotification';
+import { Card } from '../../components/organism/PageNotification';
+import { RiwayatEmpty, PromoEmpty } from '@assets';
+import {Notif1, Notif2} from '../../../assets/images'
 
 const dummyRiwayat = [
   {
@@ -33,6 +35,27 @@ const dummyRiwayat = [
   },
 ]
 
+const dummyPromo = [
+  {
+    id: 1,
+    title: 'DISKON AKHIR BULAN!!!',
+    text: 'Dapetin diskon sebesar 20% untuk berlangganan paket 1 Tahun di SekilasAja dengan menggunakan kode voucher ini, #BACAITUBAIK',
+    time: 'Notifikasi 15 menit yang lalu.',
+    status: true,
+    image: Notif1
+  },
+  {
+    id: 2,
+    title: 'Baca semua ringkasan buku dalam satu aplikasi!',
+    text: 'Dengan berlangganan hanya Rp25.000/Bulan  di SekilasAja kamu akan mendapatkan beragam pengetahuan!',
+    time: 'Notifikasi 7 hari yang lalu.',
+    status: false,
+    image: Notif2
+  },
+]
+
+// const dummyRiwayat = []
+
 export default function Notification({navigation}: any) {
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -43,12 +66,17 @@ export default function Notification({navigation}: any) {
     <DummyFlatList style={{ flex: 1, backgroundColor: 'white' }} >
       <View>
         {
+          dummyRiwayat.length > 0 ?
           dummyRiwayat.map((item, index) => (
-            <CardRiwayat
-              key={index}
-              item={item}
-            />
-          ))
+            <Card
+                key={index}
+                item={item}
+              />
+            ))
+            :
+            <View style={styles.riwayatEmpty}>
+              <RiwayatEmpty />
+            </View>
         }
       </View>
     </DummyFlatList>
@@ -57,7 +85,19 @@ export default function Notification({navigation}: any) {
   const Promo = () => (
     <DummyFlatList style={{ flex: 1, backgroundColor: 'white' }} >
       <View>
-        <CardPromo />
+        {
+          dummyPromo.length > 0 ?
+            dummyPromo.map((item, index) => (
+              <Card
+                key={index}
+                item={item}
+              />
+            ))
+            :
+            <View style={styles.riwayatEmpty}>
+              <PromoEmpty />
+            </View>
+        }
       </View>
     </DummyFlatList>
   );
