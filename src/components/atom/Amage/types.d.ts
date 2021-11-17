@@ -1,4 +1,4 @@
-import { ImageProps, ImageStyle, StyleProp, ViewStyle } from "react-native";
+import { ImageProps, ImageStyle, StyleProp } from "react-native";
 
 type AmageImage = Omit<ImageProps, "source">;
 

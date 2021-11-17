@@ -8,19 +8,11 @@ import {
   TextItem,
   TitleTap,
 } from "@components";
-import {
-  pages,
-  primaryColor,
-  skeleton,
-  spacing as sp,
-  strings,
-} from "@constants";
+import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated, {
-  Extrapolate,
-  interpolate,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -51,6 +43,22 @@ const bottomNavHeight = 64;
 const topHeaderGap = sp.m;
 
 const flatlistSecondGap = sp.sl * 2;
+
+const CategoryChips = ({
+  item,
+  index,
+  onPress,
+}: {
+  item: { id: string; label: string; Icon: any };
+  index: number;
+  onPress(arg0: string): void;
+}) => (
+  <View key={item.id} style={styles.row}>
+    {index == 0 && <Gap horizontal={sp.sl} />}
+    <Chips label={item.label} id={item.id} Icon={item.Icon} onPress={onPress} />
+    <Gap horizontal={index === boundary - 1 ? sp.sl : sp.xs} />
+  </View>
+);
 
 const Explore = ({ navigation }: ExploreProps) => {
   const isMounted = useRef<boolean>();
@@ -168,7 +176,7 @@ const Explore = ({ navigation }: ExploreProps) => {
           <Gap vertical={bottomHeaderGap} />
           <ExploreSearch
             cameraPress={() => logger("camera")}
-            onPress={() => navigation.navigate(pages.Search)}
+            onPress={() => navigation.navigate("Search")}
           />
           <Gap vertical={sp.sm} />
         </Animated.View>
@@ -179,7 +187,7 @@ const Explore = ({ navigation }: ExploreProps) => {
           }}
         >
           <DummyFlatList
-            onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
+            onScroll={(event) =>
               (scrollY.value = event.nativeEvent.contentOffset.y)
             }
             scrollEventThrottle={16}
@@ -193,68 +201,38 @@ const Explore = ({ navigation }: ExploreProps) => {
               <View>
                 <View style={styles.row}>
                   {topChips.map((item, index) => {
-                    const isSelected =
-                      selectedCategories.findIndex(
-                        (value) => value === item.id
-                      ) !== -1;
-
                     const onPress = (id: string) =>
-                      setSelectedCategories((current) => {
-                        const index = current?.findIndex((item) => item === id);
-                        if (index === -1) {
-                          return [...current, id];
-                        }
-                        return current?.filter((item) => item !== id);
+                      navigation.navigate("Category", {
+                        type: "category",
+                        title: item.label,
+                        payload: id,
                       });
-
                     return (
-                      <View key={item.id} style={styles.row}>
-                        {index == 0 && <Gap horizontal={sp.sl} />}
-                        <Chips
-                          label={item.label}
-                          id={item.id}
-                          Icon={item.Icon}
-                          isSelected={isSelected}
-                          onPress={onPress}
-                        />
-                        <Gap
-                          horizontal={index === boundary - 1 ? sp.sl : sp.xs}
-                        />
-                      </View>
+                      <CategoryChips
+                        onPress={onPress}
+                        index={index}
+                        item={item}
+                        key={item.id}
+                      />
                     );
                   })}
                 </View>
                 <Gap vertical={sp.sm} />
                 <View style={styles.row}>
                   {bottomChips.map((item, index) => {
-                    const isSelected =
-                      selectedCategories.findIndex(
-                        (value) => value === item.id
-                      ) !== -1;
-
                     const onPress = (id: string) =>
-                      setSelectedCategories((current) => {
-                        const index = current?.findIndex((item) => item === id);
-                        if (index === -1) {
-                          return [...current, id];
-                        }
-                        return current?.filter((item) => item !== id);
+                      navigation.navigate("Category", {
+                        type: "category",
+                        title: item.label,
+                        payload: id,
                       });
-
                     return (
-                      <View key={item.id} style={styles.row}>
-                        {index == 0 && <Gap horizontal={sp.sl} />}
-                        <Chips
-                          label={item.label}
-                          id={item.id}
-                          Icon={item.Icon}
-                          isSelected={isSelected}
-                          onPress={onPress}
-                        />
-                        <Gap
-                          horizontal={index === boundary - 1 ? sp.sl : sp.xs}
-                        />
-                      </View>
+                      <CategoryChips
+                        onPress={onPress}
+                        index={index}
+                        item={item}
+                        key={item.id}
+                      />
                     );
                   })}
                 </View>
