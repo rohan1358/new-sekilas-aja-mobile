@@ -10,7 +10,13 @@ import {
   TextIcon,
   TextItem,
 } from "@components";
-import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
+import {
+  neutralColor,
+  pages,
+  primaryColor,
+  spacing as sp,
+  strings,
+} from "@constants";
 import React, { useMemo, useRef, useState } from "react";
 import { FlatList, Keyboard, ScrollView, View } from "react-native";
 import { categories } from "../../../assets/dummy";
@@ -142,7 +148,7 @@ const Search = ({ navigation }: SearchProps) => {
                         label={item.label}
                         id={item.id}
                         Icon={item.Icon}
-                        onPress={() => logger("test")}
+                        onPress={() => navigation.navigate(pages.Category)}
                       />
                       <Gap horizontal={sp.xs} />
                     </View>
