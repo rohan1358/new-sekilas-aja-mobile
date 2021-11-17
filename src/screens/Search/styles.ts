@@ -28,6 +28,11 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
 
+  emptySearch: {
+    paddingHorizontal: sp.sl,
+    paddingVertical: sp.l,
+  },
+
   iconContainer: {
     backgroundColor: neutralColor[10],
     width: 48,
@@ -41,6 +46,17 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: neutralColor[10],
     borderRadius: 0,
+  },
+
+  newSearchContainer: {
+    backgroundColor: neutralColor[10],
+  },
+  newSearchText: {
+    paddingHorizontal: sp.sl,
+    paddingVertical: sp.sm,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   primaryIcon: {

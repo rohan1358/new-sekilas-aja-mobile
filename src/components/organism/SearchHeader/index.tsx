@@ -15,7 +15,7 @@ import { SearchHeaderProps } from "./types";
 const X_INITIAL = 56;
 
 const SearchHeader = forwardRef<any, SearchHeaderProps>(
-  ({ keyword, closePress, ...props }, ref) => {
+  ({ keyword, closePress, backPress, ...props }, ref) => {
     const xPosition = useSharedValue(X_INITIAL);
 
     const closeStyle = useAnimatedStyle(() => ({
@@ -34,9 +34,12 @@ const SearchHeader = forwardRef<any, SearchHeaderProps>(
 
     return (
       <View style={styles.container}>
-        <View style={[styles.iconContainer, styles.primaryIcon]}>
+        <Button
+          style={[styles.iconContainer, styles.primaryIcon]}
+          onPress={backPress}
+        >
           <ArrowLeft stroke={neutralColor[90]} width={24} height={24} />
-        </View>
+        </Button>
         <View style={styles.boxesContainer}>
           <View style={styles.iconContainer}>
             <Search stroke={neutralColor[90]} />
