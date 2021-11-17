@@ -30,7 +30,11 @@ const fetchBooks = () => {
   });
 };
 
-const fetchCategorizedBooks = ({ category }: { category: string }) => {
+const fetchCategorizedBooks = ({
+  category,
+}: {
+  category: string | undefined;
+}) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       const raw = await firestore()

@@ -6,8 +6,10 @@ import auth from "@react-native-firebase/auth";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./src/redux/store";
+import { LogBox } from "react-native";
 
 const App = () => {
+  LogBox.ignoreLogs(["Require cycle", "Consider refactoring to remove"]);
   const [initializing, setInitializing] = useState(true);
   function onAuthStateChanged() {
     if (initializing) {

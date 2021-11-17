@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { neutralColor, snackState as ss } from "../../../constants";
-import { Header } from "../../molecule";
+import Header from "../Header";
 import styles from "./styles";
 import { Snackbar } from "react-native-paper";
 

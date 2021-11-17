@@ -4,7 +4,7 @@ type RootStackParamList = {
   Home: undefined;
   About: undefined;
   AccountSettings: undefined;
-  Category: { type: string };
+  Category: { type: string; title: string; payload: string | undefined };
   NotifSettings: undefined;
   PageEditProfile: undefined;
   Profile: undefined;

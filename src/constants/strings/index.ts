@@ -5,6 +5,7 @@ export const strings = {
   bookCollections: "Koleksi buku",
   bookCollectionsDesc:
     "Koleksi sejumlah buku berdasarkan kategori yang kamu minati.",
+  booksNotFound: "Buku yang kamu cari tidak ditemukan",
 
   continueReading: "Lanjutkan membaca",
 
@@ -45,6 +46,7 @@ export const strings = {
   namePlaceholder: "Isi nama disini ...",
   newRelease: "Baru rilis",
   newSearch: "Pencarian terbaru",
+  noBook: "Buku Tidak Ada",
 
   passwordCantBeEmpty: "Password tidak boleh kosong",
   passwordDontMatch: "Password tidak sama",

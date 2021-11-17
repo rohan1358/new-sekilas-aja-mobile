@@ -1,5 +1,5 @@
 import { ArrowLeft } from "@assets";
-import { Gap, TextItem, Button } from "../../atom";
+import { Gap, TextItem, Button } from "..";
 import { neutralColor, spacing as sp } from "@constants";
 import React from "react";
 import { View } from "react-native";

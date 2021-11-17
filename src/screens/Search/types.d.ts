@@ -1,5 +1,5 @@
-import { CompositeNavigationProp } from "@react-navigation/core";
+import { StackScreenProps } from "@react-navigation/stack";
 
-interface SearchProps {
-  navigation: CompositeNavigationProp<any, any>;
-}
+type Props = StackScreenProps<RootStackParamList, "Search">;
+
+interface SearchProps extends Props {}

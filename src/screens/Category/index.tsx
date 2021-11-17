@@ -1,8 +1,9 @@
 import { ArrowLeft } from "@assets";
-import { Base, BookTile, Gap, TextItem } from "@components";
-import { neutralColor, spacing as sp } from "@constants";
-import React, { useEffect, useState } from "react";
+import { Base, BookTile, EmptyPlaceholder, Gap, TextItem } from "@components";
+import { neutralColor, skeleton, spacing as sp, strings } from "@constants";
+import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { flatCategories } from "../../../assets/dummy/flatCategories";
 import { heightPercent, logger, winHeightPercent } from "../../helpers/helper";
 import { fetchCategorizedBooks } from "../../services";
@@ -10,68 +11,83 @@ import styles from "./styles";
 import { CategoryProps } from "./types";
 
 const Category = ({ navigation, route }: CategoryProps) => {
-  const [books, setBooks] = useState<any[]>();
+  const isMounted = useRef<boolean>();
+
+  const [books, setBooks] = useState<CompactBooksProps[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getBooks = async () => {
+    setIsLoading(true);
     try {
-      const { data } = await fetchCategorizedBooks({
-        category: flatCategories[1],
+      const { data, isSuccess } = await fetchCategorizedBooks({
+        category: route.params?.payload,
       });
+      if (!isMounted.current) {
+        return;
+      }
+      if (!isSuccess) {
+        return;
+      }
       setBooks(data);
     } catch (error) {
       logger(`Category, getBooks()`, error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const headerState = {
+    visible: true,
+    title: route.params?.title,
+    onBackPress: () => navigation.goBack(),
+  };
+
+  const keyExtractor = ({ id }: { id: string | number }) => `${id}`;
+
+  const ListEmptyComponent = (
+    <EmptyPlaceholder title={strings.noBook} subtitle={strings.booksNotFound} />
+  );
+
+  const renderItem = ({ item }: { item: CompactBooksProps }) => (
+    <View>
+      <BookTile
+        title={item?.book_title}
+        author={`${item?.author}`}
+        duration={item?.read_time}
+        cover={item?.book_cover}
+      />
+      <Gap vertical={sp.sl} />
+    </View>
+  );
+
   useEffect(() => {
-    // getBooks();
+    isMounted.current = true;
+    getBooks();
+
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   return (
-    <Base
-      headerState={{
-        visible: true,
-        title: "Buku Serupa",
-        onBackPress: () => navigation.goBack(),
-      }}
-    >
-      <FlatList
-        data={[]}
-        keyExtractor={({ id }: { id: string | number }) => `${id}`}
-        numColumns={2}
-        renderItem={({ item }: { item: CompactBooksProps }) => (
-          <View>
-            <BookTile
-              title={item?.book_title}
-              author={`${item?.author}`}
-              duration={item?.read_time}
-              cover={item?.book_cover}
-            />
-            <Gap vertical={sp.sl} />
-          </View>
-        )}
-        columnWrapperStyle={styles.columnWrapperStyle}
-        listKey="mostreadbooklist"
-        contentContainerStyle={{ padding: sp.sl }}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <View
-            style={{
-              width: "100%",
-              height: winHeightPercent(100) - 64 - 32 * 2,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TextItem type="b.24.nc.90" style={{ textAlign: "center" }}>
-              Buku Tidak Ada
-            </TextItem>
-            <TextItem type="r.14.nc.90" style={{ textAlign: "center" }}>
-              Buku yang kamu cari tidak ditemukan
-            </TextItem>
-          </View>
-        }
-      />
+    <Base headerState={headerState}>
+      <SkeletonContent
+        containerStyle={styles.skeleton}
+        isLoading={isLoading}
+        layout={skeleton.mainCategory}
+      >
+        <FlatList
+          data={books}
+          keyExtractor={keyExtractor}
+          numColumns={2}
+          renderItem={renderItem}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          listKey="mostreadbooklist"
+          contentContainerStyle={styles.contentContainerStyle}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={ListEmptyComponent}
+        />
+      </SkeletonContent>
     </Base>
   );
 };

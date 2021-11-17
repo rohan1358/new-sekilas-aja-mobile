@@ -148,7 +148,13 @@ const Search = ({ navigation }: SearchProps) => {
                         label={item.label}
                         id={item.id}
                         Icon={item.Icon}
-                        onPress={() => navigation.navigate(pages.Category)}
+                        onPress={() =>
+                          navigation.navigate("Category", {
+                            type: "category",
+                            title: item.label,
+                            payload: item.id,
+                          })
+                        }
                       />
                       <Gap horizontal={sp.xs} />
                     </View>

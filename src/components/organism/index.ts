@@ -1,5 +1,6 @@
 import AboutHeader from "./AboutHeader";
 import BookTile from "./BookTile";
+import EmptyPlaceholder from "./EmptyPlaceholder";
 import ExploreSearch from "./ExploreSearch";
 import HomeHeader from "./HomeHeader";
 import ImageBanner from "./ImageBanner";
@@ -12,6 +13,7 @@ import SearchHeader from "./SearchHeader";
 export {
   AboutHeader,
   BookTile,
+  EmptyPlaceholder,
   ExploreSearch,
   HomeHeader,
   ImageBanner,
