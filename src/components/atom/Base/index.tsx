@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from "react";
 import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { neutralColor, snackState as ss } from "../../../constants";
+import { Header } from "../../molecule";
 import styles from "./styles";
 import { Snackbar } from "react-native-paper";
 
@@ -12,11 +13,13 @@ const Base = ({
   barColor = neutralColor[10],
   barStyle = "dark-content",
   backgroundColor = neutralColor[10],
+  headerState,
 }: PropsWithChildren<BaseProps>) => {
   const s = styles({ snackType: snackState?.type, backgroundColor });
   return (
     <GestureHandlerRootView style={s.container}>
       <StatusBar backgroundColor={barColor} barStyle={barStyle} />
+      <Header headerState={headerState} />
       {children}
       <Snackbar
         visible={snackState?.visible || false}

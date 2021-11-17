@@ -4,7 +4,7 @@ import { neutralColor, spacing as sp } from "@constants";
 import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { flatCategories } from "../../../assets/dummy/flatCategories";
-import { logger } from "../../helpers/helper";
+import { heightPercent, logger, winHeightPercent } from "../../helpers/helper";
 import { fetchCategorizedBooks } from "../../services";
 import styles from "./styles";
 import { CategoryProps } from "./types";
@@ -28,34 +28,15 @@ const Category = ({ navigation, route }: CategoryProps) => {
   }, []);
 
   return (
-    <Base>
-      <View
-        style={{
-          height: 64,
-          paddingLeft: 20,
-          paddingRight: sp.sl,
-          flexDirection: "row",
-          alignItems: "center",
-          borderBottomWidth: 1,
-          borderBottomColor: neutralColor[50],
-        }}
-      >
-        <View
-          style={{
-            width: 48,
-            height: 48,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <ArrowLeft stroke={neutralColor[90]} width={24} height={24} />
-        </View>
-        <Gap horizontal={sp.xxs} />
-        <TextItem type="b.20.nc.90.c">Buku Serupa</TextItem>
-      </View>
-
+    <Base
+      headerState={{
+        visible: true,
+        title: "Buku Serupa",
+        onBackPress: () => navigation.goBack(),
+      }}
+    >
       <FlatList
-        data={books}
+        data={[]}
         keyExtractor={({ id }: { id: string | number }) => `${id}`}
         numColumns={2}
         renderItem={({ item }: { item: CompactBooksProps }) => (
@@ -73,6 +54,23 @@ const Category = ({ navigation, route }: CategoryProps) => {
         listKey="mostreadbooklist"
         contentContainerStyle={{ padding: sp.sl }}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <View
+            style={{
+              width: "100%",
+              height: winHeightPercent(100) - 64 - 32 * 2,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TextItem type="b.24.nc.90" style={{ textAlign: "center" }}>
+              Buku Tidak Ada
+            </TextItem>
+            <TextItem type="r.14.nc.90" style={{ textAlign: "center" }}>
+              Buku yang kamu cari tidak ditemukan
+            </TextItem>
+          </View>
+        }
       />
     </Base>
   );
