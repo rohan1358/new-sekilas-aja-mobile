@@ -115,7 +115,6 @@ export default function Notification({navigation}: any) {
 
   const renderTabBar = (props: any) => (
     <TabBar
-    
       {...props}
       activeColor={neutralColor[90]}
       inactiveColor={neutralColor[50]}
@@ -124,7 +123,6 @@ export default function Notification({navigation}: any) {
       labelStyle={{ fontSize: 20, fontWeight: '700', textTransform:'capitalize' }}
     />
   );
-
 
     return (
       <Base
@@ -140,8 +138,6 @@ export default function Notification({navigation}: any) {
           <HeaderNotification
             navigation={navigation}
           />
-          {/* <DummyFlatList>
-          </DummyFlatList> */}
           <TabView
             navigationState={{ index, routes }}
             renderScene={renderScene}

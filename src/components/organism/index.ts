@@ -8,6 +8,7 @@ import OngoingTile from "./OngoingTile";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
 import HeaderNotification from "./HeaderNotification";
+import HeaderBookDetail from "./HeaderBookDetail";
 
 export {
   AboutHeader,
@@ -20,4 +21,5 @@ export {
   PagesOnboarding,
   ProfileHeader,
   HeaderNotification,
+  HeaderBookDetail,
 };

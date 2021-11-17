@@ -21,4 +21,6 @@ export const pages = {
 
   NotifSettings: "NotifSettings",
   Notification: "Notification",
+  
+  BookDetail: "BookDetail",
 };

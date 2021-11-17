@@ -34,6 +34,8 @@ export const strings = {
   
   btn_simpan: 'Simpan',
   btn_batal: 'Batal',
+
+  baca: 'Baca',
   
   continueReading: "Lanjutkan membaca",
   camera_unavailable: 'Kamera tidak tersedia di perangkat',
@@ -43,6 +45,8 @@ export const strings = {
   downloadedBooks: "Buku yang diunduh",
   download_Account: 'Pengaturan Download',
   data_kosong: 'Data kosong',
+  dengar: 'Dengar',
+  daftar_isi: 'Daftar Isi',
   
   emailAddress: "Alamat Email",
   emailCantBeEmpty: "Email tidak boleh kosong",
@@ -75,10 +79,14 @@ export const strings = {
   kualitas: 'Kualitas Audio',
   kualitas_video: 'Kualitas Video',
   kualitas_download: 'Kualitas Download',
+  kategori: 'Kategori',
   
   library: "Bukuku",
   login: "Masuk!",
   loginHere: "Login di sini",
+  lebih_banyak: 'Lihat Lebih Banyak',
+  lebih_sedikit: 'Lihat Lebih Sedikit',
+  lihat_semua: 'Lihat Semua',
   
   mostRead: "Paling banyak dibaca",
   masa_Account: 'Masa Berlaku Premium',
@@ -131,6 +139,8 @@ export const strings = {
   pengingat: 'Pengingat Harian',
   promo_voucher: 'Promo & Voucher',
   password: 'Password',
+  publikasi: 'Negara publikasi : ',
+  penulis: 'Penulis',
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
   
@@ -168,6 +178,11 @@ export const strings = {
   
   text_pengingat: 'Kamu akan diingatkan setiap hari.',
   text_promo: 'Kamu akan diberitahu setiap ada promo diskon atau voucher.',
+  tonton: 'Tonton',
+  tentang_buku: 'Tentang Buku',
+  tgl_release: 'Tanggal Rilis',
+
+  ulasan: 'Ulasan',
   
   video_Account: 'Pengaturan Video',
   video_putar: 'Putar Otomatis',

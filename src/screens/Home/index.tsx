@@ -66,6 +66,7 @@ const Home = ({navigation}: any) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
+        onPress={()=> navigation.navigate(pages.BookDetail, {item})}
       />
       <Gap vertical={sp.sl} />
     </View>

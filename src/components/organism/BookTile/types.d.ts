@@ -3,4 +3,5 @@ interface BookTileProps {
   author: string;
   duration: number;
   cover: string | undefined;
+  onPress: any
 }

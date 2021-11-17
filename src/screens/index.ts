@@ -10,6 +10,7 @@ import Profile from "./Profile";
 import PageEditProfile from "./PageEditProfile";
 import NotifSettings from "./NotifSettings";
 import Notification from "./Notification";
+import BookDetail from "./BookDetail";
 
 export {
     Explore,
@@ -24,4 +25,5 @@ export {
     PageEditProfile,
     NotifSettings,
     Notification,
+    BookDetail,
 };
