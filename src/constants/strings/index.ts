@@ -36,6 +36,7 @@ export const strings = {
   btn_batal: 'Batal',
 
   baca: 'Baca',
+  beri_ulasan: 'Berikan Ulasanmu',
   
   continueReading: "Lanjutkan membaca",
   camera_unavailable: 'Kamera tidak tersedia di perangkat',
@@ -80,6 +81,8 @@ export const strings = {
   kualitas_video: 'Kualitas Video',
   kualitas_download: 'Kualitas Download',
   kategori: 'Kategori',
+  komentar: 'Komentar',
+  kirim: 'Kirim',
   
   library: "Bukuku",
   login: "Masuk!",
@@ -87,6 +90,7 @@ export const strings = {
   lebih_banyak: 'Lihat Lebih Banyak',
   lebih_sedikit: 'Lihat Lebih Sedikit',
   lihat_semua: 'Lihat Semua',
+  lalu:' lalu',
   
   mostRead: "Paling banyak dibaca",
   masa_Account: 'Masa Berlaku Premium',
@@ -141,6 +145,7 @@ export const strings = {
   password: 'Password',
   publikasi: 'Negara publikasi : ',
   penulis: 'Penulis',
+  pembaca: ' pembaca',
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
   
@@ -183,6 +188,7 @@ export const strings = {
   tgl_release: 'Tanggal Rilis',
 
   ulasan: 'Ulasan',
+  ulasan_dari: 'Ulasan dari ',
   
   video_Account: 'Pengaturan Video',
   video_putar: 'Putar Otomatis',

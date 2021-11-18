@@ -17,6 +17,31 @@ const daftarIsi = [
     },
 ]
 
+const comentList = [
+    {
+        id: 1,
+        name: 'Courtney Henry',
+        time: '5 hari',
+        text: 'Ringkasan buku yang luar biasa! Saya jadi melek investasi setelah membaca buku ini..',
+        rating: 4
+    },
+    {
+        id: 2,
+        name: 'Courtney Henry',
+        time: '5 hari',
+        text: 'Ringkasan buku yang luar biasa! Saya jadi melek investasi setelah membaca buku ini..',
+        rating: 5
+    },
+    {
+        id: 3,
+        name: 'Brooklyn Simmons',
+        time: '1 bulan',
+        text: 'Setelah mendengar ringkasan ini pikiran saya jadi lebih terbuka soal keuangan.',
+        rating: 3
+    },
+]
+
 export {
     daftarIsi,
+    comentList
 }

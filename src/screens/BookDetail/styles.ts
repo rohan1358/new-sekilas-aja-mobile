@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
 
     sectionList: {
         paddingHorizontal: 25,
-        marginBottom: 16
+        marginBottom: 16,
     },
 
     titleSection: {
@@ -146,8 +146,9 @@ const styles = StyleSheet.create({
     },
 
     boxRelease: {
-        paddingHorizontal: 25
+        paddingHorizontal: 25,
     },
+
 
     texttglRelease: {
         fontSize: 16,
@@ -232,6 +233,11 @@ const styles = StyleSheet.create({
         textDecorationLine:'underline'
     },
 
+    containerRating:{
+        borderBottomWidth: 1,
+        borderBottomColor: neutralColor[50]
+    },
+
     boxRating: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -243,8 +249,69 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: '700',
         color: neutralColor[90],
-        marginRight: 20
+        marginRight: 10
+    },
+
+    textUlasanDari: {
+        marginLeft: 25,
+        fontSize: 20,
+        color: neutralColor[60],
+        fontWeight: '500',
+        marginVertical: 10
+    },
+
+    textKomentar: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: neutralColor[90],
+        marginBottom: 8,
+    },
+
+    boxKomentar: {
+        paddingHorizontal: 25,
+        borderBottomWidth: 1,
+        borderBottomColor: neutralColor[50],
+        marginVertical: 10
+    },
+
+    boxLihatLebih: {
+        paddingHorizontal: 25
+    },
+
+    containerRatingChange: {
+        marginVertical: 15,
+    },
+
+    starContainer: {
+        width: '100%',
+        justifyContent:'space-between'
+    },
+
+    multipelTextInput: {
+        borderWidth: 1,
+        height: 136,
+        borderColor: neutralColor[60],
+        borderRadius: 12,
+        paddingHorizontal: 10,
+        fontSize: 16
+    },
+
+    btnKirim: {
+        backgroundColor: neutralColor[90],
+        marginVertical: 24,
+        borderRadius: 12,
+        height: 44,
+        alignItems: 'center',
+        justifyContent:'center'
+    },
+
+    textBtn: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: primaryColor.main,
     }
+
+
 })
 
 export default styles;

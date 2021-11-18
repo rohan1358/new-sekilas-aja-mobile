@@ -4,6 +4,6 @@ import FancyBottomTab from "./FancyBottomTab";
 import LibraryMenu from "./LibraryMenu";
 import TextField from "./TextField";
 import TitleTap from "./TitleTap";
-import Rating from "./Rating";
+import CardComent from "./CardComent";
 
-export { BigButton, Chips, FancyBottomTab, LibraryMenu, TextField, TitleTap, Rating };
+export { BigButton, Chips, FancyBottomTab, LibraryMenu, TextField, TitleTap, CardComent };
