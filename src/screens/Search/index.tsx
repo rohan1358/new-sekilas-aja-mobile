@@ -55,6 +55,8 @@ const Search = ({ navigation }: SearchProps) => {
 
   const isSearchHistoryFilled = general.keywords.length !== 0;
 
+  const backPress = () => navigation.goBack();
+
   const bookCandidate = useMemo(() => {
     if (!keyword || keyword?.length < 3) {
       return [];
@@ -66,11 +68,20 @@ const Search = ({ navigation }: SearchProps) => {
       .slice(0, 3);
   }, [keyword]);
 
+  const chipPress = (item: { label: string; id: string }) =>
+    navigation.navigate("Category", {
+      type: "category",
+      title: item.label,
+      payload: item.id,
+    });
+
   const closePress = () => {
     setKeyword("");
     setIsSearched(false);
     searchRef.current?.clear();
   };
+
+  const keyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
   const onAutoFillPress = (value: { label: string }) => {
     dispatch(addSearchHistory(value.label));
@@ -86,6 +97,18 @@ const Search = ({ navigation }: SearchProps) => {
     setIsSearched(true);
   };
 
+  const renderItem = ({ item }: { item: CompactBooksProps }) => (
+    <View>
+      <BookTile
+        title={item?.book_title}
+        author={`${item?.author}`}
+        duration={item?.read_time}
+        cover={item?.book_cover}
+      />
+      <Gap vertical={sp.sl} />
+    </View>
+  );
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -97,7 +120,7 @@ const Search = ({ navigation }: SearchProps) => {
         closePress={closePress}
         ref={searchRef}
         onSubmitEditing={onSubmitEditing}
-        backPress={() => navigation.goBack()}
+        backPress={backPress}
       />
       <DummyFlatList>
         {isSearched ? (
@@ -112,19 +135,9 @@ const Search = ({ navigation }: SearchProps) => {
                   read_time: 10,
                 },
               ]}
-              keyExtractor={({ id }: { id: string | number }) => `${id}`}
+              keyExtractor={keyExtractor}
               numColumns={2}
-              renderItem={({ item }: { item: CompactBooksProps }) => (
-                <View>
-                  <BookTile
-                    title={item?.book_title}
-                    author={`${item?.author}`}
-                    duration={item?.read_time}
-                    cover={item?.book_cover}
-                  />
-                  <Gap vertical={sp.sl} />
-                </View>
-              )}
+              renderItem={renderItem}
               columnWrapperStyle={styles.columnWrapperStyle}
               listKey="mostreadbooklist"
             />
@@ -186,13 +199,7 @@ const Search = ({ navigation }: SearchProps) => {
                         label={item.label}
                         id={item.id}
                         Icon={item.Icon}
-                        onPress={() =>
-                          navigation.navigate("Category", {
-                            type: "category",
-                            title: item.label,
-                            payload: item.id,
-                          })
-                        }
+                        onPress={() => chipPress(item)}
                       />
                       <Gap horizontal={sp.xs} />
                     </View>
