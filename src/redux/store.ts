@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import { rootReducer } from "./reducers";
 
@@ -8,8 +8,17 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
+let middlewaresToApply = [];
+
+if (__DEV__) {
+  const createFlipperDebugger = require("redux-flipper").default;
+  middlewaresToApply.push(createFlipperDebugger());
+}
+
+const middleware = applyMiddleware(...middlewaresToApply);
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store: any = createStore(persistedReducer);
+const store: any = createStore(persistedReducer, middleware);
 const persistor = persistStore(store);
 
 export { persistor, store };

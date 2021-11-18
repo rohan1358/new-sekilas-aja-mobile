@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 const CONTAINER_RADIUS = 24;
 
 const styles = StyleSheet.create({
+  bookList: { padding: sp.sl },
   boxes: { flexDirection: "row", width: 48 },
   boxesContainer: {
     flexDirection: "row",
