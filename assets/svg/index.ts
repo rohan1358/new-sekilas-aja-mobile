@@ -24,6 +24,7 @@ import Exit from "./Exit.svg";
 import Eye from "./Eye.svg";
 import EyeOff from "./EyeOff.svg";
 import Fire from "./Fire.svg";
+import FirePaperIllu from "./FirePaperIllu.svg";
 import GiveHeart from "./GiveHeart.svg";
 import Graph from "./Graph.svg";
 import GraphBar from "./GraphBar.svg";
@@ -71,6 +72,7 @@ export {
   Eye,
   EyeOff,
   Fire,
+  FirePaperIllu,
   GiveHeart,
   Graph,
   GraphBar,
