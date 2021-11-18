@@ -34,6 +34,7 @@ import { SearchProps } from "./types";
 const Search = ({ navigation }: SearchProps) => {
   const dispatch = useDispatch();
 
+  const currentKeyword = useRef<string>("");
   const isMounted = useRef<boolean>(true);
   const searchRef = useRef<any>();
 
@@ -44,20 +45,30 @@ const Search = ({ navigation }: SearchProps) => {
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>();
 
-  const bookResult = useMemo(
-    () =>
-      books?.filter((item) =>
-        item?.book_title
-          .toLocaleLowerCase()
-          .includes(keyword?.toLocaleLowerCase() || "")
-      ),
-    [keyword, books]
-  );
+  const bookResult = useMemo(() => {
+    if (keyword !== currentKeyword.current) {
+      setIsSearched(false);
+      return [];
+    }
+    return books?.filter((item) =>
+      item?.book_title
+        .toLocaleLowerCase()
+        .includes(keyword?.toLocaleLowerCase() || "")
+    );
+  }, [keyword, books, currentKeyword.current]);
+
   const collectedKeywords = useMemo(
     () => books?.map((item) => item?.book_title),
     [books]
   );
   const isSearchHistoryFilled = general.keywords.length !== 0;
+
+  const autofill = useMemo(() => {
+    if (general?.keywords.length < 4) {
+      return general?.keywords.reverse();
+    }
+    return general?.keywords.reverse().slice(0, 3);
+  }, [general.keywords]);
 
   const backPress = () => navigation.goBack();
 
@@ -84,6 +95,7 @@ const Search = ({ navigation }: SearchProps) => {
 
   const closePress = () => {
     setKeyword("");
+    currentKeyword.current = "";
     setIsSearched(false);
     searchRef.current?.clear();
   };
@@ -112,6 +124,7 @@ const Search = ({ navigation }: SearchProps) => {
   const onAutoFillPress = (value: { label: string }) => {
     dispatch(addSearchHistory(value.label));
     setKeyword(value.label);
+    currentKeyword.current = value.label;
     setIsSearched(true);
     Keyboard.dismiss();
   };
@@ -119,7 +132,11 @@ const Search = ({ navigation }: SearchProps) => {
   const onClearSearchHistory = () => dispatch(clearSearchHistory());
 
   const onSubmitEditing = () => {
-    !!keyword && keyword?.length >= 3 && dispatch(addSearchHistory(keyword));
+    if (!keyword || keyword?.length < 3) {
+      return;
+    }
+    currentKeyword.current = keyword;
+    dispatch(addSearchHistory(keyword));
     setIsSearched(true);
   };
 
@@ -202,7 +219,7 @@ const Search = ({ navigation }: SearchProps) => {
                       </View>
                       {isSearchHistoryFilled ? (
                         <>
-                          {general?.keywords.map((item) => (
+                          {autofill.map((item) => (
                             <TextIcon
                               item={{ id: item, label: item }}
                               key={`${item}`}
@@ -210,6 +227,7 @@ const Search = ({ navigation }: SearchProps) => {
                               onPress={(value) => {
                                 setKeyword(value.label);
                                 setIsSearched(true);
+                                currentKeyword.current = value.label;
                               }}
                             />
                           ))}
