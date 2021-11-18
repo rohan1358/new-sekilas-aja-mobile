@@ -1,4 +1,4 @@
-import { Search as SearchIcon } from "@assets";
+import { Clock, Search as SearchIcon } from "@assets";
 import {
   Base,
   BookTile,
@@ -19,8 +19,11 @@ import {
 } from "@constants";
 import React, { useMemo, useRef, useState } from "react";
 import { FlatList, Keyboard, ScrollView, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { categories } from "../../../assets/dummy";
 import { logger } from "../../helpers/helper";
+import { addSearchHistory, clearSearchHistory } from "../../redux/actions";
+import { ReduxState } from "../../redux/reducers";
 import styles from "./styles";
 import { SearchProps } from "./types";
 
@@ -41,9 +44,16 @@ const dummyKeywords = [
 ];
 
 const Search = ({ navigation }: SearchProps) => {
+  const dispatch = useDispatch();
+
   const searchRef = useRef<any>();
+
+  const { general } = useSelector((state: ReduxState) => state);
+
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>();
+
+  const isSearchHistoryFilled = general.keywords.length !== 0;
 
   const bookCandidate = useMemo(() => {
     if (!keyword || keyword?.length < 3) {
@@ -62,6 +72,20 @@ const Search = ({ navigation }: SearchProps) => {
     searchRef.current?.clear();
   };
 
+  const onAutoFillPress = (value: { label: string }) => {
+    dispatch(addSearchHistory(value.label));
+    setKeyword(value.label);
+    setIsSearched(true);
+    Keyboard.dismiss();
+  };
+
+  const onClearSearchHistory = () => dispatch(clearSearchHistory());
+
+  const onSubmitEditing = () => {
+    !!keyword && keyword?.length >= 3 && dispatch(addSearchHistory(keyword));
+    setIsSearched(true);
+  };
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -72,7 +96,7 @@ const Search = ({ navigation }: SearchProps) => {
         onChangeText={setKeyword}
         closePress={closePress}
         ref={searchRef}
-        onSubmitEditing={() => setIsSearched(true)}
+        onSubmitEditing={onSubmitEditing}
         backPress={() => navigation.goBack()}
       />
       <DummyFlatList>
@@ -112,23 +136,37 @@ const Search = ({ navigation }: SearchProps) => {
                 <>
                   <View style={styles.newSearchText}>
                     <TextItem type="b.24.nc.90">{strings.newSearch}</TextItem>
-                    <Button>
-                      <TextItem type="b.14.dc.main">{strings.delete}</TextItem>
-                    </Button>
+                    {isSearchHistoryFilled && (
+                      <Button onPress={onClearSearchHistory}>
+                        <TextItem type="b.14.dc.main">
+                          {strings.delete}
+                        </TextItem>
+                      </Button>
+                    )}
                   </View>
-                  <View style={styles.emptySearch}>
-                    <TextItem type="r.16.nc.70">{strings.searchEmpty}</TextItem>
-                  </View>
+                  {isSearchHistoryFilled ? (
+                    <>
+                      {general?.keywords.map((item) => (
+                        <TextIcon
+                          item={{ id: item, label: item }}
+                          key={`${item}`}
+                          Icon={<Clock stroke={neutralColor[70]} />}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <View style={styles.emptySearch}>
+                      <TextItem type="r.16.nc.70">
+                        {strings.searchEmpty}
+                      </TextItem>
+                    </View>
+                  )}
                 </>
               ) : (
                 <>
                   {bookCandidate.map((item) => (
                     <TextIcon
-                      onPress={(value) => {
-                        setKeyword(value.label);
-                        setIsSearched(true);
-                        Keyboard.dismiss();
-                      }}
+                      onPress={onAutoFillPress}
                       item={{ id: item, label: item }}
                       key={`${item}`}
                     />

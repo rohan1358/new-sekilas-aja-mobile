@@ -12,6 +12,7 @@ import ChatBubble from "./ChatBubble.svg";
 import Check from "./Check.svg";
 import ChevronRight from "./ChevronRight.svg";
 import Clipboard from "./Clipboard.svg";
+import Clock from "./Clock.svg";
 import CloseX from "./CloseX.svg";
 import ComputerRobot from "./ComputerRobot.svg";
 import Cross from "./Cross.svg";
@@ -58,6 +59,7 @@ export {
   Check,
   ChevronRight,
   Clipboard,
+  Clock,
   CloseX,
   ComputerRobot,
   Cross,
