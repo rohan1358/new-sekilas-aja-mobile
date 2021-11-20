@@ -1,5 +1,5 @@
 import { Base, Button, DummyFlatList, TextItem } from '../../components'
-import { pages, primaryColor, skeleton, snackState as ss, strings } from '@constants'
+import { neutralColor, pages, primaryColor, skeleton, snackState as ss, strings } from '@constants'
 import React, { useEffect, useRef, useState } from 'react'
 import { Modal, StyleSheet, Switch, Text, View } from 'react-native'
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
@@ -152,7 +152,7 @@ export default function AccountSettings({
                   })
                 }
                 style={styles.btnAction}>
-                <TextItem type="r.16">{strings.btnBatal}</TextItem>
+                <TextItem type="r.16.nc.90">{strings.btnBatal}</TextItem>
               </Button>
             </View>
 
@@ -198,7 +198,7 @@ export default function AccountSettings({
                   <TextItem style={styles.titleList}>{strings.notif}</TextItem>
                   <TextItem style={styles.textContent}>{strings.text_notif}</TextItem>
                 </View>
-                <ChevronRight/>
+                <ChevronRight color={neutralColor[50]} />
               </Button>
             </View>
 
@@ -319,7 +319,7 @@ export default function AccountSettings({
                 <TextItem style={styles.titleList}>{strings.tentang}</TextItem>
                 <TextItem style={styles.textContent}>{strings.text_tentang}</TextItem>
               </View>
-              <ChevronRight/>
+              <ChevronRight color={neutralColor[50]}/>
             </Button>
             
             <Button onPress={() => navigation.navigate(pages.About,{ title: 'Kebijakan Privasi' })} style={[styles.btnAction, styles.btnUp]}>

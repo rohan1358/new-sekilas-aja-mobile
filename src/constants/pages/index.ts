@@ -1,6 +1,8 @@
 export const pages = {
   About: "About",
   AccountSettings: "AccountSettings",
+  
+  BookDetail: "BookDetail",
 
   Category: "Category",
 
@@ -12,6 +14,7 @@ export const pages = {
 
   MainBottomRoute: "MainBottomRoute",
 
+  Notification: "Notification",
   NotifSettings: "NotifSettings",
 
   Onboarding: "Onboarding",
@@ -22,4 +25,6 @@ export const pages = {
   Search: "Search",
   SignIn: "SignIn",
   SignUp: "SignUp",
+
+  
 };

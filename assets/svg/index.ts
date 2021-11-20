@@ -44,6 +44,17 @@ import SearchDollar from "./SearchDollar.svg";
 import Suitcase from "./Suitcase.svg";
 import Tree from "./Tree.svg";
 import YinYang from "./YinYang.svg";
+import PromoEmpty from "./PromoEmpty.svg";
+import RiwayatEmpty from "./RiwayatEmpty.svg";
+import HeartBook from "./HeartBook.svg";
+import File from "./File.svg";
+import Headphones from "./Headphones.svg";
+import Video from "./Video.svg";
+import Clock from "./Clock.svg";
+import Sunrise from "./Sunrise.svg";
+import Bank from "./Bank.svg";
+import StarActive from "./StarActive.svg";
+import StarAnActive from "./StarAnActive.svg";
 
 export {
   Alert,
@@ -92,4 +103,15 @@ export {
   Suitcase,
   Tree,
   YinYang,
+  PromoEmpty,
+  RiwayatEmpty,
+  HeartBook,
+  File,
+  Headphones,
+  Video,
+  Clock,
+  Sunrise,
+  Bank,
+  StarActive,
+  StarAnActive,
 };

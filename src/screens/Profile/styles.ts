@@ -1,4 +1,4 @@
-import { neutralColor } from "@constants";
+import { colors, neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -59,7 +59,125 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         color: neutralColor[70]
-    }
+    },
+
+    containerModal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+    },
+
+    contentModal: {
+        width: '85%',
+        maxHeight: '50%',
+        backgroundColor: colors.white,
+        padding: 20,
+        borderRadius: 8,
+    },
+
+    btnExit: {
+        position: 'absolute',
+        right: 5,
+        top: 5,
+        padding: 5
+    },
+
+    textLanguage: {
+        marginTop: 10,
+        fontSize: 16,
+        color: neutralColor[90]
+    },
+
+    boxListLanguage: {
+        borderBottomWidth: 1,
+        borderBottomColor: neutralColor[60],
+        paddingBottom: 10,
+        alignItems:'center'
+    },
+
+    language: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: neutralColor[90]
+    },
+
+    dropdown: {
+        borderWidth: 0
+    },
+    containerDropdown: {
+        width: 100,
+    },
+    textDropdown: {
+        fontSize: 14,
+        color: neutralColor[80],
+        fontWeight: 'bold'
+    },
+    containerList: {
+        borderWidth: 0.5,
+        borderColor: neutralColor[30]
+    },
+
+    boxHapusDownload: {
+        alignItems:'center'
+    },
+
+    textBtnHapus: {
+        color: '#CB3168'
+    },
+
+    btnUp: {
+        borderBottomWidth: 0
+    },
+
+    boxTentang: {
+        marginBottom: 16
+    },
+
+    contentAlert: {
+        width: '85%',
+        maxHeight: '50%',
+        backgroundColor: colors.white,
+        padding: 20,
+        borderRadius: 8,
+    },
+
+    boxContentAlert: {
+        alignItems:'center'
+    },
+
+    textAlert: {
+        fontSize: 24,
+        color: neutralColor[90],
+        fontWeight: '700',
+        textAlign: 'center',
+        marginVertical: 16,
+        width: 250,
+    },
+
+    textActionAlert: {
+        fontSize: 24,
+        color: neutralColor[60],
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+
+    textButtonAlert: {
+        fontSize: 24,
+        color: primaryColor.main,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    
+    btnAlert: {
+        height: 64,
+        justifyContent:'center'
+    },
+
+    btnAlertSecond: {
+        backgroundColor: neutralColor[90],
+        borderRadius: 16
+    },
 })
 
 export default styles;

@@ -4,9 +4,9 @@ import { Amage, Button, Gap, Seed, TextItem } from "../../atom";
 import { spacing as sp } from "../../../constants";
 import styles from "./styles";
 
-const BookTile = ({ title, author, duration, cover }: BookTileProps) => {
+const BookTile = ({ title, author, duration, cover, onPress }: BookTileProps) => {
   return (
-    <Button style={styles.container}>
+    <Button onPress={()=> onPress && onPress()} style={styles.container}>
       <View style={styles.imageContainer}>
         <View style={styles.background}>
           <View style={styles.innerBackgorund} />

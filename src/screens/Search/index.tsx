@@ -1,4 +1,4 @@
-import { Clock, Search as SearchIcon } from "@assets";
+import { Clock } from "@assets";
 import {
   Base,
   BookTile,
@@ -9,18 +9,16 @@ import {
   Gap,
   SearchHeader,
   TextIcon,
-  TextItem,
+  TextItem
 } from "@components";
 import {
-  neutralColor,
-  pages,
-  primaryColor,
+  neutralColor, primaryColor,
   skeleton,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { FlatList, Keyboard, ScrollView, View } from "react-native";
+import { FlatList, Keyboard, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
 import { categories } from "../../../assets/dummy";

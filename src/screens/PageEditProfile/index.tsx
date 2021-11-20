@@ -1,5 +1,5 @@
 import { AboutHeader, Base, Button, DummyFlatList, TextItem } from '../../components';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import styles from './styles';
 import { neutralColor, strings, snackState as ss, } from '@constants';
@@ -13,9 +13,9 @@ export default function PageEditProfile({ route, navigation }: any) {
 
     const dispatch = useDispatch()
     
-    const { type, title } = route.params
+    const { type, title, valueParams } = route.params.data
     
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(valueParams);
     const [passwordLama, setPasswordLama] = useState('');
     const [passwordBaru, setPasswordBaru] = useState('');
     const [passwordKonfir, setPasswordKonfir] = useState('');

@@ -12,6 +12,11 @@ import Hero2 from "./Hero2.png";
 import Hero3 from "./Hero3.png";
 import Hero4 from "./Hero4.png";
 import BgHeader1 from "./bg-header1.png";
+import BottomOverScroll from "./bottomOverScroll.png";
+import Notif1 from "./Notif1.png";
+import Notif2 from "./Notif2.png";
+import NotifEmptyPng from "./notif_empty.png";
+import PromoEmptyPng from "./promo_empty.png";
 
 export {
   Banner1,
@@ -27,5 +32,10 @@ export {
   Hero2,
   Hero3,
   Hero4,
-  BgHeader1
+  BgHeader1,
+  BottomOverScroll,
+  Notif1,
+  Notif2,
+  NotifEmptyPng,
+  PromoEmptyPng,
 };
