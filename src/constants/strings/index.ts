@@ -37,6 +37,8 @@ export const strings = {
 
   baca: 'Baca',
   beri_ulasan: 'Berikan Ulasanmu',
+
+  buku_serupa: 'Buku Serupa',
   
   continueReading: "Lanjutkan membaca",
   camera_unavailable: 'Kamera tidak tersedia di perangkat',

@@ -1,6 +1,6 @@
 import { neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
-import { heightPercent } from "../../helpers/helper";
+import { heightPercent, widthPercent } from "../../helpers/helper";
 
 
 const styles = StyleSheet.create({
@@ -31,6 +31,17 @@ const styles = StyleSheet.create({
 
     boxSelect: {
         marginTop: 20
+    },
+
+    SelectBarUp:{
+        backgroundColor: neutralColor[90],
+        height: 44,
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'absolute',
+        top: 60,
+        width: widthPercent(100),
+        zIndex: 1
     },
 
     SelectBar: {
@@ -309,6 +320,25 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         color: primaryColor.main,
+    },
+
+    sectionSaran: {
+        paddingHorizontal: 25,
+    },
+
+    headSaran: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16
+    },
+
+    columnWrapperStyle: { justifyContent: "space-between" },
+
+    boxListBook: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent:'space-between'
     }
 
 

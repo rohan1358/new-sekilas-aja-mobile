@@ -1,13 +1,16 @@
-import { Amage, Base, Button, CardComent, DummyFlatList, HeaderBookDetail, TextItem } from '../../components';
-import { neutralColor, primaryColor, snackState as ss, strings } from '@constants';
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Amage, Base, BookTile, Button, CardComent, DummyFlatList, Gap, HeaderBookDetail, TextItem } from '../../components';
+import { neutralColor, primaryColor, snackState as ss, strings, spacing as sp, pages } from '@constants';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, TextInput, View } from 'react-native';
 import styles from './styles';
 import { Bank, ChevronRight, Clock, File, Headphones, Sunrise, Video } from '@assets';
 import { comentList, daftarIsi } from './dummy';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '../../redux/reducers';
+import { fetchRecommendedBooks } from '../../services';
+import { logger } from '../../helpers/helper';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 export default function BookDetail({ navigation, route }: any) {
 
@@ -16,12 +19,61 @@ export default function BookDetail({ navigation, route }: any) {
   } = useSelector((state: ReduxState) => state);
     
   const { item } = route.params
-    
-    // console.log(profile)
 
+  const isMounted = useRef<boolean>();
+  const refScroll = useRef(null);
+    
+  const yOffset = useSharedValue(0);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [allInfo, setAllInfo] = useState(false)
   const [ratingCount, setRatingCount] = useState(4.5)
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [active, setActive] = useState<boolean>(false);
+  const [stream, setStream] = useState<boolean>(false);
+  const [recommendedBooks, setRecommendedBooks] = useState<CompactBooksProps[]>();
+
+
+  const getExploreData = async () => {
+    setIsLoading(true);
+    try {
+      const [recomData] = await Promise.all([
+        fetchRecommendedBooks(),
+      ]);
+      if (!isMounted.current) {
+        return;
+      }
+      if (recomData.isSuccess) {
+        setRecommendedBooks(recomData.data);
+      } else {
+        throw new Error("Fail on fetching released books data");
+      }
+    } catch (error) {
+      logger("Explore, getExploreData", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    isMounted.current = true;
+    getExploreData();
+
+    () => {
+      isMounted.current = false;
+    };
+  }, []);
+  
+  const toTop = (item) => {
+    // use current
+    refScroll.current.scrollTo({ x: 0, y: 0, animated: true });
+    navigation.navigate(pages.BookDetail, {item})
+  }
+
+  const stylez = useAnimatedStyle(() => {
+    return {
+      display: yOffset.value > 268 ? 'flex' : 'none',
+    };
+  });
 
     return (
       <Base
@@ -31,8 +83,31 @@ export default function BookDetail({ navigation, route }: any) {
       >
         <HeaderBookDetail
           navigation={navigation}
+          onFavorite={()=> setActive(!active)}
+          onDownload={() => logger('donwload')}
+          Active={active}
         />
-        <DummyFlatList>
+        <Animated.View style={[styles.SelectBarUp, stylez]}>
+          <Button style={styles.btnBar}>
+            <File />
+            <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+          </Button>
+          <Button style={styles.btnBar}>
+            <Headphones />
+            <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+          </Button>
+          <Button style={styles.btnBar}>
+            <Video />
+            <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+          </Button>
+        </Animated.View>
+        <Animated.ScrollView
+            ref={refScroll}
+            onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
+              (yOffset.value = event.nativeEvent.contentOffset.y)
+            }
+            scrollEventThrottle={16}
+          >
           <View style={styles.layer}>
             <View style={styles.head}>
               <View style={styles.boxImage}>
@@ -40,7 +115,8 @@ export default function BookDetail({ navigation, route }: any) {
               </View>
             </View>
           </View>
-          <View style={styles.boxSelect}>
+
+          <View  style={[styles.boxSelect]}>
             <View style={styles.SelectBar}>
               <Button style={styles.btnBar}>
                 <File />
@@ -56,6 +132,7 @@ export default function BookDetail({ navigation, route }: any) {
               </Button>
             </View>
           </View>
+
           <View style={styles.sectionDetail}>
             <View style={styles.boxTitle}>
               <TextItem style={styles.titleBook}>{item.book_title}</TextItem>
@@ -194,7 +271,35 @@ export default function BookDetail({ navigation, route }: any) {
             </View>
 
           </View>
-        </DummyFlatList>
+
+          <View style={styles.sectionSaran}>
+            <View style={styles.headSaran}>
+              <TextItem style={styles.titleSection}>{strings.buku_serupa}</TextItem>
+              <Button>
+                <TextItem style={styles.textLihatSemua}>{strings.lihat_semua}</TextItem>
+              </Button>
+            </View>
+            <View style={styles.boxListBook}>
+              {
+                recommendedBooks?.map((item, index) => {
+                  return (
+                    <View key={index} style={styles.columnWrapperStyle}>
+                      <BookTile
+                        title={item?.book_title}
+                        author={`${item?.author}`}
+                        duration={item?.read_time}
+                        cover={item?.book_cover}
+                        onPress={()=> toTop(item)}
+                      />
+                      <Gap vertical={sp.sl} />
+                    </View>
+                  )
+                })
+              }
+            </View>
+          </View>
+
+        </Animated.ScrollView>
       </Base>
     )
 }
