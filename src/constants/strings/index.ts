@@ -111,6 +111,8 @@ export const strings = {
   notif_promo: 'Notifikasi Promo',
 
   notification: 'Notifikasi',
+
+  notif_empty: 'Notifikasi kosong!',
   
   onBoard_1: "Males baca buku? Baca SekilasAja!",
   
@@ -148,6 +150,8 @@ export const strings = {
   publikasi: 'Negara publikasi : ',
   penulis: 'Penulis',
   pembaca: ' pembaca',
+
+  promo_empty: 'Promo kosong!',
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
   
@@ -188,6 +192,9 @@ export const strings = {
   tonton: 'Tonton',
   tentang_buku: 'Tentang Buku',
   tgl_release: 'Tanggal Rilis',
+
+  tidak_ada_notif: 'Tidak ada notifikasi  untuk saat ini.',
+  tidak_ada_promo: 'Tidak ada promo  untuk saat ini.',
 
   ulasan: 'Ulasan',
   ulasan_dari: 'Ulasan dari ',

@@ -1,6 +1,6 @@
-import { Base, DummyFlatList, HeaderNotification, TextItem } from '../../components';
+import { Amage, Base, DummyFlatList, HeaderNotification, TextItem } from '../../components';
 import React, { useState } from 'react'
-import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import styles from './styles';
 import {
   colors,
@@ -15,46 +15,47 @@ import {
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Card } from '../../components/organism/PageNotification';
-import { RiwayatEmpty, PromoEmpty } from '@assets';
+import { NotifEmptyPng, PromoEmptyPng } from '@assets';
 import {Notif1, Notif2} from '../../../assets/images'
 
-const dummyRiwayat = [
-  {
-    id: 1,
-    title: 'Kilas Baru minggu ini!',
-    text: 'The Psychology of Money adalah buku tentang keuangan yang ditulis oleh Morgan Housel, buku ini baru terbit pada 8 September 2020 yang lalu!',
-    time: 'Notifikasi 1 jam yang lalu.',
-    status: true,
-  },
-  {
-    id: 2,
-    title: 'Buku terpopuler minggu ini!',
-    text: 'Start With Why adalah buku yang paling banyak dibaca pada minggu ini!',
-    time: 'Notifikasi 5 hari yang lalu.',
-    status: false,
-  },
-]
+// const dummyRiwayat = [
+//   {
+//     id: 1,
+//     title: 'Kilas Baru minggu ini!',
+//     text: 'The Psychology of Money adalah buku tentang keuangan yang ditulis oleh Morgan Housel, buku ini baru terbit pada 8 September 2020 yang lalu!',
+//     time: 'Notifikasi 1 jam yang lalu.',
+//     status: true,
+//   },
+//   {
+//     id: 2,
+//     title: 'Buku terpopuler minggu ini!',
+//     text: 'Start With Why adalah buku yang paling banyak dibaca pada minggu ini!',
+//     time: 'Notifikasi 5 hari yang lalu.',
+//     status: false,
+//   },
+// ]
 
-const dummyPromo = [
-  {
-    id: 1,
-    title: 'DISKON AKHIR BULAN!!!',
-    text: 'Dapetin diskon sebesar 20% untuk berlangganan paket 1 Tahun di SekilasAja dengan menggunakan kode voucher ini, #BACAITUBAIK',
-    time: 'Notifikasi 15 menit yang lalu.',
-    status: true,
-    image: Notif1
-  },
-  {
-    id: 2,
-    title: 'Baca semua ringkasan buku dalam satu aplikasi!',
-    text: 'Dengan berlangganan hanya Rp25.000/Bulan  di SekilasAja kamu akan mendapatkan beragam pengetahuan!',
-    time: 'Notifikasi 7 hari yang lalu.',
-    status: false,
-    image: Notif2
-  },
-]
+// const dummyPromo = [
+//   {
+//     id: 1,
+//     title: 'DISKON AKHIR BULAN!!!',
+//     text: 'Dapetin diskon sebesar 20% untuk berlangganan paket 1 Tahun di SekilasAja dengan menggunakan kode voucher ini, #BACAITUBAIK',
+//     time: 'Notifikasi 15 menit yang lalu.',
+//     status: true,
+//     image: Notif1
+//   },
+//   {
+//     id: 2,
+//     title: 'Baca semua ringkasan buku dalam satu aplikasi!',
+//     text: 'Dengan berlangganan hanya Rp25.000/Bulan  di SekilasAja kamu akan mendapatkan beragam pengetahuan!',
+//     time: 'Notifikasi 7 hari yang lalu.',
+//     status: false,
+//     image: Notif2
+//   },
+// ]
 
-// const dummyRiwayat = []
+const dummyRiwayat = []
+const dummyPromo = []
 
 export default function Notification({navigation}: any) {
 
@@ -74,8 +75,12 @@ export default function Notification({navigation}: any) {
               />
             ))
             :
-            <View style={styles.riwayatEmpty}>
-              <RiwayatEmpty />
+            <View style={styles.boxEmpty}>
+              <View style={styles.riwayatEmpty}>
+                <Image style={styles.imageEmpty} source={NotifEmptyPng} resizeMode="contain" />
+              </View>
+              <TextItem style={styles.notifEmpty}>{strings.notif_empty}</TextItem>
+              <TextItem style={styles.tidak_ada_notif}>{strings.tidak_ada_notif}</TextItem>
             </View>
         }
       </View>
@@ -94,8 +99,12 @@ export default function Notification({navigation}: any) {
               />
             ))
             :
-            <View style={styles.riwayatEmpty}>
-              <PromoEmpty />
+            <View style={styles.boxEmpty}>
+              <View style={styles.riwayatEmpty}>
+                <Image style={styles.imageEmpty} source={PromoEmptyPng} resizeMode="contain" />
+              </View>
+              <TextItem style={styles.notifEmpty}>{strings.promo_empty}</TextItem>
+              <TextItem style={styles.tidak_ada_notif}>{strings.tidak_ada_promo}</TextItem>
             </View>
         }
       </View>
