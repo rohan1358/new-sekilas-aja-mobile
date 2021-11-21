@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  input: {
+    height: 48,
+    backgroundColor: neutralColor[10],
+    justifyContent: "center",
+    flex: 1,
+  },
   inputStyle: { paddingLeft: 0 },
   inputContainerStyle: { flex: 1 },
   inputInnerContainerStyle: {

@@ -1,5 +1,6 @@
 const NAMA = 'NAMA';
 const EMAIL = 'EMAIL';
 const PASSWORD = 'PASSWORD';
+const PROFILE = 'PROFILE';
 
-export { NAMA, EMAIL, PASSWORD };
+export { NAMA, EMAIL, PASSWORD, PROFILE };

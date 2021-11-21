@@ -1,14 +1,9 @@
-import { StyleProp, ViewStyle } from "react-native";
+import { ImageProps, ImageStyle, StyleProp } from "react-native";
 
-interface AmageProps {
+type AmageImage = Omit<ImageProps, "source">;
+
+interface AmageProps extends AmageImage {
   source?: string;
-  style?: StyleProp<ViewStyle>;
+  style?: StyleProp<ImageStyle>;
   placeholder?: number;
-  resizeMode?:
-    | "cover"
-    | "contain"
-    | "stretch"
-    | "repeat"
-    | "center"
-    | undefined;
 }

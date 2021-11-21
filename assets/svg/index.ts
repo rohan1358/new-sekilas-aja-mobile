@@ -12,6 +12,7 @@ import ChatBubble from "./ChatBubble.svg";
 import Check from "./Check.svg";
 import ChevronRight from "./ChevronRight.svg";
 import Clipboard from "./Clipboard.svg";
+import Clock from "./Clock.svg";
 import CloseX from "./CloseX.svg";
 import ComputerRobot from "./ComputerRobot.svg";
 import Cross from "./Cross.svg";
@@ -23,6 +24,7 @@ import Exit from "./Exit.svg";
 import Eye from "./Eye.svg";
 import EyeOff from "./EyeOff.svg";
 import Fire from "./Fire.svg";
+import FirePaperIllu from "./FirePaperIllu.svg";
 import GiveHeart from "./GiveHeart.svg";
 import Graph from "./Graph.svg";
 import GraphBar from "./GraphBar.svg";
@@ -42,6 +44,16 @@ import SearchDollar from "./SearchDollar.svg";
 import Suitcase from "./Suitcase.svg";
 import Tree from "./Tree.svg";
 import YinYang from "./YinYang.svg";
+import PromoEmpty from "./PromoEmpty.svg";
+import RiwayatEmpty from "./RiwayatEmpty.svg";
+import HeartBook from "./HeartBook.svg";
+import File from "./File.svg";
+import Headphones from "./Headphones.svg";
+import Video from "./Video.svg";
+import Sunrise from "./Sunrise.svg";
+import Bank from "./Bank.svg";
+import StarActive from "./StarActive.svg";
+import StarAnActive from "./StarAnActive.svg";
 
 export {
   Alert,
@@ -58,6 +70,7 @@ export {
   Check,
   ChevronRight,
   Clipboard,
+  Clock,
   CloseX,
   ComputerRobot,
   Cross,
@@ -69,6 +82,7 @@ export {
   Eye,
   EyeOff,
   Fire,
+  FirePaperIllu,
   GiveHeart,
   Graph,
   GraphBar,
@@ -88,4 +102,14 @@ export {
   Suitcase,
   Tree,
   YinYang,
+  PromoEmpty,
+  RiwayatEmpty,
+  HeartBook,
+  File,
+  Headphones,
+  Video,
+  Sunrise,
+  Bank,
+  StarActive,
+  StarAnActive,
 };

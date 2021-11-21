@@ -1,6 +1,70 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
 
+const fetchBooks = () => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore().collection(firebaseNode.books).get();
+      const books = raw.docs.map((item) => ({
+        book_title: item.data()?.book_title,
+        author: item.data()?.author,
+        read_time: item.data()?.read_time,
+        id: item.id,
+        book_cover: item.data()?.book_cover,
+        category: item.data()?.category,
+      }));
+      resolve({
+        data: books,
+        isSuccess: true,
+        error: null,
+        message: "Books successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch books failed.",
+      });
+    }
+  });
+};
+
+const fetchCategorizedBooks = ({
+  category,
+}: {
+  category: string | undefined;
+}) => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore()
+        .collection(firebaseNode.books)
+        .where("category", "array-contains", category)
+        .get();
+      const books = raw.docs.map((item) => ({
+        book_title: item.data()?.book_title,
+        author: item.data()?.author,
+        read_time: item.data()?.read_time,
+        id: item.id,
+        book_cover: item.data()?.book_cover,
+      }));
+      resolve({
+        data: books,
+        isSuccess: true,
+        error: null,
+        message: "Categorized books successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch categorized books failed.",
+      });
+    }
+  });
+};
+
 const fetchMostBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
@@ -163,6 +227,8 @@ const fetchTrendBooks = () => {
 };
 
 export {
+  fetchBooks,
+  fetchCategorizedBooks,
   fetchMostBooks,
   fetchReadingBook,
   fetchRecommendedBooks,

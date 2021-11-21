@@ -1,4 +1,4 @@
-import { EMAIL, NAMA, PASSWORD } from "../actionTypes/editProfile";
+import { EMAIL, NAMA, PASSWORD, PROFILE } from "../actionTypes/editProfile";
 
 export const saveNama = (value: string) => ({
     type: NAMA,
@@ -10,5 +10,9 @@ export const saveEmail = (value: string) => ({
 });
 export const savePassword = (value: string) => ({
     type: PASSWORD,
+    payload: value,
+});
+export const setProfileRedux = (value: any) => ({
+    type: PROFILE,
     payload: value,
 });

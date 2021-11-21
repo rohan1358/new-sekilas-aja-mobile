@@ -1,4 +1,11 @@
 export const pages = {
+  About: "About",
+  AccountSettings: "AccountSettings",
+  
+  BookDetail: "BookDetail",
+
+  Category: "Category",
+
   Explore: "Explore",
 
   Home: "Home",
@@ -7,17 +14,17 @@ export const pages = {
 
   MainBottomRoute: "MainBottomRoute",
 
+  Notification: "Notification",
+  NotifSettings: "NotifSettings",
+
   Onboarding: "Onboarding",
 
-  AccountSettings: "AccountSettings",
+  PageEditProfile: "PageEditProfile",
+  Profile: "Profile",
 
+  Search: "Search",
   SignIn: "SignIn",
   SignUp: "SignUp",
 
-  About: "About",
-
-  Profile: "Profile",
-  PageEditProfile: "PageEditProfile",
-
-  NotifSettings: "NotifSettings",
+  
 };
