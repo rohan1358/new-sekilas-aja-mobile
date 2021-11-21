@@ -50,7 +50,6 @@ import HeartBook from "./HeartBook.svg";
 import File from "./File.svg";
 import Headphones from "./Headphones.svg";
 import Video from "./Video.svg";
-import Clock from "./Clock.svg";
 import Sunrise from "./Sunrise.svg";
 import Bank from "./Bank.svg";
 import StarActive from "./StarActive.svg";
@@ -109,7 +108,6 @@ export {
   File,
   Headphones,
   Video,
-  Clock,
   Sunrise,
   Bank,
   StarActive,

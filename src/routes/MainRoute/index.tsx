@@ -2,12 +2,16 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import {
   About,
-  AccountSettings, BookDetail,
+  AccountSettings,
+  BookDetail,
   Category,
-  Home, Notification,
+  Home,
+  Notification,
   NotifSettings,
   PageEditProfile,
-  Profile, SignIn
+  Profile,
+  Search,
+  SignIn,
 } from "../../screens";
 import MainBottomRoute from "../MainBottomRoute";
 
@@ -28,7 +32,7 @@ const MainRoute = () => {
       <Stack.Screen name={"NotifSettings"} component={NotifSettings} />
       <Stack.Screen name={"PageEditProfile"} component={PageEditProfile} />
       <Stack.Screen name={"Profile"} component={Profile} />
-      {/* <Stack.Screen name={"Search"} component={Search} /> */}
+      <Stack.Screen name={"Search"} component={Search} />
       <Stack.Screen name={"Notification"} component={Notification} />
       <Stack.Screen name={"BookDetail"} component={BookDetail} />
     </Stack.Navigator>

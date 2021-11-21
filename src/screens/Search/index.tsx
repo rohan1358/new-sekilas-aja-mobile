@@ -9,13 +9,14 @@ import {
   Gap,
   SearchHeader,
   TextIcon,
-  TextItem
+  TextItem,
 } from "@components";
 import {
-  neutralColor, primaryColor,
+  neutralColor,
+  primaryColor,
   skeleton,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, Keyboard, View } from "react-native";
@@ -158,9 +159,17 @@ const Search = ({ navigation }: SearchProps) => {
     };
   }, []);
 
-  if (books === null) {
-    return navigation.goBack();
-  }
+  useEffect(() => {
+    isMounted.current = true;
+
+    if (books === null) {
+      return navigation.goBack();
+    }
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, [books]);
 
   return (
     <Base
