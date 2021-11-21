@@ -1,3 +1,4 @@
+import { pages } from "@constants";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import {
@@ -20,21 +21,21 @@ const Stack = createStackNavigator();
 const MainRoute = () => {
   return (
     <Stack.Navigator
-      initialRouteName={"MainBottomRoute"}
+      initialRouteName={pages.MainBottomRoute}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={"MainBottomRoute"} component={MainBottomRoute} />
-      <Stack.Screen name={"SignIn"} component={SignIn} />
-      <Stack.Screen name={"Home"} component={Home} />
-      <Stack.Screen name={"About"} component={About} />
-      <Stack.Screen name={"AccountSettings"} component={AccountSettings} />
-      <Stack.Screen name={"Category"} component={Category} />
-      <Stack.Screen name={"NotifSettings"} component={NotifSettings} />
-      <Stack.Screen name={"PageEditProfile"} component={PageEditProfile} />
-      <Stack.Screen name={"Profile"} component={Profile} />
-      <Stack.Screen name={"Search"} component={Search} />
-      <Stack.Screen name={"Notification"} component={Notification} />
-      <Stack.Screen name={"BookDetail"} component={BookDetail} />
+      <Stack.Screen name={pages.MainBottomRoute} component={MainBottomRoute} />
+      <Stack.Screen name={pages.SignIn} component={SignIn} />
+      <Stack.Screen name={pages.Home} component={Home} />
+      <Stack.Screen name={pages.About} component={About} />
+      <Stack.Screen name={pages.AccountSettings} component={AccountSettings} />
+      <Stack.Screen name={pages.Category} component={Category} />
+      <Stack.Screen name={pages.NotifSettings} component={NotifSettings} />
+      <Stack.Screen name={pages.PageEditProfile} component={PageEditProfile} />
+      <Stack.Screen name={pages.Profile} component={Profile} />
+      <Stack.Screen name={pages.Search} component={Search} />
+      <Stack.Screen name={pages.Notification} component={Notification} />
+      <Stack.Screen name={pages.BookDetail} component={BookDetail} />
     </Stack.Navigator>
   );
 };
