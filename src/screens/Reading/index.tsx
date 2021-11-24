@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Headphones, Video } from "@assets";
 import {
+  AnimatedOverlay,
   Base,
   Button,
   ButtonIcon,
@@ -9,13 +10,17 @@ import {
   TextItem,
 } from "@components";
 import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
-import React from "react";
+import React, { useRef } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { HeaderStateProps } from "../../components/atom/Base/types";
-import { logger } from "../../helpers/helper";
+import { heightPercent, logger, widthPercent } from "../../helpers/helper";
 import styles from "./styles";
 import { ReadingProps } from "./types";
 
@@ -53,12 +58,20 @@ const content = [
   },
 ];
 
+const WIDTH = widthPercent(100);
+
 const Reading = ({ navigation }: ReadingProps) => {
+  const overlayRef = useRef<any>();
+  const tipPosition = useSharedValue(-WIDTH / 2);
+
   const customComp = () => (
     <ReadingHeader
       title={"Bab 3: Tak Pernah Cukup Untuk Hidup Mandiri"}
       backPress={() => navigation.goBack()}
-      dotPress={() => logger("Reading, dotPress")}
+      dotPress={() => {
+        tipPosition.value = withTiming(64);
+        overlayRef.current?.open();
+      }}
     />
   );
 
@@ -76,6 +89,8 @@ const Reading = ({ navigation }: ReadingProps) => {
       <Gap vertical={sp.sm} />
     </View>
   );
+
+  const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
 
   return (
     <Base headerState={headerState}>
@@ -120,6 +135,21 @@ const Reading = ({ navigation }: ReadingProps) => {
           </Button>
         </View>
         <Gap vertical={sp.sl} />
+      </Animated.View>
+      <AnimatedOverlay
+        ref={overlayRef}
+        onTap={() => (tipPosition.value = withTiming(-WIDTH / 2))}
+      />
+      <Animated.View style={[styles.tipContainer, tipStyle]}>
+        <View style={styles.tip} />
+        <View style={styles.tipContent}>
+          <Button style={styles.tipButton}>
+            <TextItem type="r.20.nc.90">{strings.share}</TextItem>
+          </Button>
+          <Button style={styles.tipButton}>
+            <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
+          </Button>
+        </View>
       </Animated.View>
     </Base>
   );

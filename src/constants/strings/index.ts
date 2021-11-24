@@ -145,6 +145,7 @@ export const strings = {
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
   seeAll: "Lihat semua",
+  share: "Bagikan",
   sub_onBoard_1:
     "Solusi buat kamu yang malas baca buku, tapi kepo pengen tau isinya.",
 
@@ -154,6 +155,7 @@ export const strings = {
   sub_onBoard_4:
     "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
 
+  tableOfContent: "Daftar Isi",
   terms: "Ketentuan Layanan",
   trendingBook: "Trending buku",
   title_Account: "Pengaturan",

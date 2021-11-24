@@ -1,0 +1,3 @@
+interface AnimatedOverlayProps {
+  onTap?(): void;
+}

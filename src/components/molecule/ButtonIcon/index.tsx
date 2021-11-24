@@ -1,4 +1,4 @@
-import { Button } from "@components";
+import { Button } from "../../atom";
 import React, { PropsWithChildren } from "react";
 import { TouchableOpacityProps } from "react-native";
 import styles from "./styles";
