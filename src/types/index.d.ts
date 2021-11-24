@@ -7,18 +7,29 @@ type MainBottomTabParamList = {
 };
 
 type RootStackParamList = {
-  MainBottomRoute: NavigatorScreenParams<MainBottomTabParamList>;
-  SignIn: undefined;
-  Home: undefined;
   About: undefined;
   AccountSettings: undefined;
+
+  BookDetail: undefined;
+
   Category: {
     type: "category" | "special";
     title: string;
     payload: string | undefined;
   };
+
+  Home: undefined;
+
+  MainBottomRoute: NavigatorScreenParams<MainBottomTabParamList>;
+
+  Notification: undefined;
   NotifSettings: undefined;
+
   PageEditProfile: undefined;
   Profile: undefined;
+
+  Reading: { id: string };
+
   Search: undefined;
+  SignIn: undefined;
 };

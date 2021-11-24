@@ -5,6 +5,7 @@ import { neutralColor, snackState as ss } from "../../../constants";
 import Header from "../Header";
 import styles from "./styles";
 import { Snackbar } from "react-native-paper";
+import { BaseProps } from "./types";
 
 const Base = ({
   children,

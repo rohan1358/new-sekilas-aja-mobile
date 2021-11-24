@@ -10,6 +10,7 @@ import NotifSettings from "./NotifSettings";
 import Onboarding from "./Onboarding";
 import PageEditProfile from "./PageEditProfile";
 import Profile from "./Profile";
+import Reading from "./Reading";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -27,6 +28,7 @@ export {
   Onboarding,
   PageEditProfile,
   Profile,
+  Reading,
   Search,
   SignIn,
   SignUp,

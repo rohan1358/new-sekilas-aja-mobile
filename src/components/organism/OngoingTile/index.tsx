@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { Amage, TextItem } from "../../atom";
+import { Amage, TextItem, Button } from "../../atom";
 import { strings } from "../../../constants";
 import styles from "./styles";
 
-const OngoingTile = ({ bookTitle = "", bookUri }: OngoingTileProps) => {
+const OngoingTile = ({
+  bookTitle = "",
+  bookUri,
+  onPress,
+}: OngoingTileProps) => {
   const [tileHeight, setTileHeight] = useState<number>(74);
   const s = styles({ tileHeight });
   return (
-    <View style={s.container}>
+    <Button style={s.container} onPress={onPress}>
       <View
         style={s.child}
         onLayout={(event) => setTileHeight(event.nativeEvent.layout.height)}
@@ -23,7 +27,7 @@ const OngoingTile = ({ bookTitle = "", bookUri }: OngoingTileProps) => {
           <Amage source={bookUri} />
         </View>
       </View>
-    </View>
+    </Button>
   );
 };
 

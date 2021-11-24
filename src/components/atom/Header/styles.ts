@@ -1,17 +1,24 @@
 import { neutralColor, spacing as sp } from "@constants";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
 const ICON_SIZE = 48;
 
+const baseContainer: ViewStyle = {
+  height: 64,
+  borderBottomWidth: 1,
+  borderBottomColor: neutralColor[50],
+};
+
 const styles = StyleSheet.create({
   container: {
-    height: 64,
+    ...baseContainer,
     paddingLeft: 20,
     paddingRight: sp.sl,
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: neutralColor[50],
+  },
+  customContainer: {
+    ...baseContainer,
   },
 
   icon: {

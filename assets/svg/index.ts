@@ -38,6 +38,7 @@ import HumanHead from "./HumanHead.svg";
 import IconFb from "./IconFb.svg";
 import IconIg from "./IconIg.svg";
 import IconTw from "./IconTw.svg";
+import MenuDots from "./MenuDots.svg";
 import PaintPalette from "./PaintPalette.svg";
 import Search from "./Search.svg";
 import SearchDollar from "./SearchDollar.svg";
@@ -96,6 +97,7 @@ export {
   IconFb,
   IconIg,
   IconTw,
+  MenuDots,
   PaintPalette,
   Search,
   SearchDollar,

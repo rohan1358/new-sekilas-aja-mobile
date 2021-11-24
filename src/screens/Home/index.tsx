@@ -34,15 +34,17 @@ import {
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
 
-import { setProfileRedux } from '../../redux/actions';
+import { setProfileRedux } from "../../redux/actions";
+import { SnackStateProps } from "../../components/atom/Base/types";
+import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
 
-const Home = ({navigation}: any) => {
+const Home = ({ navigation }: HomeProps) => {
   const {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
   const isMounted = useRef<boolean>();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [profile, setProfile] = useState<ProfileProps>();
@@ -66,7 +68,8 @@ const Home = ({navigation}: any) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
-        onPress={()=> navigation.navigate(pages.BookDetail, {item})}
+        //@ts-ignore
+        onPress={() => navigation.navigate(pages.BookDetail, { item })}
       />
       <Gap vertical={sp.sl} />
     </View>
@@ -125,7 +128,7 @@ const Home = ({navigation}: any) => {
       }
       if (profileData.isSuccess) {
         setProfile(profileData.data);
-        dispatch(setProfileRedux(profileData.data))
+        dispatch(setProfileRedux(profileData.data));
       } else {
         throw new Error("Fail on fetching profile data");
       }
@@ -153,6 +156,11 @@ const Home = ({navigation}: any) => {
 
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
+  const onGoingPress = () =>
+    navigation.navigate("Reading", {
+      id: readingBook?.book_title || "",
+    });
+
   useEffect(() => {
     isMounted.current = true;
 
@@ -178,14 +186,17 @@ const Home = ({navigation}: any) => {
           <HomeHeader
             name={profile?.firstName}
             uri=""
+            //@ts-ignore
             onBellPress={() => navigation.navigate(pages.Notification)}
-            onPressProfile={()=> navigation.navigate(pages.AccountSettings)}
+            //@ts-ignore
+            onPressProfile={() => navigation.navigate(pages.AccountSettings)}
           />
           <View>
             <View style={styles.dummyHeader} />
             <OngoingTile
               bookTitle={readingBook?.book_title}
               bookUri={readingBook?.book_cover}
+              onPress={onGoingPress}
             />
           </View>
           <View style={styles.adjuster}>
