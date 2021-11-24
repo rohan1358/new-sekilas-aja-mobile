@@ -84,6 +84,7 @@ export const strings = {
   lebih_sedikit: "Lihat Lebih Sedikit",
   library: "Bukuku",
   lihat_semua: "Lihat Semua",
+  listen: "Dengar",
   login: "Masuk!",
   loginHere: "Login di sini",
 
@@ -189,6 +190,7 @@ export const strings = {
   video_Account: "Pengaturan Video",
   video_putar: "Putar Otomatis",
 
+  watch: "Tonton",
   weekNewCollection: "Kilas Baru minggu ini!",
   wib: "WIB",
 

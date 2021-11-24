@@ -1,16 +1,19 @@
-import { ChevronLeft, ChevronRight } from "@assets";
+import { ChevronLeft, ChevronRight, Headphones, Video } from "@assets";
 import {
   Base,
+  Button,
   ButtonIcon,
   DummyFlatList,
   Gap,
   ReadingHeader,
   TextItem,
 } from "@components";
-import { neutralColor, spacing as sp } from "@constants";
+import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
 import React from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import LinearGradient from "react-native-linear-gradient";
+import Animated from "react-native-reanimated";
 import { HeaderStateProps } from "../../components/atom/Base/types";
 import { logger } from "../../helpers/helper";
 import styles from "./styles";
@@ -27,6 +30,24 @@ const content = [
   },
   {
     id: "q25afasdf",
+    content: `Housel melakukan pekerjaan yang luar biasa untuk mengingatkan kita bahwa ekonomi juga bersifat pribadi.
+    `,
+  },
+  {
+    id: "fas224",
+    content: `Yang saya maksud dengan itu adalah bahwa apa yang mungkin menjadi keputusan keuangan yang baik bagi saya mungkin bukan keputusan keuangan yang baik bagi Anda. Itu tergantung pada keadaan pribadi Anda, tujuan, dan toleransi risiko.`,
+  },
+  {
+    id: "fas234saf",
+    content: `Housel melakukan pekerjaan yang luar biasa untuk mengingatkan kita bahwa ekonomi juga bersifat pribadi.
+    `,
+  },
+  {
+    id: "234aas",
+    content: `Yang saya maksud dengan itu adalah bahwa apa yang mungkin menjadi keputusan keuangan yang baik bagi saya mungkin bukan keputusan keuangan yang baik bagi Anda. Itu tergantung pada keadaan pribadi Anda, tujuan, dan toleransi risiko.`,
+  },
+  {
+    id: "qwq23",
     content: `Housel melakukan pekerjaan yang luar biasa untuk mengingatkan kita bahwa ekonomi juga bersifat pribadi.
     `,
   },
@@ -79,7 +100,27 @@ const Reading = ({ navigation }: ReadingProps) => {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
         />
+        <Gap vertical={sp.xxl} />
       </DummyFlatList>
+      <Animated.View style={styles.actionWrapper}>
+        <LinearGradient
+          colors={["#fff1", "#fff8", "#fff"]}
+          style={styles.linearGradient}
+        ></LinearGradient>
+        <View style={styles.actions}>
+          <Button style={styles.button}>
+            <Headphones stroke={primaryColor.main} />
+            <Gap horizontal={sp.xs} />
+            <TextItem type="b.20.pc.main">{strings.listen}</TextItem>
+          </Button>
+          <Button style={styles.button}>
+            <Video stroke={primaryColor.main} />
+            <Gap horizontal={sp.xs} />
+            <TextItem type="b.20.pc.main">{strings.watch}</TextItem>
+          </Button>
+        </View>
+        <Gap vertical={sp.sl} />
+      </Animated.View>
     </Base>
   );
 };
