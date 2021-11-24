@@ -10,6 +10,7 @@ import MiniCollectionTile from "./MiniCollectionTile";
 import OngoingTile from "./OngoingTile";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
+import ReadingHeader from "./ReadingHeader";
 import SearchHeader from "./SearchHeader";
 
 export {
@@ -25,6 +26,6 @@ export {
   OngoingTile,
   PagesOnboarding,
   ProfileHeader,
+  ReadingHeader,
   SearchHeader,
 };
-

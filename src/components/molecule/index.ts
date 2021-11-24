@@ -1,4 +1,5 @@
 import BigButton from "./BigButton";
+import ButtonIcon from "./ButtonIcon";
 import CardComent from "./CardComent";
 import Chips from "./Chips";
 import FancyBottomTab from "./FancyBottomTab";
@@ -8,7 +9,9 @@ import TextIcon from "./TextIcon";
 import TitleTap from "./TitleTap";
 
 export {
-  BigButton, CardComent,
+  BigButton,
+  ButtonIcon,
+  CardComent,
   Chips,
   FancyBottomTab,
   LibraryMenu,
@@ -16,4 +19,3 @@ export {
   TextIcon,
   TitleTap,
 };
-
