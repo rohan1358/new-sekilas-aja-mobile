@@ -10,6 +10,7 @@ import BookOpenFilled from "./BookOpenFilled.svg";
 import Camera from "./Camera.svg";
 import ChatBubble from "./ChatBubble.svg";
 import Check from "./Check.svg";
+import ChevronLeft from "./ChevronLeft.svg";
 import ChevronRight from "./ChevronRight.svg";
 import Clipboard from "./Clipboard.svg";
 import Clock from "./Clock.svg";
@@ -69,6 +70,7 @@ export {
   Camera,
   ChatBubble,
   Check,
+  ChevronLeft,
   ChevronRight,
   Clipboard,
   Clock,

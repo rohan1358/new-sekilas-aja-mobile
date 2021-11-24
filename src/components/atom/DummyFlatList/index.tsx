@@ -4,10 +4,10 @@ import { DummyFlatListProps } from "./types";
 
 const DummyFlatList = ({
   children,
+  data = [],
+  renderItem = () => null,
   ...props
 }: PropsWithChildren<DummyFlatListProps>) => {
-  const data: any = [];
-  const renderItem = () => null;
   const keyExtractor = () => `dummyId`;
   const ListHeaderComponent = <>{children}</>;
   return (

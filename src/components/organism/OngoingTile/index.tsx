@@ -12,7 +12,7 @@ const OngoingTile = ({
   const [tileHeight, setTileHeight] = useState<number>(74);
   const s = styles({ tileHeight });
   return (
-    <Button style={s.container} onPress={onPress}>
+    <Button style={s.container} onPress={onPress} activeOpacity={0.9}>
       <View
         style={s.child}
         onLayout={(event) => setTileHeight(event.nativeEvent.layout.height)}
