@@ -62,13 +62,23 @@ const WIDTH = widthPercent(100);
 
 const Reading = ({ navigation }: ReadingProps) => {
   const overlayRef = useRef<any>();
+  const actionPosition = useSharedValue(0);
   const tipPosition = useSharedValue(-WIDTH / 2);
+
+  const actionStyle = useAnimatedStyle(() => ({
+    bottom: actionPosition.value,
+  }));
+
+  const closeActions = () => (actionPosition.value = withTiming(0));
+
+  const closeTip = () => (tipPosition.value = withTiming(-WIDTH / 2));
 
   const customComp = () => (
     <ReadingHeader
       title={"Bab 3: Tak Pernah Cukup Untuk Hidup Mandiri"}
       backPress={() => navigation.goBack()}
       dotPress={() => {
+        actionPosition.value = withTiming(-128);
         tipPosition.value = withTiming(64);
         overlayRef.current?.open();
       }}
@@ -83,12 +93,23 @@ const Reading = ({ navigation }: ReadingProps) => {
 
   const keyExtractor = ({ id }: { id: string }) => `${id}`;
 
+  const onTap = () => {
+    closeActions();
+    closeTip();
+  };
+
   const renderItem = ({ item }: { item: { content: string; id: string } }) => (
     <View>
       <TextItem type="r.16.nc.70">{item.content}</TextItem>
       <Gap vertical={sp.sm} />
     </View>
   );
+
+  const tableContentPress = () => {
+    overlayRef.current?.close();
+    onTap();
+    navigation.navigate("BookTableContent");
+  };
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
 
@@ -117,7 +138,7 @@ const Reading = ({ navigation }: ReadingProps) => {
         />
         <Gap vertical={sp.xxl} />
       </DummyFlatList>
-      <Animated.View style={styles.actionWrapper}>
+      <Animated.View style={[styles.actionWrapper, actionStyle]}>
         <LinearGradient
           colors={["#fff1", "#fff8", "#fff"]}
           style={styles.linearGradient}
@@ -136,17 +157,14 @@ const Reading = ({ navigation }: ReadingProps) => {
         </View>
         <Gap vertical={sp.sl} />
       </Animated.View>
-      <AnimatedOverlay
-        ref={overlayRef}
-        onTap={() => (tipPosition.value = withTiming(-WIDTH / 2))}
-      />
+      <AnimatedOverlay ref={overlayRef} onTap={onTap} />
       <Animated.View style={[styles.tipContainer, tipStyle]}>
         <View style={styles.tip} />
         <View style={styles.tipContent}>
           <Button style={styles.tipButton}>
             <TextItem type="r.20.nc.90">{strings.share}</TextItem>
           </Button>
-          <Button style={styles.tipButton}>
+          <Button style={styles.tipButton} onPress={tableContentPress}>
             <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
           </Button>
         </View>

@@ -5,6 +5,7 @@ import {
   About,
   AccountSettings,
   BookDetail,
+  BookTableContent,
   Category,
   Home,
   Notification,
@@ -39,6 +40,7 @@ const MainRoute = () => {
       <Stack.Screen name={"Notification"} component={Notification} />
       <Stack.Screen name={"BookDetail"} component={BookDetail} />
       <Stack.Screen name={"Reading"} component={Reading} />
+      <Stack.Screen name={"BookTableContent"} component={BookTableContent} />
     </Stack.Navigator>
   );
 };

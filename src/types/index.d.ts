@@ -11,6 +11,7 @@ type RootStackParamList = {
   AccountSettings: undefined;
 
   BookDetail: undefined;
+  BookTableContent: undefined;
 
   Category: {
     type: "category" | "special";

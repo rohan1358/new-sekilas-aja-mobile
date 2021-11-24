@@ -4,6 +4,7 @@ import CardComent from "./CardComent";
 import Chips from "./Chips";
 import FancyBottomTab from "./FancyBottomTab";
 import LibraryMenu from "./LibraryMenu";
+import MenuArrow from "./MenuArrow";
 import TextField from "./TextField";
 import TextIcon from "./TextIcon";
 import TitleTap from "./TitleTap";
@@ -15,6 +16,7 @@ export {
   Chips,
   FancyBottomTab,
   LibraryMenu,
+  MenuArrow,
   TextField,
   TextIcon,
   TitleTap,

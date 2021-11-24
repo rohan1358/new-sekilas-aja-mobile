@@ -1,6 +1,7 @@
 import About from "./About";
 import AccountSettings from "./AccountSettings";
 import BookDetail from "./BookDetail";
+import BookTableContent from "./BookTableContent";
 import Category from "./Category";
 import Explore from "./Explore";
 import Home from "./Home";
@@ -19,6 +20,7 @@ export {
   About,
   AccountSettings,
   BookDetail,
+  BookTableContent,
   Category,
   Explore,
   Home,

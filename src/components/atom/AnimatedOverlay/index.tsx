@@ -33,6 +33,7 @@ const AnimatedOverlay = forwardRef<any, AnimatedOverlayProps>(
 
     useImperativeHandle(ref, () => ({
       open: () => (position.value = withTiming(0)),
+      close: () => (position.value = withTiming(HEIGHT)),
     }));
 
     return (
