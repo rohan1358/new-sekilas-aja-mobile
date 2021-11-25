@@ -18,7 +18,7 @@ import {
   strings,
 } from "@constants";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View } from "react-native";
+import { Share, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
@@ -138,6 +138,39 @@ const Reading = ({ navigation, route }: ReadingProps) => {
     </View>
   );
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `"${currenTitle}"
+        
+Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kilas di https://sekilasaja.com`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          logger(result);
+          onTap();
+          overlayRef.current?.close();
+        } else {
+          onTap();
+          overlayRef.current?.close();
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        onTap();
+        overlayRef.current?.close();
+      }
+      onTap();
+      overlayRef.current?.close();
+    } catch (error) {
+      onTap();
+      overlayRef.current?.close();
+      //@ts-ignore
+
+      logger("Reading, onShare", error?.message);
+    }
+  };
+
   const tableContentPress = () => {
     overlayRef.current?.close();
     onTap();
@@ -223,7 +256,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
       <Animated.View style={[s.tipContainer, tipStyle]}>
         <View style={s.tip} />
         <View style={s.tipContent}>
-          <Button style={s.tipButton}>
+          <Button style={s.tipButton} onPress={onShare}>
             <TextItem type="r.20.nc.90">{strings.share}</TextItem>
           </Button>
           <Button style={s.tipButton} onPress={tableContentPress}>
