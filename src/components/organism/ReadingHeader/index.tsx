@@ -13,11 +13,16 @@ import { Button, Gap, TextItem } from "../../atom";
 import { ButtonIcon } from "../../molecule";
 import styles from "./styles";
 
-const ReadingHeader = ({ title, backPress, dotPress }: ReadingHeaderProps) => {
+const ReadingHeader = ({
+  title,
+  backPress,
+  dotPress,
+  dotVisibility,
+}: ReadingHeaderProps) => {
   const [textWidth, setTextWidth] = useState(1000);
   const [actualHeaderWidth, setActualHeaderWidth] = useState<number>(0);
 
-  const s = styles({ textWidth });
+  const s = styles({ textWidth, dotVisibility });
 
   const translate = useMemo(
     () => actualHeaderWidth - textWidth - 16,
@@ -81,7 +86,7 @@ const ReadingHeader = ({ title, backPress, dotPress }: ReadingHeaderProps) => {
         <View style={[s.semiBlur, s.blurRight]} />
       </View>
       <Gap horizontal={sp.sm} />
-      <ButtonIcon onPress={dotPress}>
+      <ButtonIcon onPress={dotPress} disabled={!dotVisibility} style={s.dot}>
         <MenuDots stroke={neutralColor[70]} width={24} height={24} />
       </ButtonIcon>
       <Gap horizontal={20} />

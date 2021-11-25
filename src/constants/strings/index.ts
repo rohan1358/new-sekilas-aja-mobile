@@ -73,6 +73,9 @@ export const strings = {
   jam: "Jam",
 
   kategori: "Kategori",
+  kilasEmpty: "Daftar kilas kosong",
+  kilasEmptyDesc:
+    "Sepertinya kilas buku ini masih kosong, kamu bisa coba lirik buku lain dulu.",
   kirim: "Kirim",
   komentar: "Komentar",
   kualitas: "Kualitas Audio",

@@ -5,6 +5,7 @@ import {
   Button,
   ButtonIcon,
   DummyFlatList,
+  EmptyPlaceholder,
   Gap,
   PageController,
   ReadingHeader,
@@ -46,7 +47,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
   const actionPosition = useSharedValue(ACTION_HIDE);
   const tipPosition = useSharedValue(-WIDTH / 2);
 
-  const [content, setContent] = useState<BookContentProps>();
+  const [content, setContent] = useState<BookContentProps | null>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -72,6 +73,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
         tipPosition.value = withTiming(64);
         overlayRef.current?.open();
       }}
+      dotVisibility={!!content}
     />
   );
 
@@ -91,7 +93,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
       if (!isSuccess) {
         return;
       }
-      actionPosition.value = withTiming(0);
+      if (!!data) actionPosition.value = withTiming(0);
       setContent(data);
     } catch (error) {
       logger("BookTableContent, getContent", error);
@@ -205,40 +207,47 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
         layout={skeleton.mainReading}
         containerStyle={s.skeleton}
       >
-        <DummyFlatList
-          contentContainerStyle={s.contentContainerStyle}
-          ref={scrollRef}
-        >
-          <Gap vertical={sp.sl} />
-          <PageController
-            {...{
-              isOnFirstPage,
-              isOnLastPage,
-              label,
-              onNextPress,
-              onPrevPress,
-            }}
+        {!!content ? (
+          <DummyFlatList
+            contentContainerStyle={s.contentContainerStyle}
+            ref={scrollRef}
+          >
+            <Gap vertical={sp.sl} />
+            <PageController
+              {...{
+                isOnFirstPage,
+                isOnLastPage,
+                label,
+                onNextPress,
+                onPrevPress,
+              }}
+            />
+            <Gap vertical={36} />
+            <TextItem type="b.32.nc.100">{currenTitle}</TextItem>
+            <Gap vertical={sp.sl} />
+            <FlatList
+              data={content?.pageContent[currentPage]?.details}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+            />
+            <Gap vertical={sp.sl} />
+            <PageController
+              {...{
+                isOnFirstPage,
+                isOnLastPage,
+                label,
+                onNextPress,
+                onPrevPress,
+              }}
+            />
+            <Gap vertical={sp.xl * 3} />
+          </DummyFlatList>
+        ) : (
+          <EmptyPlaceholder
+            title={strings.kilasEmpty}
+            subtitle={strings.kilasEmptyDesc}
           />
-          <Gap vertical={36} />
-          <TextItem type="b.32.nc.100">{currenTitle}</TextItem>
-          <Gap vertical={sp.sl} />
-          <FlatList
-            data={content?.pageContent[currentPage]?.details}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-          />
-          <Gap vertical={sp.sl} />
-          <PageController
-            {...{
-              isOnFirstPage,
-              isOnLastPage,
-              label,
-              onNextPress,
-              onPrevPress,
-            }}
-          />
-          <Gap vertical={sp.xl * 3} />
-        </DummyFlatList>
+        )}
       </SkeletonContent>
       <Animated.View style={[s.actionWrapper, actionStyle]}>
         <LinearGradient

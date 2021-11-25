@@ -1,4 +1,4 @@
-import { Base, MenuArrow } from "@components";
+import { Base, EmptyPlaceholder, MenuArrow } from "@components";
 import { skeleton, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
@@ -6,13 +6,13 @@ import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { logger } from "../../helpers/helper";
 import { fetchBookTableOfContent } from "../../services";
 import styles from "./styles";
-import { BookTableOfContentProps, BookTableContentProps } from "./types";
+import { BookTableContentProps, BookTableOfContentProps } from "./types";
 
 const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
   const BOOK_ID = route.params?.id;
   const isMounted = useRef<boolean>(true);
 
-  const [contents, setContents] = useState<BookTableOfContentProps[]>();
+  const [contents, setContents] = useState<BookTableOfContentProps[] | null>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getContent = async () => {
@@ -76,11 +76,24 @@ const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
         layout={skeleton.mainTableContent}
         containerStyle={styles.skeleton}
       >
-        <FlatList
-          data={contents}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
+        {!!contents ? (
+          <FlatList
+            data={contents}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            ListEmptyComponent={
+              <EmptyPlaceholder
+                title={strings.kilasEmpty}
+                subtitle={strings.kilasEmptyDesc}
+              />
+            }
+          />
+        ) : (
+          <EmptyPlaceholder
+            title={strings.kilasEmpty}
+            subtitle={strings.kilasEmptyDesc}
+          />
+        )}
       </SkeletonContent>
     </Base>
   );

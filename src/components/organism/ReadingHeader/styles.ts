@@ -1,10 +1,19 @@
 import { StyleSheet } from "react-native";
 
-const styles = ({ textWidth }: { textWidth: number }) =>
+const styles = ({
+  textWidth,
+  dotVisibility,
+}: {
+  textWidth: number;
+  dotVisibility: boolean;
+}) =>
   StyleSheet.create({
     blurLeft: { left: 0 },
     blurRight: { right: 0 },
+
     container: { flexDirection: "row", alignItems: "center" },
+
+    dot: { opacity: dotVisibility ? 1 : 0 },
 
     semiBlur: {
       position: "absolute",

@@ -1,5 +1,6 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
+import { logger } from "../../helpers/helper";
 
 const fetchBookContent = ({ bookTitle }: { bookTitle: string }) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
@@ -9,6 +10,14 @@ const fetchBookContent = ({ bookTitle }: { bookTitle: string }) => {
         .doc(bookTitle)
         .collection(firebaseNode.kilasan)
         .get();
+      if (raw.empty) {
+        resolve({
+          data: null,
+          isSuccess: true,
+          error: null,
+          message: "Book content successfuly fetched.",
+        });
+      }
       const pages = raw.docs.map((value) => {
         const item = value.data();
         const id = value.id;
@@ -48,6 +57,16 @@ const fetchBookTableOfContent = ({ bookTitle }: { bookTitle: string }) => {
         .doc(bookTitle)
         .collection(firebaseNode.kilasan)
         .get();
+
+      if (raw.empty) {
+        resolve({
+          data: null,
+          isSuccess: true,
+          error: null,
+          message: "Book table of content successfuly fetched.",
+        });
+      }
+
       const data = raw.docs.map((value) => {
         const item = value.data();
         const id = value.id;
