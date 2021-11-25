@@ -60,11 +60,6 @@ const Reading = ({ navigation, route }: ReadingProps) => {
     [content, currentPage]
   );
 
-  const currentContent = useMemo(
-    () => content?.pageContent[currentPage]?.details,
-    [content, currentPage]
-  );
-
   const customComp = () => (
     <ReadingHeader
       title={BOOK_ID || "Book Content"}
@@ -107,7 +102,19 @@ const Reading = ({ navigation, route }: ReadingProps) => {
     customComp,
   };
 
+  const isOnFirstPage = currentPage === 0;
+
+  const isOnLastPage = currentPage === (content?.numberOfPage || 0) - 1;
+
   const keyExtractor = (item: string) => `${item}`;
+
+  const onNextPress = () =>
+    setCurrentPage((current) =>
+      current < (content?.numberOfPage || 0) - 1 ? current + 1 : current
+    );
+
+  const onPrevPress = () =>
+    setCurrentPage((current) => (current > 0 ? current - 1 : current));
 
   const onTap = () => {
     closeActions();
@@ -129,6 +136,8 @@ const Reading = ({ navigation, route }: ReadingProps) => {
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
 
+  const s = styles({ isOnFirstPage, isOnLastPage });
+
   useEffect(() => {
     isMounted.current = true;
 
@@ -144,19 +153,15 @@ const Reading = ({ navigation, route }: ReadingProps) => {
       <SkeletonContent
         isLoading={isLoading}
         layout={skeleton.mainReading}
-        containerStyle={styles.skeleton}
+        containerStyle={s.skeleton}
       >
-        <DummyFlatList contentContainerStyle={styles.contentContainerStyle}>
+        <DummyFlatList contentContainerStyle={s.contentContainerStyle}>
           <Gap vertical={sp.s} />
-          <View style={styles.control}>
+          <View style={s.control}>
             <ButtonIcon
-              onPress={() =>
-                setCurrentPage((current) =>
-                  current > 0 ? current - 1 : current
-                )
-              }
-              disabled={currentPage === 0}
-              style={{ opacity: currentPage === 0 ? 0 : 1 }}
+              onPress={onPrevPress}
+              disabled={isOnFirstPage}
+              style={s.prevButton}
             >
               <ChevronLeft stroke={neutralColor[70]} />
             </ButtonIcon>
@@ -166,18 +171,9 @@ const Reading = ({ navigation, route }: ReadingProps) => {
             }`}</TextItem>
             <Gap horizontal={sp.s} />
             <ButtonIcon
-              onPress={() =>
-                setCurrentPage((current) =>
-                  current < (content?.numberOfPage || 0) - 1
-                    ? current + 1
-                    : current
-                )
-              }
-              disabled={currentPage === (content?.numberOfPage || 0) - 1}
-              style={{
-                opacity:
-                  currentPage === (content?.numberOfPage || 0) - 1 ? 0 : 1,
-              }}
+              onPress={onNextPress}
+              disabled={isOnLastPage}
+              style={s.nextButton}
             >
               <ChevronRight stroke={neutralColor[70]} />
             </ButtonIcon>
@@ -193,18 +189,18 @@ const Reading = ({ navigation, route }: ReadingProps) => {
           <Gap vertical={sp.sl * 3} />
         </DummyFlatList>
       </SkeletonContent>
-      <Animated.View style={[styles.actionWrapper, actionStyle]}>
+      <Animated.View style={[s.actionWrapper, actionStyle]}>
         <LinearGradient
           colors={["#fff1", "#fff8", "#fff"]}
-          style={styles.linearGradient}
+          style={s.linearGradient}
         ></LinearGradient>
-        <View style={styles.actions}>
-          <Button style={styles.button}>
+        <View style={s.actions}>
+          <Button style={s.button}>
             <Headphones stroke={primaryColor.main} />
             <Gap horizontal={sp.xs} />
             <TextItem type="b.20.pc.main">{strings.listen}</TextItem>
           </Button>
-          <Button style={styles.button}>
+          <Button style={s.button}>
             <Video stroke={primaryColor.main} />
             <Gap horizontal={sp.xs} />
             <TextItem type="b.20.pc.main">{strings.watch}</TextItem>
@@ -213,13 +209,13 @@ const Reading = ({ navigation, route }: ReadingProps) => {
         <Gap vertical={sp.sl} />
       </Animated.View>
       <AnimatedOverlay ref={overlayRef} onTap={onTap} />
-      <Animated.View style={[styles.tipContainer, tipStyle]}>
-        <View style={styles.tip} />
-        <View style={styles.tipContent}>
-          <Button style={styles.tipButton}>
+      <Animated.View style={[s.tipContainer, tipStyle]}>
+        <View style={s.tip} />
+        <View style={s.tipContent}>
+          <Button style={s.tipButton}>
             <TextItem type="r.20.nc.90">{strings.share}</TextItem>
           </Button>
-          <Button style={styles.tipButton} onPress={tableContentPress}>
+          <Button style={s.tipButton} onPress={tableContentPress}>
             <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
           </Button>
         </View>
