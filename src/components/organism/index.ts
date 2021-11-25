@@ -8,6 +8,7 @@ import HomeHeader from "./HomeHeader";
 import ImageBanner from "./ImageBanner";
 import MiniCollectionTile from "./MiniCollectionTile";
 import OngoingTile from "./OngoingTile";
+import PageController from "./PageController";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
 import ReadingHeader from "./ReadingHeader";
@@ -24,6 +25,7 @@ export {
   ImageBanner,
   MiniCollectionTile,
   OngoingTile,
+  PageController,
   PagesOnboarding,
   ProfileHeader,
   ReadingHeader,

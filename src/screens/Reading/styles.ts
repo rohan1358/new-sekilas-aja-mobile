@@ -34,12 +34,6 @@ const styles = ({
     },
 
     contentContainerStyle: { paddingHorizontal: sp.sl },
-    control: {
-      width: "100%",
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-    },
 
     linearGradient: {
       width: "100%",
@@ -47,12 +41,6 @@ const styles = ({
       paddingVertical: sp.sl,
       position: "absolute",
     },
-
-    nextButton: {
-      opacity: isOnLastPage ? 0 : 1,
-    },
-
-    prevButton: { opacity: isOnFirstPage ? 0 : 1 },
 
     tip: {
       position: "absolute",

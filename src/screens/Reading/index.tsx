@@ -6,6 +6,7 @@ import {
   ButtonIcon,
   DummyFlatList,
   Gap,
+  PageController,
   ReadingHeader,
   TextItem,
 } from "@components";
@@ -33,14 +34,16 @@ import styles from "./styles";
 import { BookContentProps, ReadingProps } from "./types";
 
 const WIDTH = widthPercent(100);
+const ACTION_HIDE = -128;
 
 const Reading = ({ navigation, route }: ReadingProps) => {
   const BOOK_ID = route.params?.id;
 
   const isMounted = useRef<boolean>(true);
   const overlayRef = useRef<any>();
+  const scrollRef = useRef<FlatList<any>>();
 
-  const actionPosition = useSharedValue(0);
+  const actionPosition = useSharedValue(ACTION_HIDE);
   const tipPosition = useSharedValue(-WIDTH / 2);
 
   const [content, setContent] = useState<BookContentProps>();
@@ -65,7 +68,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
       title={BOOK_ID || "Book Content"}
       backPress={() => navigation.goBack()}
       dotPress={() => {
-        actionPosition.value = withTiming(-128);
+        actionPosition.value = withTiming(ACTION_HIDE);
         tipPosition.value = withTiming(64);
         overlayRef.current?.open();
       }}
@@ -88,6 +91,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
       if (!isSuccess) {
         return;
       }
+      actionPosition.value = withTiming(0);
       setContent(data);
     } catch (error) {
       logger("BookTableContent, getContent", error);
@@ -108,13 +112,19 @@ const Reading = ({ navigation, route }: ReadingProps) => {
 
   const keyExtractor = (item: string) => `${item}`;
 
-  const onNextPress = () =>
+  const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
+
+  const onNextPress = () => {
+    scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
     setCurrentPage((current) =>
       current < (content?.numberOfPage || 0) - 1 ? current + 1 : current
     );
+  };
 
-  const onPrevPress = () =>
+  const onPrevPress = () => {
+    scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
     setCurrentPage((current) => (current > 0 ? current - 1 : current));
+  };
 
   const onTap = () => {
     closeActions();
@@ -155,29 +165,20 @@ const Reading = ({ navigation, route }: ReadingProps) => {
         layout={skeleton.mainReading}
         containerStyle={s.skeleton}
       >
-        <DummyFlatList contentContainerStyle={s.contentContainerStyle}>
-          <Gap vertical={sp.s} />
-          <View style={s.control}>
-            <ButtonIcon
-              onPress={onPrevPress}
-              disabled={isOnFirstPage}
-              style={s.prevButton}
-            >
-              <ChevronLeft stroke={neutralColor[70]} />
-            </ButtonIcon>
-            <Gap horizontal={sp.s} />
-            <TextItem type="r.16.nc.70">{`${currentPage + 1} dari ${
-              content?.numberOfPage
-            }`}</TextItem>
-            <Gap horizontal={sp.s} />
-            <ButtonIcon
-              onPress={onNextPress}
-              disabled={isOnLastPage}
-              style={s.nextButton}
-            >
-              <ChevronRight stroke={neutralColor[70]} />
-            </ButtonIcon>
-          </View>
+        <DummyFlatList
+          contentContainerStyle={s.contentContainerStyle}
+          ref={scrollRef}
+        >
+          <Gap vertical={sp.sl} />
+          <PageController
+            {...{
+              isOnFirstPage,
+              isOnLastPage,
+              label,
+              onNextPress,
+              onPrevPress,
+            }}
+          />
           <Gap vertical={36} />
           <TextItem type="b.32.nc.100">{currenTitle}</TextItem>
           <Gap vertical={sp.sl} />
@@ -186,7 +187,17 @@ const Reading = ({ navigation, route }: ReadingProps) => {
             keyExtractor={keyExtractor}
             renderItem={renderItem}
           />
-          <Gap vertical={sp.sl * 3} />
+          <Gap vertical={sp.sl} />
+          <PageController
+            {...{
+              isOnFirstPage,
+              isOnLastPage,
+              label,
+              onNextPress,
+              onPrevPress,
+            }}
+          />
+          <Gap vertical={sp.xl * 3} />
         </DummyFlatList>
       </SkeletonContent>
       <Animated.View style={[s.actionWrapper, actionStyle]}>
