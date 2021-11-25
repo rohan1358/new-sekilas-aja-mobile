@@ -174,7 +174,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
   const tableContentPress = () => {
     overlayRef.current?.close();
     onTap();
-    navigation.navigate("BookTableContent");
+    navigation.navigate("BookTableContent", { id: BOOK_ID });
   };
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
@@ -190,6 +190,13 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
       isMounted.current = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!route.params?.page) {
+      return;
+    }
+    setCurrentPage(parseInt(route.params?.page) || 0);
+  }, [route.params?.page]);
 
   return (
     <Base headerState={headerState}>

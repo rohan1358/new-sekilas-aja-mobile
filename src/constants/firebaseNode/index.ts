@@ -3,5 +3,7 @@ export const firebaseNode = {
 
   kilasan: "kilasan",
 
+  lastReadBook: "lastReadBook",
+
   users: "users",
 };

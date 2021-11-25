@@ -11,12 +11,12 @@ type RootStackParamList = {
   AccountSettings: undefined;
 
   BookDetail: undefined;
-  BookTableContent: undefined;
+  BookTableContent: { id: string };
 
   Category: {
     type: "category" | "special";
     title: string;
-    payload: string | undefined;
+    payload?: string;
   };
 
   Home: undefined;
@@ -29,7 +29,7 @@ type RootStackParamList = {
   PageEditProfile: undefined;
   Profile: undefined;
 
-  Reading: { id: string };
+  Reading: { id: string; page?: string };
 
   Search: undefined;
   SignIn: undefined;

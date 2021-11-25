@@ -80,6 +80,7 @@ export const strings = {
   kualitas_download: "Kualitas Download",
 
   lalu: " lalu",
+  lastReadClue: "Bacaan terakhir ditampilkan di sini,",
   lebih_banyak: "Lihat Lebih Banyak",
   lebih_sedikit: "Lihat Lebih Sedikit",
   library: "Bukuku",
@@ -137,6 +138,7 @@ export const strings = {
   penulis: "Penulis",
   pembaca: " pembaca",
   promo_empty: "Promo kosong!",
+  pursueRead: "Ayo mulai membaca!",
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
   recommendedBook: "Rekomendasi buku",

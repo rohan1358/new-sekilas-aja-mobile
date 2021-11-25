@@ -8,7 +8,8 @@ import { fetchBookTableOfContent } from "../../services";
 import styles from "./styles";
 import { BookTableOfContentProps, BookTableContentProps } from "./types";
 
-const BookTableContent = ({ navigation }: BookTableContentProps) => {
+const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
+  const BOOK_ID = route.params?.id;
   const isMounted = useRef<boolean>(true);
 
   const [contents, setContents] = useState<BookTableOfContentProps[]>();
@@ -18,7 +19,7 @@ const BookTableContent = ({ navigation }: BookTableContentProps) => {
     setIsLoading(true);
     try {
       const { data, isSuccess } = await fetchBookTableOfContent({
-        bookTitle: "Atomic Habits",
+        bookTitle: BOOK_ID,
       });
       if (!isMounted.current) {
         return;
@@ -48,7 +49,15 @@ const BookTableContent = ({ navigation }: BookTableContentProps) => {
   }: {
     item: BookTableOfContentProps;
     index: number;
-  }) => <MenuArrow title={item?.title} index={index + 1} />;
+  }) => (
+    <MenuArrow
+      title={item?.title}
+      index={index + 1}
+      onPress={() =>
+        navigation.navigate("Reading", { id: BOOK_ID, page: `${index}` })
+      }
+    />
+  );
 
   useEffect(() => {
     isMounted.current = true;

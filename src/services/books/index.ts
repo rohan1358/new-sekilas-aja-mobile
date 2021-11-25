@@ -1,5 +1,6 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
+import { logger } from "../../helpers/helper";
 
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
@@ -102,17 +103,23 @@ const fetchReadingBook = (email: string) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       const raw = await firestore()
-        .collection(firebaseNode.users)
-        .where("email", "==", email)
+        .collection(firebaseNode.lastReadBook)
+        .doc(email)
         .get();
-      const bookName = raw.docs[0].data()?.owned_books[0];
-      const bookDetail = await firestore()
-        .collection(firebaseNode.books)
-        .where("book_title", "==", bookName)
-        .get();
-      const book = bookDetail.docs[0].data();
+
+      const book = raw.data();
+
+      if (!book) {
+        resolve({
+          data: { book: "", book_cover: "", kilas: "", available: false },
+          isSuccess: true,
+          error: null,
+          message: "Reading book successfuly fetched.",
+        });
+      }
+
       resolve({
-        data: book,
+        data: { ...book, available: true },
         isSuccess: true,
         error: null,
         message: "Reading book successfuly fetched.",

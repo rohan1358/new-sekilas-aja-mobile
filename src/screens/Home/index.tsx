@@ -158,7 +158,8 @@ const Home = ({ navigation }: HomeProps) => {
 
   const onGoingPress = () =>
     navigation.navigate("Reading", {
-      id: readingBook?.book_title || "",
+      id: readingBook?.book || "",
+      page: `${parseInt(readingBook?.kilas || "1") - 1}`,
     });
 
   useEffect(() => {
@@ -194,9 +195,10 @@ const Home = ({ navigation }: HomeProps) => {
           <View>
             <View style={styles.dummyHeader} />
             <OngoingTile
-              bookTitle={readingBook?.book_title}
+              bookTitle={readingBook?.book}
               bookUri={readingBook?.book_cover}
               onPress={onGoingPress}
+              isAvailable={!!readingBook?.available}
             />
           </View>
           <View style={styles.adjuster}>

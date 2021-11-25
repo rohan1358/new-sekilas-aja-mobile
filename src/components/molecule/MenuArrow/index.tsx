@@ -4,11 +4,11 @@ import { neutralColor, spacing as sp } from "@constants";
 import React from "react";
 import styles from "./styles";
 
-const MenuArrow = ({ title, index }: MenuArrowProps) => (
-  <Button style={styles.container}>
+const MenuArrow = ({ title, index, onPress }: MenuArrowProps) => (
+  <Button style={styles.container} onPress={onPress}>
     <TextItem
       type="r.16.nc.90"
-      style={{ flex: 1 }}
+      style={styles.text}
     >{`${index}. ${title}`}</TextItem>
     <Gap horizontal={sp.sm} />
     <ChevronRight color={neutralColor[50]} />

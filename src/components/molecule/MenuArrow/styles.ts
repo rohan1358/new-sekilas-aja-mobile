@@ -11,6 +11,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+
+  text: { flex: 1 },
 });
 
 export default styles;

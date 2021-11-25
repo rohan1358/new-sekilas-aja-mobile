@@ -14,8 +14,10 @@ interface CompactBooksProps {
 }
 
 interface ReadingBookProps {
-  book_title: string;
+  book: string;
   book_cover: string;
+  kilas: string;
+  available: boolean;
 }
 
 type Props = StackScreenProps<RootStackParamList, "Search">;
