@@ -1,18 +1,72 @@
 import { Base, MenuArrow } from "@components";
-import { strings } from "@constants";
-import React from "react";
+import { skeleton, strings } from "@constants";
+import React, { useEffect, useRef, useState } from "react";
+import { FlatList } from "react-native";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { logger } from "../../helpers/helper";
+import { fetchBookContent } from "../../services";
 import { BookTableContentProps } from "./types";
 
 const BookTableContent = ({ navigation }: BookTableContentProps) => {
+  const isMounted = useRef<boolean>(true);
+
+  const [contents, setContents] =
+    useState<
+      { id: string; title: string; kilas: string; details: string[] }[]
+    >();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getContent = async () => {
+    setIsLoading(true);
+    try {
+      const { data, isSuccess } = await fetchBookContent({
+        bookTitle: "Atomic Habits",
+      });
+      if (!isMounted.current) {
+        return;
+      }
+      if (!isSuccess) {
+        return;
+      }
+      setContents(data);
+    } catch (error) {
+      logger("BookTableContent, getContent", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const headerState = {
+    visible: true,
+    title: strings.tableOfContent,
+    onBackPress: () => navigation.goBack(),
+  };
+
+  useEffect(() => {
+    isMounted.current = true;
+
+    getContent();
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   return (
-    <Base
-      headerState={{
-        visible: true,
-        title: strings.tableOfContent,
-        onBackPress: () => navigation.goBack(),
-      }}
-    >
-      <MenuArrow title={"Tak Seorang Pun Gila"} index={1} />
+    <Base headerState={headerState}>
+      <SkeletonContent
+        isLoading={isLoading}
+        layout={skeleton.mainTableContent}
+        containerStyle={{ flex: 1 }}
+      >
+        <FlatList
+          data={contents}
+          renderItem={({ item, index }) => (
+            <MenuArrow title={item?.title} index={index + 1} />
+          )}
+          keyExtractor={({ id }) => `${id}`}
+        />
+      </SkeletonContent>
     </Base>
   );
 };
