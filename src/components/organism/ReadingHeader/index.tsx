@@ -31,6 +31,9 @@ const ReadingHeader = ({ title, backPress, dotPress }: ReadingHeaderProps) => {
   }));
 
   const animate = () => {
+    if (translate > 0) {
+      return;
+    }
     position.value = withSequence(
       withTiming(translate, {
         duration: 5000,
@@ -74,7 +77,7 @@ const ReadingHeader = ({ title, backPress, dotPress }: ReadingHeaderProps) => {
             </TextItem>
           </Animated.View>
         </Button>
-        <View style={[s.semiBlur, s.blurLeft]} />
+        {/* <View style={[s.semiBlur, s.blurLeft]} /> */}
         <View style={[s.semiBlur, s.blurRight]} />
       </View>
       <Gap horizontal={sp.sm} />

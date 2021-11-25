@@ -9,8 +9,14 @@ import {
   ReadingHeader,
   TextItem,
 } from "@components";
-import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
-import React, { useRef } from "react";
+import {
+  neutralColor,
+  primaryColor,
+  skeleton,
+  spacing as sp,
+  strings,
+} from "@constants";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
@@ -19,51 +25,27 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { HeaderStateProps } from "../../components/atom/Base/types";
-import { heightPercent, logger, widthPercent } from "../../helpers/helper";
+import { logger, widthPercent } from "../../helpers/helper";
+import { fetchBookContent } from "../../services";
 import styles from "./styles";
-import { ReadingProps } from "./types";
-
-const content = [
-  {
-    id: "foiwurasd",
-    content: `Saya sering menulis bahwa keuangan pribadi adalah pribadi.`,
-  },
-  {
-    id: "fasdfwerw",
-    content: `Yang saya maksud dengan itu adalah bahwa apa yang mungkin menjadi keputusan keuangan yang baik bagi saya mungkin bukan keputusan keuangan yang baik bagi Anda. Itu tergantung pada keadaan pribadi Anda, tujuan, dan toleransi risiko.`,
-  },
-  {
-    id: "q25afasdf",
-    content: `Housel melakukan pekerjaan yang luar biasa untuk mengingatkan kita bahwa ekonomi juga bersifat pribadi.
-    `,
-  },
-  {
-    id: "fas224",
-    content: `Yang saya maksud dengan itu adalah bahwa apa yang mungkin menjadi keputusan keuangan yang baik bagi saya mungkin bukan keputusan keuangan yang baik bagi Anda. Itu tergantung pada keadaan pribadi Anda, tujuan, dan toleransi risiko.`,
-  },
-  {
-    id: "fas234saf",
-    content: `Housel melakukan pekerjaan yang luar biasa untuk mengingatkan kita bahwa ekonomi juga bersifat pribadi.
-    `,
-  },
-  {
-    id: "234aas",
-    content: `Yang saya maksud dengan itu adalah bahwa apa yang mungkin menjadi keputusan keuangan yang baik bagi saya mungkin bukan keputusan keuangan yang baik bagi Anda. Itu tergantung pada keadaan pribadi Anda, tujuan, dan toleransi risiko.`,
-  },
-  {
-    id: "qwq23",
-    content: `Housel melakukan pekerjaan yang luar biasa untuk mengingatkan kita bahwa ekonomi juga bersifat pribadi.
-    `,
-  },
-];
+import { BookContentProps, ReadingProps } from "./types";
 
 const WIDTH = widthPercent(100);
 
-const Reading = ({ navigation }: ReadingProps) => {
+const Reading = ({ navigation, route }: ReadingProps) => {
+  const BOOK_ID = route.params?.id;
+
+  const isMounted = useRef<boolean>(true);
   const overlayRef = useRef<any>();
+
   const actionPosition = useSharedValue(0);
   const tipPosition = useSharedValue(-WIDTH / 2);
+
+  const [content, setContent] = useState<BookContentProps>();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const actionStyle = useAnimatedStyle(() => ({
     bottom: actionPosition.value,
@@ -73,9 +55,19 @@ const Reading = ({ navigation }: ReadingProps) => {
 
   const closeTip = () => (tipPosition.value = withTiming(-WIDTH / 2));
 
+  const currenTitle = useMemo(
+    () => (!!content ? content?.pageContent[currentPage]?.title : ""),
+    [content, currentPage]
+  );
+
+  const currentContent = useMemo(
+    () => content?.pageContent[currentPage]?.details,
+    [content, currentPage]
+  );
+
   const customComp = () => (
     <ReadingHeader
-      title={"Bab 3: Tak Pernah Cukup Untuk Hidup Mandiri"}
+      title={BOOK_ID || "Book Content"}
       backPress={() => navigation.goBack()}
       dotPress={() => {
         actionPosition.value = withTiming(-128);
@@ -85,22 +77,46 @@ const Reading = ({ navigation }: ReadingProps) => {
     />
   );
 
+  const getBookContent = async () => {
+    if (!BOOK_ID) {
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const { data, isSuccess } = await fetchBookContent({
+        bookTitle: BOOK_ID,
+      });
+      if (!isMounted.current) {
+        return;
+      }
+      if (!isSuccess) {
+        return;
+      }
+      setContent(data);
+    } catch (error) {
+      logger("BookTableContent, getContent", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const headerState: HeaderStateProps = {
     visible: true,
     type: "custom",
     customComp,
   };
 
-  const keyExtractor = ({ id }: { id: string }) => `${id}`;
+  const keyExtractor = (item: string) => `${item}`;
 
   const onTap = () => {
     closeActions();
     closeTip();
   };
 
-  const renderItem = ({ item }: { item: { content: string; id: string } }) => (
+  const renderItem = ({ item }: { item: string }) => (
     <View>
-      <TextItem type="r.16.nc.70">{item.content}</TextItem>
+      <TextItem type="r.16.nc.70">{item}</TextItem>
       <Gap vertical={sp.sm} />
     </View>
   );
@@ -113,31 +129,70 @@ const Reading = ({ navigation }: ReadingProps) => {
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
 
+  useEffect(() => {
+    isMounted.current = true;
+
+    getBookContent();
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   return (
     <Base headerState={headerState}>
-      <DummyFlatList contentContainerStyle={styles.contentContainerStyle}>
-        <Gap vertical={sp.s} />
-        <View style={styles.control}>
-          <ButtonIcon>
-            <ChevronLeft stroke={neutralColor[70]} />
-          </ButtonIcon>
-          <Gap horizontal={sp.s} />
-          <TextItem type="r.16.nc.70">3 dari 20</TextItem>
-          <Gap horizontal={sp.s} />
-          <ButtonIcon>
-            <ChevronRight stroke={neutralColor[70]} />
-          </ButtonIcon>
-        </View>
-        <Gap vertical={36} />
-        <TextItem type="b.32.nc.100">{`Bagi sebagian orang, ini adalah usia 20-an yang menderu. Bagi yang lain, ini adalah depresi hebat.`}</TextItem>
-        <Gap vertical={sp.sl} />
-        <FlatList
-          data={content}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-        />
-        <Gap vertical={sp.xxl} />
-      </DummyFlatList>
+      <SkeletonContent
+        isLoading={isLoading}
+        layout={skeleton.mainReading}
+        containerStyle={styles.skeleton}
+      >
+        <DummyFlatList contentContainerStyle={styles.contentContainerStyle}>
+          <Gap vertical={sp.s} />
+          <View style={styles.control}>
+            <ButtonIcon
+              onPress={() =>
+                setCurrentPage((current) =>
+                  current > 0 ? current - 1 : current
+                )
+              }
+              disabled={currentPage === 0}
+              style={{ opacity: currentPage === 0 ? 0 : 1 }}
+            >
+              <ChevronLeft stroke={neutralColor[70]} />
+            </ButtonIcon>
+            <Gap horizontal={sp.s} />
+            <TextItem type="r.16.nc.70">{`${currentPage + 1} dari ${
+              content?.numberOfPage
+            }`}</TextItem>
+            <Gap horizontal={sp.s} />
+            <ButtonIcon
+              onPress={() =>
+                setCurrentPage((current) =>
+                  current < (content?.numberOfPage || 0) - 1
+                    ? current + 1
+                    : current
+                )
+              }
+              disabled={currentPage === (content?.numberOfPage || 0) - 1}
+              style={{
+                opacity:
+                  currentPage === (content?.numberOfPage || 0) - 1 ? 0 : 1,
+              }}
+            >
+              <ChevronRight stroke={neutralColor[70]} />
+            </ButtonIcon>
+          </View>
+          <Gap vertical={36} />
+          <TextItem type="b.32.nc.100">{currenTitle}</TextItem>
+          <Gap vertical={sp.sl} />
+          <FlatList
+            data={content?.pageContent[currentPage]?.details}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+          />
+          <Gap vertical={sp.sl * 3} />
+        </DummyFlatList>
+      </SkeletonContent>
       <Animated.View style={[styles.actionWrapper, actionStyle]}>
         <LinearGradient
           colors={["#fff1", "#fff8", "#fff"]}

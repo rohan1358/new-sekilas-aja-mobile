@@ -4,20 +4,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { logger } from "../../helpers/helper";
-import { fetchBookContent } from "../../services";
+import { fetchBookTableOfContent } from "../../services";
 import styles from "./styles";
-import { BookContentProps, BookTableContentProps } from "./types";
+import { BookTableOfContentProps, BookTableContentProps } from "./types";
 
 const BookTableContent = ({ navigation }: BookTableContentProps) => {
   const isMounted = useRef<boolean>(true);
 
-  const [contents, setContents] = useState<BookContentProps[]>();
+  const [contents, setContents] = useState<BookTableOfContentProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getContent = async () => {
     setIsLoading(true);
     try {
-      const { data, isSuccess } = await fetchBookContent({
+      const { data, isSuccess } = await fetchBookTableOfContent({
         bookTitle: "Atomic Habits",
       });
       if (!isMounted.current) {
@@ -40,13 +40,13 @@ const BookTableContent = ({ navigation }: BookTableContentProps) => {
     onBackPress: () => navigation.goBack(),
   };
 
-  const keyExtractor = ({ id }: BookContentProps) => `${id}`;
+  const keyExtractor = ({ id }: BookTableOfContentProps) => `${id}`;
 
   const renderItem = ({
     item,
     index,
   }: {
-    item: BookContentProps;
+    item: BookTableOfContentProps;
     index: number;
   }) => <MenuArrow title={item?.title} index={index + 1} />;
 

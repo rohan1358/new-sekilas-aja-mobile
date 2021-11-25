@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
   tipButton: { paddingHorizontal: sp.s, paddingVertical: sp.xs },
   tipContainer: { position: "absolute", top: 64, right: 44 },
   tipContent: { backgroundColor: TIP_COLOR },
+
+  skeleton: { flex: 1 },
 });
 
 export default styles;
