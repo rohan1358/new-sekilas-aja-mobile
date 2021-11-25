@@ -3,4 +3,11 @@ import { RootStackParamList } from "../../types";
 
 type Props = StackScreenProps<RootStackParamList, "BookTableContent">;
 
+interface BookContentProps {
+  id: string;
+  title: string;
+  kilas: string;
+  details: string[];
+}
+
 interface BookTableContentProps extends Props {}

@@ -5,15 +5,13 @@ import { FlatList } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { logger } from "../../helpers/helper";
 import { fetchBookContent } from "../../services";
-import { BookTableContentProps } from "./types";
+import styles from "./styles";
+import { BookContentProps, BookTableContentProps } from "./types";
 
 const BookTableContent = ({ navigation }: BookTableContentProps) => {
   const isMounted = useRef<boolean>(true);
 
-  const [contents, setContents] =
-    useState<
-      { id: string; title: string; kilas: string; details: string[] }[]
-    >();
+  const [contents, setContents] = useState<BookContentProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getContent = async () => {
@@ -42,6 +40,16 @@ const BookTableContent = ({ navigation }: BookTableContentProps) => {
     onBackPress: () => navigation.goBack(),
   };
 
+  const keyExtractor = ({ id }: BookContentProps) => `${id}`;
+
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: BookContentProps;
+    index: number;
+  }) => <MenuArrow title={item?.title} index={index + 1} />;
+
   useEffect(() => {
     isMounted.current = true;
 
@@ -57,14 +65,12 @@ const BookTableContent = ({ navigation }: BookTableContentProps) => {
       <SkeletonContent
         isLoading={isLoading}
         layout={skeleton.mainTableContent}
-        containerStyle={{ flex: 1 }}
+        containerStyle={styles.skeleton}
       >
         <FlatList
           data={contents}
-          renderItem={({ item, index }) => (
-            <MenuArrow title={item?.title} index={index + 1} />
-          )}
-          keyExtractor={({ id }) => `${id}`}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
         />
       </SkeletonContent>
     </Base>
