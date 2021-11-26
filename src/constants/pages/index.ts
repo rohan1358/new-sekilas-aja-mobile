@@ -11,6 +11,7 @@ export const pages = {
   Home: "Home",
 
   Library: "Library",
+  Listening: "Listening",
 
   MainBottomRoute: "MainBottomRoute",
 

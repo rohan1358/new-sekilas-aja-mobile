@@ -11,6 +11,7 @@ import OngoingTile from "./OngoingTile";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
 import SearchHeader from "./SearchHeader";
+import HeaderListening from "./HeaderListening";
 
 export {
   AboutHeader,
@@ -26,5 +27,6 @@ export {
   PagesOnboarding,
   ProfileHeader,
   SearchHeader,
+  HeaderListening,
 };
 

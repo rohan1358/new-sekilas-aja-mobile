@@ -98,7 +98,7 @@ export default function BookDetail({ navigation, route }: any) {
     };
   }, []);
 
-  const toTop = (item) => {
+  const toTop = (item: any) => {
     // use current
     refScroll.current.scrollTo({ x: 0, y: 0, animated: true });
     navigation.navigate(pages.BookDetail, { item });
@@ -109,6 +109,23 @@ export default function BookDetail({ navigation, route }: any) {
       display: yOffset.value > 268 ? "flex" : "none",
     };
   });
+
+  const navigationTopBar = (type = '') => {
+    switch (type) {
+      case 'reading':
+        navigation.navigate(pages.Listening)
+        break;
+      case 'listening':
+        navigation.navigate(pages.Listening)
+        break;
+      case 'watching':
+        navigation.navigate(pages.Listening)
+        break;
+    
+      default:
+        break;
+    }
+  }
 
   return (
     <Base
@@ -123,15 +140,15 @@ export default function BookDetail({ navigation, route }: any) {
         Active={active}
       />
       <Animated.View style={[styles.SelectBarUp, stylez]}>
-        <Button style={styles.btnBar}>
+        <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
           <File />
           <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
         </Button>
-        <Button style={styles.btnBar}>
+        <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
           <Headphones />
           <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
         </Button>
-        <Button style={styles.btnBar}>
+        <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
           <Video />
           <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
         </Button>
@@ -157,15 +174,15 @@ export default function BookDetail({ navigation, route }: any) {
 
         <View style={[styles.boxSelect]}>
           <View style={styles.SelectBar}>
-            <Button style={styles.btnBar}>
+            <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
               <File />
               <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
             </Button>
-            <Button style={styles.btnBar}>
+            <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
               <Headphones />
               <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
             </Button>
-            <Button style={styles.btnBar}>
+            <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
               <Video />
               <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
             </Button>

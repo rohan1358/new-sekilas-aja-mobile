@@ -13,6 +13,7 @@ import Profile from "./Profile";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import Listening from "./Listening";
 
 export {
   About,
@@ -30,4 +31,5 @@ export {
   Search,
   SignIn,
   SignUp,
+  Listening,
 };
