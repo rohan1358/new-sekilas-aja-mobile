@@ -22,10 +22,32 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
 
+    containerTitle: {
+        // justifyContent: 'center',
+        // alignItems: 'center',
+    },
+
     title: {
         fontSize: 32,
         fontWeight: '700',
-        color: neutralColor[90]
+        color: neutralColor[90],
+        // textAlign:'center'
+    },
+
+    gradientLeft: {
+        width: 60,
+        height: '100%',
+        position: 'absolute',
+        left: 0,
+        zIndex: 1,
+    },
+    
+    gradientRight: {
+        width: 60,
+        height: '100%',
+        position: 'absolute',
+        right: 0,
+        zIndex: 1,
     },
 
     SliderContainer: {
@@ -58,6 +80,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 50,
         height: 50
+    },
+
+    rotate: {
+        width: 10,
+        height: 10
     },
 
     iconPlay: {

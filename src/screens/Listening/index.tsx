@@ -5,6 +5,8 @@ import styles from './styles';
 import { colors, neutralColor, pages, primaryColor, snackState as ss, strings } from '@constants';
 import { Slider } from '@miblanchard/react-native-slider';
 import { File, Pause, Play, RotateCcw, RotateCw, SkipBack, SkipForward, Video } from '@assets';
+import TextTicker from 'react-native-text-ticker'
+import LinearGradient from 'react-native-linear-gradient';
 
 const TotalTime = 230;
 
@@ -53,7 +55,31 @@ export default function Listening({ navigation }: any) {
         <View style={styles.boxImage}>
           <Amage resizeMode='contain' />
         </View>
-        <TextItem style={[styles.text, styles.title]}>The Psychology of Money</TextItem>
+        <View style={styles.containerTitle}>
+          <LinearGradient
+              colors={[primaryColor.main, 'rgba(251, 207, 50, 0.5)', 'transparent']}
+                useAngle={ true}
+                angle={45}
+              angleCenter={{ x: 0.5, y: 0.5 }}
+              style={styles.gradientLeft}
+            />
+          <TextTicker
+            duration={6000}
+            loop
+            scroll
+            repeatSpacer={20}
+            marqueeDelay={1}
+          >
+              <TextItem style={[styles.text, styles.title]}>The Psychology of Money</TextItem>
+          </TextTicker>
+          <LinearGradient
+            colors={['transparent', 'rgba(251, 207, 50, 0.5)', primaryColor.main]}
+            useAngle={ true}
+            angle={45}
+            angleCenter={{ x: 0.5, y: 0.5 }}
+            style={styles.gradientRight}
+          />
+        </View>
         <TextItem style={[styles.text]}>Morgan Housel</TextItem>
         <View>
           <Slider
@@ -73,7 +99,7 @@ export default function Listening({ navigation }: any) {
         </View>
         <View style={styles.boxAction}>
           <Button>
-            <RotateCcw color={neutralColor[90]} />
+            <RotateCcw height={25} color={neutralColor[90]}/>
           </Button>
           <Button>
             <SkipBack color={neutralColor[90]} />
@@ -90,7 +116,7 @@ export default function Listening({ navigation }: any) {
             <SkipForward color={neutralColor[90]} />
           </Button>
           <Button>
-            <RotateCw color={neutralColor[90]} />
+            <RotateCw height={25} color={neutralColor[90]} />
           </Button>
         </View>
         <View style={styles.boxFooter}>
