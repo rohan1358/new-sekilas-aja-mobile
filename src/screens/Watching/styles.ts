@@ -22,34 +22,6 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
 
-    containerTitle: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // marginVertical: heightPercent(5)
-    },
-
-    title: {
-        fontSize: 32,
-        fontWeight: '700',
-        color: neutralColor[90],
-        // textAlign:'center'
-    },
-
-    gradientLeft: {
-        width: 60,
-        height: '100%',
-        position: 'absolute',
-        left: 0,
-        zIndex: 1,
-    },
-    
-    gradientRight: {
-        width: 60,
-        height: '100%',
-        position: 'absolute',
-        right: 0,
-        zIndex: 1,
-    },
 
     SliderContainer: {
         height: heightPercent(5)
@@ -94,7 +66,6 @@ const styles = StyleSheet.create({
 
     boxFooter: {
         alignItems: 'center',
-        marginTop: heightPercent(5)
     },
 
     speedText: {
@@ -108,7 +79,8 @@ const styles = StyleSheet.create({
         height: 44,
         borderRadius: 12,
         flexDirection: 'row',
-        alignItems:'center'
+        alignItems: 'center',
+        marginTop: heightPercent(10)
     },
 
     btnBar: {

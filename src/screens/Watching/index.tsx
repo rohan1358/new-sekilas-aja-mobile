@@ -1,19 +1,17 @@
 import { Amage, Base, Button, DummyFlatList, HeaderListening, TextItem } from '../../components';
 import React, { useRef, useState } from 'react'
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import { colors, neutralColor, pages, primaryColor, snackState as ss, strings } from '@constants';
 import { Slider } from '@miblanchard/react-native-slider';
-import { Exit, File, Pause, Play, RotateCcw, RotateCw, SkipBack, SkipForward, Video } from '@assets';
-import TextTicker from 'react-native-text-ticker'
-import LinearGradient from 'react-native-linear-gradient';
+import { Exit, File, Headphones, Pause, Play, RotateCcw, RotateCw, SkipBack, SkipForward } from '@assets';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { heightPercent } from '../../helpers/helper';
 import { speedList } from './dummy';
 
 const TotalTime = 230;
 
-export default function Listening({ navigation }: any) {
+export default function Watching({ navigation }: any) {
 
   const refRBSheet = useRef();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -55,38 +53,12 @@ export default function Listening({ navigation }: any) {
       <HeaderListening
         navigation={navigation}
         onShare={() => console.log('share')}
-        title='Bab 3 : Tak Pernah Cukup'
+        title='Bab 2 : Keberuntungan'
       />
       <View style={styles.content}>
         <View style={styles.boxImage}>
           <Amage resizeMode='contain' />
         </View>
-        <View style={styles.containerTitle}>
-          <LinearGradient
-              colors={[primaryColor.main, 'rgba(251, 207, 50, 0.5)', 'transparent']}
-                useAngle={ true}
-                angle={45}
-              angleCenter={{ x: 0.5, y: 0.5 }}
-              style={styles.gradientLeft}
-            />
-          <TextTicker
-            duration={6000}
-            loop
-            scroll
-            repeatSpacer={20}
-            marqueeDelay={1}
-          >
-              <TextItem style={[styles.text, styles.title]}>The Psychology of Money</TextItem>
-          </TextTicker>
-          <LinearGradient
-            colors={['transparent', 'rgba(251, 207, 50, 0.5)', primaryColor.main]}
-            useAngle={ true}
-            angle={45}
-            angleCenter={{ x: 0.5, y: 0.5 }}
-            style={styles.gradientRight}
-          />
-        </View>
-        <TextItem style={[styles.text]}>Morgan Housel</TextItem>
         <View>
           <Slider
             containerStyle={styles.SliderContainer}
@@ -134,9 +106,9 @@ export default function Listening({ navigation }: any) {
               <File />
               <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
             </Button>
-            <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
-              <Video />
-              <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+            <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
+              <Headphones />
+              <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
             </Button>
           </View>
         </View>
@@ -158,7 +130,7 @@ export default function Listening({ navigation }: any) {
       >
         <View>
           <View style={styles.boxTitleSheet}>
-            <TextItem style={styles.titleSheet}>{strings.kecepatan_audio}</TextItem>
+            <TextItem style={styles.titleSheet}>{strings.kecepatan_video}</TextItem>
             <Button onPress={()=> refRBSheet.current.close()}>
               <Exit color={neutralColor[90]} />
             </Button>

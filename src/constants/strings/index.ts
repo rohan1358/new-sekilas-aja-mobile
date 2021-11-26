@@ -78,6 +78,9 @@ export const strings = {
   kualitas: "Kualitas Audio",
   kualitas_video: "Kualitas Video",
   kualitas_download: "Kualitas Download",
+  kecepatan: 'Kecepatan ',
+  kecepatan_video: 'Kecepatan Video',
+  kecepatan_audio: 'Kecepatan Audio',
 
   lalu: " lalu",
   lebih_banyak: "Lihat Lebih Banyak",
@@ -191,6 +194,8 @@ export const strings = {
 
   weekNewCollection: "Kilas Baru minggu ini!",
   wib: "WIB",
+
+  x: 'x',
 
   zona: "Zona",
 };

@@ -13,7 +13,8 @@ import {
   Profile,
   Search,
   SignIn,
-  Listening
+  Listening,
+  Watching
 } from "../../screens";
 import MainBottomRoute from "../MainBottomRoute";
 
@@ -38,6 +39,7 @@ const MainRoute = () => {
       <Stack.Screen name={pages.Notification} component={Notification} />
       <Stack.Screen name={pages.BookDetail} component={BookDetail} />
       <Stack.Screen name={pages.Listening} component={Listening} />
+      <Stack.Screen name={pages.Watching} component={Watching} />
     </Stack.Navigator>
   );
 };

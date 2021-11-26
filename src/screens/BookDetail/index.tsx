@@ -119,7 +119,7 @@ export default function BookDetail({ navigation, route }: any) {
         navigation.navigate(pages.Listening)
         break;
       case 'watching':
-        navigation.navigate(pages.Listening)
+        navigation.navigate(pages.Watching)
         break;
     
       default:

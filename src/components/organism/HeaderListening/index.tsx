@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import TextTicker from 'react-native-text-ticker';
 import styles from './styles';
 
-export default function HeaderListening({navigation, onShare}: any) {
+export default function HeaderListening({navigation, onShare, title = ''}: any) {
     return (
         <View style={styles.container}>
             <Button onPress={()=> navigation.goBack()} style={styles.btn}>
@@ -28,7 +28,7 @@ export default function HeaderListening({navigation, onShare}: any) {
                     repeatSpacer={20}
                     marqueeDelay={1}
                 >
-                    <TextItem style={styles.title}>Bab 3 : Tak Pernah Cukup</TextItem>
+                    <TextItem style={styles.title}>{title}</TextItem>
                 </TextTicker>
             </View>
             <LinearGradient
