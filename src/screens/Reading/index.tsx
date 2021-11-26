@@ -176,7 +176,15 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
   const tableContentPress = () => {
     overlayRef.current?.close();
     onTap();
-    navigation.navigate("BookTableContent", { id: BOOK_ID });
+    navigation.navigate("BookTableContent", {
+      id: BOOK_ID,
+      isFromReading: true,
+      readingPayload: content?.pageContent?.map((item) => ({
+        id: item?.id,
+        kilas: item?.kilas,
+        title: item?.title,
+      })),
+    });
   };
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));

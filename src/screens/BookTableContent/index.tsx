@@ -10,12 +10,20 @@ import { BookTableContentProps, BookTableOfContentProps } from "./types";
 
 const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
   const BOOK_ID = route.params?.id;
+  const isFromReading = route.params?.isFromReading;
+  const readingPayload = route.params?.readingPayload;
+
   const isMounted = useRef<boolean>(true);
 
   const [contents, setContents] = useState<BookTableOfContentProps[] | null>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getContent = async () => {
+    if (isFromReading) {
+      setContents(readingPayload);
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     try {
       const { data, isSuccess } = await fetchBookTableOfContent({
