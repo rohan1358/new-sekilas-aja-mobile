@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
     containerTitle: {
         // justifyContent: 'center',
-        // alignItems: 'center',
+        alignItems: 'center',
         // marginVertical: heightPercent(5)
     },
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: '700',
         color: neutralColor[90],
-        // textAlign:'center'
+        textAlign:'center'
     },
 
     gradientLeft: {

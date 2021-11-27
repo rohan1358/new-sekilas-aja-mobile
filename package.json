@@ -39,6 +39,7 @@
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-text-ticker": "^1.14.0",
+    "react-native-track-player": "^2.1.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.1",
     "redux-flipper": "^2.0.1",

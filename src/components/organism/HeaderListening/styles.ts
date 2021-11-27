@@ -33,7 +33,9 @@ const styles = StyleSheet.create({
 
     boxTitle: {
         flex: 1,
-        alignItems:'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 13
     },
 
     title: {

@@ -2,7 +2,7 @@ import { ArrowLeft, ShareIcon } from '@assets';
 import { Button, TextItem } from '@components';
 import { neutralColor, primaryColor } from '@constants';
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import TextTicker from 'react-native-text-ticker';
 import styles from './styles';
@@ -21,15 +21,20 @@ export default function HeaderListening({navigation, onShare, title = ''}: any) 
                 style={styles.gradientLeft}
             />
             <View style={styles.boxTitle}>
-                 <TextTicker
-                    duration={6000}
+                 {/* <TextTicker
+                    duration={3000}
                     loop
-                    bounce
-                    repeatSpacer={20}
-                    marqueeDelay={1}
+                    animationType='scroll'
+                    repeatSpacer={50}
+                    marqueeDelay={1000}
+                > */}
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
                 >
                     <TextItem style={styles.title}>{title}</TextItem>
-                </TextTicker>
+                </ScrollView>
+                {/* </TextTicker> */}
             </View>
             <LinearGradient
                 colors={['transparent', 'rgba(251, 207, 50, 0.5)', primaryColor.main]}
