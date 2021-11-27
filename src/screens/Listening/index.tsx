@@ -131,7 +131,7 @@ export default function Listening({ navigation }: any) {
         // dismissed
       }
     } catch (error) {
-      alert(error.message);
+      console.log(error.message);
     }
   };
 
