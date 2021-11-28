@@ -1,6 +1,6 @@
 import { neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
-import { heightPercent } from "../../helpers/helper";
+import { heightPercent, widthPercent } from "../../helpers/helper";
 
 
 const styles = StyleSheet.create({
@@ -11,7 +11,39 @@ const styles = StyleSheet.create({
     },
     boxImage: {
         height: heightPercent(25),
-        marginVertical: 23
+        marginVertical: 23,
+    },
+
+    backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    },
+
+    loadVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        backgroundColor: 'black',
+        zIndex: 1,
+        justifyContent: 'center',
+        alignItems:'center',
+    },
+
+    loadVideoActive: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        backgroundColor: 'transparent',
+        zIndex: 1,
+        justifyContent: 'center',
+        alignItems:'center',
     },
 
     text: {

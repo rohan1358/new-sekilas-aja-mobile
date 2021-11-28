@@ -5,7 +5,7 @@ import styles from './styles';
 import { colors, neutralColor, pages, primaryColor, snackState as ss, strings } from '@constants';
 import { Slider } from '@miblanchard/react-native-slider';
 import { Exit, File, Pause, Play, RotateCcw, RotateCw, SkipBack, SkipForward, Video } from '@assets';
-import TextTicker from 'react-native-text-ticker'
+// import TextTicker from 'react-native-text-ticker'
 import LinearGradient from 'react-native-linear-gradient';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { heightPercent } from '../../helpers/helper';
@@ -135,6 +135,11 @@ export default function Listening({ navigation }: any) {
     }
   };
 
+  const handleSleder = async (value) => {
+    await TrackPlayer.seekTo(value);
+    setValue(value);
+  }
+
   useEffect(() => {
     setValue(progress.position)
   }, [progress.position])
@@ -223,9 +228,8 @@ export default function Listening({ navigation }: any) {
             maximumTrackTintColor={'#D1D7E1'}
             thumbTintColor={colors.white}
             trackStyle={styles.trackSliderStyle}
-            onSlidingComplete={async(value) => {
-              await TrackPlayer.seekTo(Number(value));
-              setValue(Number(value));
+            onSlidingComplete={(value) => {
+              handleSleder(Number(value))
             }}
           />
           <View style={styles.boxTextTime}>

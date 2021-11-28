@@ -1,6 +1,6 @@
 import { Amage, Base, Button, DummyFlatList, HeaderListening, TextItem } from '../../components';
 import React, { useRef, useState } from 'react'
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import styles from './styles';
 import { colors, neutralColor, pages, primaryColor, snackState as ss, strings } from '@constants';
 import { Slider } from '@miblanchard/react-native-slider';
@@ -8,24 +8,83 @@ import { Exit, File, Headphones, Pause, Play, RotateCcw, RotateCw, SkipBack, Ski
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { heightPercent } from '../../helpers/helper';
 import { speedList } from './dummy';
+import Video from 'react-native-video';
 
-const TotalTime = 230;
+const videoBigbany = {uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+const videoNusa = require('../../../assets/soundtrack/Nussa.mp4')
 
 export default function Watching({ navigation }: any) {
 
   const refRBSheet = useRef();
+  const videoPlayer = useRef(null);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [time, setTime] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
   const [play, setPlay] = useState(false)
   const [speed, setSpeed] = useState(1.0)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isBufferLoad, setBuffer] = useState(false);
+  // const [videoUrl, setVideoUrl] = useState(videoNusa)
 
-  const convertTime = () => {
-    var t = new Date(1970, 0, 1); // Epoch
-    t.setSeconds(TotalTime);
-    var date = t.toISOString();
-    date = date.replace('T', ' ');
-    console.log(date)
+  const onLoadStart = () => {
+    setIsLoading(true)
+  };
+
+  const onLoad = (data) => {
+    setDuration(Math.round(data.duration));
+    setIsLoading(false);
+  };
+
+  const onProgress = (data) => {
+    if (!isLoading) {
+      setCurrentTime(data.currentTime);
+    }
+    if (currentTime === data.currentTime) {
+      setBuffer(true)
+    } else {
+      setBuffer(false)
+    }
+  };
+
+  const handlePrev = async () => {
+    const percent = duration / 20
+    const count = currentTime - percent
+    if (count >= percent) {
+      videoPlayer.current.seek(Number(count));
+      setCurrentTime(Number(count))
+    } else {
+      videoPlayer.current.seek(0);
+      setCurrentTime(Number(0))
+    }
   }
+
+  const handleNext = async () => {
+    const percent = duration / 20
+    const count = currentTime + percent
+    if (count < duration) {
+      videoPlayer.current.seek(Number(count));
+      setCurrentTime(Number(count))
+    } else {
+      videoPlayer.current.seek(duration);
+      setCurrentTime(Number(duration))
+    }
+  }
+
+  const _convertDuration = (value: number) => {
+    const minutes = Math.floor(value / 60);
+    const seconds = Math.floor(value - minutes * 60);
+    // console.log(minutes)
+    const padWithZero = (v: number) => {
+      const string = v.toString();
+      if (v < 10 && v > 0) {
+        return "0" + string;
+      } else if (v <= 0) {
+        return "00";
+      }
+      return string;
+    };
+    return padWithZero(minutes) + ":" + padWithZero(seconds);
+  };
 
   const navigationTopBar = (type = '') => {
     switch (type) {
@@ -57,26 +116,51 @@ export default function Watching({ navigation }: any) {
       />
       <View style={styles.content}>
         <View style={styles.boxImage}>
-          <Amage resizeMode='contain' />
+          {
+            isLoading &&
+            <View style={styles.loadVideo} >
+              <ActivityIndicator size='large' color={primaryColor.main} />
+            </View>
+          }
+          {
+            isBufferLoad &&
+            <View style={styles.loadVideoActive} >
+              <ActivityIndicator size='large' color={primaryColor.main} />
+            </View>
+          }
+          <Video
+            ref={videoPlayer}
+            source={videoBigbany}
+            onLoadStart={onLoadStart}
+            onLoad={onLoad}
+            style={styles.backgroundVideo}
+            paused={play}
+            onProgress={onProgress}
+            resizeMode="cover"
+          />
         </View>
         <View>
           <Slider
+            value={currentTime}
             containerStyle={styles.SliderContainer}
             minimumValue={0}
-            maximumValue={1}
+            maximumValue={duration}
             minimumTrackTintColor={neutralColor[90]}
             maximumTrackTintColor={'#D1D7E1'}
             thumbTintColor={colors.white}
             trackStyle={styles.trackSliderStyle}
-            onSlidingComplete={()=>convertTime()}
+            onValueChange={(value) => {
+              videoPlayer.current.seek(Number(value));
+              setCurrentTime(Number(value))
+            }}
           />
           <View style={styles.boxTextTime}>
-            <TextItem>00:00</TextItem>
-            <TextItem>00:00</TextItem>
+            <TextItem>{_convertDuration(currentTime)}</TextItem>
+            <TextItem>{_convertDuration(duration - currentTime)}</TextItem>
           </View>
         </View>
         <View style={styles.boxAction}>
-          <Button>
+          <Button onPress={()=> handlePrev()}>
             <RotateCcw height={25} color={neutralColor[90]}/>
           </Button>
           <Button>
@@ -85,15 +169,15 @@ export default function Watching({ navigation }: any) {
           <Button onPress={()=> setPlay(!play)} style={styles.play}>
             {
               play ?
-              <Pause color={primaryColor.main}/>
-              :
               <Play color={primaryColor.main} style={styles.iconPlay} />
+              :
+              <Pause color={primaryColor.main}/>
             }
           </Button>
           <Button>
             <SkipForward color={neutralColor[90]} />
           </Button>
-          <Button>
+          <Button onPress={()=> handleNext()}>
             <RotateCw height={25} color={neutralColor[90]} />
           </Button>
         </View>
