@@ -14,6 +14,7 @@ import Profile from "./Profile";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import Subscribe from "./Subscribe";
 import Watching from "./Watching";
 
 export {
@@ -33,5 +34,6 @@ export {
   Search,
   SignIn,
   SignUp,
+  Subscribe,
   Watching,
 };

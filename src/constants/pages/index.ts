@@ -26,6 +26,7 @@ export const pages = {
   Search: "Search",
   SignIn: "SignIn",
   SignUp: "SignUp",
+  Subscribe: "Subscribe",
 
   Watching:'Watching',
   

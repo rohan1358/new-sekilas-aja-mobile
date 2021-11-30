@@ -378,6 +378,7 @@ export default function BookDetail({ navigation, route }: any) {
                     duration={item?.read_time}
                     cover={item?.book_cover}
                     onPress={() => toTop(item)}
+                    navSubscrive={()=> navigation.navigate(pages.Subscribe)}
                   />
                   <Gap vertical={sp.sl} />
                 </View>

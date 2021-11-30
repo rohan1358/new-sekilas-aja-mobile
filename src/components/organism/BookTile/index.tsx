@@ -7,7 +7,7 @@ import { ReduxState } from "../../../redux/reducers";
 import { useSelector } from "react-redux";
 import { Lock } from "@assets";
 
-const BookTile = ({ title, author, duration, cover, onPress }: BookTileProps) => {
+const BookTile = ({ title, author, duration, cover, onPress, navSubscrive }: BookTileProps) => {
 
   const {
     editProfile: { profile },
@@ -46,9 +46,9 @@ const BookTile = ({ title, author, duration, cover, onPress }: BookTileProps) =>
           </TextItem>
           {
             lock &&
-            <View style={styles.lock}>
+            <Button onPress={()=> navSubscrive && navSubscrive()} style={styles.lock}>
               <Lock color={neutralColor[90]} width={30} />
-            </View>
+            </Button>
           }
         </View>
         <TextItem type="r.14.nc.70" numberOfLines={1}>{`${author}`}</TextItem>

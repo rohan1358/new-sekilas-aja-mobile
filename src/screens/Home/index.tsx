@@ -71,6 +71,7 @@ const Home = ({navigation}: any) => {
         duration={item?.read_time}
         cover={item?.book_cover}
         onPress={()=> navigation.navigate(pages.BookDetail, {item})}
+        navSubscrive={()=> navigation.navigate(pages.Subscribe)}
       />
       <Gap vertical={sp.sl} />
     </View>
