@@ -1,12 +1,11 @@
-import { ArrowLeft } from "@assets";
-import { Base, BookTile, EmptyPlaceholder, Gap, TextItem } from "@components";
-import { neutralColor, skeleton, spacing as sp, strings } from "@constants";
+import { Base, BookTile, EmptyPlaceholder, Gap } from "@components";
+import { skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { flatCategories } from "../../../assets/dummy/flatCategories";
-import { heightPercent, logger, winHeightPercent } from "../../helpers/helper";
+import { logger } from "../../helpers/helper";
 import { fetchCategorizedBooks } from "../../services";
+import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";
 import { CategoryProps } from "./types";
 
@@ -62,6 +61,7 @@ const Category = ({ navigation, route }: CategoryProps) => {
 
   useEffect(() => {
     isMounted.current = true;
+
     getBooks();
 
     return () => {

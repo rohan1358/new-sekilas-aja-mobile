@@ -4,4 +4,5 @@ interface BookTileProps {
   duration: number;
   cover: string | undefined;
   onPress?(): void
+  navSubscrive?(): void
 }

@@ -1,6 +1,14 @@
-import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import {
+  FlatListProps,
+  ListRenderItem,
+  // NativeScrollEvent,
+  // NativeSyntheticEvent,
+} from "react-native";
 
-interface DummyFlatListProps {
-  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-  scrollEventThrottle?: number;
+// @ts-ignore
+interface DummyFlatListProps extends FlatListProps<any> {
+  // onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  // scrollEventThrottle?: number;
+  data?: any[];
+  renderItem?: ListRenderItem<any>;
 }

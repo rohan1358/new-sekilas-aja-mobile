@@ -11,6 +11,8 @@ export const strings = {
   ambil_galery: "Ambil dari galeri",
   ambil_langsung: "Ambil langsung",
   audio_Account: "Pengaturan Audio",
+  akses_online: "Akses secara offline.",
+  akses_penuh: "Akses penuh untuk semua ringkasan buku, tanpa batas!",
 
   baca: "Baca",
   bahasa: "Pilihan Bahasa",
@@ -22,7 +24,7 @@ export const strings = {
   booksNotFound: "Kita ga menemukan buku yang kamu cari.",
   btnLewati: "Lewati",
   btnLanjut: "Lanjut",
-  button_onBoard_1: "Yuk mulai!",
+  button_onBoard_1: "Yuk mulai",
   berlangganan_Account: "Berlangganan",
   btnBatal: "Batal berlangganan",
   btn_batal: "Batal",
@@ -32,6 +34,8 @@ export const strings = {
   btn_ketentuan: "Ketentuan Layanan",
   btn_simpan: "Simpan",
   buku_serupa: "Buku Serupa",
+  best_value: "Best Value",
+  bulan: " Bulan",
 
   camera_unavailable: "Kamera tidak tersedia di perangkat",
   continueReading: "Lanjutkan membaca",
@@ -44,6 +48,10 @@ export const strings = {
   dontHaveAcc: "Belum punya akun?",
   downloadedBooks: "Buku yang diunduh",
   download_Account: "Pengaturan Download",
+  dapatkan_ringkasan:
+    "Dapatkan semua ringkasan buku dengan upgrade ke premium sekarang!",
+  dua_belas_bula: "12 Bulan",
+  didepan: " bulan di depan.",
 
   edit_profile: "Edit Profile",
   emailAddress: "Alamat Email",
@@ -66,6 +74,7 @@ export const strings = {
   happyReading: "Selamat membaca",
   hapus_download: "Hapus Download",
   home: "Beranda",
+  hemat: "Hemat",
 
   ingatkan: "Ingatkan saya pada pukul..",
   invalidEmail: "Email tidak valid",
@@ -73,25 +82,39 @@ export const strings = {
   jam: "Jam",
 
   kategori: "Kategori",
+  kilasEmpty: "Daftar kilas kosong",
+  kilasEmptyDesc:
+    "Sepertinya kilas buku ini masih kosong, kamu bisa coba lirik buku lain dulu.",
   kirim: "Kirim",
   komentar: "Komentar",
   kualitas: "Kualitas Audio",
   kualitas_video: "Kualitas Video",
   kualitas_download: "Kualitas Download",
+  kecepatan: "Kecepatan ",
+  kecepatan_video: "Kecepatan Video",
+  kecepatan_audio: "Kecepatan Audio",
+  keuntungan: "Keuntungan yang didapat dengan upgrade ke premium adalah:",
+  kilas_buku: "30+ Kilas Buku baru setiap bulannya!",
 
   lalu: " lalu",
+  lastReadClue: "Bacaan terakhir ditampilkan di sini,",
   lebih_banyak: "Lihat Lebih Banyak",
   lebih_sedikit: "Lihat Lebih Sedikit",
   library: "Bukuku",
   lihat_semua: "Lihat Semua",
+  listen: "Dengar",
   login: "Masuk!",
   loginHere: "Login di sini",
+  langganan_sekaarang: "Langganan sekarang",
+  lagi_bokek: "Lagi bokek",
 
   masa_Account: "Masa Berlaku Premium",
   menit: "Menit",
   mode_gelap: "Mode Gelap",
   mode_offline: "Mode Offline",
   mostRead: "Paling banyak dibaca",
+  membuka_semua:
+    "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
 
   name: "Nama",
   notif: "Notifikasi",
@@ -136,14 +159,21 @@ export const strings = {
   penulis: "Penulis",
   pembaca: " pembaca",
   promo_empty: "Promo kosong!",
+  pursueRead: "Ayo mulai membaca!",
+  pilih_paket: "Pilih Paket",
+  pilih_paket_premium: "Pilih paket premium yang sesuai untuk kamu!",
+  pilihan_paket: "Ada 2 paket yang paling banyak dipilih oleh para pembaca. ⬇",
+  pembayaran_langsung: "*Pembayaran langsung ",
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
   recommendedBook: "Rekomendasi buku",
   regist: "Daftar!",
   registHere: "Daftar di sini.",
+  rp: "Rp ",
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
   seeAll: "Lihat semua",
+  share: "Bagikan",
   sub_onBoard_1:
     "Solusi buat kamu yang malas baca buku, tapi kepo pengen tau isinya.",
 
@@ -153,6 +183,7 @@ export const strings = {
   sub_onBoard_4:
     "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
 
+  tableOfContent: "Daftar Isi",
   terms: "Ketentuan Layanan",
   trendingBook: "Trending buku",
   title_Account: "Pengaturan",
@@ -189,8 +220,11 @@ export const strings = {
   video_Account: "Pengaturan Video",
   video_putar: "Putar Otomatis",
 
+  watch: "Tonton",
   weekNewCollection: "Kilas Baru minggu ini!",
   wib: "WIB",
+
+  x: "x",
 
   zona: "Zona",
 };

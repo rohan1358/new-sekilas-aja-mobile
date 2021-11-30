@@ -11,7 +11,6 @@ const ICON_SIZE = 24;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: "red",
   },
 
   iconContainer: {

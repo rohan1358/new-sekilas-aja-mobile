@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from "@react-navigation/core";
+import { BookTableOfContentProps } from "../screens/BookTableContent/types";
 
 type MainBottomTabParamList = {
   Home: undefined;
@@ -7,18 +8,40 @@ type MainBottomTabParamList = {
 };
 
 type RootStackParamList = {
-  MainBottomRoute: NavigatorScreenParams<MainBottomTabParamList>;
-  SignIn: undefined;
-  Home: undefined;
   About: undefined;
   AccountSettings: undefined;
+
+  BookDetail: undefined;
+  BookTableContent: {
+    id: string;
+    isFromReading?: boolean;
+    readingPayload?: BookTableOfContentProps[];
+  };
+
   Category: {
     type: "category" | "special";
     title: string;
-    payload: string | undefined;
+    payload?: string;
   };
+
+  Home: undefined;
+
+  Listening: undefined;
+
+  MainBottomRoute: NavigatorScreenParams<MainBottomTabParamList>;
+
+  Notification: undefined;
   NotifSettings: undefined;
+
   PageEditProfile: undefined;
   Profile: undefined;
+
+  Reading: { id: string; page?: string };
+
+  Subscribe: undefined;
+
   Search: undefined;
+  SignIn: undefined;
+
+  Watching: undefined;
 };

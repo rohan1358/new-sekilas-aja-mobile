@@ -34,6 +34,18 @@ const styles = StyleSheet.create({
     top: -TILE_WIDTH / 8,
     left: -TILE_WIDTH / 8,
   },
+
+  title: {
+    flex: 1
+  },
+
+  lock: {
+    
+  },
+
+  boxTitle: {
+    flexDirection:'row'
+  }
 });
 
 export { TILE_WIDTH, TILE_HEIGHT };

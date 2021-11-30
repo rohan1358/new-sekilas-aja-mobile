@@ -4,18 +4,24 @@ import {
   About,
   AccountSettings,
   BookDetail,
+  BookTableContent,
   Category,
   Home,
+  Listening,
   Notification,
   NotifSettings,
   PageEditProfile,
   Profile,
+  Reading,
   Search,
   SignIn,
+  Subscribe,
+  Watching,
 } from "../../screens";
+import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const MainRoute = () => {
   return (
@@ -35,6 +41,11 @@ const MainRoute = () => {
       <Stack.Screen name={"Search"} component={Search} />
       <Stack.Screen name={"Notification"} component={Notification} />
       <Stack.Screen name={"BookDetail"} component={BookDetail} />
+      <Stack.Screen name={"Reading"} component={Reading} />
+      <Stack.Screen name={"BookTableContent"} component={BookTableContent} />
+      <Stack.Screen name={"Listening"} component={Listening} />
+      <Stack.Screen name={"Watching"} component={Watching} />
+      <Stack.Screen name={"Subscribe"} component={Subscribe} />
     </Stack.Navigator>
   );
 };

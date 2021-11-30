@@ -1,26 +1,24 @@
-import React, { PropsWithChildren } from "react";
+import React, { forwardRef, PropsWithChildren } from "react";
 import { FlatList } from "react-native";
 import { DummyFlatListProps } from "./types";
 
-const DummyFlatList = ({
-  children,
-  ...props
-}: PropsWithChildren<DummyFlatListProps>) => {
-  const data: any = [];
-  const renderItem = () => null;
-  const keyExtractor = () => `dummyId`;
-  const ListHeaderComponent = <>{children}</>;
-  return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      ListHeaderComponent={ListHeaderComponent}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
-      {...props}
-    />
-  );
-};
+const DummyFlatList = forwardRef<any, PropsWithChildren<DummyFlatListProps>>(
+  ({ children, data = [], renderItem = () => null, ...props }, ref) => {
+    const keyExtractor = () => `dummyId`;
+    const ListHeaderComponent = <>{children}</>;
+    return (
+      <FlatList
+        ref={ref}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        ListHeaderComponent={ListHeaderComponent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        {...props}
+      />
+    );
+  }
+);
 
 export default DummyFlatList;

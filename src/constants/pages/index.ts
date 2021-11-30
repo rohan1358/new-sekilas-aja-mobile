@@ -11,6 +11,7 @@ export const pages = {
   Home: "Home",
 
   Library: "Library",
+  Listening: "Listening",
 
   MainBottomRoute: "MainBottomRoute",
 
@@ -25,6 +26,8 @@ export const pages = {
   Search: "Search",
   SignIn: "SignIn",
   SignUp: "SignUp",
+  Subscribe: "Subscribe",
 
+  Watching:'Watching',
   
 };

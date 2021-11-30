@@ -1,29 +1,44 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { Amage, TextItem } from "../../atom";
-import { strings } from "../../../constants";
+import { Amage, TextItem, Button, Gap } from "../../atom";
+import { spacing, strings } from "../../../constants";
 import styles from "./styles";
 
-const OngoingTile = ({ bookTitle = "", bookUri }: OngoingTileProps) => {
+const OngoingTile = ({
+  bookTitle = "",
+  bookUri,
+  onPress,
+  isAvailable,
+}: OngoingTileProps) => {
   const [tileHeight, setTileHeight] = useState<number>(74);
   const s = styles({ tileHeight });
   return (
-    <View style={s.container}>
+    <Button
+      style={s.container}
+      onPress={onPress}
+      activeOpacity={0.9}
+      disabled={!isAvailable}
+    >
       <View
         style={s.child}
         onLayout={(event) => setTileHeight(event.nativeEvent.layout.height)}
       >
-        <View>
-          <TextItem type="r.14.nc.70">{strings.continueReading}</TextItem>
+        <View style={{ flex: 1 }}>
+          <TextItem type="r.14.nc.70">
+            {isAvailable ? strings.continueReading : strings.lastReadClue}
+          </TextItem>
           <TextItem numberOfLines={1} type="b.20.nc.90">
-            {bookTitle}
+            {isAvailable ? bookTitle : strings.pursueRead}
           </TextItem>
         </View>
-        <View style={s.imageContainer}>
-          <Amage source={bookUri} />
-        </View>
+        <Gap horizontal={spacing.sl} />
+        {isAvailable && (
+          <View style={s.imageContainer}>
+            <Amage source={bookUri} />
+          </View>
+        )}
       </View>
-    </View>
+    </Button>
   );
 };
 
