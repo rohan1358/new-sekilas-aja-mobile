@@ -76,20 +76,33 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 24,
         width: '100%',
+        justifyContent:'space-between',
     },
 
     card: {
         borderWidth: 2,
         borderColor: neutralColor[90],
-        flex: 1,
         borderRadius: 16,
         overflow: 'hidden',
+        width: '47%'
     },
 
     headCard: {
         backgroundColor: neutralColor[90],
         alignItems: 'center',
         paddingVertical: 8
+    },
+
+    headCardActiveBest: {
+        backgroundColor: 'transparent'
+    },
+
+    backBlack: {
+        backgroundColor: neutralColor[90]
+    },
+
+    headCardActiveNormal: {
+        backgroundColor: colors.white
     },
 
     contentCard: {
@@ -116,7 +129,8 @@ const styles = StyleSheet.create({
     },
 
     note: {
-        textAlign:'center'
+        textAlign: 'center',
+        fontSize: 12
     },
 
     backWhite: {

@@ -42,6 +42,7 @@ import Headphones from "./Headphones.svg";
 import IconFb from "./IconFb.svg";
 import IconIg from "./IconIg.svg";
 import IconTw from "./IconTw.svg";
+import Lock from './Lock.svg';
 import PaintPalette from "./PaintPalette.svg";
 import PromoEmpty from "./PromoEmpty.svg";
 import Pause from "./Pause.svg";
@@ -107,6 +108,7 @@ export {
   IconFb,
   IconIg,
   IconTw,
+  Lock,
   PaintPalette,
   PromoEmpty,
   Pause,

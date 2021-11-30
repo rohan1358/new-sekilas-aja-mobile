@@ -4,11 +4,13 @@ import { neutralColor, spacing, strings } from '@constants';
 import React, { useRef } from 'react'
 import { Modal, View, ScrollView } from 'react-native'
 import { widthPercent } from '../../../helpers/helper';
+import paketList from './dummy';
 import styles from './styles';
 
 export default function ModalSubscribe({ modalVisible, setModalVisible, ...props }: ModalSubscribeProps) {
   
   const refScroll = useRef()
+
 
   const handlePrev = () => {
     refScroll.current?.scrollTo(
@@ -95,27 +97,27 @@ export default function ModalSubscribe({ modalVisible, setModalVisible, ...props
                 <TextItem type='b.32.nc.90'>{strings.pilih_paket_premium}</TextItem>
                 <TextItem type='r.20.nc.70' style={styles.subTextTitle}>{strings.pilihan_paket}</TextItem>
                 <View style={styles.boxListCard}>
-                  <View style={styles.card}>
-                    <View style={styles.headCard}>
-                      <TextItem type='b.14.pc.main'>{strings.best_value}</TextItem>
-                      <TextItem type='b.20.c.white'>{'12'+strings.bulan}</TextItem>
-                    </View>
-                    <View style={styles.contentCard}>
-                      <TextItem style={styles.hemat}>{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
-                      <TextItem style={styles.price}><TextItem style={styles.textBold}>{`${strings.rp} 249.000/ `}</TextItem>{`${strings.bulan}`}</TextItem>
-                      <TextItem style={styles.note}>{`${strings.pembayaran_langsung}12${strings.didepan}`}</TextItem>
-                    </View>
-                  </View>
-                  <Gap horizontal={spacing.m} />
-                  <View style={styles.card}>
-                    <View style={styles.headCard}>
-                      <TextItem type='b.20.c.white'>{'3'+strings.bulan}</TextItem>
-                    </View>
-                    <View style={[styles.contentCard, styles.backWhite]}>
-                      <TextItem style={styles.price}><TextItem style={styles.textBold}>{`${strings.rp} 35.000/ `}</TextItem>{`${strings.bulan}`}</TextItem>
-                      <TextItem style={styles.note}>{`${strings.pembayaran_langsung}3${strings.didepan}`}</TextItem>
-                    </View>
-                  </View>
+                  {
+                    paketList.map((item, index) => (
+                      <View key={index} style={styles.card}>
+                        <View style={styles.headCard}>
+                          {
+                            item.type == 'best' &&
+                          <TextItem type='b.14.pc.main'>{strings.best_value}</TextItem>
+                          }
+                          <TextItem type='b.20.c.white'>{item.mount+strings.bulan}</TextItem>
+                        </View>
+                        <View style={[styles.contentCard, item.type == 'normal' &&  styles.backWhite]}>
+                          {
+                            item.type == 'best' &&
+                            <TextItem style={styles.hemat}>{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
+                          }
+                          <TextItem style={styles.price}><TextItem style={styles.textBold}>{`${strings.rp} ${item.harga}/ `}</TextItem>{`${strings.bulan}`}</TextItem>
+                          <TextItem style={styles.note}>{strings.pembayaran_langsung+ item.mount +strings.didepan}</TextItem>
+                        </View>
+                      </View>
+                    ))
+                  }
                 </View>
                 <Button onPress={()=> exitPage()} style={styles.btnPilih}>
                     <TextItem type='b.24.pc.main'>{strings.langganan_sekaarang}</TextItem>

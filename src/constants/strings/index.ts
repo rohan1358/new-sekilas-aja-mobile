@@ -24,7 +24,7 @@ export const strings = {
   booksNotFound: "Kita ga menemukan buku yang kamu cari.",
   btnLewati: "Lewati",
   btnLanjut: "Lanjut",
-  button_onBoard_1: "Yuk mulai!",
+  button_onBoard_1: "Yuk mulai",
   berlangganan_Account: "Berlangganan",
   btnBatal: "Batal berlangganan",
   btn_batal: "Batal",

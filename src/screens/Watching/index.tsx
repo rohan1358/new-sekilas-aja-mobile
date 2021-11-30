@@ -1,6 +1,6 @@
 import { Amage, Base, Button, DummyFlatList, HeaderListening, TextItem } from '../../components';
 import React, { useRef, useState } from 'react'
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Share, View } from 'react-native';
 import styles from './styles';
 import { colors, neutralColor, pages, primaryColor, snackState as ss, strings } from '@constants';
 import { Slider } from '@miblanchard/react-native-slider';
@@ -11,7 +11,6 @@ import { speedList } from './dummy';
 import Video from 'react-native-video';
 
 const videoBigbany = {uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
-const videoNusa = require('../../../assets/soundtrack/Nussa.mp4')
 
 export default function Watching({ navigation }: any) {
 
@@ -86,6 +85,26 @@ export default function Watching({ navigation }: any) {
     return padWithZero(minutes) + ":" + padWithZero(seconds);
   };
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'https://sekilasaja.com/',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const navigationTopBar = (type = '') => {
     switch (type) {
       case 'reading':
@@ -111,7 +130,7 @@ export default function Watching({ navigation }: any) {
     >
       <HeaderListening
         navigation={navigation}
-        onShare={() => console.log('share')}
+        onShare={() => onShare()}
         title='Bab 2 : Keberuntungan'
       />
       <View style={styles.content}>
@@ -137,6 +156,7 @@ export default function Watching({ navigation }: any) {
             paused={play}
             onProgress={onProgress}
             resizeMode="cover"
+            rate={speed}
           />
         </View>
         <View>
