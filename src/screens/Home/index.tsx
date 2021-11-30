@@ -7,6 +7,7 @@ import {
   HomeHeader,
   ImageBanner,
   MiniCollectionTile,
+  ModalSubscribe,
   OngoingTile,
   TextItem,
 } from "@components";
@@ -53,6 +54,9 @@ const Home = ({ navigation }: HomeProps) => {
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
+  const [modalAllPlan, setModalAllPlan] = useState(false);
+
+  // console.log(profile)
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
@@ -70,6 +74,8 @@ const Home = ({ navigation }: HomeProps) => {
         cover={item?.book_cover}
         //@ts-ignore
         onPress={() => navigation.navigate(pages.BookDetail, { item })}
+        //@ts-ignore
+        navSubscrive={() => navigation.navigate(pages.Subscribe)}
       />
       <Gap vertical={sp.sl} />
     </View>
@@ -170,6 +176,18 @@ const Home = ({ navigation }: HomeProps) => {
     return () => {
       isMounted.current = false;
     };
+  }, []);
+
+  useEffect(() => {
+    const handleSub = () => {
+      // @ts-ignore
+      const subsc = profile?.is_subscribed;
+      if (!subsc) {
+        setModalAllPlan(true);
+      }
+    };
+
+    handleSub();
   }, []);
 
   return (
@@ -282,6 +300,10 @@ const Home = ({ navigation }: HomeProps) => {
           <Gap vertical={sp.xxl} />
         </DummyFlatList>
       </SkeletonContent>
+      <ModalSubscribe
+        modalVisible={modalAllPlan}
+        setModalVisible={setModalAllPlan}
+      />
     </Base>
   );
 };

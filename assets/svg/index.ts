@@ -7,6 +7,7 @@ import BankBuilding from "./BankBuilding.svg";
 import Bell from "./Bell.svg";
 import BookOpen from "./BookOpen.svg";
 import BookOpenFilled from "./BookOpenFilled.svg";
+import Bank from "./Bank.svg";
 import Camera from "./Camera.svg";
 import ChatBubble from "./ChatBubble.svg";
 import Check from "./Check.svg";
@@ -26,6 +27,7 @@ import Eye from "./Eye.svg";
 import EyeOff from "./EyeOff.svg";
 import Fire from "./Fire.svg";
 import FirePaperIllu from "./FirePaperIllu.svg";
+import File from "./File.svg";
 import GiveHeart from "./GiveHeart.svg";
 import Graph from "./Graph.svg";
 import GraphBar from "./GraphBar.svg";
@@ -36,26 +38,32 @@ import HeartRate from "./HeartRate.svg";
 import Home from "./Home.svg";
 import HomeFilled from "./HomeFilled.svg";
 import HumanHead from "./HumanHead.svg";
+import HeartBook from "./HeartBook.svg";
+import Headphones from "./Headphones.svg";
 import IconFb from "./IconFb.svg";
 import IconIg from "./IconIg.svg";
 import IconTw from "./IconTw.svg";
+import Lock from "./Lock.svg";
 import MenuDots from "./MenuDots.svg";
 import PaintPalette from "./PaintPalette.svg";
+import PromoEmpty from "./PromoEmpty.svg";
+import Pause from "./Pause.svg";
+import Play from "./Play.svg";
+import RiwayatEmpty from "./RiwayatEmpty.svg";
+import RotateCcw from "./RotateCcw.svg";
+import RotateCw from "./RotateCw.svg";
 import Search from "./Search.svg";
 import SearchDollar from "./SearchDollar.svg";
 import Suitcase from "./Suitcase.svg";
-import Tree from "./Tree.svg";
-import YinYang from "./YinYang.svg";
-import PromoEmpty from "./PromoEmpty.svg";
-import RiwayatEmpty from "./RiwayatEmpty.svg";
-import HeartBook from "./HeartBook.svg";
-import File from "./File.svg";
-import Headphones from "./Headphones.svg";
-import Video from "./Video.svg";
 import Sunrise from "./Sunrise.svg";
-import Bank from "./Bank.svg";
 import StarActive from "./StarActive.svg";
 import StarAnActive from "./StarAnActive.svg";
+import ShareIcon from "./Share.svg";
+import SkipBack from "./SkipBack.svg";
+import SkipForward from "./SkipForward.svg";
+import Tree from "./Tree.svg";
+import Video from "./Video.svg";
+import YinYang from "./YinYang.svg";
 
 export {
   Alert,
@@ -67,6 +75,7 @@ export {
   Bell,
   BookOpen,
   BookOpenFilled,
+  Bank,
   Camera,
   ChatBubble,
   Check,
@@ -86,11 +95,14 @@ export {
   EyeOff,
   Fire,
   FirePaperIllu,
+  File,
   GiveHeart,
   Graph,
   GraphBar,
   Grid,
   GridFilled,
+  HeartBook,
+  Headphones,
   Heart,
   HeartRate,
   Home,
@@ -99,21 +111,25 @@ export {
   IconFb,
   IconIg,
   IconTw,
+  Lock,
   MenuDots,
   PaintPalette,
+  PromoEmpty,
+  Pause,
+  Play,
+  RiwayatEmpty,
+  RotateCcw,
+  RotateCw,
+  SkipBack,
+  SkipForward,
+  Sunrise,
+  StarAnActive,
+  ShareIcon,
+  StarActive,
   Search,
   SearchDollar,
   Suitcase,
   Tree,
-  YinYang,
-  PromoEmpty,
-  RiwayatEmpty,
-  HeartBook,
-  File,
-  Headphones,
   Video,
-  Sunrise,
-  Bank,
-  StarActive,
-  StarAnActive,
+  YinYang,
 };

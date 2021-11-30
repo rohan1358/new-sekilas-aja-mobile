@@ -26,6 +26,8 @@ type RootStackParamList = {
 
   Home: undefined;
 
+  Listening: undefined;
+
   MainBottomRoute: NavigatorScreenParams<MainBottomTabParamList>;
 
   Notification: undefined;
@@ -36,6 +38,10 @@ type RootStackParamList = {
 
   Reading: { id: string; page?: string };
 
+  Subscribe: undefined;
+
   Search: undefined;
   SignIn: undefined;
+
+  Watching: undefined;
 };

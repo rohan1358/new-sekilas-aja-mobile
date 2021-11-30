@@ -1,4 +1,3 @@
-import { pages } from "@constants";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import {
@@ -8,6 +7,7 @@ import {
   BookTableContent,
   Category,
   Home,
+  Listening,
   Notification,
   NotifSettings,
   PageEditProfile,
@@ -15,6 +15,8 @@ import {
   Reading,
   Search,
   SignIn,
+  Subscribe,
+  Watching,
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -41,6 +43,9 @@ const MainRoute = () => {
       <Stack.Screen name={"BookDetail"} component={BookDetail} />
       <Stack.Screen name={"Reading"} component={Reading} />
       <Stack.Screen name={"BookTableContent"} component={BookTableContent} />
+      <Stack.Screen name={"Listening"} component={Listening} />
+      <Stack.Screen name={"Watching"} component={Watching} />
+      <Stack.Screen name={"Subscribe"} component={Subscribe} />
     </Stack.Navigator>
   );
 };
