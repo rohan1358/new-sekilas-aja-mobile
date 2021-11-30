@@ -7,6 +7,7 @@ import {
   HomeHeader,
   ImageBanner,
   MiniCollectionTile,
+  ModalSubscribe,
   OngoingTile,
   TextItem,
 } from "@components";
@@ -51,6 +52,9 @@ const Home = ({navigation}: any) => {
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
+  const [modalAllPlan, setModalAllPlan] = useState(false);
+
+  // console.log(profile)
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
@@ -163,6 +167,18 @@ const Home = ({navigation}: any) => {
     };
   }, []);
 
+  useEffect(() => {
+
+    const handleSub = () => {
+      const subsc = profile?.is_subscribed
+      if (!subsc) {
+        setModalAllPlan(true)
+      }
+    }
+
+    handleSub()
+  },[])
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -269,6 +285,10 @@ const Home = ({navigation}: any) => {
           <Gap vertical={sp.xxl} />
         </DummyFlatList>
       </SkeletonContent>
+      <ModalSubscribe
+        modalVisible={modalAllPlan}
+        setModalVisible={setModalAllPlan}
+      />
     </Base>
   );
 };

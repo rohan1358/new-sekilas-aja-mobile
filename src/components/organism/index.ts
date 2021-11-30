@@ -5,13 +5,14 @@ import ExploreSearch from "./ExploreSearch";
 import HeaderBookDetail from "./HeaderBookDetail";
 import HeaderNotification from "./HeaderNotification";
 import HomeHeader from "./HomeHeader";
+import HeaderListening from "./HeaderListening";
 import ImageBanner from "./ImageBanner";
 import MiniCollectionTile from "./MiniCollectionTile";
+import ModalSubscribe from "./ModalSubscribe";
 import OngoingTile from "./OngoingTile";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
 import SearchHeader from "./SearchHeader";
-import HeaderListening from "./HeaderListening";
 
 export {
   AboutHeader,
@@ -20,13 +21,14 @@ export {
   ExploreSearch,
   HeaderBookDetail,
   HeaderNotification,
+  HeaderListening,
   HomeHeader,
   ImageBanner,
   MiniCollectionTile,
+  ModalSubscribe,
   OngoingTile,
   PagesOnboarding,
   ProfileHeader,
   SearchHeader,
-  HeaderListening,
 };
 
