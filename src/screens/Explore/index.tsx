@@ -8,7 +8,7 @@ import {
   TextItem,
   TitleTap,
 } from "@components";
-import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
+import { pages, primaryColor, skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -86,6 +86,8 @@ const Explore = ({ navigation }: ExploreProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
+        onPress={()=> navigation.navigate(pages.BookDetail, {item})}
+        navSubscrive={()=> navigation.navigate(pages.Subscribe)}
       />
       <Gap vertical={sp.sl} />
     </View>
