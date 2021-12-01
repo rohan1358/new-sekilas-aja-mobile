@@ -131,17 +131,17 @@ export default function AccountSettings({
     }
   }
 
-  const logOut = () => {
-    setModalAlert(!modalAlert);
-    dispatch(loggingIn({ isLogin: false, email: "" }));
-    dispatch(setProfileRedux(null));
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: pages.SignIn }],
-      })
-    );
-  };
+  // const logOut = () => {
+  //   setModalAlert(!modalAlert);
+  //   dispatch(loggingIn({ isLogin: false, email: "" }));
+  //   dispatch(setProfileRedux(null));
+  //   navigation.dispatch(
+  //     CommonActions.reset({
+  //       index: 1,
+  //       routes: [{ name: pages.SignIn }],
+  //     })
+  //   );
+  // };
 
 
   return (
@@ -341,7 +341,7 @@ export default function AccountSettings({
               </Button>
               </View>
             </View>
-            <Button 
+            {/* <Button 
               onPress={() =>{
                 handleModalAlert({
                   text: strings.yakin_keluar,
@@ -352,7 +352,7 @@ export default function AccountSettings({
               }}
               style={styles.btnKeluar}>
               <TextItem type="b.18.nc.90">{strings.btn_keluar}</TextItem>
-            </Button>
+            </Button> */}
           </View>
 
           <View style={styles.sectionContent}>
