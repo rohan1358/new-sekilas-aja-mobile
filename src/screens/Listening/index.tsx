@@ -144,24 +144,29 @@ export default function Listening({ navigation }: any) {
     setValue(progress.position)
   }, [progress.position])
 
+  
   useEffect(() => {
     setupPlayer();
 
+    const hadbleStop = async () => {
+      await TrackPlayer.stop();
+    }
+
     return () => {
-      TrackPlayer.destroy();
+      hadbleStop()
     }
   }, [])
   
 
-  const navigationTopBar = (type = '') => {
+  const navigationTopBar = async (type = '') => {
     switch (type) {
       case 'reading':
         navigation.navigate(pages.Listening)
-        TrackPlayer.destroy();
+        await TrackPlayer.pause();
         break;
       case 'watching':
         navigation.navigate(pages.Watching)
-        TrackPlayer.destroy();
+        await TrackPlayer.pause();
         break;
     
       default:

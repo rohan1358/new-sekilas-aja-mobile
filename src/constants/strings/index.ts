@@ -39,6 +39,7 @@ export const strings = {
 
   camera_unavailable: "Kamera tidak tersedia di perangkat",
   continueReading: "Lanjutkan membaca",
+  cacel: 'Cancel',
 
   daftar_isi: "Daftar Isi",
   data_kosong: "Data kosong",
@@ -182,6 +183,7 @@ export const strings = {
     "Banyak orang udah males duluan kalo liat buku yang panjang...",
   sub_onBoard_4:
     "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
+  segera:'SEGERA!',
 
   tableOfContent: "Daftar Isi",
   terms: "Ketentuan Layanan",
@@ -225,6 +227,9 @@ export const strings = {
   wib: "WIB",
 
   x: "x",
+
+  yakin_keluar: "Yakin ingin keluar?",
+  yuk_upgrade: 'Yuk, upgrade dulu ke premium!',
 
   zona: "Zona",
 };

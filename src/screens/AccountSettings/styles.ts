@@ -54,6 +54,12 @@ const styles = StyleSheet.create({
         borderColor: '#BBC0CE',
     },
 
+    textBtnBatal: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#CB3168',
+    },
+
     listPreferens: {
         flexDirection: 'row',
         alignItems: 'flex-end',
@@ -183,6 +189,15 @@ const styles = StyleSheet.create({
         width: 120,
         justifyContent: 'space-around',
         marginVertical: 16
+    },
+
+    btnKeluar: {
+        // borderTopWidth: 1,
+        // borderBottomWidth: 1,
+        // borderColor: neutralColor[50],
+        paddingVertical: 8,
+        marginTop: 10,
+        paddingLeft: 32
     }
 
 })
