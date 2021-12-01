@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
 
+    upgrade_yuk: {
+        justifyContent:'center'
+    },
+
     btnBar: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -140,7 +144,8 @@ const styles = StyleSheet.create({
 
     textKategori: {
         fontSize: 16,
-        marginRight: 6
+        marginRight: 6,
+        color: neutralColor[80]
     },
 
     boxTextTentang: {

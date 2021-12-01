@@ -115,6 +115,13 @@ const Home = ({navigation}: any) => {
     );
   };
 
+  const handleSub = ({data}:any) => {
+    const subsc = data?.is_subscribed
+    if (!subsc) {
+      setModalAllPlan(true)
+    }
+  }
+
   const getHomeData = async () => {
     setIsLoading(true);
     try {
@@ -131,6 +138,7 @@ const Home = ({navigation}: any) => {
       if (profileData.isSuccess) {
         setProfile(profileData.data);
         dispatch(setProfileRedux(profileData.data))
+        handleSub(profileData.data)
       } else {
         throw new Error("Fail on fetching profile data");
       }
@@ -167,18 +175,6 @@ const Home = ({navigation}: any) => {
       isMounted.current = false;
     };
   }, []);
-
-  useEffect(() => {
-
-    const handleSub = () => {
-      const subsc = profile?.is_subscribed
-      if (!subsc) {
-        setModalAllPlan(true)
-      }
-    }
-
-    handleSub()
-  },[])
 
   return (
     <Base
