@@ -107,9 +107,9 @@ const fetchReadingBook = (email: string) => {
         .doc(email)
         .get();
 
-      const book = raw.data();
+      const rawBook = raw.data();
 
-      if (!book) {
+      if (!rawBook) {
         resolve({
           data: { book: "", book_cover: "", kilas: "", available: false },
           isSuccess: true,
@@ -119,7 +119,7 @@ const fetchReadingBook = (email: string) => {
       }
 
       resolve({
-        data: { ...book, available: true },
+        data: { ...rawBook?.book, available: true },
         isSuccess: true,
         error: null,
         message: "Reading book successfuly fetched.",
