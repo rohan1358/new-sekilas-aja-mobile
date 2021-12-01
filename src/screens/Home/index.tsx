@@ -115,8 +115,9 @@ const Home = ({navigation}: any) => {
     );
   };
 
-  const handleSub = ({data}:any) => {
+  const handleSub = (data) => {
     const subsc = data?.is_subscribed
+    console.log(subsc)
     if (!subsc) {
       setModalAllPlan(true)
     }
