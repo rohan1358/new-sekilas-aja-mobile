@@ -154,25 +154,25 @@ export default function BookDetail({ navigation, route }: any) {
       />
       {
         statusSub ?
-        <Animated.View style={[styles.SelectBarUp, stylez]}>
-          <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
-            <File />
-            <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-          </Button>
-          <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
-            <Headphones />
-            <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-          </Button>
-          <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
-            <Video />
-            <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-          </Button>
-        </Animated.View>
-          :
         <Animated.View style={[styles.SelectBarUp,styles.upgrade_yuk, stylez]}>
           <Lock color={primaryColor.main} width={28} />
           <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
-        </Animated.View>
+          </Animated.View>
+          :
+          <Animated.View style={[styles.SelectBarUp, stylez]}>
+            <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
+              <File />
+              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+            </Button>
+            <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
+              <Headphones />
+              <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+            </Button>
+            <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
+              <Video />
+              <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+            </Button>
+          </Animated.View>
       }
       <Animated.ScrollView
         ref={refScroll}
@@ -196,6 +196,11 @@ export default function BookDetail({ navigation, route }: any) {
         <View style={[styles.boxSelect]}>
           {
             statusSub ?
+              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+                <Lock color={primaryColor.main} width={28} />
+                <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
+              </View>
+              :
               <View style={styles.SelectBar}>
                 <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
                   <File />
@@ -209,11 +214,6 @@ export default function BookDetail({ navigation, route }: any) {
                   <Video />
                   <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
                 </Button>
-              </View>
-              :
-              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
-                <Lock color={primaryColor.main} width={28} />
-                <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
               </View>
 
           }
