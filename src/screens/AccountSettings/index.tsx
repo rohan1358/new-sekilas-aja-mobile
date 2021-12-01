@@ -132,6 +132,7 @@ export default function AccountSettings({
   }
 
   const logOut = () => {
+    setKeyAlert('');
     setModalAlert(!modalAlert);
     dispatch(loggingIn({ isLogin: false, email: "" }));
     dispatch(setProfileRedux(null));
