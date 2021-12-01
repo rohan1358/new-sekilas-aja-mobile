@@ -99,7 +99,7 @@ export default function BookDetail({ navigation, route }: any) {
       }
     }
 
-    // handleSub()
+    handleSub()
   },[])
 
   useEffect(() => {
