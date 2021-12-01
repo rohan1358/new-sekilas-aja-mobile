@@ -34,7 +34,7 @@ const listSoundTrack = [
 ]
 
 TrackPlayer.updateOptions({
-  stopWithApp: false,
+  stopWithApp: true,
   capabilities: [
       Capability.Play,
       Capability.Pause,
@@ -157,12 +157,11 @@ export default function Listening({ navigation }: any) {
     switch (type) {
       case 'reading':
         navigation.navigate(pages.Listening)
-        break;
-      case 'listening':
-        navigation.navigate(pages.Listening)
+        TrackPlayer.destroy();
         break;
       case 'watching':
         navigation.navigate(pages.Watching)
+        TrackPlayer.destroy();
         break;
     
       default:

@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
         borderColor: neutralColor[90],
         borderRadius: 16,
         overflow: 'hidden',
-        width: '47%'
+        width: '47%',
+        height: 200
     },
 
     headCard: {
@@ -93,12 +94,8 @@ const styles = StyleSheet.create({
         paddingVertical: 8
     },
 
-    headCardActiveBest: {
-        backgroundColor: 'transparent'
-    },
-
-    backBlack: {
-        backgroundColor: neutralColor[90]
+    backPrimaryColor: {
+        backgroundColor: primaryColor.main
     },
 
     headCardActiveNormal: {
@@ -108,8 +105,37 @@ const styles = StyleSheet.create({
     contentCard: {
         alignItems: 'center',
         paddingVertical: 8,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        height: '100%'
+    },
 
+    textBestValue: {
+        fontWeight: 'bold',
+        color: primaryColor.main
+    },
+
+    colorBlack: {
+        color: neutralColor[90]
+    },
+
+    colorWhite: {
+        color: colors.white
+    },
+
+    colorPrimary: {
+        color: primaryColor.main
+    },
+
+    colorPink: {
+        color: '#f7948d'
+    },
+
+    backBlack: {
+        backgroundColor: neutralColor[90]
+    },
+
+    backWhite: {
+        backgroundColor: colors.white,
     },
 
     hemat: {
@@ -132,11 +158,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12
     },
-
-    backWhite: {
-        backgroundColor: colors.white,
-        flex: 1,
-    }
 })
 
 export default styles;

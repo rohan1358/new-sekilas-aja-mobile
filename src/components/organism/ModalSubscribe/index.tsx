@@ -1,7 +1,7 @@
 import { ArrowLeft, Check, Exit } from '@assets';
-import { Button, Gap, TextItem } from '@components';
+import { Button, TextItem } from '@components';
 import { neutralColor, spacing, strings } from '@constants';
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Modal, View, ScrollView } from 'react-native'
 import { widthPercent } from '../../../helpers/helper';
 import paketList from './dummy';
@@ -10,6 +10,9 @@ import styles from './styles';
 export default function ModalSubscribe({ modalVisible, setModalVisible, ...props }: ModalSubscribeProps) {
   
   const refScroll = useRef()
+
+  const [statusBest, setBest] = useState(false)
+  const [statusNormal, setNormal] = useState(false)
 
 
   const handlePrev = () => {
@@ -33,6 +36,46 @@ export default function ModalSubscribe({ modalVisible, setModalVisible, ...props
 
   const exitPage = () => {
     setModalVisible(!modalVisible)
+  }
+
+   const handlePressCard = (type) => {
+    if (type == 'best') {
+      setBest(!statusBest)
+      setNormal(false)
+    } else {
+      setNormal(!statusNormal)
+      setBest(false)
+    }
+  }
+
+  const CardBest = ({item}: any) => {
+    return (
+      <Button onPress={()=> handlePressCard(item.type)} style={styles.card}>
+        <View style={[styles.headCard, statusBest && styles.backPrimaryColor]}>
+          <TextItem style={[styles.textBestValue, statusBest && styles.colorBlack]}>{strings.best_value}</TextItem>
+          <TextItem type='b.20.c.white' style={statusBest && styles.colorBlack}>{item.mount+strings.bulan}</TextItem>
+        </View>
+        <View style={[styles.contentCard, statusBest && styles.backBlack]}>
+          <TextItem style={[styles.hemat, statusBest && styles.colorPink]}>{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
+          <TextItem style={[styles.price, statusBest && styles.colorPrimary]}><TextItem style={styles.textBold}>{`${strings.rp} ${item.harga}/ `}</TextItem>{`${strings.bulan}`}</TextItem>
+          <TextItem style={[styles.note, statusBest && styles.colorWhite]}>{strings.pembayaran_langsung+ item.mount +strings.didepan}</TextItem>
+        </View>
+      </Button>
+    )
+  }
+
+  const CardNormal = ({item}: any) => {
+    return (
+      <Button onPress={()=> handlePressCard(item.type)} style={styles.card}>
+        <View style={[styles.headCard, statusNormal && styles.backWhite]}>
+          <TextItem type='b.20.c.white' style={statusNormal && styles.colorBlack}>{item.mount+strings.bulan}</TextItem>
+        </View>
+        <View style={[styles.contentCard, statusNormal ? styles.backBlack : styles.backWhite]}>
+          <TextItem style={[styles.price, statusNormal && styles.colorWhite]}><TextItem style={styles.textBold}>{`${strings.rp} ${item.harga}/ `}</TextItem>{`${strings.bulan}`}</TextItem>
+          <TextItem style={[styles.note, statusNormal && styles.colorWhite]}>{strings.pembayaran_langsung+ item.mount +strings.didepan}</TextItem>
+        </View>
+      </Button>
+    )
   }
 
     return (
@@ -98,26 +141,13 @@ export default function ModalSubscribe({ modalVisible, setModalVisible, ...props
                 <TextItem type='r.20.nc.70' style={styles.subTextTitle}>{strings.pilihan_paket}</TextItem>
                 <View style={styles.boxListCard}>
                   {
-                    paketList.map((item, index) => (
-                      <View key={index} style={styles.card}>
-                        <View style={styles.headCard}>
-                          {
-                            item.type == 'best' &&
-                          <TextItem type='b.14.pc.main'>{strings.best_value}</TextItem>
-                          }
-                          <TextItem type='b.20.c.white'>{item.mount+strings.bulan}</TextItem>
-                        </View>
-                        <View style={[styles.contentCard, item.type == 'normal' &&  styles.backWhite]}>
-                          {
-                            item.type == 'best' &&
-                            <TextItem style={styles.hemat}>{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
-                          }
-                          <TextItem style={styles.price}><TextItem style={styles.textBold}>{`${strings.rp} ${item.harga}/ `}</TextItem>{`${strings.bulan}`}</TextItem>
-                          <TextItem style={styles.note}>{strings.pembayaran_langsung+ item.mount +strings.didepan}</TextItem>
-                        </View>
-                      </View>
-                    ))
-                  }
+                  paketList.map((item, index) => (
+                    item.type == 'best' ?
+                    <CardBest item={item} key={index} />
+                      :
+                    <CardNormal item={item} key={index} />
+                  ))
+                }
                 </View>
                 <Button onPress={()=> exitPage()} style={styles.btnPilih}>
                     <TextItem type='b.24.pc.main'>{strings.langganan_sekaarang}</TextItem>
