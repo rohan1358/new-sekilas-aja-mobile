@@ -11,6 +11,7 @@ interface CompactBooksProps {
   author: string;
   read_time: number;
   book_cover: string | undefined;
+  isVideoAvailable: boolean;
 }
 
 interface ReadingBookProps {

@@ -42,12 +42,14 @@ const fetchCategorizedBooks = ({
         .collection(firebaseNode.books)
         .where("category", "array-contains", category)
         .get();
-      const books = raw.docs.map((item) => ({
+
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -75,12 +77,13 @@ const fetchMostBooks = () => {
         .orderBy("read_time", "desc")
         .limit(2)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -143,12 +146,13 @@ const fetchRecommendedBooks = () => {
         .where("read_time", "!=", "")
         .limit(6)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -176,12 +180,13 @@ const fetchReleasedBooks = () => {
         .orderBy("read_time", "desc")
         .limit(4)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books.slice(2, 4),

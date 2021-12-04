@@ -54,6 +54,7 @@ const Category = ({ navigation, route }: CategoryProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
+        isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
     </View>

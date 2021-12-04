@@ -39,7 +39,7 @@ export const strings = {
 
   camera_unavailable: "Kamera tidak tersedia di perangkat",
   continueReading: "Lanjutkan membaca",
-  cacel: 'Cancel',
+  cacel: "Cancel",
 
   daftar_isi: "Daftar Isi",
   data_kosong: "Data kosong",
@@ -98,7 +98,7 @@ export const strings = {
   kilas_buku: "30+ Kilas Buku baru setiap bulannya!",
 
   lalu: " lalu",
-  lastReadClue: "Bacaan terakhir ditampilkan di sini,",
+  lastReadClue: "Eksplor kilas buku terpopuler",
   lebih_banyak: "Lihat Lebih Banyak",
   lebih_sedikit: "Lihat Lebih Sedikit",
   library: "Bukuku",
@@ -160,7 +160,7 @@ export const strings = {
   penulis: "Penulis",
   pembaca: " pembaca",
   promo_empty: "Promo kosong!",
-  pursueRead: "Ayo mulai membaca!",
+  pursueRead: "di dunia sekarang!",
   pilih_paket: "Pilih Paket",
   pilih_paket_premium: "Pilih paket premium yang sesuai untuk kamu!",
   pilihan_paket: "Ada 2 paket yang paling banyak dipilih oleh para pembaca. ⬇",
@@ -183,7 +183,7 @@ export const strings = {
     "Banyak orang udah males duluan kalo liat buku yang panjang...",
   sub_onBoard_4:
     "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
-  segera:'SEGERA!',
+  segera: "SEGERA!",
 
   tableOfContent: "Daftar Isi",
   terms: "Ketentuan Layanan",
@@ -219,6 +219,7 @@ export const strings = {
   ulasan: "Ulasan",
   ulasan_dari: "Ulasan dari ",
 
+  video: "Video",
   video_Account: "Pengaturan Video",
   video_putar: "Putar Otomatis",
 
@@ -229,7 +230,7 @@ export const strings = {
   x: "x",
 
   yakin_keluar: "Yakin ingin keluar?",
-  yuk_upgrade: 'Yuk, upgrade dulu ke premium!',
+  yuk_upgrade: "Yuk, upgrade dulu ke premium!",
 
   zona: "Zona",
 };

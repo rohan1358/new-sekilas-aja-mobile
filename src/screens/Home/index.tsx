@@ -76,6 +76,7 @@ const Home = ({ navigation }: HomeProps) => {
         onPress={() => navigation.navigate(pages.BookDetail, { item })}
         //@ts-ignore
         navSubscrive={() => navigation.navigate(pages.Subscribe)}
+        isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
     </View>
@@ -171,10 +172,12 @@ const Home = ({ navigation }: HomeProps) => {
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
   const onGoingPress = () =>
-    navigation.navigate("Reading", {
-      id: readingBook?.book || "",
-      page: `${parseInt(readingBook?.kilas || "1") - 1}`,
-    });
+    !!readingBook?.available
+      ? navigation.navigate("Reading", {
+          id: readingBook?.book || "",
+          page: `${parseInt(readingBook?.kilas || "1") - 1}`,
+        })
+      : navigation.navigate("MainBottomRoute", { screen: "Explore" });
 
   useEffect(() => {
     isMounted.current = true;
@@ -296,10 +299,10 @@ const Home = ({ navigation }: HomeProps) => {
           <Gap vertical={sp.xxl} />
         </DummyFlatList>
       </SkeletonContent>
-      <ModalSubscribe
+      {/* <ModalSubscribe
         modalVisible={modalAllPlan}
         setModalVisible={setModalAllPlan}
-      />
+      /> */}
     </Base>
   );
 };
