@@ -3,7 +3,7 @@ import { neutralColor, pages, primaryColor, skeleton, snackState as ss, strings 
 import React, { useEffect, useRef, useState } from 'react'
 import { Modal, StyleSheet, Switch, Text, View } from 'react-native'
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AccountSettingsHeader from '../../components/organism/AccountSettingsHeader';
 import { logger } from '../../helpers/helper';
 import { ReduxState } from '../../redux/reducers';
@@ -18,6 +18,8 @@ import {
   IconFb,
   IconIg,
   IconTw } from '@assets';
+import { loggingIn, setProfileRedux } from '../../redux/actions';
+import { CommonActions } from '@react-navigation/routers';
 
 export default function AccountSettings({
   navigation
@@ -28,6 +30,7 @@ export default function AccountSettings({
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>();
+  const dispatch = useDispatch();
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,6 +43,7 @@ export default function AccountSettings({
   const [putarAudio, setPutarAudio] = useState(false);
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
+  const [keyAlert, setKeyAlert] = useState('');
 
   const [textAlert, setTextAlert] = useState({
     text: '',
@@ -112,6 +116,34 @@ export default function AccountSettings({
     })
   }
 
+  const handlAlert = () => {
+    switch (keyAlert) {
+      case 'logout':
+        logOut()
+        break;
+      
+      case '':
+        setModalAlert(!modalAlert)
+        break;
+      
+      default:
+        break;
+    }
+  }
+
+  const logOut = () => {
+    setKeyAlert('');
+    setModalAlert(!modalAlert);
+    dispatch(loggingIn({ isLogin: false, email: "" }));
+    dispatch(setProfileRedux(null));
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: pages.SignIn }],
+      })
+    );
+  };
+
 
   return (
     <Base
@@ -152,7 +184,7 @@ export default function AccountSettings({
                   })
                 }
                 style={styles.btnAction}>
-                <TextItem type="r.16.nc.90">{strings.btnBatal}</TextItem>
+                <TextItem style={styles.textBtnBatal}>{strings.btnBatal}</TextItem>
               </Button>
             </View>
 
@@ -183,7 +215,7 @@ export default function AccountSettings({
               <View style={[styles.list, styles.listPreferens]}>
                 <View style={styles.boxText}>
                   <TextItem style={styles.titleList}>{strings.mode_gelap}</TextItem>
-                  <TextItem style={styles.textContent}>{strings.text_mode_gelap}</TextItem>
+                  <TextItem style={styles.textContent}>{strings.segera}</TextItem>
                 </View>
                 <Switch
                   trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
@@ -310,6 +342,18 @@ export default function AccountSettings({
               </Button>
               </View>
             </View>
+            <Button 
+              onPress={() =>{
+                handleModalAlert({
+                  text: strings.yakin_keluar,
+                  action: strings.cacel,
+                  button: strings.btn_keluar,
+                })
+              setKeyAlert('logout')
+              }}
+              style={styles.btnKeluar}>
+              <TextItem type="b.18.nc.90">{strings.btn_keluar}</TextItem>
+            </Button>
           </View>
 
           <View style={styles.sectionContent}>
@@ -386,10 +430,10 @@ export default function AccountSettings({
                 <AlertModal />
                 <TextItem style={styles.textAlert} >{textAlert.text}</TextItem>
               </View>
-              <Button style={styles.btnAlert}>
+              <Button onPress={()=> setModalAlert(!modalAlert)} style={styles.btnAlert}>
                 <TextItem style={styles.textActionAlert} >{textAlert.action}</TextItem>
               </Button>
-              <Button onPress={()=> setModalAlert(!modalAlert)} style={[styles.btnAlert, styles.btnAlertSecond]}>
+              <Button onPress={()=> handlAlert()} style={[styles.btnAlert, styles.btnAlertSecond]}>
                 <TextItem style={styles.textButtonAlert} >{textAlert.button}</TextItem>
               </Button>
             </DummyFlatList>

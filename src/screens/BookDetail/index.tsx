@@ -35,6 +35,7 @@ import {
   Clock,
   File,
   Headphones,
+  Lock,
   Sunrise,
   Video,
 } from "@assets";
@@ -66,9 +67,9 @@ export default function BookDetail({ navigation, route }: any) {
   const [ratingCount, setRatingCount] = useState(4.5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
-  const [stream, setStream] = useState<boolean>(false);
   const [recommendedBooks, setRecommendedBooks] =
-    useState<CompactBooksProps[]>();
+  useState<CompactBooksProps[]>();
+  const [statusSub, setStatusSub] = useState(false)
 
   const getExploreData = async () => {
     setIsLoading(true);
@@ -88,6 +89,18 @@ export default function BookDetail({ navigation, route }: any) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+
+    const handleSub = () => {
+      const subsc = profile?.is_subscribed
+      if (!subsc) {
+        setStatusSub(true)
+      }
+    }
+
+    handleSub()
+  },[])
 
   useEffect(() => {
     isMounted.current = true;
@@ -139,20 +152,28 @@ export default function BookDetail({ navigation, route }: any) {
         onDownload={() => logger("donwload")}
         Active={active}
       />
-      <Animated.View style={[styles.SelectBarUp, stylez]}>
-        <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
-          <File />
-          <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-        </Button>
-        <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
-          <Headphones />
-          <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-        </Button>
-        <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
-          <Video />
-          <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-        </Button>
-      </Animated.View>
+      {
+        statusSub ?
+        <Animated.View style={[styles.SelectBarUp,styles.upgrade_yuk, stylez]}>
+          <Lock color={primaryColor.main} width={28} />
+          <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
+          </Animated.View>
+          :
+          <Animated.View style={[styles.SelectBarUp, stylez]}>
+            <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
+              <File />
+              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+            </Button>
+            <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
+              <Headphones />
+              <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+            </Button>
+            <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
+              <Video />
+              <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+            </Button>
+          </Animated.View>
+      }
       <Animated.ScrollView
         ref={refScroll}
         onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
@@ -173,20 +194,29 @@ export default function BookDetail({ navigation, route }: any) {
         </View>
 
         <View style={[styles.boxSelect]}>
-          <View style={styles.SelectBar}>
-            <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
-              <File />
-              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-            </Button>
-            <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
-              <Headphones />
-              <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-            </Button>
-            <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
-              <Video />
-              <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-            </Button>
-          </View>
+          {
+            statusSub ?
+              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+                <Lock color={primaryColor.main} width={28} />
+                <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
+              </View>
+              :
+              <View style={styles.SelectBar}>
+                <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
+                  <File />
+                  <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+                </Button>
+                <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
+                  <Headphones />
+                  <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+                </Button>
+                <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
+                  <Video />
+                  <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+                </Button>
+              </View>
+
+          }
         </View>
 
         <View style={styles.sectionDetail}>

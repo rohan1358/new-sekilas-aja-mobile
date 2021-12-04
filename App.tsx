@@ -10,13 +10,16 @@ import { LogBox } from "react-native";
 
 const App = () => {
   LogBox.ignoreLogs(["Require cycle", "Consider refactoring to remove"]);
+
   const [initializing, setInitializing] = useState(true);
-  function onAuthStateChanged() {
+
+  const onAuthStateChanged = () => {
     if (initializing) {
       setInitializing(false);
       SplashScreen.hide();
     }
-  }
+  };
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
