@@ -1,4 +1,9 @@
 export const firebaseNode = {
-  users: "users",
   books: "books",
+
+  kilasan: "kilasan",
+
+  lastReadBook: "lastReadBook",
+
+  users: "users",
 };

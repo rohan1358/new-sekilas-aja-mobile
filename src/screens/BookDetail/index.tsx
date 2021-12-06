@@ -1,35 +1,4 @@
 import {
-  Amage,
-  Base,
-  BookTile,
-  Button,
-  CardComent,
-  DummyFlatList,
-  Gap,
-  HeaderBookDetail,
-  TextItem,
-} from "../../components";
-import {
-  neutralColor,
-  primaryColor,
-  snackState as ss,
-  strings,
-  spacing as sp,
-  pages,
-} from "@constants";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  FlatList,
-  Image,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import styles from "./styles";
-import {
   Bank,
   ChevronRight,
   Clock,
@@ -39,17 +8,44 @@ import {
   Sunrise,
   Video,
 } from "@assets";
-import { comentList, daftarIsi } from "./dummy";
-import { Rating, AirbnbRating } from "react-native-ratings";
-import { useSelector } from "react-redux";
-import { ReduxState } from "../../redux/reducers";
-import { fetchRecommendedBooks } from "../../services";
-import { logger } from "../../helpers/helper";
+import {
+  neutralColor,
+  pages,
+  primaryColor,
+  snackState as ss,
+  spacing as sp,
+  strings,
+} from "@constants";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  TextInput,
+  View,
+} from "react-native";
+import { AirbnbRating } from "react-native-ratings";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
+import { useSelector } from "react-redux";
+import {
+  Amage,
+  Base,
+  BookTile,
+  Button,
+  CardComent,
+  Gap,
+  HeaderBookDetail,
+  TextItem,
+} from "../../components";
+import { SnackStateProps } from "../../components/atom/Base/types";
+import { logger } from "../../helpers/helper";
+import { ReduxState } from "../../redux/reducers";
+import { fetchRecommendedBooks } from "../../services";
+import { CompactBooksProps } from "../Home/types";
+import { comentList, daftarIsi } from "./dummy";
+import styles from "./styles";
 
 export default function BookDetail({ navigation, route }: any) {
   const {
@@ -59,7 +55,7 @@ export default function BookDetail({ navigation, route }: any) {
   const { item } = route.params;
 
   const isMounted = useRef<boolean>();
-  const refScroll = useRef(null);
+  const refScroll = useRef<any>(null);
 
   const yOffset = useSharedValue(0);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -68,8 +64,8 @@ export default function BookDetail({ navigation, route }: any) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
   const [recommendedBooks, setRecommendedBooks] =
-  useState<CompactBooksProps[]>();
-  const [statusSub, setStatusSub] = useState(false)
+    useState<CompactBooksProps[]>();
+  const [statusSub, setStatusSub] = useState(false);
 
   const getExploreData = async () => {
     setIsLoading(true);
@@ -91,16 +87,15 @@ export default function BookDetail({ navigation, route }: any) {
   };
 
   useEffect(() => {
-
     const handleSub = () => {
-      const subsc = profile?.is_subscribed
+      const subsc = profile?.is_subscribed;
       if (!subsc) {
-        setStatusSub(true)
+        setStatusSub(true);
       }
-    }
+    };
 
-    handleSub()
-  },[])
+    handleSub();
+  }, []);
 
   useEffect(() => {
     isMounted.current = true;
@@ -123,22 +118,22 @@ export default function BookDetail({ navigation, route }: any) {
     };
   });
 
-  const navigationTopBar = (type = '') => {
+  const navigationTopBar = (type = "") => {
     switch (type) {
-      case 'reading':
-        navigation.navigate(pages.Listening)
+      case "reading":
+        navigation.navigate(pages.Listening);
         break;
-      case 'listening':
-        navigation.navigate(pages.Listening)
+      case "listening":
+        navigation.navigate(pages.Listening);
         break;
-      case 'watching':
-        navigation.navigate(pages.Watching)
+      case "watching":
+        navigation.navigate(pages.Watching);
         break;
-    
+
       default:
         break;
     }
-  }
+  };
 
   return (
     <Base
@@ -152,28 +147,36 @@ export default function BookDetail({ navigation, route }: any) {
         onDownload={() => logger("donwload")}
         Active={active}
       />
-      {
-        statusSub ?
-        <Animated.View style={[styles.SelectBarUp,styles.upgrade_yuk, stylez]}>
+      {statusSub ? (
+        <Animated.View style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}>
           <Lock color={primaryColor.main} width={28} />
           <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
-          </Animated.View>
-          :
-          <Animated.View style={[styles.SelectBarUp, stylez]}>
-            <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
-              <File />
-              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-            </Button>
-            <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
-              <Headphones />
-              <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-            </Button>
-            <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
-              <Video />
-              <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-            </Button>
-          </Animated.View>
-      }
+        </Animated.View>
+      ) : (
+        <Animated.View style={[styles.SelectBarUp, stylez]}>
+          <Button
+            onPress={() => navigationTopBar("reading")}
+            style={styles.btnBar}
+          >
+            <File />
+            <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+          </Button>
+          <Button
+            onPress={() => navigationTopBar("listening")}
+            style={styles.btnBar}
+          >
+            <Headphones />
+            <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+          </Button>
+          <Button
+            onPress={() => navigationTopBar("watching")}
+            style={styles.btnBar}
+          >
+            <Video />
+            <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+          </Button>
+        </Animated.View>
+      )}
       <Animated.ScrollView
         ref={refScroll}
         onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
@@ -194,29 +197,38 @@ export default function BookDetail({ navigation, route }: any) {
         </View>
 
         <View style={[styles.boxSelect]}>
-          {
-            statusSub ?
-              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
-                <Lock color={primaryColor.main} width={28} />
-                <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
-              </View>
-              :
-              <View style={styles.SelectBar}>
-                <Button onPress={()=> navigationTopBar('reading')} style={styles.btnBar}>
-                  <File />
-                  <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-                </Button>
-                <Button onPress={()=> navigationTopBar('listening')} style={styles.btnBar}>
-                  <Headphones />
-                  <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-                </Button>
-                <Button onPress={()=> navigationTopBar('watching')} style={styles.btnBar}>
-                  <Video />
-                  <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-                </Button>
-              </View>
-
-          }
+          {statusSub ? (
+            <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+              <Lock color={primaryColor.main} width={28} />
+              <TextItem style={styles.titleSelect}>
+                {strings.yuk_upgrade}
+              </TextItem>
+            </View>
+          ) : (
+            <View style={styles.SelectBar}>
+              <Button
+                onPress={() => navigationTopBar("reading")}
+                style={styles.btnBar}
+              >
+                <File />
+                <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+              </Button>
+              <Button
+                onPress={() => navigationTopBar("listening")}
+                style={styles.btnBar}
+              >
+                <Headphones />
+                <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+              </Button>
+              <Button
+                onPress={() => navigationTopBar("watching")}
+                style={styles.btnBar}
+              >
+                <Video />
+                <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+              </Button>
+            </View>
+          )}
         </View>
 
         <View style={styles.sectionDetail}>
@@ -399,7 +411,7 @@ export default function BookDetail({ navigation, route }: any) {
             </Button>
           </View>
           <View style={styles.boxListBook}>
-            {recommendedBooks?.map((item, index) => {
+            {recommendedBooks?.map((item: CompactBooksProps, index) => {
               return (
                 <View key={index} style={styles.columnWrapperStyle}>
                   <BookTile
@@ -407,8 +419,9 @@ export default function BookDetail({ navigation, route }: any) {
                     author={`${item?.author}`}
                     duration={item?.read_time}
                     cover={item?.book_cover}
+                    isVideoAvailable={item?.isVideoAvailable}
                     onPress={() => toTop(item)}
-                    navSubscrive={()=> navigation.navigate(pages.Subscribe)}
+                    navSubscrive={() => navigation.navigate(pages.Subscribe)}
                   />
                   <Gap vertical={sp.sl} />
                 </View>

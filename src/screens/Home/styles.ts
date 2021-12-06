@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 
   newCollectionContainer: { flexDirection: "row" },
-  newCollectionContentContainerStyle: { paddingLeft: sp.m },
+  newCollectionContentContainerStyle: { paddingLeft: sp.sl },
 
   skeleton: { flex: 1 },
 

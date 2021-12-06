@@ -11,6 +11,7 @@ import Bank from "./Bank.svg";
 import Camera from "./Camera.svg";
 import ChatBubble from "./ChatBubble.svg";
 import Check from "./Check.svg";
+import ChevronLeft from "./ChevronLeft.svg";
 import ChevronRight from "./ChevronRight.svg";
 import Clipboard from "./Clipboard.svg";
 import Clock from "./Clock.svg";
@@ -42,7 +43,8 @@ import Headphones from "./Headphones.svg";
 import IconFb from "./IconFb.svg";
 import IconIg from "./IconIg.svg";
 import IconTw from "./IconTw.svg";
-import Lock from './Lock.svg';
+import Lock from "./Lock.svg";
+import MenuDots from "./MenuDots.svg";
 import PaintPalette from "./PaintPalette.svg";
 import PromoEmpty from "./PromoEmpty.svg";
 import Pause from "./Pause.svg";
@@ -77,6 +79,7 @@ export {
   Camera,
   ChatBubble,
   Check,
+  ChevronLeft,
   ChevronRight,
   Clipboard,
   Clock,
@@ -109,6 +112,7 @@ export {
   IconIg,
   IconTw,
   Lock,
+  MenuDots,
   PaintPalette,
   PromoEmpty,
   Pause,

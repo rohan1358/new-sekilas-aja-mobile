@@ -1,7 +1,11 @@
+import { ReactElement } from "react";
+
 interface HeaderStateProps {
-  visible: boolean;
-  title?: string;
+  customComp?: any;
   onBackPress?(): void;
+  title?: string;
+  type?: "back" | "custom" | undefined;
+  visible: boolean;
 }
 
 interface SnackStateProps {

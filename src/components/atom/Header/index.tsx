@@ -4,10 +4,19 @@ import { neutralColor, spacing as sp } from "@constants";
 import React from "react";
 import { View } from "react-native";
 import styles from "./styles";
+import { HeaderProps } from "./types";
 
 const Header = ({ headerState }: HeaderProps) => {
   if (!headerState?.visible) {
     return null;
+  }
+  if (headerState?.type === "custom") {
+    const CustomComp = headerState?.customComp;
+    return (
+      <View style={styles.customContainer}>
+        <CustomComp />
+      </View>
+    );
   }
   return (
     <View style={styles.container}>

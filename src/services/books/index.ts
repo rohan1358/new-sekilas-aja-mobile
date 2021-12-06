@@ -1,5 +1,6 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
+import { logger } from "../../helpers/helper";
 
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
@@ -41,12 +42,14 @@ const fetchCategorizedBooks = ({
         .collection(firebaseNode.books)
         .where("category", "array-contains", category)
         .get();
-      const books = raw.docs.map((item) => ({
+
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -74,12 +77,13 @@ const fetchMostBooks = () => {
         .orderBy("read_time", "desc")
         .limit(2)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -102,17 +106,23 @@ const fetchReadingBook = (email: string) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       const raw = await firestore()
-        .collection(firebaseNode.users)
-        .where("email", "==", email)
+        .collection(firebaseNode.lastReadBook)
+        .doc(email)
         .get();
-      const bookName = raw.docs[0].data()?.owned_books[0];
-      const bookDetail = await firestore()
-        .collection(firebaseNode.books)
-        .where("book_title", "==", bookName)
-        .get();
-      const book = bookDetail.docs[0].data();
+
+      const rawBook = raw.data();
+
+      if (!rawBook) {
+        resolve({
+          data: { book: "", book_cover: "", kilas: "", available: false },
+          isSuccess: true,
+          error: null,
+          message: "Reading book successfuly fetched.",
+        });
+      }
+
       resolve({
-        data: book,
+        data: { ...rawBook?.book, available: true },
         isSuccess: true,
         error: null,
         message: "Reading book successfuly fetched.",
@@ -136,12 +146,13 @@ const fetchRecommendedBooks = () => {
         .where("read_time", "!=", "")
         .limit(6)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -169,12 +180,13 @@ const fetchReleasedBooks = () => {
         .orderBy("read_time", "desc")
         .limit(4)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books.slice(2, 4),

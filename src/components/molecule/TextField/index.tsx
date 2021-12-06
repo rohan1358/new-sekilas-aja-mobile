@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { TextInput, View } from "react-native";
-import { defaultValue, spacing } from "../../../constants";
+import { defaultValue, neutralColor, spacing } from "../../../constants";
 import { Gap, TextItem, Button } from "../../atom";
 import styles from "./styles";
 import { TextFieldProps } from "./types";
@@ -27,7 +27,12 @@ const TextField = forwardRef(
     return (
       <View style={containerStyle}>
         <View style={[s.container, innerContainerStyle]}>
-          <TextInput style={[s.input, inputStyle]} {...props} ref={ref} />
+          <TextInput
+            style={[s.input, inputStyle]}
+            placeholderTextColor={neutralColor[50]}
+            {...props}
+            ref={ref}
+          />
           {Icon && (
             <Button
               onPress={iconPress}

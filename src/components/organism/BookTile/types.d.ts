@@ -3,6 +3,7 @@ interface BookTileProps {
   author: string;
   duration: number;
   cover: string | undefined;
-  onPress?(): void
-  navSubscrive?(): void
+  isVideoAvailable: boolean;
+  onPress?(): void;
+  navSubscrive?(): void;
 }

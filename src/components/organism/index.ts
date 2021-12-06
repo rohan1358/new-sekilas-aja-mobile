@@ -10,8 +10,10 @@ import ImageBanner from "./ImageBanner";
 import MiniCollectionTile from "./MiniCollectionTile";
 import ModalSubscribe from "./ModalSubscribe";
 import OngoingTile from "./OngoingTile";
+import PageController from "./PageController";
 import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
+import ReadingHeader from "./ReadingHeader";
 import SearchHeader from "./SearchHeader";
 
 export {
@@ -27,8 +29,9 @@ export {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
+  PageController,
   PagesOnboarding,
   ProfileHeader,
+  ReadingHeader,
   SearchHeader,
 };
-

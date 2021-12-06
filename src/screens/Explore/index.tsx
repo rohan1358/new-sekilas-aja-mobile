@@ -8,7 +8,13 @@ import {
   TextItem,
   TitleTap,
 } from "@components";
-import { pages, primaryColor, skeleton, spacing as sp, strings } from "@constants";
+import {
+  pages,
+  primaryColor,
+  skeleton,
+  spacing as sp,
+  strings,
+} from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -25,6 +31,7 @@ import {
   fetchReleasedBooks,
   fetchTrendBooks,
 } from "../../services";
+import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";
 import { ExploreProps } from "./types";
 
@@ -86,8 +93,9 @@ const Explore = ({ navigation }: ExploreProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
-        onPress={()=> navigation.navigate(pages.BookDetail, {item})}
-        navSubscrive={()=> navigation.navigate(pages.Subscribe)}
+        onPress={() => navigation.navigate("BookDetail", { item })}
+        navSubscrive={() => navigation.navigate("Subscribe")}
+        isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
     </View>

@@ -27,6 +27,7 @@ import { logger } from "../../helpers/helper";
 import { addSearchHistory, clearSearchHistory } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
 import { fetchBooks } from "../../services";
+import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";
 import { SearchProps } from "./types";
 
@@ -146,6 +147,7 @@ const Search = ({ navigation }: SearchProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
+        isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
     </View>
