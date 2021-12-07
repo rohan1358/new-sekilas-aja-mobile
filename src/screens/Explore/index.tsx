@@ -8,15 +8,9 @@ import {
   TextItem,
   TitleTap,
 } from "@components";
-import {
-  pages,
-  primaryColor,
-  skeleton,
-  spacing as sp,
-  strings,
-} from "@constants";
+import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
-import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
+import { View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
@@ -69,19 +63,16 @@ const CategoryChips = ({
 
 const Explore = ({ navigation }: ExploreProps) => {
   const isMounted = useRef<boolean>();
-  const searchRef = useRef<any>();
 
-  const cameraPosition = useSharedValue(-48);
   const scrollY = useSharedValue(0);
 
   const [headerHeight, setHeaderHeight] = useState<number>(64);
-  const [keyword, setKeyword] = useState<string>();
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
   const [releaseBooks, setReleaseBooks] = useState<CompactBooksProps[]>();
   const [trendBooks, setTrendBooks] = useState<CompactBooksProps[]>();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const flatListTopAdjuster = headerHeight + topHeaderGap * 2;
 
   const headerTranslate = headerHeight + topHeaderGap + bottomHeaderGap / 2;
@@ -101,11 +92,6 @@ const Explore = ({ navigation }: ExploreProps) => {
     </View>
   );
 
-  const closePress = () => {
-    setKeyword("");
-    searchRef.current?.clear();
-  };
-
   const getExploreData = async () => {
     setIsLoading(true);
     try {
@@ -118,12 +104,12 @@ const Explore = ({ navigation }: ExploreProps) => {
         return;
       }
       if (releaseData.isSuccess) {
-        setReleaseBooks(releaseData.data);
+        setReleaseBooks(releaseData.data?.slice(0, 2));
       } else {
         throw new Error("Fail on fetching recommended books data");
       }
       if (recomData.isSuccess) {
-        setRecommendedBooks(recomData.data);
+        setRecommendedBooks(recomData.data?.slice(0, 6));
       } else {
         throw new Error("Fail on fetching released books data");
       }
@@ -148,19 +134,7 @@ const Explore = ({ navigation }: ExploreProps) => {
     ],
   }));
 
-  const inputHandle = () => {
-    if (!!keyword && keyword?.length > 2) {
-      cameraPosition.value = withTiming(0);
-    } else {
-      cameraPosition.value = withTiming(-48);
-    }
-  };
-
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
-
-  useEffect(() => {
-    inputHandle();
-  }, [keyword]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -249,7 +223,14 @@ const Explore = ({ navigation }: ExploreProps) => {
               </View>
             </ScrollView>
             <Gap vertical={sp.sl} />
-            <TitleTap title={strings.newRelease} />
+            <TitleTap
+              title={strings.newRelease}
+              onPress={() =>
+                navigation.navigate("SpecialBookList", {
+                  type: "newRelease",
+                })
+              }
+            />
             <Gap vertical={sp.sm} />
             <Gap horizontal={sp.sl * 2}>
               <FlatList

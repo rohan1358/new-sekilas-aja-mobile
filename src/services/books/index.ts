@@ -1,5 +1,5 @@
 import { firebaseNode } from "@constants";
-import firestore from "@react-native-firebase/firestore";
+import firestore, { firebase } from "@react-native-firebase/firestore";
 import { logger } from "../../helpers/helper";
 
 const fetchBooks = () => {
@@ -141,10 +141,14 @@ const fetchReadingBook = (email: string) => {
 const fetchRecommendedBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
+      const bookTitles = await firestore()
+        .collection(firebaseNode.rate)
+        .where("read.average", ">=", 3)
+        .get();
+      const titles = bookTitles.docs.map((item) => item.id);
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .limit(6)
+        .where("book_title", "in", titles)
         .get();
       const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
@@ -176,9 +180,7 @@ const fetchReleasedBooks = () => {
     try {
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .orderBy("read_time", "desc")
-        .limit(4)
+        .where("category", "array-contains", "New Release!")
         .get();
       const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
@@ -189,7 +191,7 @@ const fetchReleasedBooks = () => {
         isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
-        data: books.slice(2, 4),
+        data: books,
         isSuccess: true,
         error: null,
         message: "New released books successfuly fetched.",

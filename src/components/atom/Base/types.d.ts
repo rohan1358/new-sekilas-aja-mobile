@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 interface HeaderStateProps {
   customComp?: any;
   onBackPress?(): void;
-  title?: string;
+  title?: string | string[];
   type?: "back" | "custom" | undefined;
   visible: boolean;
 }

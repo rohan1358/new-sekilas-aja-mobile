@@ -153,7 +153,7 @@ const Home = ({ navigation }: HomeProps) => {
         throw new Error("Fail on fetching reading book data");
       }
       if (recomData.isSuccess) {
-        setRecommendedBooks(recomData.data);
+        setRecommendedBooks(recomData.data?.slice(0, 6));
       } else {
         throw new Error("Fail on fetching recommended books data");
       }
@@ -255,7 +255,13 @@ const Home = ({ navigation }: HomeProps) => {
                 {strings.recommendedBook}
               </TextItem>
               <Gap horizontal={20} />
-              <Button>
+              <Button
+                onPress={() =>
+                  navigation.navigate("SpecialBookList", {
+                    type: "recommendation",
+                  })
+                }
+              >
                 <TextItem type="b.14.nc.90" style={styles.underline}>
                   {strings.seeAll}
                 </TextItem>
