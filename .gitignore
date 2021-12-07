@@ -37,6 +37,7 @@ npm-debug.log
 yarn-error.log
 *.lock
 package-lock.json
+*.apk
 
 # BUCK
 buck-out/
