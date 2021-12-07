@@ -13,7 +13,7 @@ type RootStackParamList = {
   About: undefined;
   AccountSettings: undefined;
 
-  BookDetail: any;
+  BookDetail: { id: string };
   BookTableContent: {
     id: string;
     isFromReading?: boolean;

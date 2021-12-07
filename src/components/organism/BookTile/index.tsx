@@ -34,7 +34,7 @@ const BookTile = ({
   }, []);
 
   return (
-    <Button onPress={() => onPress && onPress()} style={styles.container}>
+    <Button onPress={() => onPress(title)} style={styles.container}>
       <View style={styles.imageContainer}>
         <View style={styles.background}>
           <View style={styles.innerBackgorund} />

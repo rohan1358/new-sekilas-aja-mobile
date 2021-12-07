@@ -80,6 +80,7 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
+        onPress={(id) => navigation.navigate("BookDetail", { id })}
         isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />

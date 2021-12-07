@@ -84,7 +84,7 @@ const Explore = ({ navigation }: ExploreProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
-        onPress={() => navigation.navigate("BookDetail", { id: item.id })}
+        onPress={(id) => navigation.navigate("BookDetail", { id })}
         navSubscrive={() => navigation.navigate("Subscribe")}
         isVideoAvailable={item?.isVideoAvailable}
       />

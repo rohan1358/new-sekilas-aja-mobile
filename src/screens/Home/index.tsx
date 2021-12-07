@@ -73,7 +73,7 @@ const Home = ({ navigation }: HomeProps) => {
         duration={item?.read_time}
         cover={item?.book_cover}
         //@ts-ignore
-        onPress={() => navigation.navigate(pages.BookDetail, { id: item.id })}
+        onPress={(id) => navigation.navigate(pages.BookDetail, { id })}
         //@ts-ignore
         navSubscrive={() => navigation.navigate(pages.Subscribe)}
         isVideoAvailable={item?.isVideoAvailable}
@@ -120,7 +120,7 @@ const Home = ({ navigation }: HomeProps) => {
     );
   };
 
-  const handleSub = (data) => {
+  const handleSub = (data: any) => {
     const subsc = data?.is_subscribed;
     if (!subsc) {
       setModalAllPlan(true);
