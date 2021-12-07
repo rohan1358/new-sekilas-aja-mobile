@@ -240,6 +240,43 @@ const fetchTrendBooks = () => {
   });
 };
 
+const fetchDetailBooks = (id:any) => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore()
+        .collection(firebaseNode.books)
+        .doc(id)
+        .get();
+      const books = {
+        book_title: raw.data()?.book_title,
+        author: raw.data()?.author,
+        read_time: raw.data()?.read_time,
+        id: raw.id,
+        book_cover: raw.data()?.book_cover,
+        audio_link: raw.data()?.audio_link,
+        category: raw.data()?.category,
+        description: raw.data()?.description,
+        short_desc: raw.data()?.short_desc,
+        video_link: raw.data()?.video_link,
+        watch_time: raw.data()?.watch_time,
+      }
+      resolve({
+        data: books,
+        isSuccess: true,
+        error: null,
+        message: "Trend books successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch most trend books failed.",
+      });
+    }
+  });
+};
+
 export {
   fetchBooks,
   fetchCategorizedBooks,
@@ -248,4 +285,5 @@ export {
   fetchRecommendedBooks,
   fetchReleasedBooks,
   fetchTrendBooks,
+  fetchDetailBooks,
 };

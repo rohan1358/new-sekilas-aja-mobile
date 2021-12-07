@@ -11,12 +11,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: neutralColor[90],
         fontWeight: '700',
-        textTransform:'capitalize'
+        textTransform: 'capitalize',
+        marginBottom: 8
     },
 
     boxItem: {
         borderWidth: 2,
-        marginTop: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 12,
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
          fontSize: 24,
         fontWeight: '700',
         color: neutralColor[60]
-    }
+    },
+
 })
 
 export default styles;
