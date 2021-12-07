@@ -9,6 +9,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import { heightPercent } from '../../helpers/helper';
 import { speedList } from './dummy';
 import Video from 'react-native-video';
+import { SnackStateProps } from '../../components/atom/Base/types';
 
 const videoBigbany = {uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
 

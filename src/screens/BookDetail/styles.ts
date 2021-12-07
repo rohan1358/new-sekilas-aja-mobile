@@ -4,6 +4,7 @@ import { heightPercent, widthPercent } from "../../helpers/helper";
 
 
 const styles = StyleSheet.create({
+    skeleton:{flex:1},
 
     layer: {
         height: heightPercent(28),

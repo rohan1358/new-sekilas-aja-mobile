@@ -184,6 +184,7 @@ export const strings = {
   sub_onBoard_4:
     "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
   segera: "SEGERA!",
+  success: 'SUCCESS',
 
   tableOfContent: "Daftar Isi",
   terms: "Ketentuan Layanan",

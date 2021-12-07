@@ -23,6 +23,10 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { CommonActions } from "@react-navigation/routers";
+import { SnackStateProps } from "../../components/atom/Base/types";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
+import { logger } from "../../helpers/helper";
 
 export default function Profile({ navigation }: any) {
   const dispatch = useDispatch();
@@ -33,7 +37,6 @@ export default function Profile({ navigation }: any) {
   } = useSelector((state: ReduxState) => state);
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [modalAlert, setModalAlert] = useState<boolean>(false);
   const [textAlert, setTextAlert] = useState({
     text: "",
@@ -41,18 +44,23 @@ export default function Profile({ navigation }: any) {
     button: "",
   });
 
-  // console.log(nama)
+  const [imageUrl, setImageUrl] = useState('');
 
-  const [imageUrl, setImageUrl] = useState(null);
-  const [nameState, setName] = useState<string>("");
-  const [emailState, setEmail] = useState<string>("");
-
-  useEffect(() => {
-    if (profile) {
-      setName(profile.firstName);
-      setEmail(profile.email);
-    }
-  }, []);
+  const handleUpdateImage = (image: string) => {
+    const user = auth().currentUser;
+    // console.log(image)
+    user?.updateProfile({
+      photoURL: 'image'
+    }).then(() => {
+      setSnackState(ss.successState(strings.success));
+    }).catch(err => {
+      logger('Profile', 'Filed update photoUrl')
+      setSnackState(ss.successState(err));
+    }).finally(() => {
+      setImageUrl(image);
+      refRBSheet.current.close();
+    })
+  }
 
   const handleImagePicker = (type: string) => {
     if (type == "camera") {
@@ -81,8 +89,7 @@ export default function Profile({ navigation }: any) {
             const base64 = {
               uri: "data:image/jpeg;base64," + callback.assets[0].base64,
             };
-            setImageUrl(base64.uri);
-            refRBSheet.current.close();
+            handleUpdateImage(base64.uri)
           }
         }
       );
@@ -111,8 +118,7 @@ export default function Profile({ navigation }: any) {
             const base64 = {
               uri: "data:image/jpeg;base64," + callback.assets[0].base64,
             };
-            setImageUrl(base64.uri);
-            refRBSheet.current.close();
+            handleUpdateImage(base64.uri)
           }
         }
       );
@@ -141,86 +147,80 @@ export default function Profile({ navigation }: any) {
       snackState={snackState}
       setSnackState={setSnackState}
     >
-      <SkeletonContent
-        containerStyle={styles.skeleton}
-        isLoading={isLoading}
-        layout={skeleton.mainHome}
-      >
-        <DummyFlatList>
-          <ProfileHeader
-            navigation={navigation}
-            onPress={() => refRBSheet.current.open()}
-            uri={imageUrl}
-          />
-          <View style={styles.content}>
-            <TextItem style={styles.title}>{strings.name}</TextItem>
-            <Button
-              onPress={() =>
-                navToEditProfile({
-                  type: "nama",
-                  title: "Ubah Nama",
-                  valueParams: nameState,
-                })
-              }
-              style={styles.boxItem}
-            >
-              <TextInput
-                style={styles.textInput}
-                editable={false}
-                value={nameState}
-              />
-              <EditGray />
-            </Button>
-            <TextItem style={styles.title}>{strings.alamat}</TextItem>
-            <Button
-              onPress={() =>
-                navToEditProfile({
-                  type: "email",
-                  title: "Ubah Email",
-                  valueParams: emailState,
-                })
-              }
-              style={styles.boxItem}
-            >
-              <TextInput
-                style={styles.textInput}
-                editable={false}
-                value={emailState}
-                keyboardType="email-address"
-              />
-              <EditGray />
-            </Button>
-            <TextItem style={styles.title}>{strings.password}</TextItem>
-            <Button
-              onPress={() =>
-                navToEditProfile({ type: "password", title: "Ubah Password" })
-              }
-              style={styles.boxItem}
-            >
-              <TextInput
-                style={styles.textInput}
-                editable={false}
-                value={emailState + "sj897"}
-                secureTextEntry={true}
-              />
-              <EditGray />
-            </Button>
-            <Button
-              onPress={() => {
-                setModalAlert(true);
-                setTextAlert({
-                  action: "Cancel",
-                  text: "Yakin ingin keluar?",
-                  button: "Keluar",
-                });
-              }}
-              style={styles.btnKeluar}
-            >
-              <TextItem style={styles.title}>{strings.btn_keluar}</TextItem>
-            </Button>
-          </View>
-        </DummyFlatList>
-      </SkeletonContent>
+      <DummyFlatList>
+        <ProfileHeader
+          navigation={navigation}
+          onPress={() => refRBSheet.current.open()}
+          uri={imageUrl}
+        />
+        <View style={styles.content}>
+          <TextItem style={styles.title}>{strings.name}</TextItem>
+          <Button
+            onPress={() =>
+              navToEditProfile({
+                type: "nama",
+                title: "Ubah Nama",
+                valueParams: profile?.firstName,
+              })
+            }
+            style={styles.boxItem}
+          >
+            <TextInput
+              style={styles.textInput}
+              editable={false}
+              value={profile?.firstName}
+            />
+            <EditGray />
+          </Button>
+          <TextItem style={styles.title}>{strings.alamat}</TextItem>
+          <Button
+            onPress={() =>
+              navToEditProfile({
+                type: "email",
+                title: "Ubah Email",
+                valueParams: profile?.email,
+              })
+            }
+            style={styles.boxItem}
+          >
+            <TextInput
+              style={styles.textInput}
+              editable={false}
+              value={profile?.email}
+              keyboardType="email-address"
+            />
+            <EditGray />
+          </Button>
+          <TextItem style={styles.title}>{strings.password}</TextItem>
+          <Button
+            onPress={() =>
+              navToEditProfile({ type: "password", title: "Ubah Password" })
+            }
+            style={styles.boxItem}
+          >
+            <TextInput
+              style={styles.textInput}
+              editable={false}
+              value={profile?.email + "sj897"}
+              secureTextEntry={true}
+            />
+            <EditGray />
+          </Button>
+          <Button
+            onPress={() => {
+              setModalAlert(true);
+              setTextAlert({
+                action: "Cancel",
+                text: "Yakin ingin keluar?",
+                button: "Keluar",
+              });
+            }}
+            style={styles.btnKeluar}
+          >
+            <TextItem style={styles.title}>{strings.btn_keluar}</TextItem>
+          </Button>
+        </View>
+      </DummyFlatList>
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={false}

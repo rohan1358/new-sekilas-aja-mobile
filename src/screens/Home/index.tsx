@@ -120,7 +120,7 @@ const Home = ({ navigation }: HomeProps) => {
     );
   };
 
-  const handleSub = ({ data }: any) => {
+  const handleSub = (data) => {
     const subsc = data?.is_subscribed;
     if (!subsc) {
       setModalAllPlan(true);
@@ -299,10 +299,10 @@ const Home = ({ navigation }: HomeProps) => {
           <Gap vertical={sp.xxl} />
         </DummyFlatList>
       </SkeletonContent>
-      {/* <ModalSubscribe
+      <ModalSubscribe
         modalVisible={modalAllPlan}
         setModalVisible={setModalAllPlan}
-      /> */}
+      />
     </Base>
   );
 };
