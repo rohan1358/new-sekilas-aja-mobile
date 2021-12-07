@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import { Amage, Button, Gap, Seed, TextItem } from "../../atom";
-import { neutralColor, spacing as sp, strings } from "../../../constants";
-import styles from "./styles";
-import { ReduxState } from "../../../redux/reducers";
-import { useSelector } from "react-redux";
 import { Lock } from "@assets";
+import React from "react";
+import { View } from "react-native";
+import { useSelector } from "react-redux";
+import { neutralColor, spacing as sp, strings } from "../../../constants";
+import { ReduxState } from "../../../redux/reducers";
+import { Amage, Button, Gap, Seed, TextItem } from "../../atom";
+import styles from "./styles";
 
 const BookTile = ({
   title,
@@ -19,19 +19,6 @@ const BookTile = ({
   const {
     editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
-
-  const [lock, setLock] = useState(false);
-
-  useEffect(() => {
-    const handleSub = () => {
-      const subsc = profile?.is_subscribed;
-      if (!subsc) {
-        setLock(true);
-      }
-    };
-
-    handleSub();
-  }, []);
 
   return (
     <Button onPress={() => onPress(title)} style={styles.container}>
@@ -49,7 +36,7 @@ const BookTile = ({
           <TextItem type="b.24.nc.90" numberOfLines={1} style={styles.title}>
             {title}
           </TextItem>
-          {lock && (
+          {profile?.is_subscribed && (
             <Button
               onPress={() => navSubscrive && navSubscrive()}
               style={styles.lock}
