@@ -54,7 +54,7 @@ export default function BookDetail({ navigation, route }: any) {
     editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
 
-  const { item } = route.params;
+  const { id } = route.params;
 
   // console.log(item)
 
@@ -88,7 +88,7 @@ export default function BookDetail({ navigation, route }: any) {
     setIsLoading(true);
     try {
       const [detailBook,recomData] = await Promise.all([
-        fetchDetailBooks(item.id),
+        fetchDetailBooks(id),
         fetchRecommendedBooks(),
       ]);
       if (!isMounted.current) {
@@ -132,13 +132,13 @@ export default function BookDetail({ navigation, route }: any) {
     () => {
       isMounted.current = false;
     };
-  }, [item]);
+  }, [id]);
 
-  const toTop = (data:any) => {
+  const toTop = (id:any) => {
     // use current
     yOffset.value = 0
     refScroll.current.scrollTo({ x: 0, y: 0, animated: true });
-    navigation.navigate(pages.BookDetail, { item: data });
+    navigation.navigate(pages.BookDetail, { id: id });
   };
 
   const stylez = useAnimatedStyle(() => {
@@ -411,29 +411,31 @@ export default function BookDetail({ navigation, route }: any) {
                   </View>
                 </View>
 
-                <View style={styles.sectionList}>
-                  <TextItem style={styles.titleSection}>
-                    {strings.beri_ulasan}
-                  </TextItem>
-                  <AirbnbRating
-                    count={5}
-                    defaultRating={0}
-                    size={25}
-                    showRating={false}
-                    selectedColor="#E27814"
-                    ratingContainerStyle={styles.containerRatingChange}
-                    starContainerStyle={styles.starContainer}
-                  />
-                  <TextInput
-                    placeholder="Isi ulasan di sini.."
-                    style={styles.multipelTextInput}
-                    multiline
-                    textAlignVertical="top"
-                  />
-                  <Button style={styles.btnKirim}>
-                    <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
-                  </Button>
-                </View>
+                {!statusSub && (
+                  <View style={styles.sectionList}>
+                    <TextItem style={styles.titleSection}>
+                      {strings.beri_ulasan}
+                    </TextItem>
+                    <AirbnbRating
+                      count={5}
+                      defaultRating={0}
+                      size={25}
+                      showRating={false}
+                      selectedColor="#E27814"
+                      ratingContainerStyle={styles.containerRatingChange}
+                      starContainerStyle={styles.starContainer}
+                    />
+                    <TextInput
+                      placeholder="Isi ulasan di sini.."
+                      style={styles.multipelTextInput}
+                      multiline
+                      textAlignVertical="top"
+                    />
+                    <Button style={styles.btnKirim}>
+                      <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
+                    </Button>
+                  </View>
+                )}
               </>
             )}
 
@@ -467,7 +469,7 @@ export default function BookDetail({ navigation, route }: any) {
                       duration={item?.read_time}
                       cover={item?.book_cover}
                       isVideoAvailable={item?.isVideoAvailable}
-                      onPress={() => toTop(item)}
+                      onPress={() => toTop(item.id)}
                       navSubscrive={() => navigation.navigate(pages.Subscribe)}
                     />
                     <Gap vertical={sp.sl} />

@@ -73,7 +73,7 @@ const Home = ({ navigation }: HomeProps) => {
         duration={item?.read_time}
         cover={item?.book_cover}
         //@ts-ignore
-        onPress={() => navigation.navigate(pages.BookDetail, { item })}
+        onPress={() => navigation.navigate(pages.BookDetail, { id: item.id })}
         //@ts-ignore
         navSubscrive={() => navigation.navigate(pages.Subscribe)}
         isVideoAvailable={item?.isVideoAvailable}

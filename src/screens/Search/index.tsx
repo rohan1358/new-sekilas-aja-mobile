@@ -148,6 +148,8 @@ const Search = ({ navigation }: SearchProps) => {
         duration={item?.read_time}
         cover={item?.book_cover}
         isVideoAvailable={item?.isVideoAvailable}
+        onPress={() => navigation.navigate("BookDetail", { id: item.id })}
+        navSubscrive={() => navigation.navigate("Subscribe")}
       />
       <Gap vertical={sp.sl} />
     </View>
