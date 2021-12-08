@@ -143,7 +143,8 @@ const fetchRecommendedBooks = () => {
     try {
       const bookTitles = await firestore()
         .collection(firebaseNode.rate)
-        .where("read.average", ">=", 3)
+        .where("read.average", ">=", 4)
+        .limit(10)
         .get();
       const titles = bookTitles.docs.map((item) => item.id);
       const raw = await firestore()
@@ -240,7 +241,7 @@ const fetchTrendBooks = () => {
   });
 };
 
-const fetchDetailBooks = (id:any) => {
+const fetchDetailBooks = (id: any) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       const raw = await firestore()
@@ -259,7 +260,7 @@ const fetchDetailBooks = (id:any) => {
         short_desc: raw.data()?.short_desc,
         video_link: raw.data()?.video_link,
         watch_time: raw.data()?.watch_time,
-      }
+      };
       resolve({
         data: books,
         isSuccess: true,

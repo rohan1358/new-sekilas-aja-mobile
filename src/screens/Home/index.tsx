@@ -56,8 +56,6 @@ const Home = ({ navigation }: HomeProps) => {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAllPlan, setModalAllPlan] = useState(false);
 
-  // console.log(profile)
-
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
       <ImageBanner placeholder={item.placeholder} />
