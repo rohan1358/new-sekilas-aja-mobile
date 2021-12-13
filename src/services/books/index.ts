@@ -71,13 +71,36 @@ const fetchCategorizedBooks = ({
 const fetchMostBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
+      const mostReadRaw = await firestore()
+        .collection(firebaseNode.lastReadBook)
+        .get();
+      const mostRaw: string[] = mostReadRaw.docs.map(
+        (item) => item.data()?.book?.book
+      );
+      const groupedRaw: { [key: string]: number } = mostRaw.reduce(
+        (grouped: { [key: string]: number }, current) => {
+          if (!grouped[current]) grouped[current] = 0;
+          grouped[current] += 1;
+          return grouped;
+        },
+        {}
+      );
+      const groupedMostRead = Object.entries(groupedRaw).map((item) => ({
+        title: item[0],
+        count: item[1],
+      }));
+      const mostReadSorted = groupedMostRead.sort((a, b) =>
+        a.count > b.count ? -1 : 1
+      );
+
+      const titles = mostReadSorted.map((item) => item.title).splice(0, 10);
+
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .orderBy("read_time", "desc")
-        .limit(2)
+        .where("book_title", "in", titles)
         .get();
-      const books: BookResponse[] = raw.docs.map((item) => ({
+
+      const result: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
@@ -85,6 +108,12 @@ const fetchMostBooks = () => {
         book_cover: item.data()?.book_cover,
         isVideoAvailable: !!item.data()?.video_link,
       }));
+
+      // @ts-ignore
+      const books: BookResponse[] = titles.map((item) =>
+        result.find((value) => value.book_title === item)
+      );
+
       resolve({
         data: books,
         isSuccess: true,

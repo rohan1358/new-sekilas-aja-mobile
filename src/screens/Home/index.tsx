@@ -156,7 +156,7 @@ const Home = ({ navigation }: HomeProps) => {
         throw new Error("Fail on fetching recommended books data");
       }
       if (mostBookData.isSuccess) {
-        setMostReadBooks(mostBookData.data);
+        setMostReadBooks(mostBookData.data?.slice(0, 2));
       } else {
         throw new Error("Fail on fetching most read books data");
       }
@@ -282,7 +282,13 @@ const Home = ({ navigation }: HomeProps) => {
                 {strings.mostRead}
               </TextItem>
               <Gap horizontal={20} />
-              <Button>
+              <Button
+                onPress={() =>
+                  navigation.navigate("SpecialBookList", {
+                    type: "mostRead",
+                  })
+                }
+              >
                 <TextItem type="b.14.nc.90" style={styles.underline}>
                   {strings.seeAll}
                 </TextItem>
