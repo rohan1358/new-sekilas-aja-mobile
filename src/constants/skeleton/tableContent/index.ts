@@ -1,5 +1,5 @@
 import { spacing as sp } from "../../spacing";
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 
 const TITLE_WIDTH = widthPercent(100) - sp.sl * 2;
 const TITLE_HEIGHT = 40;

@@ -2,7 +2,7 @@ import { ArrowLeft, Check, Exit } from "@assets";
 import { neutralColor, strings } from "@constants";
 import React, { useRef, useState } from "react";
 import { Modal, ScrollView, View } from "react-native";
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 import { Button, TextItem } from "../../atom";
 import paketList from "./dummy";
 import styles from "./styles";

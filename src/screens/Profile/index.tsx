@@ -26,7 +26,7 @@ import { CommonActions } from "@react-navigation/routers";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 
 export default function Profile({ navigation }: any) {
   const dispatch = useDispatch();
@@ -44,23 +44,27 @@ export default function Profile({ navigation }: any) {
     button: "",
   });
 
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleUpdateImage = (image: string) => {
     const user = auth().currentUser;
     // console.log(image)
-    user?.updateProfile({
-      photoURL: 'image'
-    }).then(() => {
-      setSnackState(ss.successState(strings.success));
-    }).catch(err => {
-      logger('Profile', 'Filed update photoUrl')
-      setSnackState(ss.successState(err));
-    }).finally(() => {
-      setImageUrl(image);
-      refRBSheet.current.close();
-    })
-  }
+    user
+      ?.updateProfile({
+        photoURL: "image",
+      })
+      .then(() => {
+        setSnackState(ss.successState(strings.success));
+      })
+      .catch((err) => {
+        logger("Profile", "Filed update photoUrl");
+        setSnackState(ss.successState(err));
+      })
+      .finally(() => {
+        setImageUrl(image);
+        refRBSheet.current.close();
+      });
+  };
 
   const handleImagePicker = (type: string) => {
     if (type == "camera") {
@@ -89,7 +93,7 @@ export default function Profile({ navigation }: any) {
             const base64 = {
               uri: "data:image/jpeg;base64," + callback.assets[0].base64,
             };
-            handleUpdateImage(base64.uri)
+            handleUpdateImage(base64.uri);
           }
         }
       );
@@ -118,7 +122,7 @@ export default function Profile({ navigation }: any) {
             const base64 = {
               uri: "data:image/jpeg;base64," + callback.assets[0].base64,
             };
-            handleUpdateImage(base64.uri)
+            handleUpdateImage(base64.uri);
           }
         }
       );

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { heightPercent, widthPercent } from "../../../helpers/helper";
+import { heightPercent, widthPercent } from "../../../helpers";
 
 const styles = StyleSheet.create({
   container: {

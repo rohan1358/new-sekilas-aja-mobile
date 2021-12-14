@@ -1,36 +1,36 @@
 import { StyleSheet } from "react-native";
-import { heightPercent, widthPercent } from "../../../helpers/helper";
+import { heightPercent, widthPercent } from "../../../helpers";
 
 const styles = StyleSheet.create({
-    pageContainer: {
-        width: widthPercent(100),
-        height: heightPercent(80),
-    },
+  pageContainer: {
+    width: widthPercent(100),
+    height: heightPercent(80),
+  },
 
-    boxImage: {
-        height: '70%',
-        overflow:'hidden'
-    },
+  boxImage: {
+    height: "70%",
+    overflow: "hidden",
+  },
 
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: "cover",
-    },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
 
-    boxtitle: {
-        paddingHorizontal: 40,
-        marginTop: 20,
-    },
+  boxtitle: {
+    paddingHorizontal: 40,
+    marginTop: 20,
+  },
 
-    title: {
-        textAlign:'center',
-    },
+  title: {
+    textAlign: "center",
+  },
 
-    sub_title: {
-        marginTop: 20,
-        textAlign:'center'
-    },
-})
+  sub_title: {
+    marginTop: 20,
+    textAlign: "center",
+  },
+});
 
 export default styles;

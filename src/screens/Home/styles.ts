@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { primaryColor, spacing as sp } from "../../constants";
-import { widthPercent } from "../../helpers/helper";
+import { widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
   adjuster: { top: -sp.m },
