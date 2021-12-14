@@ -151,7 +151,7 @@ const Home = ({ navigation }: HomeProps) => {
         throw new Error("Fail on fetching reading book data");
       }
       if (recomData.isSuccess) {
-        setRecommendedBooks(recomData.data?.slice(0, 6));
+        setRecommendedBooks(recomData.data?.slice(0, 4));
       } else {
         throw new Error("Fail on fetching recommended books data");
       }

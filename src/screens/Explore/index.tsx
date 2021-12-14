@@ -109,7 +109,7 @@ const Explore = ({ navigation }: ExploreProps) => {
         throw new Error("Fail on fetching recommended books data");
       }
       if (recomData.isSuccess) {
-        setRecommendedBooks(recomData.data?.slice(0, 6));
+        setRecommendedBooks(recomData.data?.slice(0, 4));
       } else {
         throw new Error("Fail on fetching released books data");
       }
@@ -254,7 +254,14 @@ const Explore = ({ navigation }: ExploreProps) => {
                 listKey={"trendbooklist"}
               />
             </Gap>
-            <TitleTap title={strings.recommendedBook} />
+            <TitleTap
+              title={strings.recommendedBook}
+              onPress={() =>
+                navigation.navigate("SpecialBookList", {
+                  type: "recommendation",
+                })
+              }
+            />
             <Gap vertical={sp.sm} />
             <Gap horizontal={sp.sl * 2}>
               <FlatList
