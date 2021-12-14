@@ -16,6 +16,7 @@ import Reading from "./Reading";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import SpecialBookList from "./SpecialBookList";
 import Subscribe from "./Subscribe";
 import Watching from "./Watching";
 
@@ -38,6 +39,7 @@ export {
   Search,
   SignIn,
   SignUp,
+  SpecialBookList,
   Subscribe,
   Watching,
 };

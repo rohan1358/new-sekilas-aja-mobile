@@ -56,8 +56,6 @@ const Home = ({ navigation }: HomeProps) => {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAllPlan, setModalAllPlan] = useState(false);
 
-  // console.log(profile)
-
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
       <ImageBanner placeholder={item.placeholder} />
@@ -73,9 +71,10 @@ const Home = ({ navigation }: HomeProps) => {
         duration={item?.read_time}
         cover={item?.book_cover}
         //@ts-ignore
-        onPress={() => navigation.navigate(pages.BookDetail, { item })}
+        onPress={(id) => navigation.navigate(pages.BookDetail, { id })}
         //@ts-ignore
         navSubscrive={() => navigation.navigate(pages.Subscribe)}
+        isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
     </View>
@@ -119,7 +118,7 @@ const Home = ({ navigation }: HomeProps) => {
     );
   };
 
-  const handleSub = ({ data }: any) => {
+  const handleSub = (data: any) => {
     const subsc = data?.is_subscribed;
     if (!subsc) {
       setModalAllPlan(true);
@@ -152,12 +151,12 @@ const Home = ({ navigation }: HomeProps) => {
         throw new Error("Fail on fetching reading book data");
       }
       if (recomData.isSuccess) {
-        setRecommendedBooks(recomData.data);
+        setRecommendedBooks(recomData.data?.slice(0, 4));
       } else {
         throw new Error("Fail on fetching recommended books data");
       }
       if (mostBookData.isSuccess) {
-        setMostReadBooks(mostBookData.data);
+        setMostReadBooks(mostBookData.data?.slice(0, 2));
       } else {
         throw new Error("Fail on fetching most read books data");
       }
@@ -171,10 +170,12 @@ const Home = ({ navigation }: HomeProps) => {
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
   const onGoingPress = () =>
-    navigation.navigate("Reading", {
-      id: readingBook?.book || "",
-      page: `${parseInt(readingBook?.kilas || "1") - 1}`,
-    });
+    !!readingBook?.available
+      ? navigation.navigate("Reading", {
+          id: readingBook?.book || "",
+          page: `${parseInt(readingBook?.kilas || "1") - 1}`,
+        })
+      : navigation.navigate("MainBottomRoute", { screen: "Explore" });
 
   useEffect(() => {
     isMounted.current = true;
@@ -252,7 +253,13 @@ const Home = ({ navigation }: HomeProps) => {
                 {strings.recommendedBook}
               </TextItem>
               <Gap horizontal={20} />
-              <Button>
+              <Button
+                onPress={() =>
+                  navigation.navigate("SpecialBookList", {
+                    type: "recommendation",
+                  })
+                }
+              >
                 <TextItem type="b.14.nc.90" style={styles.underline}>
                   {strings.seeAll}
                 </TextItem>
@@ -275,7 +282,13 @@ const Home = ({ navigation }: HomeProps) => {
                 {strings.mostRead}
               </TextItem>
               <Gap horizontal={20} />
-              <Button>
+              <Button
+                onPress={() =>
+                  navigation.navigate("SpecialBookList", {
+                    type: "mostRead",
+                  })
+                }
+              >
                 <TextItem type="b.14.nc.90" style={styles.underline}>
                   {strings.seeAll}
                 </TextItem>

@@ -3,10 +3,11 @@ import { View } from "react-native";
 import TextItem from "../TextItem";
 import styles from "./styles";
 
-const Seed = ({ label }: SeedProps) => {
+const Seed = ({ label, bg, textColor = "nc.100" }: SeedProps) => {
+  const s = styles({ bg });
   return (
-    <View style={styles.seed}>
-      <TextItem type="r.10.nc.100">{label}</TextItem>
+    <View style={s.seed}>
+      <TextItem type={`r.10.${textColor}`}>{label}</TextItem>
     </View>
   );
 };

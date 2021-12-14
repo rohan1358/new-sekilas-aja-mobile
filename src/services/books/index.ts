@@ -1,5 +1,5 @@
 import { firebaseNode } from "@constants";
-import firestore from "@react-native-firebase/firestore";
+import firestore, { firebase } from "@react-native-firebase/firestore";
 import { logger } from "../../helpers/helper";
 
 const fetchBooks = () => {
@@ -42,12 +42,14 @@ const fetchCategorizedBooks = ({
         .collection(firebaseNode.books)
         .where("category", "array-contains", category)
         .get();
-      const books = raw.docs.map((item) => ({
+
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -69,19 +71,49 @@ const fetchCategorizedBooks = ({
 const fetchMostBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
+      const mostReadRaw = await firestore()
+        .collection(firebaseNode.lastReadBook)
+        .get();
+      const mostRaw: string[] = mostReadRaw.docs.map(
+        (item) => item.data()?.book?.book
+      );
+      const groupedRaw: { [key: string]: number } = mostRaw.reduce(
+        (grouped: { [key: string]: number }, current) => {
+          if (!grouped[current]) grouped[current] = 0;
+          grouped[current] += 1;
+          return grouped;
+        },
+        {}
+      );
+      const groupedMostRead = Object.entries(groupedRaw).map((item) => ({
+        title: item[0],
+        count: item[1],
+      }));
+      const mostReadSorted = groupedMostRead.sort((a, b) =>
+        a.count > b.count ? -1 : 1
+      );
+
+      const titles = mostReadSorted.map((item) => item.title).splice(0, 10);
+
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .orderBy("read_time", "desc")
-        .limit(2)
+        .where("book_title", "in", titles)
         .get();
-      const books = raw.docs.map((item) => ({
+
+      const result: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
+
+      // @ts-ignore
+      const books: BookResponse[] = titles.map((item) =>
+        result.find((value) => value.book_title === item)
+      );
+
       resolve({
         data: books,
         isSuccess: true,
@@ -138,17 +170,23 @@ const fetchReadingBook = (email: string) => {
 const fetchRecommendedBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
+      const bookTitles = await firestore()
+        .collection(firebaseNode.rate)
+        .where("read.average", ">=", 4)
+        .limit(10)
+        .get();
+      const titles = bookTitles.docs.map((item) => item.id);
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .limit(6)
+        .where("book_title", "in", titles)
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
@@ -172,19 +210,18 @@ const fetchReleasedBooks = () => {
     try {
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .orderBy("read_time", "desc")
-        .limit(4)
+        .where("category", "array-contains", "New Release!")
         .get();
-      const books = raw.docs.map((item) => ({
+      const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
-        data: books.slice(2, 4),
+        data: books,
         isSuccess: true,
         error: null,
         message: "New released books successfuly fetched.",
@@ -233,6 +270,43 @@ const fetchTrendBooks = () => {
   });
 };
 
+const fetchDetailBooks = (id: any) => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore()
+        .collection(firebaseNode.books)
+        .doc(id)
+        .get();
+      const books = {
+        book_title: raw.data()?.book_title,
+        author: raw.data()?.author,
+        read_time: raw.data()?.read_time,
+        id: raw.id,
+        book_cover: raw.data()?.book_cover,
+        audio_link: raw.data()?.audio_link,
+        category: raw.data()?.category,
+        description: raw.data()?.description,
+        short_desc: raw.data()?.short_desc,
+        video_link: raw.data()?.video_link,
+        watch_time: raw.data()?.watch_time,
+      };
+      resolve({
+        data: books,
+        isSuccess: true,
+        error: null,
+        message: "Trend books successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch most trend books failed.",
+      });
+    }
+  });
+};
+
 export {
   fetchBooks,
   fetchCategorizedBooks,
@@ -241,4 +315,5 @@ export {
   fetchRecommendedBooks,
   fetchReleasedBooks,
   fetchTrendBooks,
+  fetchDetailBooks,
 };

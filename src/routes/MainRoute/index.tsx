@@ -15,6 +15,7 @@ import {
   Reading,
   Search,
   SignIn,
+  SpecialBookList,
   Subscribe,
   Watching,
 } from "../../screens";
@@ -46,6 +47,7 @@ const MainRoute = () => {
       <Stack.Screen name={"Listening"} component={Listening} />
       <Stack.Screen name={"Watching"} component={Watching} />
       <Stack.Screen name={"Subscribe"} component={Subscribe} />
+      <Stack.Screen name={"SpecialBookList"} component={SpecialBookList} />
     </Stack.Navigator>
   );
 };

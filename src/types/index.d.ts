@@ -1,6 +1,8 @@
 import { NavigatorScreenParams } from "@react-navigation/core";
 import { BookTableOfContentProps } from "../screens/BookTableContent/types";
 
+type SpecialCategoryProps = "recommendation" | "newRelease" | "mostRead";
+
 type MainBottomTabParamList = {
   Home: undefined;
   Explore: undefined;
@@ -11,7 +13,7 @@ type RootStackParamList = {
   About: undefined;
   AccountSettings: undefined;
 
-  BookDetail: undefined;
+  BookDetail: { id: string };
   BookTableContent: {
     id: string;
     isFromReading?: boolean;
@@ -42,6 +44,7 @@ type RootStackParamList = {
 
   Search: undefined;
   SignIn: undefined;
+  SpecialBookList: { type: SpecialCategoryProps };
 
   Watching: undefined;
 };

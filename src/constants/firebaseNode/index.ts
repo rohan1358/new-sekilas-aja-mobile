@@ -5,5 +5,7 @@ export const firebaseNode = {
 
   lastReadBook: "lastReadBook",
 
+  rate: "rate",
+
   users: "users",
 };

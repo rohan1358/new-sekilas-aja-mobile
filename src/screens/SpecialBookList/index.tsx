@@ -4,13 +4,37 @@ import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { logger } from "../../helpers/helper";
-import { fetchCategorizedBooks } from "../../services";
+import {
+  fetchCategorizedBooks,
+  fetchMostBooks,
+  fetchRecommendedBooks,
+  fetchReleasedBooks,
+} from "../../services";
+import { SpecialCategoryProps } from "../../types";
 import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";
-import { CategoryProps } from "./types";
+import { SpecialBookListProps } from "./types";
 
-const Category = ({ navigation, route }: CategoryProps) => {
+const dataSelector = (
+  type: SpecialCategoryProps
+): { title: string; api(): Promise<FetchResponse> } => {
+  switch (type) {
+    case "recommendation":
+      return { title: strings.recommendedBook, api: fetchRecommendedBooks };
+
+    case "newRelease":
+      return { title: strings.newRelease, api: fetchReleasedBooks };
+
+    case "mostRead":
+      return { title: strings.mostRead, api: fetchMostBooks };
+    default:
+      return { title: "", api: fetchRecommendedBooks };
+  }
+};
+
+const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
   const isMounted = useRef<boolean>();
+  const { title, api } = dataSelector(route.params?.type);
 
   const [books, setBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -18,9 +42,7 @@ const Category = ({ navigation, route }: CategoryProps) => {
   const getBooks = async () => {
     setIsLoading(true);
     try {
-      const { data, isSuccess } = await fetchCategorizedBooks({
-        category: route.params?.payload,
-      });
+      const { data, isSuccess } = await api();
       if (!isMounted.current) {
         return;
       }
@@ -29,7 +51,7 @@ const Category = ({ navigation, route }: CategoryProps) => {
       }
       setBooks(data);
     } catch (error) {
-      logger(`Category, getBooks()`, error);
+      logger(`SpecialBookList, getBooks()`, error);
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +59,11 @@ const Category = ({ navigation, route }: CategoryProps) => {
 
   const headerState = {
     visible: true,
-    title: route.params?.title,
+    title: title?.split(" ").map((item) => {
+      const firstLetter = item.charAt(0).toUpperCase();
+      const restLetters = item?.slice(1, item.length);
+      return `${firstLetter}${restLetters} `;
+    }),
     onBackPress: () => navigation.goBack(),
   };
 
@@ -54,9 +80,8 @@ const Category = ({ navigation, route }: CategoryProps) => {
         author={`${item?.author}`}
         duration={item?.read_time}
         cover={item?.book_cover}
-        isVideoAvailable={item?.isVideoAvailable}
         onPress={(id) => navigation.navigate("BookDetail", { id })}
-        navSubscrive={() => navigation.navigate("Subscribe")}
+        isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
     </View>
@@ -95,4 +120,4 @@ const Category = ({ navigation, route }: CategoryProps) => {
   );
 };
 
-export default Category;
+export default SpecialBookList;
