@@ -23,7 +23,7 @@ import { FlatList, Keyboard, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
 import { categories } from "../../../assets/dummy";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 import { addSearchHistory, clearSearchHistory } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
 import { fetchBooks } from "../../services";

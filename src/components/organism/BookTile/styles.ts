@@ -1,6 +1,6 @@
 import { colors, primaryColor, spacing as sp } from "@constants";
 import { StyleSheet } from "react-native";
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 
 const TILE_WIDTH = widthPercent(38.92);
 const TILE_HEIGHT = (TILE_WIDTH * 11) / 10;
@@ -36,16 +36,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    flex: 1
+    flex: 1,
   },
 
-  lock: {
-    
-  },
+  lock: {},
 
   boxTitle: {
-    flexDirection:'row'
-  }
+    flexDirection: "row",
+  },
 });
 
 export { TILE_WIDTH, TILE_HEIGHT };

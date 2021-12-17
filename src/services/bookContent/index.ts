@@ -1,6 +1,6 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 
 const fetchBookContent = ({ bookTitle }: { bookTitle: string }) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {

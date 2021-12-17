@@ -10,7 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { heightPercent } from "../../../helpers/helper";
+import { heightPercent } from "../../../helpers";
 import styles from "./styles";
 
 const HEIGHT = heightPercent(100);

@@ -1,4 +1,4 @@
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 
 const ILLU_SIZE = widthPercent(80);
 

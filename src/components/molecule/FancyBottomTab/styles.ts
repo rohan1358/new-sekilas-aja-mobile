@@ -1,6 +1,6 @@
 import { neutralColor, spacing as sp } from "@constants";
 import { StyleSheet } from "react-native";
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 
 const TAB_HEIGHT = 64;
 const TAB_BOTTOM_GAP = sp.m;

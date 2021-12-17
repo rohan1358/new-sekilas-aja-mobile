@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 
 const BANNER_WIDTH = widthPercent(84.18);
 const BANNER_HEIGHT = (widthPercent(84.18) * 4) / 9;

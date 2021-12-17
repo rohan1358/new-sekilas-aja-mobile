@@ -3,12 +3,13 @@ import { skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 import {
   fetchCategorizedBooks,
   fetchMostBooks,
   fetchRecommendedBooks,
   fetchReleasedBooks,
+  fetchTrendBooks,
 } from "../../services";
 import { SpecialCategoryProps } from "../../types";
 import { CompactBooksProps } from "../Home/types";
@@ -27,6 +28,10 @@ const dataSelector = (
 
     case "mostRead":
       return { title: strings.mostRead, api: fetchMostBooks };
+
+    case "trending":
+      return { title: strings.mostRead, api: fetchTrendBooks };
+
     default:
       return { title: "", api: fetchRecommendedBooks };
   }

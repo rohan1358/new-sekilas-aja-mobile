@@ -1,6 +1,6 @@
 import { spacing as sp } from "@constants";
 import { StyleSheet } from "react-native";
-import { winHeightPercent } from "../../../helpers/helper";
+import { winHeightPercent } from "../../../helpers";
 import { ILLU_SIZE } from "./values";
 
 const styles = StyleSheet.create({

@@ -1,9 +1,8 @@
-import { ChevronLeft, ChevronRight, Headphones, Video } from "@assets";
+import { Headphones, Video } from "@assets";
 import {
   AnimatedOverlay,
   Base,
   Button,
-  ButtonIcon,
   DummyFlatList,
   EmptyPlaceholder,
   Gap,
@@ -12,12 +11,14 @@ import {
   TextItem,
 } from "@components";
 import {
-  neutralColor,
   primaryColor,
   skeleton,
   spacing as sp,
   strings,
+  snackState as ss,
+  firebaseNode,
 } from "@constants";
+import firestore from "@react-native-firebase/firestore";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Share, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -28,8 +29,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { HeaderStateProps } from "../../components/atom/Base/types";
-import { logger, widthPercent } from "../../helpers/helper";
+import { useSelector } from "react-redux";
+import {
+  HeaderStateProps,
+  SnackStateProps,
+} from "../../components/atom/Base/types";
+import { logger, widthPercent } from "../../helpers";
+import { ReduxState } from "../../redux/reducers";
 import { fetchBookContent } from "../../services";
 import styles from "./styles";
 import { BookContentProps, ReadingProps } from "./types";
@@ -39,6 +45,9 @@ const ACTION_HIDE = -128;
 
 const Reading = ({ navigation, route }: ReadingProps) => {
   const BOOK_ID = route.params?.id;
+  const {
+    sessionReducer: { email },
+  } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>(true);
   const overlayRef = useRef<any>();
@@ -50,6 +59,7 @@ const Reading = ({ navigation, route }: ReadingProps) => {
   const [content, setContent] = useState<BookContentProps | null>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
 
   const actionStyle = useAnimatedStyle(() => ({
     bottom: actionPosition.value,
@@ -115,6 +125,26 @@ const Reading = ({ navigation, route }: ReadingProps) => {
   const keyExtractor = (item: string) => `${item}`;
 
   const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
+
+  const onMark = () => {
+    firestore()
+      .collection(firebaseNode.lastReadBook)
+      .doc(email)
+      .update({
+        "book.book": BOOK_ID,
+        "book.kilas": currentPage + 1,
+      })
+      .then(() => {
+        setSnackState(ss.successState(strings.marked));
+      })
+      .catch(() => {
+        setSnackState(ss.failState(strings.markFailed));
+      })
+      .finally(() => {
+        onTap();
+        overlayRef.current?.close();
+      });
+  };
 
   const onNextPress = () => {
     scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
@@ -209,7 +239,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
   }, [route.params?.page]);
 
   return (
-    <Base headerState={headerState}>
+    <Base {...{ headerState, snackState, setSnackState }}>
       <SkeletonContent
         isLoading={isLoading}
         layout={skeleton.mainReading}
@@ -285,6 +315,9 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
           </Button>
           <Button style={s.tipButton} onPress={tableContentPress}>
             <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
+          </Button>
+          <Button style={s.tipButton} onPress={onMark}>
+            <TextItem type="r.20.nc.90">{strings.mark}</TextItem>
           </Button>
         </View>
       </Animated.View>

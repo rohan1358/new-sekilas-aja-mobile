@@ -19,7 +19,7 @@ import Animated, {
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { categories } from "../../../assets/dummy";
-import { heightPercent, logger } from "../../helpers/helper";
+import { heightPercent, logger } from "../../helpers";
 import {
   fetchRecommendedBooks,
   fetchReleasedBooks,
@@ -114,7 +114,7 @@ const Explore = ({ navigation }: ExploreProps) => {
         throw new Error("Fail on fetching released books data");
       }
       if (trendData.isSuccess) {
-        setTrendBooks(trendData.data);
+        setTrendBooks(trendData.data?.slice(0, 2));
       } else {
         throw new Error("Fail on fetching trend books data");
       }
@@ -242,7 +242,14 @@ const Explore = ({ navigation }: ExploreProps) => {
                 listKey={"releasedbooklist"}
               />
             </Gap>
-            <TitleTap title={strings.trendingBook} />
+            <TitleTap
+              title={strings.trendingBook}
+              onPress={() =>
+                navigation.navigate("SpecialBookList", {
+                  type: "trending",
+                })
+              }
+            />
             <Gap vertical={sp.sm} />
             <Gap horizontal={sp.sl * 2}>
               <FlatList

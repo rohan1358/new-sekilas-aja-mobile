@@ -42,7 +42,7 @@ import {
   TextItem,
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
 import { fetchDetailBooks, fetchRecommendedBooks } from "../../services";
 import { CompactBooksProps } from "../Home/types";
@@ -71,23 +71,23 @@ export default function BookDetail({ navigation, route }: any) {
     useState<CompactBooksProps[]>();
   const [statusSub, setStatusSub] = useState(false);
   const [book, setBook] = useState({
-        book_title: '',
-        author: '',
-        read_time: '',
-        id: '',
-        book_cover: '',
-        category: '',
-        description: '',
-        short_desc: '',
-        audio_link: '',
-        video_link: '',
-        watch_time: '',
-      });
+    book_title: "",
+    author: "",
+    read_time: "",
+    id: "",
+    book_cover: "",
+    category: "",
+    description: "",
+    short_desc: "",
+    audio_link: "",
+    video_link: "",
+    watch_time: "",
+  });
 
   const getDetailBookData = async () => {
     setIsLoading(true);
     try {
-      const [detailBook,recomData] = await Promise.all([
+      const [detailBook, recomData] = await Promise.all([
         fetchDetailBooks(id),
         fetchRecommendedBooks(),
       ]);
@@ -102,7 +102,7 @@ export default function BookDetail({ navigation, route }: any) {
       }
       if (recomData.isSuccess) {
         setRecommendedBooks(recomData.data);
-      }else {
+      } else {
         throw new Error("Fail on fetching released books data");
       }
     } catch (error) {
@@ -111,8 +111,6 @@ export default function BookDetail({ navigation, route }: any) {
       setIsLoading(false);
     }
   };
-  
-  
 
   useEffect(() => {
     const handleSub = () => {
@@ -134,9 +132,9 @@ export default function BookDetail({ navigation, route }: any) {
     };
   }, [id]);
 
-  const toTop = (id:any) => {
+  const toTop = (id: any) => {
     // use current
-    yOffset.value = 0
+    yOffset.value = 0;
     refScroll.current.scrollTo({ x: 0, y: 0, animated: true });
     navigation.navigate(pages.BookDetail, { id: id });
   };
@@ -147,16 +145,16 @@ export default function BookDetail({ navigation, route }: any) {
     };
   });
 
-  const navigationTopBar = (type = "", link = '') => {
+  const navigationTopBar = (type = "", link = "") => {
     switch (type) {
       case "reading":
         // navigation.navigate(pages.Listening);
         break;
       case "listening":
-        navigation.navigate(pages.Listening,{link});
+        navigation.navigate(pages.Listening, { link });
         break;
       case "watching":
-        navigation.navigate(pages.Watching,{link});
+        navigation.navigate(pages.Watching, { link });
         break;
 
       default:
@@ -182,15 +180,17 @@ export default function BookDetail({ navigation, route }: any) {
           Active={active}
         />
         {statusSub ? (
-          <Animated.View style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}>
+          <Animated.View
+            style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
+          >
             <Lock color={primaryColor.main} width={28} />
-            <TextItem style={styles.titleSelect}>{strings.yuk_upgrade}</TextItem>
+            <TextItem style={styles.titleSelect}>
+              {strings.yuk_upgrade}
+            </TextItem>
           </Animated.View>
         ) : (
-            <Animated.View style={[styles.SelectBarUp, stylez]}>
-              {
-
-              }
+          <Animated.View style={[styles.SelectBarUp, stylez]}>
+            {}
             <Button
               onPress={() => navigationTopBar("reading")}
               style={styles.btnBar}
@@ -198,26 +198,24 @@ export default function BookDetail({ navigation, route }: any) {
               <File />
               <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
             </Button>
-              {
-                book.audio_link != '' &&
-                <Button
-                  onPress={() => navigationTopBar("listening")}
-                  style={styles.btnBar}
-                >
-                  <Headphones />
-                  <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-                </Button>
-              }
-              {
-                book.video_link != '' &&
-                <Button
-                  onPress={() => navigationTopBar("watching")}
-                  style={styles.btnBar}
-                >
-                  <Video />
-                  <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-                </Button>
-              }
+            {book.audio_link != "" && (
+              <Button
+                onPress={() => navigationTopBar("listening")}
+                style={styles.btnBar}
+              >
+                <Headphones />
+                <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+              </Button>
+            )}
+            {book.video_link != "" && (
+              <Button
+                onPress={() => navigationTopBar("watching")}
+                style={styles.btnBar}
+              >
+                <Video />
+                <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+              </Button>
+            )}
           </Animated.View>
         )}
         <Animated.ScrollView
@@ -256,26 +254,28 @@ export default function BookDetail({ navigation, route }: any) {
                   <File />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
-                {
-                  book.audio_link != '' &&
+                {book.audio_link != "" && (
                   <Button
                     onPress={() => navigationTopBar("listening")}
                     style={styles.btnBar}
                   >
                     <Headphones />
-                    <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+                    <TextItem style={styles.titleSelect}>
+                      {strings.dengar}
+                    </TextItem>
                   </Button>
-                }
-                {
-                  book.video_link != '' &&
+                )}
+                {book.video_link != "" && (
                   <Button
                     onPress={() => navigationTopBar("watching")}
                     style={styles.btnBar}
                   >
                     <Video />
-                    <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+                    <TextItem style={styles.titleSelect}>
+                      {strings.tonton}
+                    </TextItem>
                   </Button>
-                }
+                )}
               </View>
             )}
           </View>
@@ -287,7 +287,9 @@ export default function BookDetail({ navigation, route }: any) {
               <View style={styles.info}>
                 <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
                 <View style={styles.boxTextInfo}>
-                  <TextItem style={styles.textInfo}>{book?.read_time+' min'}</TextItem>
+                  <TextItem style={styles.textInfo}>
+                    {book?.read_time + " min"}
+                  </TextItem>
                 </View>
                 <Sunrise style={styles.iconInfo} />
                 <View style={styles.boxTextInfo}>
@@ -297,7 +299,9 @@ export default function BookDetail({ navigation, route }: any) {
             </View>
 
             <View style={styles.sectionList}>
-              <TextItem style={styles.titleSection}>{strings.kategori}</TextItem>
+              <TextItem style={styles.titleSection}>
+                {strings.kategori}
+              </TextItem>
               <View style={{ flexDirection: "row" }}>
                 <View style={styles.boxTextKategori}>
                   <TextItem style={styles.textKategori}>
@@ -314,7 +318,7 @@ export default function BookDetail({ navigation, route }: any) {
               </TextItem>
               <View style={styles.boxTextTentang}>
                 <TextItem style={styles.textTentang}>
-                     {book?.short_desc}
+                  {book?.short_desc}
                 </TextItem>
               </View>
             </View>
@@ -336,10 +340,15 @@ export default function BookDetail({ navigation, route }: any) {
                     </TextItem>
                     <View style={styles.boxAvatar}>
                       <View style={styles.boxImageAvatar}>
-                        <Amage style={styles.imageAvatar} resizeMode="contain" />
+                        <Amage
+                          style={styles.imageAvatar}
+                          resizeMode="contain"
+                        />
                       </View>
                       <View>
-                        <TextItem style={styles.tgl}>{"Morgan Housel "}</TextItem>
+                        <TextItem style={styles.tgl}>
+                          {"Morgan Housel "}
+                        </TextItem>
                         <TextItem style={styles.textpublikasi}>
                           {"Mitra di The Collaborative Fund"}
                         </TextItem>
@@ -432,7 +441,9 @@ export default function BookDetail({ navigation, route }: any) {
                       textAlignVertical="top"
                     />
                     <Button style={styles.btnKirim}>
-                      <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
+                      <TextItem style={styles.textBtn}>
+                        {strings.kirim}
+                      </TextItem>
                     </Button>
                   </View>
                 )}

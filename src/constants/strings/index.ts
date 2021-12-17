@@ -109,11 +109,14 @@ export const strings = {
   langganan_sekaarang: "Langganan sekarang",
   lagi_bokek: "Lagi bokek",
 
-  masa_Account: "Masa Berlaku Premium",
+  mark: "Tandai",
+  marked: "Berhasil ditandai",
+  markFailed: "Gagal ditandai",
+  mostRead: "Paling banyak dibaca",
   menit: "Menit",
   mode_gelap: "Mode Gelap",
+  masa_Account: "Masa Berlaku Premium",
   mode_offline: "Mode Offline",
-  mostRead: "Paling banyak dibaca",
   membuka_semua:
     "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
 
@@ -184,7 +187,7 @@ export const strings = {
   sub_onBoard_4:
     "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
   segera: "SEGERA!",
-  success: 'SUCCESS',
+  success: "SUCCESS",
 
   tableOfContent: "Daftar Isi",
   terms: "Ketentuan Layanan",

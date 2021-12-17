@@ -1,6 +1,6 @@
 import { firebaseNode } from "@constants";
-import firestore, { firebase } from "@react-native-firebase/firestore";
-import { logger } from "../../helpers/helper";
+import firestore from "@react-native-firebase/firestore";
+import { scrapBook } from "../../helpers";
 
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
@@ -74,26 +74,12 @@ const fetchMostBooks = () => {
       const mostReadRaw = await firestore()
         .collection(firebaseNode.lastReadBook)
         .get();
+
       const mostRaw: string[] = mostReadRaw.docs.map(
         (item) => item.data()?.book?.book
       );
-      const groupedRaw: { [key: string]: number } = mostRaw.reduce(
-        (grouped: { [key: string]: number }, current) => {
-          if (!grouped[current]) grouped[current] = 0;
-          grouped[current] += 1;
-          return grouped;
-        },
-        {}
-      );
-      const groupedMostRead = Object.entries(groupedRaw).map((item) => ({
-        title: item[0],
-        count: item[1],
-      }));
-      const mostReadSorted = groupedMostRead.sort((a, b) =>
-        a.count > b.count ? -1 : 1
-      );
 
-      const titles = mostReadSorted.map((item) => item.title).splice(0, 10);
+      const titles = scrapBook(mostRaw);
 
       const raw = await firestore()
         .collection(firebaseNode.books)
@@ -240,12 +226,21 @@ const fetchReleasedBooks = () => {
 const fetchTrendBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
+      const trendRaw = await firestore()
+        .collection(firebaseNode.lastReadBook)
+        .get();
+
+      const trendTitlesRaw: string[] = trendRaw.docs.map(
+        (item) => item.data()?.book?.book
+      );
+
+      const titles = scrapBook(trendTitlesRaw);
+
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where("read_time", "!=", "")
-        .orderBy("read_time", "asc")
-        .limit(2)
+        .where("book_title", "in", titles)
         .get();
+
       const books = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
         author: item.data()?.author,
@@ -253,6 +248,7 @@ const fetchTrendBooks = () => {
         id: item.id,
         book_cover: item.data()?.book_cover,
       }));
+
       resolve({
         data: books,
         isSuccess: true,

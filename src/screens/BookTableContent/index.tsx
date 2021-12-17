@@ -3,7 +3,7 @@ import { skeleton, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 import { fetchBookTableOfContent } from "../../services";
 import styles from "./styles";
 import { BookTableContentProps, BookTableOfContentProps } from "./types";

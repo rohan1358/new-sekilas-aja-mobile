@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { neutralColor, spacing as sp } from "../../../constants";
-import { widthPercent } from "../../../helpers/helper";
+import { widthPercent } from "../../../helpers";
 
 const styles = ({ tileHeight }: { tileHeight: number }) =>
   StyleSheet.create({

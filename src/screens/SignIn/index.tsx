@@ -12,6 +12,7 @@ import {
   TextField,
   TextItem,
 } from "../../components";
+import { SnackStateProps } from "../../components/atom/Base/types";
 import {
   dangerColor,
   defaultValue as dv,

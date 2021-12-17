@@ -3,7 +3,7 @@ import { skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 import { fetchCategorizedBooks } from "../../services";
 import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";

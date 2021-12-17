@@ -1,163 +1,162 @@
 import { colors, neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
-import { widthPercent } from "../../../helpers/helper";
-
+import { widthPercent } from "../../../helpers";
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: primaryColor.main,
-        flex: 1
-    },
+  container: {
+    backgroundColor: primaryColor.main,
+    flex: 1,
+  },
 
-    boxExit: {
-        alignItems:'flex-end'
-    },
-    
-    boxBack: {
-        alignItems:'flex-start',
-    },
+  boxExit: {
+    alignItems: "flex-end",
+  },
 
-    btn: {
-        marginHorizontal: 27,
-        marginVertical: 19,
-        padding: 5,
-    },
+  boxBack: {
+    alignItems: "flex-start",
+  },
 
-    content: {
-        flex: 1,
-        width: widthPercent(100)
-    },
+  btn: {
+    marginHorizontal: 27,
+    marginVertical: 19,
+    padding: 5,
+  },
 
-    boxContent: {
-        paddingHorizontal: 25
-    },
+  content: {
+    flex: 1,
+    width: widthPercent(100),
+  },
 
-    subTextTitle: {
-        marginTop: 8
-    },
+  boxContent: {
+    paddingHorizontal: 25,
+  },
 
-    boxWhite: {
-        backgroundColor: colors.white,
-        borderWidth: 2,
-        borderColor: neutralColor[90],
-        borderRadius: 16,
-        paddingVertical: 29,
-        paddingHorizontal: 16,
-        marginVertical: 24
-    },
+  subTextTitle: {
+    marginTop: 8,
+  },
 
-    list: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 12
-    },
+  boxWhite: {
+    backgroundColor: colors.white,
+    borderWidth: 2,
+    borderColor: neutralColor[90],
+    borderRadius: 16,
+    paddingVertical: 29,
+    paddingHorizontal: 16,
+    marginVertical: 24,
+  },
 
-    textList: {
-        marginLeft: 8
-    },
+  list: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
 
-    btnPilih: {
-        height: 64,
-        backgroundColor: neutralColor[90],
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 16
-    },
+  textList: {
+    marginLeft: 8,
+  },
 
-    btnCancel: {
-        height: 64,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 16,
-        marginTop: 8
-    },
+  btnPilih: {
+    height: 64,
+    backgroundColor: neutralColor[90],
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+  },
 
-    boxListCard: {
-        flexDirection: 'row',
-        marginVertical: 24,
-        width: '100%',
-        justifyContent:'space-between',
-    },
+  btnCancel: {
+    height: 64,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    marginTop: 8,
+  },
 
-    card: {
-        borderWidth: 2,
-        borderColor: neutralColor[90],
-        borderRadius: 16,
-        overflow: 'hidden',
-        width: '47%',
-        height: 200
-    },
+  boxListCard: {
+    flexDirection: "row",
+    marginVertical: 24,
+    width: "100%",
+    justifyContent: "space-between",
+  },
 
-    headCard: {
-        backgroundColor: neutralColor[90],
-        alignItems: 'center',
-        paddingVertical: 8
-    },
+  card: {
+    borderWidth: 2,
+    borderColor: neutralColor[90],
+    borderRadius: 16,
+    overflow: "hidden",
+    width: "47%",
+    height: 200,
+  },
 
-    backPrimaryColor: {
-        backgroundColor: primaryColor.main
-    },
+  headCard: {
+    backgroundColor: neutralColor[90],
+    alignItems: "center",
+    paddingVertical: 8,
+  },
 
-    headCardActiveNormal: {
-        backgroundColor: colors.white
-    },
+  backPrimaryColor: {
+    backgroundColor: primaryColor.main,
+  },
 
-    contentCard: {
-        alignItems: 'center',
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        height: '100%'
-    },
+  headCardActiveNormal: {
+    backgroundColor: colors.white,
+  },
 
-    textBestValue: {
-        fontWeight: 'bold',
-        color: primaryColor.main
-    },
+  contentCard: {
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    height: "100%",
+  },
 
-    colorBlack: {
-        color: neutralColor[90]
-    },
+  textBestValue: {
+    fontWeight: "bold",
+    color: primaryColor.main,
+  },
 
-    colorWhite: {
-        color: colors.white
-    },
+  colorBlack: {
+    color: neutralColor[90],
+  },
 
-    colorPrimary: {
-        color: primaryColor.main
-    },
+  colorWhite: {
+    color: colors.white,
+  },
 
-    colorPink: {
-        color: '#f7948d'
-    },
+  colorPrimary: {
+    color: primaryColor.main,
+  },
 
-    backBlack: {
-        backgroundColor: neutralColor[90]
-    },
+  colorPink: {
+    color: "#f7948d",
+  },
 
-    backWhite: {
-        backgroundColor: colors.white,
-    },
+  backBlack: {
+    backgroundColor: neutralColor[90],
+  },
 
-    hemat: {
-        color: '#CB3168',
-        fontWeight: '700'
-    },
+  backWhite: {
+    backgroundColor: colors.white,
+  },
 
-    price: {
-        fontSize: 20,
-        textAlign: 'center',
-        color: neutralColor[90],
-        marginVertical: 8
-    },
+  hemat: {
+    color: "#CB3168",
+    fontWeight: "700",
+  },
 
-    textBold: {
-        fontWeight: 'bold',
-    },
+  price: {
+    fontSize: 20,
+    textAlign: "center",
+    color: neutralColor[90],
+    marginVertical: 8,
+  },
 
-    note: {
-        textAlign: 'center',
-        fontSize: 12
-    },
-})
+  textBold: {
+    fontWeight: "bold",
+  },
+
+  note: {
+    textAlign: "center",
+    fontSize: 12,
+  },
+});
 
 export default styles;

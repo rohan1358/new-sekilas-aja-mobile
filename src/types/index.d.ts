@@ -1,7 +1,11 @@
 import { NavigatorScreenParams } from "@react-navigation/core";
 import { BookTableOfContentProps } from "../screens/BookTableContent/types";
 
-type SpecialCategoryProps = "recommendation" | "newRelease" | "mostRead";
+type SpecialCategoryProps =
+  | "recommendation"
+  | "newRelease"
+  | "mostRead"
+  | "trending";
 
 type MainBottomTabParamList = {
   Home: undefined;

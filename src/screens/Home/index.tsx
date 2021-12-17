@@ -24,7 +24,7 @@ import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
 import {
   fetchMostBooks,
@@ -38,11 +38,14 @@ import styles from "./styles";
 import { setProfileRedux } from "../../redux/actions";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
+import { useIsFocused } from "@react-navigation/native";
 
 const Home = ({ navigation }: HomeProps) => {
+  const isFocused = useIsFocused();
   const {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
+
   const isMounted = useRef<boolean>();
 
   const dispatch = useDispatch();
@@ -125,6 +128,22 @@ const Home = ({ navigation }: HomeProps) => {
     }
   };
 
+  const getReadingBook = async () => {
+    try {
+      const { data, isSuccess } = await fetchReadingBook(email);
+
+      if (!isMounted.current) {
+        return;
+      }
+      if (!isSuccess) {
+        return;
+      }
+      setReadingBook(data);
+    } catch (error) {
+      logger("Home, getReadingBook", error);
+    }
+  };
+
   const getHomeData = async () => {
     setIsLoading(true);
     try {
@@ -186,6 +205,14 @@ const Home = ({ navigation }: HomeProps) => {
       isMounted.current = false;
     };
   }, []);
+
+  useEffect(() => {
+    isMounted.current = true;
+    isFocused && getReadingBook();
+    return () => {
+      isMounted.current = false;
+    };
+  }, [isFocused]);
 
   return (
     <Base
