@@ -34,6 +34,7 @@ import {
 } from "../../services";
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
+import messaging from "@react-native-firebase/messaging";
 
 import { setProfileRedux } from "../../redux/actions";
 import { SnackStateProps } from "../../components/atom/Base/types";
@@ -58,6 +59,26 @@ const Home = ({ navigation }: HomeProps) => {
     useState<CompactBooksProps[]>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAllPlan, setModalAllPlan] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      logger("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    messaging()
+      .getToken()
+      .then((token) => {
+        return logger(token);
+      });
+
+    return messaging().onTokenRefresh((token) => {
+      logger(token);
+    });
+  }, []);
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
