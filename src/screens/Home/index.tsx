@@ -61,14 +61,6 @@ const Home = ({ navigation }: HomeProps) => {
   const [modalAllPlan, setModalAllPlan] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      logger("A new FCM message arrived!", JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
     messaging()
       .getToken()
       .then((token) => {
