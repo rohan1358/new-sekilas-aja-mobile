@@ -20,8 +20,12 @@ const BookTile = ({
     editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
 
+  const subsPress = () => navSubscrive && navSubscrive();
+
+  const tilePress = () => onPress(title);
+
   return (
-    <Button onPress={() => onPress(title)} style={styles.container}>
+    <Button onPress={tilePress} style={styles.container}>
       <View style={styles.imageContainer}>
         <View style={styles.background}>
           <View style={styles.innerBackgorund} />
@@ -31,16 +35,13 @@ const BookTile = ({
         </View>
       </View>
       <Gap vertical={sp.sm} />
-      <View style={{ flex: 1 }}>
+      <View style={styles.detail}>
         <View style={styles.boxTitle}>
           <TextItem type="b.24.nc.90" numberOfLines={1} style={styles.title}>
             {title}
           </TextItem>
-          {profile?.is_subscribed && (
-            <Button
-              onPress={() => navSubscrive && navSubscrive()}
-              style={styles.lock}
-            >
+          {!profile?.is_subscribed && (
+            <Button onPress={subsPress} style={styles.lock}>
               <Lock color={neutralColor[90]} width={30} />
             </Button>
           )}
@@ -48,7 +49,7 @@ const BookTile = ({
         <TextItem type="r.14.nc.70" numberOfLines={1}>{`${author}`}</TextItem>
       </View>
       <Gap vertical={sp.sm} />
-      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      <View style={styles.seeds}>
         <Seed label={`${duration} min`} />
         <Gap horizontal={sp.xs} />
         {isVideoAvailable && (

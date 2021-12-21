@@ -19,12 +19,16 @@ import {
   spacing as sp,
   strings,
 } from "@constants";
+import messaging from "@react-native-firebase/messaging";
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
+import { SnackStateProps } from "../../components/atom/Base/types";
 import { logger } from "../../helpers";
+import { setProfileRedux } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
 import {
   fetchMostBooks,
@@ -34,12 +38,7 @@ import {
 } from "../../services";
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
-import messaging from "@react-native-firebase/messaging";
-
-import { setProfileRedux } from "../../redux/actions";
-import { SnackStateProps } from "../../components/atom/Base/types";
 import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
-import { useIsFocused } from "@react-navigation/native";
 
 const Home = ({ navigation }: HomeProps) => {
   const isFocused = useIsFocused();
@@ -72,8 +71,10 @@ const Home = ({ navigation }: HomeProps) => {
     });
   }, []);
 
+  const s = styles({ isSubscribed: profile?.is_subscribed || false });
+
   const bannerRenderItem = ({ item }: { item: any }) => (
-    <View style={styles.newCollectionContainer}>
+    <View style={s.newCollectionContainer}>
       <ImageBanner placeholder={item.placeholder} />
       <Gap horizontal={sp.m} />
     </View>
@@ -234,7 +235,7 @@ const Home = ({ navigation }: HomeProps) => {
       setSnackState={setSnackState}
     >
       <SkeletonContent
-        containerStyle={styles.skeleton}
+        containerStyle={s.skeleton}
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
@@ -248,7 +249,7 @@ const Home = ({ navigation }: HomeProps) => {
             onPressProfile={() => navigation.navigate(pages.AccountSettings)}
           />
           <View>
-            <View style={styles.dummyHeader} />
+            <View style={s.dummyHeader} />
             <OngoingTile
               bookTitle={readingBook?.book}
               bookUri={readingBook?.book_cover}
@@ -256,13 +257,13 @@ const Home = ({ navigation }: HomeProps) => {
               isAvailable={!!readingBook?.available}
             />
           </View>
-          <View style={styles.adjuster}>
+          <View style={s.adjuster}>
             <Gap horizontal={sp.sl * 2}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap>
             <Gap vertical={sp.sm} />
             <FlatList
-              contentContainerStyle={styles.newCollectionContentContainerStyle}
+              contentContainerStyle={s.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
               data={dummyBanner}
@@ -279,7 +280,7 @@ const Home = ({ navigation }: HomeProps) => {
             </Gap>
             <Gap vertical={sp.sm} />
             <FlatList
-              contentContainerStyle={styles.newCollectionContentContainerStyle}
+              contentContainerStyle={s.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
               data={dummyMiniCollectionData}
@@ -288,7 +289,7 @@ const Home = ({ navigation }: HomeProps) => {
               listKey={"kilaslist"}
             />
             <Gap vertical={sp.sl} />
-            <View style={styles.clickTitle}>
+            <View style={s.clickTitle}>
               <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
                 {strings.recommendedBook}
               </TextItem>
@@ -300,7 +301,7 @@ const Home = ({ navigation }: HomeProps) => {
                   })
                 }
               >
-                <TextItem type="b.14.nc.90" style={styles.underline}>
+                <TextItem type="b.14.nc.90" style={s.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
@@ -312,12 +313,12 @@ const Home = ({ navigation }: HomeProps) => {
                 keyExtractor={idKeyExtractor}
                 numColumns={2}
                 renderItem={booksRenderItem}
-                columnWrapperStyle={styles.columnWrapperStyle}
+                columnWrapperStyle={s.columnWrapperStyle}
                 listKey={"recommendedbooklist"}
               />
             </Gap>
             <Gap vertical={sp.sl} />
-            <View style={styles.clickTitle}>
+            <View style={s.clickTitle}>
               <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
                 {strings.mostRead}
               </TextItem>
@@ -329,7 +330,7 @@ const Home = ({ navigation }: HomeProps) => {
                   })
                 }
               >
-                <TextItem type="b.14.nc.90" style={styles.underline}>
+                <TextItem type="b.14.nc.90" style={s.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
@@ -341,7 +342,7 @@ const Home = ({ navigation }: HomeProps) => {
                 keyExtractor={idKeyExtractor}
                 numColumns={2}
                 renderItem={booksRenderItem}
-                columnWrapperStyle={styles.columnWrapperStyle}
+                columnWrapperStyle={s.columnWrapperStyle}
                 listKey="mostreadbooklist"
               />
             </Gap>
