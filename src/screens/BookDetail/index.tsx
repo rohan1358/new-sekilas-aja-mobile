@@ -51,6 +51,8 @@ import {
   fetchRecommendedBooks,
   postBookFavorite
 } from '../../services';
+import { fetchCommentarryBook } from '../../services/commentarry';
+import { formatDate } from '../../utils';
 import { CompactBooksProps } from '../Home/types';
 import { comentList } from './dummy';
 import styles from './styles';
@@ -77,6 +79,7 @@ export default function BookDetail({ navigation, route }: any) {
   const [statusSub, setStatusSub] = useState(false);
   const [daftarIsi, setDaftarIsi] = useState([]);
   const [favorite, setFavorite] = useState<any>([]);
+  const [listComment, setListComment] = useState<any>(false);
   const [book, setBook] = useState({
     book_title: '',
     author: '',
@@ -115,7 +118,6 @@ export default function BookDetail({ navigation, route }: any) {
         throw new Error('Fail on fetching released books data');
       }
     } catch (error) {
-      logger('Detail Book, getDetailBookData', error);
     } finally {
       setIsLoading(false);
     }
@@ -139,6 +141,15 @@ export default function BookDetail({ navigation, route }: any) {
       isMounted.current = false;
     };
   }, [id]);
+
+  useEffect(() => {
+    const fetchComment = async () => {
+      const list = await fetchCommentarryBook(id);
+
+      setListComment(list.data);
+    };
+    fetchComment();
+  }, []);
 
   async function getFavorite() {
     const res = await fetchFavoriteBooks(email);
@@ -442,7 +453,9 @@ export default function BookDetail({ navigation, route }: any) {
                       />
                     </View>
                     <TextItem style={styles.textUlasanDari}>
-                      {strings.ulasan_dari + '183' + strings.pembaca}
+                      {`${strings.ulasan_dari} ${
+                        listComment ? listComment.length : 0
+                      } ${strings.pembaca}`}
                     </TextItem>
                   </View>
 
@@ -450,15 +463,27 @@ export default function BookDetail({ navigation, route }: any) {
                     <TextItem style={styles.textKomentar}>
                       {strings.komentar}
                     </TextItem>
-                    {comentList.map((coment, index) => (
-                      <CardComent
-                        key={index}
-                        name={coment.name}
-                        time={coment.time}
-                        text={coment.text}
-                        rating={coment.rating}
-                      />
-                    ))}
+                    {listComment ? (
+                      listComment
+                        .sort(
+                          (a: any, b: any) => b.date.toDate() - a.date.toDate()
+                        )
+                        .map((coment: any, index: number) => (
+                          <CardComent
+                            key={index}
+                            name={coment.name}
+                            time={formatDate(coment.date.toDate())}
+                            text={coment.text}
+                            rating={3}
+                          />
+                        ))
+                    ) : (
+                      <>
+                        <TextItem style={styles.textTidakAdaKomentar}>
+                          {strings.tidak_ada_komentar}
+                        </TextItem>
+                      </>
+                    )}
                   </View>
                 </View>
 
