@@ -19,23 +19,23 @@ import {
   spacing as sp,
   strings,
 } from "@constants";
+import { logger, useMounted } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import { useIsFocused } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useDispatch, useSelector } from "react-redux";
-import { SnackStateProps } from "../../components/atom/Base/types";
-import { logger, useMounted } from "../../helpers";
-import { setProfileRedux } from "../../redux/actions";
-import { ReduxState } from "../../redux/reducers";
+import { ReduxState } from "@rux";
 import {
   fetchMostBooks,
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-} from "../../services";
+} from "@services";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { useDispatch, useSelector } from "react-redux";
+import { SnackStateProps } from "../../components/atom/Base/types";
+import { setProfileRedux } from "../../redux/actions";
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
 import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";

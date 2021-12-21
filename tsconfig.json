@@ -38,12 +38,18 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
-    // "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
+    "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "@assets": ["./assets/index.ts"],
-      "@components": ["./src/components/index.ts"],
-      "@constants": ["./src/constants/index.ts"]
-    } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
+      "@assets": ["assets/index.ts"],
+      "@atom": ["src/components/atom/index.ts"],
+      "@components": ["src/components/index.ts"],
+      "@constants": ["src/constants/index.ts"],
+      "@helpers": ["src/helpers/index.ts"],
+      "@molecule": ["src/components/molecule/index.ts"],
+      "@organism": ["src/components/organism/index.ts"],
+      "@services": ["src/services/index.ts"],
+      "@rux": ["src/redux/reducers/index.ts"],
+      } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */
     // "types": [],                           /* Type declaration files to be included in compilation. */
