@@ -27,7 +27,7 @@ import { FlatList } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
 import { SnackStateProps } from "../../components/atom/Base/types";
-import { logger } from "../../helpers";
+import { logger, useMounted } from "../../helpers";
 import { setProfileRedux } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
 import {
@@ -46,11 +46,12 @@ const Home = ({ navigation }: HomeProps) => {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
-  const isMounted = useRef<boolean>();
+  const isMounted = useMounted();
 
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [profile, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
   const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
@@ -70,6 +71,14 @@ const Home = ({ navigation }: HomeProps) => {
       logger(token);
     });
   }, []);
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
+
+  useEffect(() => {
+    isFocused && getReadingBook();
+  }, [isFocused]);
 
   const s = styles({ isSubscribed: profile?.is_subscribed || false });
 
@@ -142,22 +151,6 @@ const Home = ({ navigation }: HomeProps) => {
     }
   };
 
-  const getReadingBook = async () => {
-    try {
-      const { data, isSuccess } = await fetchReadingBook(email);
-
-      if (!isMounted.current) {
-        return;
-      }
-      if (!isSuccess) {
-        return;
-      }
-      setReadingBook(data);
-    } catch (error) {
-      logger("Home, getReadingBook", error);
-    }
-  };
-
   const getHomeData = async () => {
     setIsLoading(true);
     try {
@@ -168,9 +161,7 @@ const Home = ({ navigation }: HomeProps) => {
           fetchRecommendedBooks(),
           fetchMostBooks(),
         ]);
-      if (!isMounted.current) {
-        return;
-      }
+      if (!isMounted) return;
       if (profileData.isSuccess) {
         setProfile(profileData.data);
         dispatch(setProfileRedux(profileData.data));
@@ -200,6 +191,34 @@ const Home = ({ navigation }: HomeProps) => {
     }
   };
 
+  const getReadingBook = async () => {
+    try {
+      const { data, isSuccess } = await fetchReadingBook(email);
+
+      if (!isMounted) return;
+      if (!isSuccess) return;
+      setReadingBook(data);
+    } catch (error) {
+      logger("Home, getReadingBook", error);
+    }
+  };
+
+  const getProfile = async () => {
+    setIsRefreshing(true);
+    try {
+      const { data, isSuccess } = await fetchProfile(email);
+
+      if (!isMounted) return;
+      if (!isSuccess) return;
+      setProfile(data);
+      dispatch(setProfileRedux(data));
+    } catch (error) {
+      logger("Home, getProfile", error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
   const onGoingPress = () =>
@@ -209,24 +228,6 @@ const Home = ({ navigation }: HomeProps) => {
           page: `${parseInt(readingBook?.kilas || "1") - 1}`,
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
-
-  useEffect(() => {
-    isMounted.current = true;
-
-    getHomeData();
-
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    isMounted.current = true;
-    isFocused && getReadingBook();
-    return () => {
-      isMounted.current = false;
-    };
-  }, [isFocused]);
 
   return (
     <Base
@@ -239,7 +240,7 @@ const Home = ({ navigation }: HomeProps) => {
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
-        <DummyFlatList>
+        <DummyFlatList onRefresh={getProfile} refreshing={isRefreshing}>
           <HomeHeader
             name={profile?.firstName}
             uri=""

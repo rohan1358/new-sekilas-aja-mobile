@@ -13,7 +13,12 @@ module.exports = {
         alias: {
           "@assets": "./assets/index.ts",
           "@components": "./src/components/index.ts",
+          "@atom": "./src/components/atom/index.ts",
+          "@helpers": "./src/helpers/index.ts",
+          "@molecule": "./src/components/molecule/index.ts",
+          "@organism": "./src/components/organism/index.ts",
           "@constants": "./src/constants/index.ts",
+          "@rux": "./src/redux/reducers/index.ts",
         },
       },
     ],
