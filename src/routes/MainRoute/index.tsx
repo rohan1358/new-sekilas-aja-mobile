@@ -1,5 +1,5 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import React from "react";
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import {
   About,
   AccountSettings,
@@ -17,37 +17,37 @@ import {
   SignIn,
   SpecialBookList,
   Subscribe,
-  Watching,
-} from "../../screens";
-import { RootStackParamList } from "../../types";
-import MainBottomRoute from "../MainBottomRoute";
+  Watching
+} from '../../screens';
+import { RootStackParamList } from '../../types';
+import MainBottomRoute from '../MainBottomRoute';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const MainRoute = () => {
   return (
     <Stack.Navigator
-      initialRouteName={"MainBottomRoute"}
+      initialRouteName={'MainBottomRoute'}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={"MainBottomRoute"} component={MainBottomRoute} />
-      <Stack.Screen name={"SignIn"} component={SignIn} />
-      <Stack.Screen name={"Home"} component={Home} />
-      <Stack.Screen name={"About"} component={About} />
-      <Stack.Screen name={"AccountSettings"} component={AccountSettings} />
-      <Stack.Screen name={"Category"} component={Category} />
-      <Stack.Screen name={"NotifSettings"} component={NotifSettings} />
-      <Stack.Screen name={"PageEditProfile"} component={PageEditProfile} />
-      <Stack.Screen name={"Profile"} component={Profile} />
-      <Stack.Screen name={"Search"} component={Search} />
-      <Stack.Screen name={"Notification"} component={Notification} />
-      <Stack.Screen name={"BookDetail"} component={BookDetail} />
-      <Stack.Screen name={"Reading"} component={Reading} />
-      <Stack.Screen name={"BookTableContent"} component={BookTableContent} />
-      <Stack.Screen name={"Listening"} component={Listening} />
-      <Stack.Screen name={"Watching"} component={Watching} />
-      <Stack.Screen name={"Subscribe"} component={Subscribe} />
-      <Stack.Screen name={"SpecialBookList"} component={SpecialBookList} />
+      <Stack.Screen name={'MainBottomRoute'} component={MainBottomRoute} />
+      <Stack.Screen name={'SignIn'} component={SignIn} />
+      <Stack.Screen name={'Home'} component={Home} />
+      <Stack.Screen name={'About'} component={About} />
+      <Stack.Screen name={'AccountSettings'} component={AccountSettings} />
+      <Stack.Screen name={'Category'} component={Category} />
+      <Stack.Screen name={'NotifSettings'} component={NotifSettings} />
+      <Stack.Screen name={'PageEditProfile'} component={PageEditProfile} />
+      <Stack.Screen name={'Profile'} component={Profile} />
+      <Stack.Screen name={'Search'} component={Search} />
+      <Stack.Screen name={'Notification'} component={Notification} />
+      <Stack.Screen name={'BookDetail'} component={BookDetail} />
+      <Stack.Screen name={'Reading'} component={Reading} />
+      <Stack.Screen name={'BookTableContent'} component={BookTableContent} />
+      <Stack.Screen name={'Listening'} component={Listening} />
+      <Stack.Screen name={'Watching'} component={Watching} />
+      <Stack.Screen name={'Subscribe'} component={Subscribe} />
+      <Stack.Screen name={'SpecialBookList'} component={SpecialBookList} />
     </Stack.Navigator>
   );
 };

@@ -5,9 +5,9 @@ import { View } from "react-native";
 import styles from "./styles";
 import { neutralColor, spacing as sp } from "@constants";
 
-const LibraryMenu = ({ title, bookCount, icon }: LibraryMenuProps) => {
+const LibraryMenu = ({ title, bookCount, icon,  action}: LibraryMenuProps) => {
   return (
-    <Button style={styles.container}>
+    <Button onPress={()=>action && action()} style={styles.container}>
       <View style={styles.iconContainer}>{icon}</View>
       <Gap horizontal={sp.xs} />
       <View style={styles.detail}>

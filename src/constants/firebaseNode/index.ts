@@ -1,11 +1,14 @@
 export const firebaseNode = {
-  books: "books",
+  books: 'books',
 
-  kilasan: "kilasan",
+  kilasan: 'kilasan',
 
-  lastReadBook: "lastReadBook",
+  lastReadBook: 'lastReadBook',
 
-  rate: "rate",
+  rate: 'rate',
 
-  users: "users",
+  users: 'users',
+  favorite: 'favorite',
+
+  comment: 'comment'
 };
