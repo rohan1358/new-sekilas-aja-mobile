@@ -114,6 +114,7 @@ export const strings = {
   mode_gelap: "Mode Gelap",
   mode_offline: "Mode Offline",
   mostRead: "Paling banyak dibaca",
+  myFavorite: "Buku Favoritku",
   membuka_semua:
     "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
 
