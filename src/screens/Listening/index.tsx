@@ -32,7 +32,7 @@ import {
 // import TextTicker from 'react-native-text-ticker'
 import LinearGradient from "react-native-linear-gradient";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { heightPercent } from "../../helpers";
+import { heightPercent, logger } from "../../helpers";
 import { speedList } from "./dummy";
 import TrackPlayer, {
   State,
@@ -85,7 +85,7 @@ export default function Listening({ navigation }: any) {
       await TrackPlayer.setupPlayer();
       await TrackPlayer.add(listSoundTrack);
     } catch (error) {
-      console.log(error);
+      logger(error);
     }
   };
 
@@ -102,7 +102,7 @@ export default function Listening({ navigation }: any) {
   };
 
   const handlePrev = async () => {
-    // console.log(progress.position)
+    // logger(progress.position)
     const count = progress.position - 20;
     if (count >= 5) {
       await TrackPlayer.seekTo(count);
@@ -112,7 +112,6 @@ export default function Listening({ navigation }: any) {
   };
 
   const handleNext = async () => {
-    // console.log(progress.position)
     const count = progress.position + 20;
     if (count < progress.duration) {
       await TrackPlayer.seekTo(count);
@@ -152,7 +151,7 @@ export default function Listening({ navigation }: any) {
         // dismissed
       }
     } catch (error) {
-      console.log(error.message);
+      logger(error.message);
     }
   };
 

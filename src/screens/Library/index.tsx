@@ -5,6 +5,7 @@ import React from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
+import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
 import { fetchFavoriteBooks } from "../../services";
 import styles from "./styles";
@@ -44,7 +45,7 @@ getTotalFavorit()
         contentContainerStyle={styles.contentContainerStyle}
       >
         <LibraryMenu
-        action={() => console.log('masuk ke page buku yang di unduh')}
+        action={() => logger('masuk ke page buku yang di unduh')}
 
           title={strings.downloadedBooks}
           bookCount={5}
@@ -61,7 +62,7 @@ getTotalFavorit()
         />
         <Gap vertical={sp.sm} />
         <LibraryMenu
-        action={() => console.log('masuk ke page buku yang telah selesai di baca')}
+        action={() => logger('masuk ke page buku yang telah selesai di baca')}
 
           title={strings.finishedBooks}
           bookCount={17}

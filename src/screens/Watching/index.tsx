@@ -30,7 +30,7 @@ import {
   SkipForward,
 } from "@assets";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { heightPercent } from "../../helpers";
+import { heightPercent, logger } from "../../helpers";
 import { speedList } from "./dummy";
 import Video from "react-native-video";
 import { SnackStateProps } from "../../components/atom/Base/types";
@@ -98,7 +98,6 @@ export default function Watching({ navigation }: any) {
   const _convertDuration = (value: number) => {
     const minutes = Math.floor(value / 60);
     const seconds = Math.floor(value - minutes * 60);
-    // console.log(minutes)
     const padWithZero = (v: number) => {
       const string = v.toString();
       if (v < 10 && v > 0) {
@@ -126,7 +125,7 @@ export default function Watching({ navigation }: any) {
         // dismissed
       }
     } catch (error) {
-      console.log(error.message);
+      logger(error.message);
     }
   };
 

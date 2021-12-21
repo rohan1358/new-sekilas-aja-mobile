@@ -80,7 +80,6 @@ export default function AccountSettings({ navigation }: any) {
       const [profileData] = await Promise.all([fetchProfile(email)]);
       if (profileData.isSuccess) {
         setProfile(profileData.data);
-        // console.log(profileData)
       } else {
         throw new Error("Fail on fetching profile data");
       }

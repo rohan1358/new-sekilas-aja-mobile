@@ -48,7 +48,7 @@ export default function Profile({ navigation }: any) {
 
   const handleUpdateImage = (image: string) => {
     const user = auth().currentUser;
-    // console.log(image)
+    // logger(image)
     user
       ?.updateProfile({
         photoURL: "image",
@@ -88,7 +88,7 @@ export default function Profile({ navigation }: any) {
             setSnackState(ss.failState(strings.other));
             return;
           } else if (callback.didCancel) {
-            console.log("camera cancel");
+            logger("camera cancel");
           } else {
             const base64 = {
               uri: "data:image/jpeg;base64," + callback.assets[0].base64,
@@ -117,7 +117,7 @@ export default function Profile({ navigation }: any) {
             setSnackState(ss.failState(strings.other));
             return;
           } else if (callback.didCancel) {
-            console.log("camera cancel");
+            logger("camera cancel");
           } else {
             const base64 = {
               uri: "data:image/jpeg;base64," + callback.assets[0].base64,

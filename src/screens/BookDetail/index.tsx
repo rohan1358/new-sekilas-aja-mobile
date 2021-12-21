@@ -57,7 +57,6 @@ export default function BookDetail({ navigation, route }: any) {
   const { id } = route.params;
 
 
-  // console.log(item)
 
   const isMounted = useRef<boolean>();
   const refScroll = useRef<any>(null);
@@ -102,7 +101,6 @@ export default function BookDetail({ navigation, route }: any) {
       }
       if (detailBook.isSuccess) {
         setBook(detailBook.data);
-        // console.log(detailBook)
       setDaftarIsi(kilasBook.data.pageContent)
 
       } else {

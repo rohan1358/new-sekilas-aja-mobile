@@ -94,7 +94,7 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
       setListFavorite(res.book)
     }
     }).catch(err => {
-      console.log(err)
+      logger(err)
     })
       },[])
 

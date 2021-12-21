@@ -177,7 +177,7 @@ export default function PageEditProfile({ route, navigation }: any) {
                 setSnackState(ss.successState(strings.success));
               })
               .catch((error) => {
-                console.log(error);
+                logger(error);
                 setIsLoading(false);
                 setSnackState(ss.failState("password error"));
               })
@@ -186,7 +186,7 @@ export default function PageEditProfile({ route, navigation }: any) {
               });
           })
           .catch((error) => {
-            console.log(error);
+            logger(error);
             setIsLoading(false);
             setSnackState(ss.failState("password error"));
           });
@@ -272,13 +272,13 @@ export default function PageEditProfile({ route, navigation }: any) {
                     });
                 })
                 .catch((error) => {
-                  console.log(error);
+                  logger(error);
                   setIsLoading(false);
                   setSnackState(ss.failState("update filed!"));
                 });
             })
             .catch((error) => {
-              console.log(error);
+              logger(error);
               setIsLoading(false);
               setSnackState(ss.failState("password error"));
             });
