@@ -4,13 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { useSelector } from 'react-redux';
-import { logger } from '../../helpers';
 import { ReduxState } from '../../redux/reducers';
 import {
   fetchBookByFavorit,
-  fetchBooks,
-  fetchCategorizedBooks,
-  fetchFavoriteBooks,
   fetchMostBooks,
   fetchRecommendedBooks,
   fetchReleasedBooks,
@@ -56,7 +52,6 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
 
   const [books, setBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [listFavorite, setListFavorite] = useState<any>([]);
 
   const getBooks = async () => {
     setIsLoading(true);
@@ -70,7 +65,6 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
       }
       setBooks(data);
     } catch (error) {
-      logger(`SpecialBookList, getBooks()`, error);
     } finally {
       setIsLoading(false);
     }
@@ -85,19 +79,6 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
     }),
     onBackPress: () => navigation.goBack()
   };
-
-  useEffect(() => {
-    // fetchFavoriteBooks(email)
-    //   .then(async (res) => {
-    //     if (res) {
-    //       const favorite = await fetchBookByFavorit(res.book);
-    //       setListFavorite(favorite);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     logger(err);
-    //   });
-  }, []);
 
   const keyExtractor = ({ id }: { id: string | number }) => `${id}`;
 

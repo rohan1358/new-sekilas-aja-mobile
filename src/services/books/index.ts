@@ -1,6 +1,6 @@
 import { firebaseNode } from '@constants';
 import firestore from '@react-native-firebase/firestore';
-import { logger, scrapBook } from '../../helpers';
+import { scrapBook } from '../../helpers';
 
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
@@ -92,8 +92,6 @@ const fetchMostBooks = () => {
         book_cover: item.data()?.book_cover,
         isVideoAvailable: !!item.data()?.video_link
       }));
-
-      logger(result);
 
       // @ts-ignore
       const books: BookResponse[] = titles.map((item) =>

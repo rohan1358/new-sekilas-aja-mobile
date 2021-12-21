@@ -32,14 +32,14 @@ const fetchBookByFavorit = (email: string) => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Most read books successfuly fetched.'
+        message: 'fetch all book favorite is success.'
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch most read books failed.'
+        message: 'fetch all book favorite is failed.'
       });
     }
   });
