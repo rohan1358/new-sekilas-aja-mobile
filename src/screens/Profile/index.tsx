@@ -3,61 +3,61 @@ import {
   Button,
   DummyFlatList,
   ProfileHeader,
-  TextItem,
-} from "../../components";
-import React, { useEffect, useRef, useState } from "react";
-import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
-import SkeletonContent from "react-native-skeleton-content-nonexpo";
+  TextItem
+} from '../../components';
+import React, { useEffect, useRef, useState } from 'react';
+import { Modal, StyleSheet, Text, TextInput, View } from 'react-native';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import {
   pages,
   primaryColor,
   skeleton,
   snackState as ss,
-  strings,
-} from "@constants";
-import styles from "./styles";
-import { AlertModal, ChevronRight, EditGray } from "@assets";
-import { useDispatch, useSelector } from "react-redux";
-import { ReduxState } from "../../redux/reducers";
-import RBSheet from "react-native-raw-bottom-sheet";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { loggingIn, setProfileRedux } from "../../redux/actions";
-import { CommonActions } from "@react-navigation/routers";
-import { SnackStateProps } from "../../components/atom/Base/types";
-import auth from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
-import { logger } from "../../helpers";
+  strings
+} from '@constants';
+import styles from './styles';
+import { AlertModal, ChevronRight, EditGray } from '@assets';
+import { useDispatch, useSelector } from 'react-redux';
+import { ReduxState } from '../../redux/reducers';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { loggingIn, setProfileRedux } from '../../redux/actions';
+import { CommonActions } from '@react-navigation/routers';
+import { SnackStateProps } from '../../components/atom/Base/types';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { logger } from '../../helpers';
 
 export default function Profile({ navigation }: any) {
   const dispatch = useDispatch();
   const refRBSheet = useRef();
 
   const {
-    editProfile: { profile },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAlert, setModalAlert] = useState<boolean>(false);
   const [textAlert, setTextAlert] = useState({
-    text: "",
-    action: "",
-    button: "",
+    text: '',
+    action: '',
+    button: ''
   });
 
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState('');
 
   const handleUpdateImage = (image: string) => {
     const user = auth().currentUser;
     // logger(image)
     user
       ?.updateProfile({
-        photoURL: "image",
+        photoURL: 'image'
       })
       .then(() => {
         setSnackState(ss.successState(strings.success));
       })
       .catch((err) => {
-        logger("Profile", "Filed update photoUrl");
+        logger('Profile', 'Filed update photoUrl');
         setSnackState(ss.successState(err));
       })
       .finally(() => {
@@ -67,31 +67,31 @@ export default function Profile({ navigation }: any) {
   };
 
   const handleImagePicker = (type: string) => {
-    if (type == "camera") {
+    if (type == 'camera') {
       launchCamera(
         {
-          mediaType: "photo",
+          mediaType: 'photo',
           quality: 1,
           saveToPhotos: true,
           maxHeight: 500,
           maxWidth: 500,
-          includeBase64: true,
+          includeBase64: true
         },
         (callback) => {
-          if (callback.errorCode === "camera_unavailable") {
+          if (callback.errorCode === 'camera_unavailable') {
             setSnackState(ss.failState(strings.camera_unavailable));
             return;
-          } else if (callback.errorCode === "permission") {
+          } else if (callback.errorCode === 'permission') {
             setSnackState(ss.failState(strings.permission));
             return;
-          } else if (callback.errorCode === "others") {
+          } else if (callback.errorCode === 'others') {
             setSnackState(ss.failState(strings.other));
             return;
           } else if (callback.didCancel) {
-            logger("camera cancel");
+            logger('camera cancel');
           } else {
             const base64 = {
-              uri: "data:image/jpeg;base64," + callback.assets[0].base64,
+              uri: 'data:image/jpeg;base64,' + callback.assets[0].base64
             };
             handleUpdateImage(base64.uri);
           }
@@ -100,27 +100,27 @@ export default function Profile({ navigation }: any) {
     } else {
       launchImageLibrary(
         {
-          mediaType: "photo",
+          mediaType: 'photo',
           quality: 1,
           maxHeight: 500,
           maxWidth: 500,
-          includeBase64: true,
+          includeBase64: true
         },
         (callback) => {
-          if (callback.errorCode === "camera_unavailable") {
+          if (callback.errorCode === 'camera_unavailable') {
             setSnackState(ss.failState(strings.camera_unavailable));
             return;
-          } else if (callback.errorCode === "permission") {
+          } else if (callback.errorCode === 'permission') {
             setSnackState(ss.failState(strings.permission));
             return;
-          } else if (callback.errorCode === "others") {
+          } else if (callback.errorCode === 'others') {
             setSnackState(ss.failState(strings.other));
             return;
           } else if (callback.didCancel) {
-            logger("camera cancel");
+            logger('camera cancel');
           } else {
             const base64 = {
-              uri: "data:image/jpeg;base64," + callback.assets[0].base64,
+              uri: 'data:image/jpeg;base64,' + callback.assets[0].base64
             };
             handleUpdateImage(base64.uri);
           }
@@ -135,12 +135,12 @@ export default function Profile({ navigation }: any) {
 
   const logOut = () => {
     setModalAlert(!modalAlert);
-    dispatch(loggingIn({ isLogin: false, email: "" }));
+    dispatch(loggingIn({ isLogin: false, email: '' }));
     dispatch(setProfileRedux(null));
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: pages.SignIn }],
+        routes: [{ name: pages.SignIn }]
       })
     );
   };
@@ -162,9 +162,9 @@ export default function Profile({ navigation }: any) {
           <Button
             onPress={() =>
               navToEditProfile({
-                type: "nama",
-                title: "Ubah Nama",
-                valueParams: profile?.firstName,
+                type: 'nama',
+                title: 'Ubah Nama',
+                valueParams: profile?.firstName
               })
             }
             style={styles.boxItem}
@@ -180,9 +180,9 @@ export default function Profile({ navigation }: any) {
           <Button
             onPress={() =>
               navToEditProfile({
-                type: "email",
-                title: "Ubah Email",
-                valueParams: profile?.email,
+                type: 'email',
+                title: 'Ubah Email',
+                valueParams: profile?.email
               })
             }
             style={styles.boxItem}
@@ -198,14 +198,14 @@ export default function Profile({ navigation }: any) {
           <TextItem style={styles.title}>{strings.password}</TextItem>
           <Button
             onPress={() =>
-              navToEditProfile({ type: "password", title: "Ubah Password" })
+              navToEditProfile({ type: 'password', title: 'Ubah Password' })
             }
             style={styles.boxItem}
           >
             <TextInput
               style={styles.textInput}
               editable={false}
-              value={profile?.email + "sj897"}
+              value={profile?.email + 'sj897'}
               secureTextEntry={true}
             />
             <EditGray />
@@ -214,9 +214,9 @@ export default function Profile({ navigation }: any) {
             onPress={() => {
               setModalAlert(true);
               setTextAlert({
-                action: "Cancel",
-                text: "Yakin ingin keluar?",
-                button: "Keluar",
+                action: 'Cancel',
+                text: 'Yakin ingin keluar?',
+                button: 'Keluar'
               });
             }}
             style={styles.btnKeluar}
@@ -231,12 +231,12 @@ export default function Profile({ navigation }: any) {
         closeOnPressMask={true}
         customStyles={{
           wrapper: {
-            backgroundColor: "rgba(0,0,0,0.3)",
+            backgroundColor: 'rgba(0,0,0,0.3)'
           },
           container: {
             borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          },
+            borderTopRightRadius: 24
+          }
         }}
         height={165}
       >
@@ -245,7 +245,7 @@ export default function Profile({ navigation }: any) {
             {strings.ganti_foto}
           </TextItem>
           <Button
-            onPress={() => handleImagePicker("camera")}
+            onPress={() => handleImagePicker('camera')}
             style={styles.btnTakeAction}
           >
             <TextItem style={styles.textTake}>
@@ -254,7 +254,7 @@ export default function Profile({ navigation }: any) {
             <ChevronRight />
           </Button>
           <Button
-            onPress={() => handleImagePicker("galery")}
+            onPress={() => handleImagePicker('galery')}
             style={styles.btnTakeAction}
           >
             <TextItem style={styles.textTake}>{strings.ambil_galery}</TextItem>

@@ -1,17 +1,17 @@
-import React, { forwardRef, useImperativeHandle } from "react";
+import React, { forwardRef, useImperativeHandle } from 'react';
 import {
   HandlerStateChangeEvent,
   State,
   TapGestureHandler,
-  TapGestureHandlerEventPayload,
-} from "react-native-gesture-handler";
+  TapGestureHandlerEventPayload
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { heightPercent } from "../../../helpers";
-import styles from "./styles";
+  withTiming
+} from 'react-native-reanimated';
+import { heightPercent } from '../../../helpers';
+import styles from './styles';
 
 const HEIGHT = heightPercent(100);
 
@@ -33,7 +33,7 @@ const AnimatedOverlay = forwardRef<any, AnimatedOverlayProps>(
 
     useImperativeHandle(ref, () => ({
       open: () => (position.value = withTiming(0)),
-      close: () => (position.value = withTiming(HEIGHT)),
+      close: () => (position.value = withTiming(HEIGHT))
     }));
 
     return (

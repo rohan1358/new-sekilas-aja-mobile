@@ -6,8 +6,8 @@ import {
   Headphones,
   Lock,
   Sunrise,
-  Video,
-} from "@assets";
+  Video
+} from '@assets';
 import {
   neutralColor,
   pages,
@@ -15,22 +15,22 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
-} from "@constants";
-import React, { useEffect, useRef, useState } from "react";
+  strings
+} from '@constants';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   TextInput,
-  View,
-} from "react-native";
-import { AirbnbRating } from "react-native-ratings";
+  View
+} from 'react-native';
+import { AirbnbRating } from 'react-native-ratings';
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
-import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useSelector } from "react-redux";
+  useSharedValue
+} from 'react-native-reanimated';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import { useSelector } from 'react-redux';
 import {
   Amage,
   Base,
@@ -39,24 +39,29 @@ import {
   CardComent,
   Gap,
   HeaderBookDetail,
-  TextItem,
-} from "../../components";
-import { SnackStateProps } from "../../components/atom/Base/types";
-import { logger } from "../../helpers";
-import { ReduxState } from "../../redux/reducers";
-import { fetchBookContent, fetchDetailBooks, fetchFavoriteBooks, fetchRecommendedBooks, postBookFavorite } from "../../services";
-import { CompactBooksProps } from "../Home/types";
-import { comentList } from "./dummy";
-import styles from "./styles";
+  TextItem
+} from '../../components';
+import { SnackStateProps } from '../../components/atom/Base/types';
+import { logger } from '../../helpers';
+import { ReduxState } from '../../redux/reducers';
+import {
+  fetchBookContent,
+  fetchDetailBooks,
+  fetchFavoriteBooks,
+  fetchRecommendedBooks,
+  postBookFavorite
+} from '../../services';
+import { CompactBooksProps } from '../Home/types';
+import { comentList } from './dummy';
+import styles from './styles';
 
 export default function BookDetail({ navigation, route }: any) {
   const {
-    editProfile: { profile }, sessionReducer : {email,  }
+    editProfile: { profile },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const { id } = route.params;
-
-
 
   const isMounted = useRef<boolean>();
   const refScroll = useRef<any>(null);
@@ -73,27 +78,26 @@ export default function BookDetail({ navigation, route }: any) {
   const [daftarIsi, setDaftarIsi] = useState([]);
   const [favorite, setFavorite] = useState<any>([]);
   const [book, setBook] = useState({
-    book_title: "",
-    author: "",
-    read_time: "",
-    id: "",
-    book_cover: "",
-    category: "",
-    description: "",
-    short_desc: "",
-    audio_link: "",
-    video_link: "",
-    watch_time: "",
+    book_title: '',
+    author: '',
+    read_time: '',
+    id: '',
+    book_cover: '',
+    category: '',
+    description: '',
+    short_desc: '',
+    audio_link: '',
+    video_link: '',
+    watch_time: ''
   });
 
   const getDetailBookData = async () => {
     setIsLoading(true);
     try {
-      const [detailBook,recomData, kilasBook] = await Promise.all([
+      const [detailBook, recomData, kilasBook] = await Promise.all([
         fetchDetailBooks(id),
         fetchRecommendedBooks(),
-        fetchBookContent({bookTitle : id })
-
+        fetchBookContent({ bookTitle: id })
       ]);
 
       if (!isMounted.current) {
@@ -101,24 +105,23 @@ export default function BookDetail({ navigation, route }: any) {
       }
       if (detailBook.isSuccess) {
         setBook(detailBook.data);
-      setDaftarIsi(kilasBook.data.pageContent)
-
+        setDaftarIsi(kilasBook.data.pageContent);
       } else {
-        throw new Error("Fail on fetching released books data");
+        throw new Error('Fail on fetching released books data');
       }
       if (recomData.isSuccess) {
         setRecommendedBooks(recomData.data);
       } else {
-        throw new Error("Fail on fetching released books data");
+        throw new Error('Fail on fetching released books data');
       }
     } catch (error) {
-      logger("Detail Book, getDetailBookData", error);
+      logger('Detail Book, getDetailBookData', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect( () => {
+  useEffect(() => {
     const handleSub = () => {
       const subsc = profile?.is_subscribed;
       if (!subsc) {
@@ -127,13 +130,7 @@ export default function BookDetail({ navigation, route }: any) {
     };
 
     handleSub();
-
-   
-    
-    
   }, []);
-
-
 
   useEffect(() => {
     isMounted.current = true;
@@ -143,35 +140,26 @@ export default function BookDetail({ navigation, route }: any) {
     };
   }, [id]);
 
-  async function getFavorite  (){
-
-    const res =  await fetchFavoriteBooks(email)
-    if(res){
-      const filterArr = (arr : any[]) => {
-       return arr.filter((v,i) => arr.indexOf(v) === i)
-       }
-       let arr = [...res?.book, id]
-      let newRes = res.book ?filterArr(arr) : [id]
-            setFavorite(newRes);
-    }else{
-
+  async function getFavorite() {
+    const res = await fetchFavoriteBooks(email);
+    if (res) {
+      const filterArr = (arr: any[]) => {
+        return arr.filter((v, i) => arr.indexOf(v) === i);
+      };
+      let arr = [...res?.book, id];
+      let newRes = res.book ? filterArr(arr) : [id];
+      setFavorite(newRes);
+    } else {
       setFavorite([id]);
-
     }
-    return res ? res?.book :[]
-      
+    return res ? res?.book : [];
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
+    getFavorite();
+  }, []);
 
-    
-  
-  getFavorite()
-    
- 
-  }, [])
-
-  const toTop = (id:any) => {
+  const toTop = (id: any) => {
     // use current
     yOffset.value = 0;
     refScroll.current.scrollTo({ x: 0, y: 0, animated: true });
@@ -180,19 +168,19 @@ export default function BookDetail({ navigation, route }: any) {
 
   const stylez = useAnimatedStyle(() => {
     return {
-      display: yOffset.value > 268 ? "flex" : "none",
+      display: yOffset.value > 268 ? 'flex' : 'none'
     };
   });
 
-  const navigationTopBar = (type = "", link = "") => {
+  const navigationTopBar = (type = '', link = '') => {
     switch (type) {
-      case "reading":
+      case 'reading':
         // navigation.navigate(pages.Listening);
         break;
-      case "listening":
+      case 'listening':
         navigation.navigate(pages.Listening, { link });
         break;
-      case "watching":
+      case 'watching':
         navigation.navigate(pages.Watching, { link });
         break;
 
@@ -201,17 +189,17 @@ export default function BookDetail({ navigation, route }: any) {
     }
   };
 
-
-  const addToFavorite = async() => {
-    const list = await getFavorite()
-    if(list.includes(id)){
-      postBookFavorite(email, {book : favorite.filter( (t :[]) => t !== id), jumlah : favorite.length-1} )
-      
-    }else{
-      postBookFavorite(email, {book : favorite, jumlah : favorite.length} )
+  const addToFavorite = async () => {
+    const list = await getFavorite();
+    if (list.includes(id)) {
+      postBookFavorite(email, {
+        book: favorite.filter((t: []) => t !== id),
+        jumlah: favorite.length - 1
+      });
+    } else {
+      postBookFavorite(email, { book: favorite, jumlah: favorite.length });
     }
-  }
-
+  };
 
   return (
     <Base
@@ -226,8 +214,11 @@ export default function BookDetail({ navigation, route }: any) {
       >
         <HeaderBookDetail
           navigation={navigation}
-          onFavorite={() => { setActive(!active);addToFavorite()}}
-          onDownload={() => logger("donwload")}
+          onFavorite={() => {
+            setActive(!active);
+            addToFavorite();
+          }}
+          onDownload={() => logger('donwload')}
           Active={active}
         />
         {statusSub ? (
@@ -243,24 +234,24 @@ export default function BookDetail({ navigation, route }: any) {
           <Animated.View style={[styles.SelectBarUp, stylez]}>
             {}
             <Button
-              onPress={() => navigationTopBar("reading")}
+              onPress={() => navigationTopBar('reading')}
               style={styles.btnBar}
             >
               <File />
               <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
             </Button>
-            {book.audio_link != "" && (
+            {book.audio_link != '' && (
               <Button
-                onPress={() => navigationTopBar("listening")}
+                onPress={() => navigationTopBar('listening')}
                 style={styles.btnBar}
               >
                 <Headphones />
                 <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
               </Button>
             )}
-            {book.video_link != "" && (
+            {book.video_link != '' && (
               <Button
-                onPress={() => navigationTopBar("watching")}
+                onPress={() => navigationTopBar('watching')}
                 style={styles.btnBar}
               >
                 <Video />
@@ -299,15 +290,15 @@ export default function BookDetail({ navigation, route }: any) {
             ) : (
               <View style={styles.SelectBar}>
                 <Button
-                  onPress={() => navigationTopBar("reading")}
+                  onPress={() => navigationTopBar('reading')}
                   style={styles.btnBar}
                 >
                   <File />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
-                {book.audio_link != "" && (
+                {book.audio_link != '' && (
                   <Button
-                    onPress={() => navigationTopBar("listening")}
+                    onPress={() => navigationTopBar('listening')}
                     style={styles.btnBar}
                   >
                     <Headphones />
@@ -316,9 +307,9 @@ export default function BookDetail({ navigation, route }: any) {
                     </TextItem>
                   </Button>
                 )}
-                {book.video_link != "" && (
+                {book.video_link != '' && (
                   <Button
-                    onPress={() => navigationTopBar("watching")}
+                    onPress={() => navigationTopBar('watching')}
                     style={styles.btnBar}
                   >
                     <Video />
@@ -339,12 +330,12 @@ export default function BookDetail({ navigation, route }: any) {
                 <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
                 <View style={styles.boxTextInfo}>
                   <TextItem style={styles.textInfo}>
-                    {book?.read_time + " min"}
+                    {book?.read_time + ' min'}
                   </TextItem>
                 </View>
                 <Sunrise style={styles.iconInfo} />
                 <View style={styles.boxTextInfo}>
-                  <TextItem style={styles.textInfo}>{"20 wawasan"}</TextItem>
+                  <TextItem style={styles.textInfo}>{'20 wawasan'}</TextItem>
                 </View>
               </View>
             </View>
@@ -353,7 +344,7 @@ export default function BookDetail({ navigation, route }: any) {
               <TextItem style={styles.titleSection}>
                 {strings.kategori}
               </TextItem>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <View style={styles.boxTextKategori}>
                   <TextItem style={styles.textKategori}>
                     {book?.category[1]}
@@ -380,10 +371,10 @@ export default function BookDetail({ navigation, route }: any) {
                   <TextItem style={styles.texttglRelease}>
                     {strings.tgl_release}
                   </TextItem>
-                  <TextItem style={styles.tgl}>{"8 September 2020"}</TextItem>
+                  <TextItem style={styles.tgl}>{'8 September 2020'}</TextItem>
                   <TextItem style={styles.textpublikasi}>
                     {strings.publikasi}
-                    {"Amerika Serikat"}
+                    {'Amerika Serikat'}
                   </TextItem>
                   <View style={styles.listTentang}>
                     <TextItem style={styles.texttglRelease}>
@@ -398,10 +389,10 @@ export default function BookDetail({ navigation, route }: any) {
                       </View>
                       <View>
                         <TextItem style={styles.tgl}>
-                          {"Morgan Housel "}
+                          {'Morgan Housel '}
                         </TextItem>
                         <TextItem style={styles.textpublikasi}>
-                          {"Mitra di The Collaborative Fund"}
+                          {'Mitra di The Collaborative Fund'}
                         </TextItem>
                       </View>
                     </View>
@@ -413,10 +404,10 @@ export default function BookDetail({ navigation, route }: any) {
                     {strings.daftar_isi}
                   </TextItem>
                   <View style={styles.boxListDaftar}>
-                    {daftarIsi.map(({title}, index) => (
+                    {daftarIsi.map(({ title }, index) => (
                       <Button key={index} style={styles.listDaftar}>
                         <TextItem style={styles.textDfatar}>
-                         {index+1}. {title ||''}
+                          {index + 1}. {title || ''}
                         </TextItem>
                         <ChevronRight color={neutralColor[50]} />
                       </Button>
@@ -451,7 +442,7 @@ export default function BookDetail({ navigation, route }: any) {
                       />
                     </View>
                     <TextItem style={styles.textUlasanDari}>
-                      {strings.ulasan_dari + "183" + strings.pembaca}
+                      {strings.ulasan_dari + '183' + strings.pembaca}
                     </TextItem>
                   </View>
 
