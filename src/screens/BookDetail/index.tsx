@@ -44,17 +44,18 @@ import {
 import { SnackStateProps } from "../../components/atom/Base/types";
 import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
-import { fetchDetailBooks, fetchRecommendedBooks } from "../../services";
+import { fetchBookContent, fetchDetailBooks, fetchFavoriteBooks, fetchRecommendedBooks, postBookFavorite } from "../../services";
 import { CompactBooksProps } from "../Home/types";
-import { comentList, daftarIsi } from "./dummy";
+import { comentList } from "./dummy";
 import styles from "./styles";
 
 export default function BookDetail({ navigation, route }: any) {
   const {
-    editProfile: { profile },
+    editProfile: { profile }, sessionReducer : {email,  }
   } = useSelector((state: ReduxState) => state);
 
   const { id } = route.params;
+
 
   // console.log(item)
 
@@ -70,6 +71,8 @@ export default function BookDetail({ navigation, route }: any) {
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
   const [statusSub, setStatusSub] = useState(false);
+  const [daftarIsi, setDaftarIsi] = useState([]);
+  const [favorite, setFavorite] = useState<any>([]);
   const [book, setBook] = useState({
     book_title: "",
     author: "",
@@ -87,16 +90,21 @@ export default function BookDetail({ navigation, route }: any) {
   const getDetailBookData = async () => {
     setIsLoading(true);
     try {
-      const [detailBook, recomData] = await Promise.all([
+      const [detailBook,recomData, kilasBook] = await Promise.all([
         fetchDetailBooks(id),
         fetchRecommendedBooks(),
+        fetchBookContent({bookTitle : id })
+
       ]);
+
       if (!isMounted.current) {
         return;
       }
       if (detailBook.isSuccess) {
         setBook(detailBook.data);
         // console.log(detailBook)
+      setDaftarIsi(kilasBook.data.pageContent)
+
       } else {
         throw new Error("Fail on fetching released books data");
       }
@@ -112,7 +120,7 @@ export default function BookDetail({ navigation, route }: any) {
     }
   };
 
-  useEffect(() => {
+  useEffect( () => {
     const handleSub = () => {
       const subsc = profile?.is_subscribed;
       if (!subsc) {
@@ -121,18 +129,51 @@ export default function BookDetail({ navigation, route }: any) {
     };
 
     handleSub();
+
+   
+    
+    
   }, []);
+
+
 
   useEffect(() => {
     isMounted.current = true;
     getDetailBookData();
-
     () => {
       isMounted.current = false;
     };
   }, [id]);
 
-  const toTop = (id: any) => {
+  async function getFavorite  (){
+
+    const res =  await fetchFavoriteBooks(email)
+    if(res){
+      const filterArr = (arr : any[]) => {
+       return arr.filter((v,i) => arr.indexOf(v) === i)
+       }
+       let arr = [...res?.book, id]
+      let newRes = res.book ?filterArr(arr) : [id]
+            setFavorite(newRes);
+    }else{
+
+      setFavorite([id]);
+
+    }
+    return res ? res?.book :[]
+      
+  }
+
+  React.useEffect(() => {
+
+    
+  
+  getFavorite()
+    
+ 
+  }, [])
+
+  const toTop = (id:any) => {
     // use current
     yOffset.value = 0;
     refScroll.current.scrollTo({ x: 0, y: 0, animated: true });
@@ -162,6 +203,18 @@ export default function BookDetail({ navigation, route }: any) {
     }
   };
 
+
+  const addToFavorite = async() => {
+    const list = await getFavorite()
+    if(list.includes(id)){
+      postBookFavorite(email, {book : favorite.filter( (t :[]) => t !== id), jumlah : favorite.length-1} )
+      
+    }else{
+      postBookFavorite(email, {book : favorite, jumlah : favorite.length} )
+    }
+  }
+
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -175,7 +228,7 @@ export default function BookDetail({ navigation, route }: any) {
       >
         <HeaderBookDetail
           navigation={navigation}
-          onFavorite={() => setActive(!active)}
+          onFavorite={() => { setActive(!active);addToFavorite()}}
           onDownload={() => logger("donwload")}
           Active={active}
         />
@@ -362,10 +415,10 @@ export default function BookDetail({ navigation, route }: any) {
                     {strings.daftar_isi}
                   </TextItem>
                   <View style={styles.boxListDaftar}>
-                    {daftarIsi.map((item, index) => (
+                    {daftarIsi.map(({title}, index) => (
                       <Button key={index} style={styles.listDaftar}>
                         <TextItem style={styles.textDfatar}>
-                          {item.title}
+                         {index+1}. {title ||''}
                         </TextItem>
                         <ChevronRight color={neutralColor[50]} />
                       </Button>

@@ -19,6 +19,7 @@ import {
   Subscribe,
   Watching,
 } from "../../screens";
+import MyFavorite from "../../screens/MyFavorite";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
 
@@ -48,6 +49,7 @@ const MainRoute = () => {
       <Stack.Screen name={"Watching"} component={Watching} />
       <Stack.Screen name={"Subscribe"} component={Subscribe} />
       <Stack.Screen name={"SpecialBookList"} component={SpecialBookList} />
+      <Stack.Screen name={"MyFavorite"} component={MyFavorite} /> 
     </Stack.Navigator>
   );
 };

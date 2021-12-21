@@ -8,4 +8,5 @@ export const firebaseNode = {
   rate: "rate",
 
   users: "users",
+  favorite: "favorite",
 };

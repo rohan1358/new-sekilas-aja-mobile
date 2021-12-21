@@ -5,12 +5,15 @@ type SpecialCategoryProps =
   | "recommendation"
   | "newRelease"
   | "mostRead"
-  | "trending";
+  | "trending"|
+  "myFavorite"
+  ;
 
 type MainBottomTabParamList = {
   Home: undefined;
   Explore: undefined;
   Library: undefined;
+  MyFavorite: undefined
 };
 
 type RootStackParamList = {
@@ -51,4 +54,6 @@ type RootStackParamList = {
   SpecialBookList: { type: SpecialCategoryProps };
 
   Watching: undefined;
+  MyFavorite: undefined
+
 };
