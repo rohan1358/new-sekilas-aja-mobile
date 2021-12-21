@@ -53,6 +53,5 @@ type RootStackParamList = {
   SpecialBookList: { type: SpecialCategoryProps };
 
   Watching: undefined;
-  MyFavorite: undefined
 
 };

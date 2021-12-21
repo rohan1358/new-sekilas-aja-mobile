@@ -52,7 +52,7 @@ getTotalFavorit()
         />
         <Gap vertical={sp.sm} />
         <LibraryMenu
-        action={() => navigation.navigation.navigate("MyFavorite", {
+        action={() => navigation.navigation.navigate("SpecialBookList", {
           type: "myFavorite",
         })}
           title={strings.favBooks}

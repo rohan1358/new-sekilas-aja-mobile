@@ -3,9 +3,13 @@ import { skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { useSelector } from "react-redux";
 import { logger } from "../../helpers";
+import { ReduxState } from "../../redux/reducers";
 import {
+  fetchBooks,
   fetchCategorizedBooks,
+  fetchFavoriteBooks,
   fetchMostBooks,
   fetchRecommendedBooks,
   fetchReleasedBooks,
@@ -31,6 +35,8 @@ const dataSelector = (
 
     case "trending":
       return { title: strings.mostRead, api: fetchTrendBooks };
+        case "myFavorite":
+        return { title: strings.myFavorite, api: fetchBooks };
 
     default:
       return { title: "", api: fetchRecommendedBooks };
@@ -43,6 +49,12 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
 
   const [books, setBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [listFavorite, setListFavorite] = useState<any>([]);
+
+  const {
+    sessionReducer : {email,  }
+ } = useSelector((state:ReduxState) => state);
+
 
   const getBooks = async () => {
     setIsLoading(true);
@@ -72,11 +84,28 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
     onBackPress: () => navigation.goBack(),
   };
 
+  React.useEffect( () => {
+
+
+     
+
+    fetchFavoriteBooks(email).then(res => {
+    if(res){
+      setListFavorite(res.book)
+    }
+    }).catch(err => {
+      console.log(err)
+    })
+      },[])
+
   const keyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
   const ListEmptyComponent = (
     <EmptyPlaceholder title={strings.noBook} subtitle={strings.booksNotFound} />
   );
+
+
+
 
   const renderItem = ({ item }: { item: CompactBooksProps }) => (
     <View>
@@ -102,6 +131,16 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
     };
   }, []);
 
+    
+  function newBook  (){
+    if(title === strings.myFavorite){
+      return books?.filter(book => listFavorite.includes(book.book_title))
+    }else{
+      return books
+    }
+
+  }
+
   return (
     <Base headerState={headerState}>
       <SkeletonContent
@@ -110,7 +149,7 @@ const SpecialBookList = ({ navigation, route }: SpecialBookListProps) => {
         layout={skeleton.mainCategory}
       >
         <FlatList
-          data={books}
+          data={newBook()}
           keyExtractor={keyExtractor}
           numColumns={2}
           renderItem={renderItem}
