@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
-import { logger } from "../../helpers/helper";
+import { logger } from "../../helpers/index";
 import { ReduxState } from "../../redux/reducers";
 import {
   fetchBooks,
