@@ -67,7 +67,7 @@ const Explore = ({ navigation }: ExploreProps) => {
 
   const scrollY = useSharedValue(0);
 
-  const [newTopChips, setTopChipd] = useState<any>(false);
+  const [newChips, setChipd] = useState<any>(false);
   const [headerHeight, setHeaderHeight] = useState<number>(64);
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
@@ -150,7 +150,7 @@ const Explore = ({ navigation }: ExploreProps) => {
   useEffect(() => {
     const fetchCategory = async () => {
       const list = await fetchListCategory();
-      setTopChipd(list?.list);
+      setChipd(list?.list);
     };
     fetchCategory();
   }, []);
@@ -194,9 +194,9 @@ const Explore = ({ navigation }: ExploreProps) => {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View>
                 <View style={styles.row}>
-                  {newTopChips &&
-                    newTopChips
-                      .slice(0, newTopChips.length / 2 + 1)
+                  {newChips &&
+                    newChips
+                      .slice(0, newChips.length / 2 + 1)
                       .map((item: any, index: any) => {
                         const onPress = (id: string) =>
                           navigation.navigate('Category', {
@@ -220,9 +220,9 @@ const Explore = ({ navigation }: ExploreProps) => {
                 </View>
                 <Gap vertical={sp.sm} />
                 <View style={styles.row}>
-                  {newTopChips &&
-                    newTopChips
-                      .slice(newTopChips.length / 2 + 1, newTopChips.length)
+                  {newChips &&
+                    newChips
+                      .slice(newChips.length / 2 + 1, newChips.length)
                       .map((item: any, index: any) => {
                         const onPress = (id: string) =>
                           navigation.navigate('Category', {
