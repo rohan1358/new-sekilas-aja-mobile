@@ -18,106 +18,122 @@ import {
   Suitcase,
   Tree,
   YinYang,
-} from "@assets";
+  SupervisedUserCircleSharpIcon,
+  AccessibilityNewIcon,
+  ArrowForward,
+  BusinessIcon,
+  FitnesCenter,
+  NewRelease,
+  PresentToAll
+} from '@assets';
 
-import { flatCategories } from "../flatCategories";
+import { flatCategories } from '../flatCategories';
 
 const categories = [
   {
-    id: "produktifitas",
-    label: "Produktifitas",
-    Icon: Fire,
+    id: 'produktifitas',
+    label: 'Produktifitas',
+    Icon: Fire
   },
   {
-    id: "karir & sukses",
-    label: "Karir & Sukses",
-    Icon: Clipboard,
+    id: 'karir & sukses',
+    label: 'Karir & Sukses',
+    Icon: Clipboard
   },
   {
-    id: "skill komunikasi",
-    label: "skill komunikasi",
-    Icon: ChatBubble,
+    id: 'skill komunikasi',
+    label: 'skill komunikasi',
+    Icon: ChatBubble
   },
   {
-    id: "marketing",
-    label: "marketing",
-    Icon: SearchDollar,
+    id: 'marketing',
+    label: 'marketing',
+    Icon: SearchDollar
   },
   {
-    id: "keuangan & investasi",
-    label: "keuangan & investasi",
-    Icon: BankBuilding,
+    id: 'keuangan & investasi',
+    label: 'keuangan & investasi',
+    Icon: BankBuilding
   },
   {
-    id: "gaya hidup",
-    label: "gaya hidup",
-    Icon: HumanHead,
+    id: 'gaya hidup',
+    label: 'gaya hidup',
+    Icon: HumanHead
   },
   {
     id: flatCategories[5],
-    label: "kesehatan & fitnes",
-    Icon: HeartRate,
+    label: 'kesehatan & fitnes',
+    Icon: HeartRate
   },
   {
-    id: "parenting",
-    label: "parenting",
-    Icon: BabyBottle,
+    id: 'parenting',
+    label: 'parenting',
+    Icon: BabyBottle
   },
   {
-    id: "isu sosial & sejarah",
-    label: "isu sosial & sejarah",
-    Icon: Crown,
+    id: 'isu sosial & sejarah',
+    label: 'isu sosial & sejarah',
+    Icon: Crown
   },
   {
-    id: "alam & filosofi",
-    label: "alam & filosofi",
-    Icon: Tree,
+    id: 'alam & filosofi',
+    label: 'alam & filosofi',
+    Icon: Tree
   },
   {
     id: flatCategories[1],
-    label: "pengembangan diri",
-    Icon: GraphBar,
+    label: 'pengembangan diri',
+    Icon: GraphBar
   },
   {
     id: flatCategories[3],
-    label: "bisnis",
-    Icon: Graph,
+    label: 'bisnis',
+    Icon: Graph
   },
   {
-    id: "kepemimpinan & entrepreneurship",
-    label: "kepemimpinan & entrepreneurship",
-    Icon: Suitcase,
+    id: 'kepemimpinan & entrepreneurship',
+    label: 'kepemimpinan & entrepreneurship',
+    Icon: Suitcase
   },
   {
-    id: "teknologi & sains",
-    label: "teknologi & sains",
-    Icon: ComputerRobot,
+    id: 'teknologi & sains',
+    label: 'teknologi & sains',
+    Icon: ComputerRobot
   },
   {
-    id: "seni & desain",
-    label: "seni & desain",
-    Icon: PaintPalette,
+    id: 'seni & desain',
+    label: 'seni & desain',
+    Icon: PaintPalette
   },
   {
-    id: "percintaan",
-    label: "percintaan",
-    Icon: GiveHeart,
+    id: 'percintaan',
+    label: 'percintaan',
+    Icon: GiveHeart
   },
   {
-    id: "edukasi seks",
-    label: "edukasi seks",
-    Icon: Heart,
+    id: 'edukasi seks',
+    label: 'edukasi seks',
+    Icon: Heart
   },
   {
-    id: "budaya & makanan",
-    label: "budaya & makanan",
-    Icon: YinYang,
+    id: 'budaya & makanan',
+    label: 'budaya & makanan',
+    Icon: YinYang
   },
   {
-    id: "agama & spiritual",
-    label: "agama & spiritual",
-    Icon: Cross,
-  },
+    id: 'agama & spiritual',
+    label: 'agama & spiritual',
+    Icon: Cross
+  }
 ];
+const newCategories = (ctgr: string) => {
+  if (ctgr == 'All') return PresentToAll;
+  if (ctgr == 'New Release!') return NewRelease;
+  if (ctgr == 'Coming Soon!') return ArrowForward;
+  if (ctgr == 'Bisnis & Investasi') return BusinessIcon;
+  if (ctgr == 'Pengembangan Diri') return AccessibilityNewIcon;
+  if (ctgr == 'Biografi') return SupervisedUserCircleSharpIcon;
+  if (ctgr == 'Kesehatan & Olahraga') return FitnesCenter;
+};
 
-export { categories };
+export { categories, newCategories };

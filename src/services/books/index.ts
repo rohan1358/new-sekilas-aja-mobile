@@ -301,6 +301,11 @@ const fetchDetailBooks = (id: any) => {
   });
 };
 
+const fetchListCategory = async () =>
+  await (
+    await firestore().collection('listCategory').doc('category').get()
+  ).data();
+
 export {
   fetchBooks,
   fetchCategorizedBooks,
@@ -309,5 +314,6 @@ export {
   fetchRecommendedBooks,
   fetchReleasedBooks,
   fetchTrendBooks,
-  fetchDetailBooks
+  fetchDetailBooks,
+  fetchListCategory
 };
