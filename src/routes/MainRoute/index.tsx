@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   About,
   AccountSettings,
@@ -25,14 +25,25 @@ import MainBottomRoute from '../MainBottomRoute';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const MainRoute = () => {
+  const [isFirstTime, setFirstTime] = useState(false);
+  React.useEffect(() => {
+    if (!isFirstTime) {
+      setFirstTime(true);
+    }
+  }, []);
   return (
     <Stack.Navigator
       initialRouteName={'MainBottomRoute'}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name={'MainBottomRoute'} component={MainBottomRoute} />
+      <Stack.Screen
+        name={'Home'}
+        component={!isFirstTime ? Home : MainBottomRoute}
+      />
       <Stack.Screen name={'SignIn'} component={SignIn} />
-      <Stack.Screen name={'Home'} component={Home} />
+
+      <Stack.Screen name={'MainBottomRoute'} component={MainBottomRoute} />
+
       <Stack.Screen name={'About'} component={About} />
       <Stack.Screen name={'AccountSettings'} component={AccountSettings} />
       <Stack.Screen name={'Category'} component={Category} />

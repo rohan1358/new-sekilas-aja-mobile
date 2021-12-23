@@ -57,6 +57,8 @@ import { CompactBooksProps } from '../Home/types';
 import { comentList } from './dummy';
 import styles from './styles';
 
+const openRate = false;
+
 export default function BookDetail({ navigation, route }: any) {
   const {
     editProfile: { profile },
@@ -425,39 +427,41 @@ export default function BookDetail({ navigation, route }: any) {
                     ))}
                   </View>
                 </View>
-
+                <View style={styles.boxTitleUlasan}>
+                  <TextItem style={styles.titleSection}>
+                    {strings.ulasan}
+                  </TextItem>
+                  <Button>
+                    <TextItem style={styles.textLihatSemua}>
+                      {strings.lihat_semua}
+                    </TextItem>
+                  </Button>
+                </View>
                 <View>
-                  <View style={styles.boxTitleUlasan}>
-                    <TextItem style={styles.titleSection}>
-                      {strings.ulasan}
-                    </TextItem>
-                    <Button>
-                      <TextItem style={styles.textLihatSemua}>
-                        {strings.lihat_semua}
-                      </TextItem>
-                    </Button>
-                  </View>
-
-                  <View style={styles.containerRating}>
-                    <View style={styles.boxRating}>
-                      <TextItem style={styles.textRating}>
-                        {ratingCount.toString()}
-                      </TextItem>
-                      <AirbnbRating
-                        count={5}
-                        defaultRating={ratingCount}
-                        size={25}
-                        showRating={false}
-                        isDisabled={true}
-                        selectedColor="#E27814"
-                      />
-                    </View>
-                    <TextItem style={styles.textUlasanDari}>
-                      {`${strings.ulasan_dari} ${
-                        listComment ? listComment.length : 0
-                      } ${strings.pembaca}`}
-                    </TextItem>
-                  </View>
+                  {openRate && (
+                    <>
+                      <View style={styles.containerRating}>
+                        <View style={styles.boxRating}>
+                          <TextItem style={styles.textRating}>
+                            {ratingCount.toString()}
+                          </TextItem>
+                          <AirbnbRating
+                            count={5}
+                            defaultRating={ratingCount}
+                            size={25}
+                            showRating={false}
+                            isDisabled={true}
+                            selectedColor="#E27814"
+                          />
+                        </View>
+                        <TextItem style={styles.textUlasanDari}>
+                          {`${strings.ulasan_dari} ${
+                            listComment ? listComment.length : 0
+                          } ${strings.pembaca}`}
+                        </TextItem>
+                      </View>
+                    </>
+                  )}
 
                   <View style={styles.boxKomentar}>
                     <TextItem style={styles.textKomentar}>

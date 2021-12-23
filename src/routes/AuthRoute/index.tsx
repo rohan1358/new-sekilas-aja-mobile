@@ -1,7 +1,7 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import React from "react";
-import { pages } from "../../constants";
-import { Home, SignIn, SignUp, Onboarding } from "../../screens";
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import { pages } from '../../constants';
+import { Home, SignIn, SignUp, Onboarding } from '../../screens';
 
 const Stack = createStackNavigator();
 
