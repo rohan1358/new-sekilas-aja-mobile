@@ -9,41 +9,41 @@ import {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
-  TextItem,
-} from "@components";
+  TextItem
+} from '@components';
 import {
   pages,
   primaryColor,
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
-} from "@constants";
-import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useDispatch, useSelector } from "react-redux";
-import { logger } from "../../helpers";
-import { ReduxState } from "../../redux/reducers";
+  strings
+} from '@constants';
+import React, { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import { useDispatch, useSelector } from 'react-redux';
+import { logger } from '../../helpers';
+import { ReduxState } from '../../redux/reducers';
 import {
   fetchMostBooks,
   fetchProfile,
   fetchReadingBook,
-  fetchRecommendedBooks,
-} from "../../services";
-import { dummyBanner, dummyCollection } from "./dummy";
-import styles from "./styles";
+  fetchRecommendedBooks
+} from '../../services';
+import { dummyBanner, dummyCollection } from './dummy';
+import styles from './styles';
 
-import { setProfileRedux } from "../../redux/actions";
-import { SnackStateProps } from "../../components/atom/Base/types";
-import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
-import { useIsFocused } from "@react-navigation/native";
+import { setProfileRedux } from '../../redux/actions';
+import { SnackStateProps } from '../../components/atom/Base/types';
+import { CompactBooksProps, HomeProps, ReadingBookProps } from './types';
+import { useIsFocused } from '@react-navigation/native';
 
 const Home = ({ navigation }: HomeProps) => {
   const isFocused = useIsFocused();
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>();
@@ -95,7 +95,7 @@ const Home = ({ navigation }: HomeProps) => {
 
   const dummyMiniCollectionRender = ({
     item,
-    index,
+    index
   }: {
     item: any;
     index: number;
@@ -140,7 +140,7 @@ const Home = ({ navigation }: HomeProps) => {
       }
       setReadingBook(data);
     } catch (error) {
-      logger("Home, getReadingBook", error);
+      logger('Home, getReadingBook', error);
     }
   };
 
@@ -152,7 +152,7 @@ const Home = ({ navigation }: HomeProps) => {
           fetchProfile(email),
           fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks(),
+          fetchMostBooks()
         ]);
       if (!isMounted.current) {
         return;
@@ -162,25 +162,25 @@ const Home = ({ navigation }: HomeProps) => {
         dispatch(setProfileRedux(profileData.data));
         handleSub(profileData.data);
       } else {
-        throw new Error("Fail on fetching profile data");
+        throw new Error('Fail on fetching profile data');
       }
       if (readingData.isSuccess) {
         setReadingBook(readingData.data);
       } else {
-        throw new Error("Fail on fetching reading book data");
+        throw new Error('Fail on fetching reading book data');
       }
       if (recomData.isSuccess) {
         setRecommendedBooks(recomData.data?.slice(0, 4));
       } else {
-        throw new Error("Fail on fetching recommended books data");
+        throw new Error('Fail on fetching recommended books data');
       }
       if (mostBookData.isSuccess) {
         setMostReadBooks(mostBookData.data?.slice(0, 2));
       } else {
-        throw new Error("Fail on fetching most read books data");
+        throw new Error('Fail on fetching most read books data');
       }
     } catch (error) {
-      logger("Home, getHomeData", error);
+      logger('Home, getHomeData', error);
     } finally {
       setIsLoading(false);
     }
@@ -190,11 +190,11 @@ const Home = ({ navigation }: HomeProps) => {
 
   const onGoingPress = () =>
     !!readingBook?.available
-      ? navigation.navigate("Reading", {
-          id: readingBook?.book || "",
-          page: `${parseInt(readingBook?.kilas || "1") - 1}`,
+      ? navigation.navigate('Reading', {
+          id: readingBook?.book || '',
+          page: `${parseInt(readingBook?.kilas || '1') - 1}`
         })
-      : navigation.navigate("MainBottomRoute", { screen: "Explore" });
+      : navigation.navigate('MainBottomRoute', { screen: 'Explore' });
 
   useEffect(() => {
     isMounted.current = true;
@@ -255,7 +255,7 @@ const Home = ({ navigation }: HomeProps) => {
               data={dummyBanner}
               renderItem={bannerRenderItem}
               keyExtractor={idKeyExtractor}
-              listKey={"bannerlist"}
+              listKey={'bannerlist'}
             />
             <Gap vertical={sp.m} />
             <Gap horizontal={sp.sl * 2}>
@@ -272,7 +272,7 @@ const Home = ({ navigation }: HomeProps) => {
               data={dummyMiniCollectionData}
               renderItem={dummyMiniCollectionRender}
               keyExtractor={dummyMiniCollectionKey}
-              listKey={"kilaslist"}
+              listKey={'kilaslist'}
             />
             <Gap vertical={sp.sl} />
             <View style={styles.clickTitle}>
@@ -282,8 +282,8 @@ const Home = ({ navigation }: HomeProps) => {
               <Gap horizontal={20} />
               <Button
                 onPress={() =>
-                  navigation.navigate("SpecialBookList", {
-                    type: "recommendation",
+                  navigation.navigate('SpecialBookList', {
+                    type: 'recommendation'
                   })
                 }
               >
@@ -300,7 +300,7 @@ const Home = ({ navigation }: HomeProps) => {
                 numColumns={2}
                 renderItem={booksRenderItem}
                 columnWrapperStyle={styles.columnWrapperStyle}
-                listKey={"recommendedbooklist"}
+                listKey={'recommendedbooklist'}
               />
             </Gap>
             <Gap vertical={sp.sl} />
@@ -311,8 +311,8 @@ const Home = ({ navigation }: HomeProps) => {
               <Gap horizontal={20} />
               <Button
                 onPress={() =>
-                  navigation.navigate("SpecialBookList", {
-                    type: "mostRead",
+                  navigation.navigate('SpecialBookList', {
+                    type: 'mostRead'
                   })
                 }
               >

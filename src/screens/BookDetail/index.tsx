@@ -128,7 +128,7 @@ export default function BookDetail({ navigation, route }: any) {
   useEffect(() => {
     const handleSub = () => {
       const subsc = profile?.is_subscribed;
-      if (!subsc) {
+      if (subsc) {
         setStatusSub(true);
       }
     };
@@ -191,10 +191,13 @@ export default function BookDetail({ navigation, route }: any) {
         // navigation.navigate(pages.Listening);
         break;
       case 'listening':
-        navigation.navigate(pages.Listening, { link });
+        navigation.navigate(pages.Listening, {
+          book: book,
+          listAudio: daftarIsi
+        });
         break;
       case 'watching':
-        navigation.navigate(pages.Watching, { link });
+        navigation.navigate(pages.Watching, { book });
         break;
 
       default:
@@ -211,6 +214,14 @@ export default function BookDetail({ navigation, route }: any) {
       });
     } else {
       postBookFavorite(email, { book: favorite, jumlah: favorite.length });
+    }
+  };
+
+  const lockReadingListenViewBook = () => {
+    if (statusSub || profile.owned_books.includes(book?.book_title)) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -234,44 +245,52 @@ export default function BookDetail({ navigation, route }: any) {
           onDownload={() => logger('donwload')}
           Active={active}
         />
-        {statusSub ? (
-          <Animated.View
-            style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
-          >
-            <Lock color={primaryColor.main} width={28} />
-            <TextItem style={styles.titleSelect}>
-              {strings.yuk_upgrade}
-            </TextItem>
-          </Animated.View>
+        {lockReadingListenViewBook() ? (
+          <>
+            <Animated.View style={[styles.SelectBarUp, stylez]}>
+              {}
+              <Button
+                onPress={() => navigationTopBar('reading')}
+                style={styles.btnBar}
+              >
+                <File />
+                <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+              </Button>
+              {book.audio_link != '' && (
+                <Button
+                  onPress={() => navigationTopBar('listening')}
+                  style={styles.btnBar}
+                >
+                  <Headphones />
+                  <TextItem style={styles.titleSelect}>
+                    {strings.dengar}
+                  </TextItem>
+                </Button>
+              )}
+              {book.video_link != '' && (
+                <Button
+                  onPress={() => navigationTopBar('watching')}
+                  style={styles.btnBar}
+                >
+                  <Video />
+                  <TextItem style={styles.titleSelect}>
+                    {strings.tonton}
+                  </TextItem>
+                </Button>
+              )}
+            </Animated.View>
+          </>
         ) : (
-          <Animated.View style={[styles.SelectBarUp, stylez]}>
-            {}
-            <Button
-              onPress={() => navigationTopBar('reading')}
-              style={styles.btnBar}
+          <>
+            <Animated.View
+              style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
             >
-              <File />
-              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-            </Button>
-            {book.audio_link != '' && (
-              <Button
-                onPress={() => navigationTopBar('listening')}
-                style={styles.btnBar}
-              >
-                <Headphones />
-                <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-              </Button>
-            )}
-            {book.video_link != '' && (
-              <Button
-                onPress={() => navigationTopBar('watching')}
-                style={styles.btnBar}
-              >
-                <Video />
-                <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-              </Button>
-            )}
-          </Animated.View>
+              <Lock color={primaryColor.main} width={28} />
+              <TextItem style={styles.titleSelect}>
+                {strings.yuk_upgrade}
+              </TextItem>
+            </Animated.View>
+          </>
         )}
         <Animated.ScrollView
           ref={refScroll}
@@ -293,14 +312,7 @@ export default function BookDetail({ navigation, route }: any) {
           </View>
 
           <View style={[styles.boxSelect]}>
-            {statusSub ? (
-              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
-                <Lock color={primaryColor.main} width={28} />
-                <TextItem style={styles.titleSelect}>
-                  {strings.yuk_upgrade}
-                </TextItem>
-              </View>
-            ) : (
+            {lockReadingListenViewBook() ? (
               <View style={styles.SelectBar}>
                 <Button
                   onPress={() => navigationTopBar('reading')}
@@ -309,17 +321,17 @@ export default function BookDetail({ navigation, route }: any) {
                   <File />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
-                {book.audio_link != '' && (
-                  <Button
-                    onPress={() => navigationTopBar('listening')}
-                    style={styles.btnBar}
-                  >
-                    <Headphones />
-                    <TextItem style={styles.titleSelect}>
-                      {strings.dengar}
-                    </TextItem>
-                  </Button>
-                )}
+                {/* {book.audio_link != '' && ( */}
+                <Button
+                  onPress={() => navigationTopBar('listening')}
+                  style={styles.btnBar}
+                >
+                  <Headphones />
+                  <TextItem style={styles.titleSelect}>
+                    {strings.dengar}
+                  </TextItem>
+                </Button>
+                {/* )} */}
                 {book.video_link != '' && (
                   <Button
                     onPress={() => navigationTopBar('watching')}
@@ -331,6 +343,13 @@ export default function BookDetail({ navigation, route }: any) {
                     </TextItem>
                   </Button>
                 )}
+              </View>
+            ) : (
+              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+                <Lock color={primaryColor.main} width={28} />
+                <TextItem style={styles.titleSelect}>
+                  {strings.yuk_upgrade}
+                </TextItem>
               </View>
             )}
           </View>
@@ -491,33 +510,29 @@ export default function BookDetail({ navigation, route }: any) {
                   </View>
                 </View>
 
-                {!statusSub && (
-                  <View style={styles.sectionList}>
-                    <TextItem style={styles.titleSection}>
-                      {strings.beri_ulasan}
-                    </TextItem>
-                    <AirbnbRating
-                      count={5}
-                      defaultRating={0}
-                      size={25}
-                      showRating={false}
-                      selectedColor="#E27814"
-                      ratingContainerStyle={styles.containerRatingChange}
-                      starContainerStyle={styles.starContainer}
-                    />
-                    <TextInput
-                      placeholder="Isi ulasan di sini.."
-                      style={styles.multipelTextInput}
-                      multiline
-                      textAlignVertical="top"
-                    />
-                    <Button style={styles.btnKirim}>
-                      <TextItem style={styles.textBtn}>
-                        {strings.kirim}
-                      </TextItem>
-                    </Button>
-                  </View>
-                )}
+                <View style={styles.sectionList}>
+                  <TextItem style={styles.titleSection}>
+                    {strings.beri_ulasan}
+                  </TextItem>
+                  <AirbnbRating
+                    count={5}
+                    defaultRating={0}
+                    size={25}
+                    showRating={false}
+                    selectedColor="#E27814"
+                    ratingContainerStyle={styles.containerRatingChange}
+                    starContainerStyle={styles.starContainer}
+                  />
+                  <TextInput
+                    placeholder="Isi ulasan di sini.."
+                    style={styles.multipelTextInput}
+                    multiline
+                    textAlignVertical="top"
+                  />
+                  <Button style={styles.btnKirim}>
+                    <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
+                  </Button>
+                </View>
               </>
             )}
 

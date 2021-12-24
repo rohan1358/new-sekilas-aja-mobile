@@ -43,19 +43,9 @@ import TrackPlayer, {
   Event
 } from 'react-native-track-player';
 import { ScrollView } from 'react-native-gesture-handler';
-
-const listSoundTrack = [
-  {
-    artist: 'Morgan House',
-    title: 'The Psychology of Money',
-    url: require('../../../assets/soundtrack/Books.mp3')
-  },
-  {
-    artist: 'unknow',
-    title: 'Remix Broken Angel',
-    url: require('../../../assets/soundtrack/Remix.mp3')
-  }
-];
+import { getBookAudioURL, fetchProfile, getKilas } from '../../services/index';
+import { useSelector } from 'react-redux';
+import { ReduxState } from '../../redux/reducers';
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -69,7 +59,11 @@ TrackPlayer.updateOptions({
   compactCapabilities: [Capability.Play, Capability.Pause]
 });
 
-export default function Listening({ navigation }: any) {
+export default function Listening({ navigation, route }: any) {
+  const { book } = route.params;
+  const {
+    sessionReducer: { email }
+  } = useSelector((state: ReduxState) => state);
   const playbackState = usePlaybackState();
   const progress = useProgress();
 
@@ -79,8 +73,19 @@ export default function Listening({ navigation }: any) {
   const [valueProgress, setValue] = useState(0);
   const [titleTrack, setTitle] = useState();
   const [authorTrack, setAuthor] = useState();
+  const [bab, setBab] = useState(0);
+  const [listBab, setListbab] = useState(false);
+  const [dataUser, setDataUser] = useState<ProfileProps>();
 
   const setupPlayer = async () => {
+    const listKilas = await getKilas(book?.book_title);
+
+    setListbab(listKilas);
+
+    const list = await getBookAudioURL(listKilas, book);
+
+    const listSoundTrack = list;
+
     try {
       await TrackPlayer.setupPlayer();
       await TrackPlayer.add(listSoundTrack);
@@ -176,6 +181,25 @@ export default function Listening({ navigation }: any) {
     };
   }, []);
 
+  const getHomeData = async () => {
+    try {
+      const [profileData] = await Promise.all([fetchProfile(email)]);
+
+      if (profileData.isSuccess) {
+        setDataUser(profileData.data);
+      } else {
+        throw new Error('Fail on fetching profile data');
+      }
+    } catch (error) {
+      logger('Home, getHomeData', error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
+
   const navigationTopBar = async (type = '') => {
     switch (type) {
       case 'reading':
@@ -183,13 +207,20 @@ export default function Listening({ navigation }: any) {
         await TrackPlayer.pause();
         break;
       case 'watching':
-        navigation.navigate(pages.Watching);
+        navigation.navigate(pages.Watching, { book });
         await TrackPlayer.pause();
         break;
 
       default:
         break;
     }
+  };
+
+  const handleNextBab = () => {
+    if (bab + 1 < listBab.length) setBab(bab + 1);
+  };
+  const handlePrevBab = () => {
+    if (bab - 1 > 0) setBab(bab - 1);
   };
 
   return (
@@ -201,11 +232,11 @@ export default function Listening({ navigation }: any) {
       <HeaderListening
         navigation={navigation}
         onShare={() => onShare()}
-        title="Bab 3 : Tak Pernah Cukup"
+        title={listBab ? listBab[bab]?.title : 'bab'}
       />
       <View style={styles.content}>
         <View style={styles.boxImage}>
-          <Amage resizeMode="contain" />
+          <Amage resizeMode="contain" source={book?.book_cover} />
         </View>
         <View style={styles.containerTitle}>
           <LinearGradient
@@ -275,7 +306,12 @@ export default function Listening({ navigation }: any) {
           <Button onPress={() => handlePrev()}>
             <RotateCcw height={25} color={neutralColor[90]} />
           </Button>
-          <Button onPress={async () => await TrackPlayer.skipToPrevious()}>
+          <Button
+            onPress={async () => {
+              await TrackPlayer.skipToPrevious();
+              handlePrevBab();
+            }}
+          >
             <SkipBack color={neutralColor[90]} />
           </Button>
           <Button
@@ -288,7 +324,12 @@ export default function Listening({ navigation }: any) {
               <Play color={primaryColor.main} style={styles.iconPlay} />
             )}
           </Button>
-          <Button onPress={async () => await TrackPlayer.skipToNext()}>
+          <Button
+            onPress={async () => {
+              await TrackPlayer.skipToNext();
+              handleNextBab();
+            }}
+          >
             <SkipForward color={neutralColor[90]} />
           </Button>
           <Button onPress={() => handleNext()}>
