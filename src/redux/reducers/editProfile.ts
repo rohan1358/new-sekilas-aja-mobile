@@ -10,6 +10,7 @@ interface initialStateItf {
   email: string;
   password: string;
   profile: IProfile | null;
+  is_subscribed: boolean;
 }
 
 const inisialState: initialStateItf = {
@@ -17,6 +18,7 @@ const inisialState: initialStateItf = {
   email: "",
   password: "",
   profile: null,
+  is_subscribed: false,
 };
 
 const EditProfileReducer = (

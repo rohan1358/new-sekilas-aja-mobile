@@ -1,10 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../types";
 
-interface ProfileProps {
-  firstName: string;
-}
-
 interface CompactBooksProps {
   id: string;
   book_title: string;

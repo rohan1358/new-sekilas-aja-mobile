@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
 
   container: { width: TILE_WIDTH },
 
+  detail: { flex: 1 },
+
   image: { borderRadius: 16 },
   imageContainer: {
     width: "100%",
@@ -34,6 +36,8 @@ const styles = StyleSheet.create({
     top: -TILE_WIDTH / 8,
     left: -TILE_WIDTH / 8,
   },
+
+  seeds: { flexDirection: "row", flexWrap: "wrap" },
 
   title: {
     flex: 1,
