@@ -31,6 +31,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
+  modifyToken,
 } from "../../services";
 import { dummyBanner, dummyCollection } from "./dummy";
 import styles from "./styles";
@@ -52,6 +53,7 @@ const Home = ({ navigation }: HomeProps) => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [profile, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
   const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
@@ -61,16 +63,17 @@ const Home = ({ navigation }: HomeProps) => {
   const [modalAllPlan, setModalAllPlan] = useState(false);
 
   useEffect(() => {
+    if (!profile?.id) return;
     messaging()
       .getToken()
-      .then((token) => {
-        return logger(token);
+      .then((FcmToken) => {
+        return modifyToken({ FcmToken, id: profile?.id });
       });
 
-    return messaging().onTokenRefresh((token) => {
-      logger(token);
+    return messaging().onTokenRefresh((FcmToken) => {
+      modifyToken({ FcmToken, id: profile?.id });
     });
-  }, []);
+  }, [profile]);
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
@@ -157,6 +160,20 @@ const Home = ({ navigation }: HomeProps) => {
     }
   };
 
+  const getProfile = async () => {
+    try {
+      const { data, isSuccess } = await fetchProfile(email);
+
+      if (!isMounted.current) return;
+
+      if (!isSuccess) return;
+      setProfile(data);
+      dispatch(setProfileRedux(data));
+    } catch (error) {
+      logger("Home, getProfile", error);
+    }
+  };
+
   const getHomeData = async () => {
     setIsLoading(true);
     try {
@@ -209,6 +226,17 @@ const Home = ({ navigation }: HomeProps) => {
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      Promise.all([getProfile(), getReadingBook()]);
+    } catch (error) {
+      logger("onRefresh", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   useEffect(() => {
     isMounted.current = true;
 
@@ -221,7 +249,10 @@ const Home = ({ navigation }: HomeProps) => {
 
   useEffect(() => {
     isMounted.current = true;
-    isFocused && getReadingBook();
+    if (isFocused) {
+      getProfile();
+      getReadingBook();
+    }
     return () => {
       isMounted.current = false;
     };
@@ -238,7 +269,7 @@ const Home = ({ navigation }: HomeProps) => {
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
-        <DummyFlatList>
+        <DummyFlatList refreshing={refreshing} onRefresh={onRefresh}>
           <HomeHeader
             name={profile?.firstName}
             uri=""

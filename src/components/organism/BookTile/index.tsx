@@ -36,7 +36,7 @@ const BookTile = ({
           <TextItem type="b.24.nc.90" numberOfLines={1} style={styles.title}>
             {title}
           </TextItem>
-          {profile?.is_subscribed && (
+          {!profile?.is_subscribed && (
             <Button
               onPress={() => navSubscrive && navSubscrive()}
               style={styles.lock}
