@@ -6,7 +6,7 @@ import {
   HeaderListening,
   TextItem
 } from '../../components';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Share, View } from 'react-native';
 import styles from './styles';
 import {
@@ -35,11 +35,8 @@ import { speedList } from './dummy';
 import Video from 'react-native-video';
 import { SnackStateProps } from '../../components/atom/Base/types';
 
-const videoBigbany = {
-  uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-};
-
-export default function Watching({ navigation }: any) {
+export default function Watching({ navigation, route }: any) {
+  const { book } = route.params;
   const refRBSheet = useRef();
   const videoPlayer = useRef(null);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -49,6 +46,9 @@ export default function Watching({ navigation }: any) {
   const [speed, setSpeed] = useState(1.0);
   const [isLoading, setIsLoading] = useState(false);
   const [isBufferLoad, setBuffer] = useState(false);
+  const [videoBigbany, setVideoBigbany] = useState({
+    uri: 'https://api-files.sproutvideo.com/file/069dd8b0181fe6c08f/54cbce85df89c93d/240.mp4'
+  });
   // const [videoUrl, setVideoUrl] = useState(videoNusa)
 
   const onLoadStart = () => {
@@ -135,16 +135,38 @@ export default function Watching({ navigation }: any) {
         navigation.navigate(pages.Listening);
         break;
       case 'listening':
-        navigation.navigate(pages.Listening);
+        navigation.navigate(pages.Listening, { book });
         break;
       case 'watching':
-        navigation.navigate(pages.Watching);
+        navigation.navigate(pages.Watching, { book });
         break;
 
       default:
         break;
     }
   };
+  useEffect(() => {
+    var myHeaders = new Headers({
+      'SproutVideo-Api-Key': 'c1c6624f7314a47777f9e3fdb3dcaccf'
+    });
+
+    const myRequest = new Request(
+      `https://api.sproutvideo.com/v1/videos/${
+        book.video_id || '069dd8b0181fe6c08f'
+      }`,
+      {
+        method: 'GET',
+        headers: myHeaders
+      }
+    );
+
+    fetch(myRequest)
+      .then((response) => response.json())
+      .then((result) => {
+        setVideoBigbany({ uri: result.assets.videos['480p'] });
+      })
+      .catch((err) => {});
+  }, []);
 
   return (
     <Base

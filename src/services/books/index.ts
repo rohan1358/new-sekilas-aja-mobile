@@ -272,6 +272,8 @@ const fetchDetailBooks = (id: any) => {
         .doc(id)
         .get();
       const books = {
+        ...raw.data(),
+
         book_title: raw.data()?.book_title,
         author: raw.data()?.author,
         read_time: raw.data()?.read_time,

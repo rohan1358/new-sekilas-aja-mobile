@@ -9,4 +9,6 @@ const formatDate = (date: Date) => {
     padTo2Digits(date.getDate())
   ].join('-');
 };
-export { padTo2Digits, formatDate };
+
+const openRate = false;
+export { padTo2Digits, formatDate, openRate };
