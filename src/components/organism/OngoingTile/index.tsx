@@ -3,6 +3,9 @@ import { View } from "react-native";
 import { Amage, TextItem, Button, Gap } from "../../atom";
 import { spacing, strings } from "../../../constants";
 import styles from "./styles";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../../redux/reducers";
+import { logger } from "../../../helpers";
 
 const OngoingTile = ({
   bookTitle = "",
@@ -10,10 +13,18 @@ const OngoingTile = ({
   onPress,
   isAvailable,
 }: OngoingTileProps) => {
+  const {
+    editProfile: { is_subscribed },
+  } = useSelector((state: ReduxState) => state);
   const [tileHeight, setTileHeight] = useState<number>(74);
-  const s = styles({ tileHeight });
+  const s = styles({ tileHeight, is_subscribed });
   return (
-    <Button style={s.container} onPress={onPress} activeOpacity={0.9}>
+    <Button
+      style={s.container}
+      onPress={onPress}
+      activeOpacity={0.9}
+      disabled={!is_subscribed}
+    >
       <View
         style={s.child}
         onLayout={(event) => setTileHeight(event.nativeEvent.layout.height)}

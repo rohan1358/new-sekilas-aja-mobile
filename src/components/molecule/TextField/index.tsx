@@ -7,7 +7,7 @@ import { TextFieldProps } from "./types";
 
 const { none } = defaultValue.textFieldState;
 
-const TextField = forwardRef(
+const TextField = forwardRef<TextInput, TextFieldProps>(
   (
     {
       containerStyle,
@@ -20,17 +20,17 @@ const TextField = forwardRef(
       state = none,
       inputStyle,
       ...props
-    }: TextFieldProps,
-    ref: any
+    },
+    ref
   ) => {
     const s = styles({ state });
     return (
       <View style={containerStyle}>
         <View style={[s.container, innerContainerStyle]}>
           <TextInput
+            {...props}
             style={[s.input, inputStyle]}
             placeholderTextColor={neutralColor[50]}
-            {...props}
             ref={ref}
           />
           {Icon && (

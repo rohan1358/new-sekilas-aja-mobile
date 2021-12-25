@@ -9,48 +9,50 @@ import {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
-  TextItem
-} from '@components';
+  TextItem,
+} from "@components";
 import {
   pages,
   primaryColor,
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings
-} from '@constants';
-import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import SkeletonContent from 'react-native-skeleton-content-nonexpo';
-import { useDispatch, useSelector } from 'react-redux';
-import { logger } from '../../helpers';
-import { ReduxState } from '../../redux/reducers';
+  strings,
+} from "@constants";
+import { logger, useMounted } from "@helpers";
+import messaging from "@react-native-firebase/messaging";
+import { useIsFocused } from "@react-navigation/native";
+import { ReduxState } from "@rux";
 import {
   fetchMostBooks,
   fetchProfile,
   fetchReadingBook,
-  fetchRecommendedBooks
-} from '../../services';
-import { dummyBanner, dummyCollection } from './dummy';
-import styles from './styles';
-
-import { setProfileRedux } from '../../redux/actions';
-import { SnackStateProps } from '../../components/atom/Base/types';
-import { CompactBooksProps, HomeProps, ReadingBookProps } from './types';
-import { useIsFocused } from '@react-navigation/native';
+  fetchRecommendedBooks,
+  modifyToken,
+} from "@services";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { useDispatch, useSelector } from "react-redux";
+import { SnackStateProps } from "../../components/atom/Base/types";
+import { setProfileRedux } from "../../redux/actions";
+import { dummyBanner, dummyCollection } from "./dummy";
+import styles from "./styles";
+import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
 
 const Home = ({ navigation }: HomeProps) => {
   const isFocused = useIsFocused();
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
-  const isMounted = useRef<boolean>();
+  const isMounted = useMounted();
 
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [profile, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
   const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
@@ -59,8 +61,31 @@ const Home = ({ navigation }: HomeProps) => {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAllPlan, setModalAllPlan] = useState(false);
 
+  useEffect(() => {
+    if (!profile?.id) return;
+    messaging()
+      .getToken()
+      .then((FcmToken) => {
+        return modifyToken({ FcmToken, id: profile?.id });
+      });
+
+    return messaging().onTokenRefresh((FcmToken) => {
+      modifyToken({ FcmToken, id: profile?.id });
+    });
+  }, [profile]);
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
+
+  useEffect(() => {
+    isFocused && getReadingBook();
+  }, [isFocused]);
+
+  const s = styles({ isSubscribed: profile?.is_subscribed || false });
+
   const bannerRenderItem = ({ item }: { item: any }) => (
-    <View style={styles.newCollectionContainer}>
+    <View style={s.newCollectionContainer}>
       <ImageBanner placeholder={item.placeholder} />
       <Gap horizontal={sp.m} />
     </View>
@@ -95,7 +120,7 @@ const Home = ({ navigation }: HomeProps) => {
 
   const dummyMiniCollectionRender = ({
     item,
-    index
+    index,
   }: {
     item: any;
     index: number;
@@ -128,22 +153,6 @@ const Home = ({ navigation }: HomeProps) => {
     }
   };
 
-  const getReadingBook = async () => {
-    try {
-      const { data, isSuccess } = await fetchReadingBook(email);
-
-      if (!isMounted.current) {
-        return;
-      }
-      if (!isSuccess) {
-        return;
-      }
-      setReadingBook(data);
-    } catch (error) {
-      logger('Home, getReadingBook', error);
-    }
-  };
-
   const getHomeData = async () => {
     setIsLoading(true);
     try {
@@ -152,37 +161,63 @@ const Home = ({ navigation }: HomeProps) => {
           fetchProfile(email),
           fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks()
+          fetchMostBooks(),
         ]);
-      if (!isMounted.current) {
-        return;
-      }
+      if (!isMounted) return;
       if (profileData.isSuccess) {
         setProfile(profileData.data);
         dispatch(setProfileRedux(profileData.data));
         handleSub(profileData.data);
       } else {
-        throw new Error('Fail on fetching profile data');
+        throw new Error("Fail on fetching profile data");
       }
       if (readingData.isSuccess) {
         setReadingBook(readingData.data);
       } else {
-        throw new Error('Fail on fetching reading book data');
+        throw new Error("Fail on fetching reading book data");
       }
       if (recomData.isSuccess) {
         setRecommendedBooks(recomData.data?.slice(0, 4));
       } else {
-        throw new Error('Fail on fetching recommended books data');
+        throw new Error("Fail on fetching recommended books data");
       }
       if (mostBookData.isSuccess) {
         setMostReadBooks(mostBookData.data?.slice(0, 2));
       } else {
-        throw new Error('Fail on fetching most read books data');
+        throw new Error("Fail on fetching most read books data");
       }
     } catch (error) {
-      logger('Home, getHomeData', error);
+      logger("Home, getHomeData", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const getReadingBook = async () => {
+    try {
+      const { data, isSuccess } = await fetchReadingBook(email);
+
+      if (!isMounted) return;
+      if (!isSuccess) return;
+      setReadingBook(data);
+    } catch (error) {
+      logger("Home, getReadingBook", error);
+    }
+  };
+
+  const getProfile = async () => {
+    setIsRefreshing(true);
+    try {
+      const { data, isSuccess } = await fetchProfile(email);
+
+      if (!isMounted) return;
+      if (!isSuccess) return;
+      setProfile(data);
+      dispatch(setProfileRedux(data));
+    } catch (error) {
+      logger("Home, getProfile", error);
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -190,29 +225,22 @@ const Home = ({ navigation }: HomeProps) => {
 
   const onGoingPress = () =>
     !!readingBook?.available
-      ? navigation.navigate('Reading', {
-          id: readingBook?.book || '',
-          page: `${parseInt(readingBook?.kilas || '1') - 1}`
+      ? navigation.navigate("Reading", {
+          id: readingBook?.book || "",
+          page: `${parseInt(readingBook?.kilas || "1") - 1}`,
         })
-      : navigation.navigate('MainBottomRoute', { screen: 'Explore' });
+      : navigation.navigate("MainBottomRoute", { screen: "Explore" });
 
-  useEffect(() => {
-    isMounted.current = true;
-
-    getHomeData();
-
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    isMounted.current = true;
-    isFocused && getReadingBook();
-    return () => {
-      isMounted.current = false;
-    };
-  }, [isFocused]);
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      Promise.all([getProfile(), getReadingBook()]);
+    } catch (error) {
+      logger("onRefresh", error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   return (
     <Base
@@ -221,11 +249,11 @@ const Home = ({ navigation }: HomeProps) => {
       setSnackState={setSnackState}
     >
       <SkeletonContent
-        containerStyle={styles.skeleton}
+        containerStyle={s.skeleton}
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
-        <DummyFlatList>
+        <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
           <HomeHeader
             name={profile?.firstName}
             uri=""
@@ -235,7 +263,7 @@ const Home = ({ navigation }: HomeProps) => {
             onPressProfile={() => navigation.navigate(pages.AccountSettings)}
           />
           <View>
-            <View style={styles.dummyHeader} />
+            <View style={s.dummyHeader} />
             <OngoingTile
               bookTitle={readingBook?.book}
               bookUri={readingBook?.book_cover}
@@ -243,19 +271,19 @@ const Home = ({ navigation }: HomeProps) => {
               isAvailable={!!readingBook?.available}
             />
           </View>
-          <View style={styles.adjuster}>
+          <View style={s.adjuster}>
             <Gap horizontal={sp.sl * 2}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap>
             <Gap vertical={sp.sm} />
             <FlatList
-              contentContainerStyle={styles.newCollectionContentContainerStyle}
+              contentContainerStyle={s.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
               data={dummyBanner}
               renderItem={bannerRenderItem}
               keyExtractor={idKeyExtractor}
-              listKey={'bannerlist'}
+              listKey={"bannerlist"}
             />
             <Gap vertical={sp.m} />
             <Gap horizontal={sp.sl * 2}>
@@ -266,28 +294,28 @@ const Home = ({ navigation }: HomeProps) => {
             </Gap>
             <Gap vertical={sp.sm} />
             <FlatList
-              contentContainerStyle={styles.newCollectionContentContainerStyle}
+              contentContainerStyle={s.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
               data={dummyMiniCollectionData}
               renderItem={dummyMiniCollectionRender}
               keyExtractor={dummyMiniCollectionKey}
-              listKey={'kilaslist'}
+              listKey={"kilaslist"}
             />
             <Gap vertical={sp.sl} />
-            <View style={styles.clickTitle}>
+            <View style={s.clickTitle}>
               <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
                 {strings.recommendedBook}
               </TextItem>
               <Gap horizontal={20} />
               <Button
                 onPress={() =>
-                  navigation.navigate('SpecialBookList', {
-                    type: 'recommendation'
+                  navigation.navigate("SpecialBookList", {
+                    type: "recommendation",
                   })
                 }
               >
-                <TextItem type="b.14.nc.90" style={styles.underline}>
+                <TextItem type="b.14.nc.90" style={s.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
@@ -299,24 +327,24 @@ const Home = ({ navigation }: HomeProps) => {
                 keyExtractor={idKeyExtractor}
                 numColumns={2}
                 renderItem={booksRenderItem}
-                columnWrapperStyle={styles.columnWrapperStyle}
-                listKey={'recommendedbooklist'}
+                columnWrapperStyle={s.columnWrapperStyle}
+                listKey={"recommendedbooklist"}
               />
             </Gap>
             <Gap vertical={sp.sl} />
-            <View style={styles.clickTitle}>
+            <View style={s.clickTitle}>
               <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
                 {strings.mostRead}
               </TextItem>
               <Gap horizontal={20} />
               <Button
                 onPress={() =>
-                  navigation.navigate('SpecialBookList', {
-                    type: 'mostRead'
+                  navigation.navigate("SpecialBookList", {
+                    type: "mostRead",
                   })
                 }
               >
-                <TextItem type="b.14.nc.90" style={styles.underline}>
+                <TextItem type="b.14.nc.90" style={s.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
@@ -328,7 +356,7 @@ const Home = ({ navigation }: HomeProps) => {
                 keyExtractor={idKeyExtractor}
                 numColumns={2}
                 renderItem={booksRenderItem}
-                columnWrapperStyle={styles.columnWrapperStyle}
+                columnWrapperStyle={s.columnWrapperStyle}
                 listKey="mostreadbooklist"
               />
             </Gap>
