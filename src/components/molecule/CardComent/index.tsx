@@ -1,9 +1,10 @@
-import { strings } from "@constants";
-import React from "react";
-import { View } from "react-native";
-import { AirbnbRating } from "react-native-ratings";
-import { Amage, TextItem } from "../../atom";
-import styles from "./styles";
+import { strings } from '@constants';
+import React from 'react';
+import { View } from 'react-native';
+import { AirbnbRating } from 'react-native-ratings';
+import { openRate } from '../../../utils';
+import { Amage, TextItem } from '../../atom';
+import styles from './styles';
 
 export default function CardComent({ rating, image, name, time, text }: any) {
   return (
@@ -19,16 +20,19 @@ export default function CardComent({ rating, image, name, time, text }: any) {
         <View style={styles.boxTitle}>
           <View style={styles.boxText}>
             <TextItem style={styles.titleName}>{name}</TextItem>
-            <TextItem style={styles.time}>{time + strings.lalu}</TextItem>
+            <TextItem style={styles.time}>{time}</TextItem>
+            {/* <TextItem style={styles.time}>{time + strings.lalu}</TextItem> */}
           </View>
-          <AirbnbRating
-            count={5}
-            defaultRating={rating}
-            size={16}
-            showRating={false}
-            isDisabled={true}
-            selectedColor="#E27814"
-          />
+          {openRate && (
+            <AirbnbRating
+              count={5}
+              defaultRating={rating}
+              size={16}
+              showRating={false}
+              isDisabled={true}
+              selectedColor="#E27814"
+            />
+          )}
         </View>
       </View>
       <View>

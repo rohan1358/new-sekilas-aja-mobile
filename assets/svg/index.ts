@@ -64,6 +64,16 @@ import SkipForward from "./SkipForward.svg";
 import Tree from "./Tree.svg";
 import Video from "./Video.svg";
 import YinYang from "./YinYang.svg";
+import SupervisedUserCircleSharpIcon from "./SupervisedUserCircleSharpIcon.svg";
+import FitnesCenter from "./FitnesCenter.svg";
+import PresentToAll from "./PresentToAll.svg";
+import NewRelease from "./NewRelease.svg";
+import BusinessIcon from "./BusinessIcon.svg";
+import ArrowForward from "./ArrowForward.svg";
+import AccessibilityNewIcon from "./AccessibilityNewIcon.svg";
+import ArrowUp from "./arrow-up.svg";
+import AlertOctagon from "./alert-octagon.svg";
+import ArrowRightCategory from "./arrow-right-category.svg";
 
 export {
   Alert,
@@ -132,4 +142,14 @@ export {
   Tree,
   Video,
   YinYang,
+  SupervisedUserCircleSharpIcon,
+  FitnesCenter,
+  PresentToAll,
+  NewRelease,
+  BusinessIcon,
+  ArrowForward,
+  AccessibilityNewIcon,
+  ArrowUp,
+  AlertOctagon,
+  ArrowRightCategory
 };

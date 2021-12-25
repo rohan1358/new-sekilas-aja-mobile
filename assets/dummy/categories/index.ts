@@ -18,6 +18,9 @@ import {
   Suitcase,
   Tree,
   YinYang,
+  ArrowUp,
+  AlertOctagon,
+  ArrowRightCategory
 } from "@assets";
 
 import { flatCategories } from "../flatCategories";
@@ -26,98 +29,107 @@ const categories = [
   {
     id: "produktifitas",
     label: "Produktifitas",
-    Icon: Fire,
+    Icon: Fire
   },
   {
     id: "karir & sukses",
     label: "Karir & Sukses",
-    Icon: Clipboard,
+    Icon: Clipboard
   },
   {
     id: "skill komunikasi",
     label: "skill komunikasi",
-    Icon: ChatBubble,
+    Icon: ChatBubble
   },
   {
     id: "marketing",
     label: "marketing",
-    Icon: SearchDollar,
+    Icon: SearchDollar
   },
   {
     id: "keuangan & investasi",
     label: "keuangan & investasi",
-    Icon: BankBuilding,
+    Icon: BankBuilding
   },
   {
     id: "gaya hidup",
     label: "gaya hidup",
-    Icon: HumanHead,
+    Icon: HumanHead
   },
   {
     id: flatCategories[5],
     label: "kesehatan & fitnes",
-    Icon: HeartRate,
+    Icon: HeartRate
   },
   {
     id: "parenting",
     label: "parenting",
-    Icon: BabyBottle,
+    Icon: BabyBottle
   },
   {
     id: "isu sosial & sejarah",
     label: "isu sosial & sejarah",
-    Icon: Crown,
+    Icon: Crown
   },
   {
     id: "alam & filosofi",
     label: "alam & filosofi",
-    Icon: Tree,
+    Icon: Tree
   },
   {
     id: flatCategories[1],
     label: "pengembangan diri",
-    Icon: GraphBar,
+    Icon: GraphBar
   },
   {
     id: flatCategories[3],
     label: "bisnis",
-    Icon: Graph,
+    Icon: Graph
   },
   {
     id: "kepemimpinan & entrepreneurship",
     label: "kepemimpinan & entrepreneurship",
-    Icon: Suitcase,
+    Icon: Suitcase
   },
   {
     id: "teknologi & sains",
     label: "teknologi & sains",
-    Icon: ComputerRobot,
+    Icon: ComputerRobot
   },
   {
     id: "seni & desain",
     label: "seni & desain",
-    Icon: PaintPalette,
+    Icon: PaintPalette
   },
   {
     id: "percintaan",
     label: "percintaan",
-    Icon: GiveHeart,
+    Icon: GiveHeart
   },
   {
     id: "edukasi seks",
     label: "edukasi seks",
-    Icon: Heart,
+    Icon: Heart
   },
   {
     id: "budaya & makanan",
     label: "budaya & makanan",
-    Icon: YinYang,
+    Icon: YinYang
   },
   {
     id: "agama & spiritual",
     label: "agama & spiritual",
-    Icon: Cross,
-  },
+    Icon: Cross
+  }
 ];
+const newCategories = (ctgr: string) => {
+  if (ctgr == "All") return ArrowUp;
+  if (ctgr == "New Release!") return AlertOctagon;
+  if (ctgr == "Coming Soon!") return ArrowRightCategory;
+  if (ctgr == "Bisnis & Investasi") return BankBuilding;
+  if (ctgr == "Pengembangan Diri") return Fire;
+  if (ctgr == "Biografi") return Crown;
+  if (ctgr == "Kesehatan & Olahraga") return HeartRate;
+};
 
-export { categories };
+export { categories, newCategories };

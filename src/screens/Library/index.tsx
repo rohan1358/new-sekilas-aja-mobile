@@ -1,12 +1,32 @@
-import { Check, Download, Heart, Search } from "@assets";
-import { Base, Button, Gap, LibraryMenu, TextItem } from "@components";
-import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
-import React from "react";
-import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import styles from "./styles";
+import { Check, Download, Heart, Search } from '@assets';
+import { Base, Button, Gap, LibraryMenu, TextItem } from '@components';
+import { neutralColor, primaryColor, spacing as sp, strings } from '@constants';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import { logger } from '../../helpers';
+import { ReduxState } from '../../redux/reducers';
+import { fetchFavoriteBooks } from '../../services';
+import styles from './styles';
 
-const Library = () => {
+const Library = (navigation: any) => {
+  const [favorit, setFavorit] = React.useState(0);
+
+  const {
+    sessionReducer: { email }
+  } = useSelector((state: ReduxState) => state);
+
+  useEffect(() => {
+    async function getTotalFavorit() {
+      const total = await fetchFavoriteBooks(email);
+      if (total) {
+        setFavorit(total.jumlah);
+      }
+    }
+    getTotalFavorit();
+  }, []);
+
   return (
     <Base barColor={primaryColor.main}>
       <View style={styles.headerContainer}>
@@ -24,18 +44,25 @@ const Library = () => {
         contentContainerStyle={styles.contentContainerStyle}
       >
         <LibraryMenu
+          action={() => logger('masuk ke page buku yang di unduh')}
           title={strings.downloadedBooks}
           bookCount={5}
           icon={<Download stroke={neutralColor[90]} />}
         />
         <Gap vertical={sp.sm} />
         <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate('SpecialBookList', {
+              type: 'myFavorite'
+            })
+          }
           title={strings.favBooks}
-          bookCount={12}
+          bookCount={favorit}
           icon={<Heart stroke={neutralColor[90]} width={24} height={24} />}
         />
         <Gap vertical={sp.sm} />
         <LibraryMenu
+          action={() => logger('masuk ke page buku yang telah selesai di baca')}
           title={strings.finishedBooks}
           bookCount={17}
           icon={<Check stroke={neutralColor[90]} />}

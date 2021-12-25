@@ -253,7 +253,7 @@ const Home = ({ navigation }: HomeProps) => {
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
-        <DummyFlatList onRefresh={getProfile} refreshing={isRefreshing}>
+        <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
           <HomeHeader
             name={profile?.firstName}
             uri=""

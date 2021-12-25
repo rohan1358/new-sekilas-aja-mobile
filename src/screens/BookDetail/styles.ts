@@ -1,47 +1,47 @@
-import { neutralColor, primaryColor } from "@constants";
-import { StyleSheet } from "react-native";
-import { heightPercent, widthPercent } from "../../helpers";
+import { neutralColor, primaryColor } from '@constants';
+import { StyleSheet } from 'react-native';
+import { heightPercent, widthPercent } from '../../helpers';
 
 const styles = StyleSheet.create({
   skeleton: { flex: 1 },
 
   layer: {
-    height: heightPercent(28),
+    height: heightPercent(28)
     // borderWidth: 1,
   },
 
   head: {
-    alignItems: "center",
+    alignItems: 'center',
     backgroundColor: primaryColor.main,
-    height: "60%",
+    height: '60%',
     paddingTop: 20,
     borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
+    borderBottomRightRadius: 32
   },
 
   boxImage: {
     width: 147,
-    height: 221,
+    height: 221
   },
 
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%'
   },
 
   boxSelect: {
-    marginTop: 20,
+    marginTop: 20
   },
 
   SelectBarUp: {
     backgroundColor: neutralColor[90],
     height: 44,
-    flexDirection: "row",
-    alignItems: "center",
-    position: "absolute",
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
     top: 60,
     width: widthPercent(100),
-    zIndex: 1,
+    zIndex: 1
   },
 
   SelectBar: {
@@ -49,55 +49,55 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
     height: 44,
     borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   upgrade_yuk: {
-    justifyContent: "center",
+    justifyContent: 'center'
   },
 
   btnBar: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center'
   },
 
   titleSelect: {
     fontSize: 16,
     color: primaryColor.main,
-    fontWeight: "700",
-    marginLeft: 10,
+    fontWeight: '700',
+    marginLeft: 10
   },
 
   sectionDetail: {
-    paddingVertical: 25,
+    paddingVertical: 25
   },
 
   boxTitle: {
     paddingHorizontal: 25,
-    marginBottom: 24,
+    marginBottom: 24
   },
 
   titleBook: {
     fontSize: 32,
-    fontWeight: "700",
-    color: neutralColor[90],
+    fontWeight: '700',
+    color: neutralColor[90]
   },
 
   titleOuthor: {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 20,
     color: neutralColor[70],
     marginTop: 8,
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline'
   },
 
   info: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16
   },
 
   boxTextInfo: {
@@ -105,29 +105,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginLeft: 10,
     borderRadius: 5,
-    marginRight: 55,
+    marginRight: 55
   },
 
   iconInfo: {
     width: 24,
-    height: 24,
+    height: 24
   },
 
   textInfo: {
     fontSize: 10,
     color: neutralColor[90],
-    fontWeight: "500",
+    fontWeight: '500'
   },
 
   sectionList: {
     paddingHorizontal: 25,
-    marginBottom: 16,
+    marginBottom: 16
   },
 
   titleSection: {
     fontSize: 24,
-    fontWeight: "900",
-    color: neutralColor[90],
+    fontWeight: '900',
+    color: neutralColor[90]
   },
 
   boxTextKategori: {
@@ -138,84 +138,84 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 5,
     paddingVertical: 5,
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row'
   },
 
   textKategori: {
     fontSize: 16,
     marginRight: 6,
-    color: neutralColor[80],
+    color: neutralColor[80]
   },
 
   boxTextTentang: {
-    marginTop: 16,
+    marginTop: 16
   },
 
   listTentang: {
-    marginTop: 20,
+    marginTop: 20
   },
 
   textTentang: {
     fontSize: 16,
-    color: neutralColor[70],
+    color: neutralColor[70]
   },
 
   boxRelease: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 25
   },
 
   texttglRelease: {
     fontSize: 16,
-    fontWeight: "500",
-    color: neutralColor[90],
+    fontWeight: '500',
+    color: neutralColor[90]
   },
 
   tgl: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
     color: neutralColor[70],
-    marginTop: 8,
+    marginTop: 8
   },
 
   textpublikasi: {
     fontSize: 14,
     color: neutralColor[60],
-    marginTop: 3,
+    marginTop: 3
   },
 
   boxAvatar: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   boxImageAvatar: {
     width: 40,
     height: 40,
     borderRadius: 100,
-    overflow: "hidden",
+    overflow: 'hidden',
     backgroundColor: neutralColor[30],
     marginRight: 10,
-    marginTop: 10,
+    marginTop: 10
   },
 
   imageAvatar: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%'
   },
 
   boxDaftarIsi: {
-    marginVertical: 25,
+    marginVertical: 25
   },
 
   textDaftarIsi: {
     marginLeft: 25,
-    marginBottom: 16,
+    marginBottom: 16
   },
 
   boxListDaftar: {
     borderTopWidth: 1,
-    borderColor: neutralColor[50],
+    borderColor: neutralColor[50]
   },
 
   listDaftar: {
@@ -223,83 +223,88 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     borderColor: neutralColor[50],
     paddingVertical: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 
   textDfatar: {
     fontSize: 16,
-    fontWeight: "500",
-    color: neutralColor[90],
+    fontWeight: '500',
+    color: neutralColor[90]
   },
 
   boxTitleUlasan: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingHorizontal: 25,
-    alignItems: "center",
+    alignItems: 'center'
   },
 
   textLihatSemua: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: '700',
     color: neutralColor[90],
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline'
   },
 
   containerRating: {
     borderBottomWidth: 1,
-    borderBottomColor: neutralColor[50],
+    borderBottomColor: neutralColor[50]
   },
 
   boxRating: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: 25,
-    marginTop: 16,
+    marginTop: 16
   },
 
   textRating: {
     fontSize: 40,
-    fontWeight: "700",
+    fontWeight: '700',
     color: neutralColor[90],
-    marginRight: 10,
+    marginRight: 10
   },
 
   textUlasanDari: {
     marginLeft: 25,
     fontSize: 20,
     color: neutralColor[60],
-    fontWeight: "500",
-    marginVertical: 10,
+    fontWeight: '500',
+    marginVertical: 10
   },
 
   textKomentar: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: '700',
     color: neutralColor[90],
-    marginBottom: 8,
+    marginBottom: 8
+  },
+  textTidakAdaKomentar: {
+    fontSize: 16,
+    color: neutralColor[90],
+    marginBottom: 8
   },
 
   boxKomentar: {
     paddingHorizontal: 25,
     borderBottomWidth: 1,
     borderBottomColor: neutralColor[50],
-    marginVertical: 10,
+    marginVertical: 10
   },
 
   boxLihatLebih: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 25
   },
 
   containerRatingChange: {
-    marginVertical: 15,
+    marginVertical: 15
   },
 
   starContainer: {
-    width: "100%",
-    justifyContent: "space-between",
+    width: '100%',
+    justifyContent: 'space-between'
   },
 
   multipelTextInput: {
@@ -308,7 +313,7 @@ const styles = StyleSheet.create({
     borderColor: neutralColor[60],
     borderRadius: 12,
     paddingHorizontal: 10,
-    fontSize: 16,
+    fontSize: 16
   },
 
   btnKirim: {
@@ -316,34 +321,34 @@ const styles = StyleSheet.create({
     marginVertical: 24,
     borderRadius: 12,
     height: 44,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 
   textBtn: {
     fontSize: 20,
-    fontWeight: "700",
-    color: primaryColor.main,
+    fontWeight: '700',
+    color: primaryColor.main
   },
 
   sectionSaran: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 25
   },
 
   headSaran: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16
   },
 
-  columnWrapperStyle: { justifyContent: "space-between" },
+  columnWrapperStyle: { justifyContent: 'space-between' },
 
   boxListBook: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  }
 });
 
 export default styles;
