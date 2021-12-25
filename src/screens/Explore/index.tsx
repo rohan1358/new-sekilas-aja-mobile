@@ -6,7 +6,7 @@ import {
   ExploreSearch,
   Gap,
   TextItem,
-  TitleTap
+  TitleTap,
 } from "@components";
 import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
@@ -15,16 +15,16 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { categories, newCategories } from "../../../assets/dummy";
-import { heightPercent, logger } from "../../helpers";
+import { heightPercent, logger, useMounted } from "@helpers";
 import {
   fetchListCategory,
   fetchRecommendedBooks,
   fetchReleasedBooks,
-  fetchTrendBooks
+  fetchTrendBooks,
 } from "../../services";
 import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";
@@ -49,7 +49,7 @@ const flatlistSecondGap = sp.sl * 2;
 const CategoryChips = ({
   item,
   index,
-  onPress
+  onPress,
 }: {
   item: { id: string; label: string; Icon: any };
   index: number;
@@ -63,7 +63,7 @@ const CategoryChips = ({
 );
 
 const Explore = ({ navigation }: ExploreProps) => {
-  const isMounted = useRef<boolean>();
+  const isMounted = useMounted();
 
   const scrollY = useSharedValue(0);
 
@@ -74,6 +74,14 @@ const Explore = ({ navigation }: ExploreProps) => {
   const [releaseBooks, setReleaseBooks] = useState<CompactBooksProps[]>();
   const [trendBooks, setTrendBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
+  useEffect(() => {
+    getExploreData();
+  }, []);
 
   const flatListTopAdjuster = headerHeight + topHeaderGap * 2;
 
@@ -100,9 +108,9 @@ const Explore = ({ navigation }: ExploreProps) => {
       const [recomData, releaseData, trendData] = await Promise.all([
         fetchRecommendedBooks(),
         fetchReleasedBooks(),
-        fetchTrendBooks()
+        fetchTrendBooks(),
       ]);
-      if (!isMounted.current) {
+      if (!isMounted) {
         return;
       }
       if (releaseData.isSuccess) {
@@ -131,29 +139,17 @@ const Explore = ({ navigation }: ExploreProps) => {
     transform: [
       {
         translateY:
-          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0)
-      }
-    ]
+          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0),
+      },
+    ],
   }));
 
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
-  useEffect(() => {
-    isMounted.current = true;
-    getExploreData();
-
-    () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    const fetchCategory = async () => {
-      const list = await fetchListCategory();
-      setChipd(list?.list);
-    };
-    fetchCategory();
-  }, []);
+  const fetchCategory = async () => {
+    const list = await fetchListCategory();
+    setChipd(list?.list);
+  };
 
   return (
     <Base barColor={primaryColor.main}>
@@ -177,7 +173,7 @@ const Explore = ({ navigation }: ExploreProps) => {
         <View
           style={{
             top: -flatListTopAdjuster,
-            height: heightPercent(100) + flatListTopAdjuster
+            height: heightPercent(100) + flatListTopAdjuster,
           }}
         >
           <DummyFlatList
@@ -202,7 +198,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                           navigation.navigate("Category", {
                             type: "category",
                             title: item,
-                            payload: id
+                            payload: id,
                           });
                         return (
                           <CategoryChips
@@ -211,7 +207,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                             item={{
                               id: item,
                               label: item,
-                              Icon: newCategories(item)
+                              Icon: newCategories(item),
                             }}
                             key={index}
                           />
@@ -228,7 +224,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                           navigation.navigate("Category", {
                             type: "category",
                             title: item,
-                            payload: id
+                            payload: id,
                           });
                         return (
                           <CategoryChips
@@ -237,7 +233,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                             item={{
                               id: item,
                               label: item,
-                              Icon: newCategories(item)
+                              Icon: newCategories(item),
                             }}
                             key={index}
                           />
@@ -251,7 +247,7 @@ const Explore = ({ navigation }: ExploreProps) => {
               title={strings.newRelease}
               onPress={() =>
                 navigation.navigate("SpecialBookList", {
-                  type: "newRelease"
+                  type: "newRelease",
                 })
               }
             />
@@ -270,7 +266,7 @@ const Explore = ({ navigation }: ExploreProps) => {
               title={strings.trendingBook}
               onPress={() =>
                 navigation.navigate("SpecialBookList", {
-                  type: "trending"
+                  type: "trending",
                 })
               }
             />
@@ -289,7 +285,7 @@ const Explore = ({ navigation }: ExploreProps) => {
               title={strings.recommendedBook}
               onPress={() =>
                 navigation.navigate("SpecialBookList", {
-                  type: "recommendation"
+                  type: "recommendation",
                 })
               }
             />
