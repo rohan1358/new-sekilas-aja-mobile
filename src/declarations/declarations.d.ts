@@ -1,6 +1,3 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../types";
-
 interface CompactBooksProps {
   id: string;
   book_title: string;
@@ -16,7 +13,3 @@ interface ReadingBookProps {
   kilas: string;
   available: boolean;
 }
-
-type Props = StackScreenProps<RootStackParamList, "Search">;
-
-interface HomeProps extends Props {}

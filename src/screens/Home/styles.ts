@@ -23,6 +23,8 @@ const styles = ({ isSubscribed }: { isSubscribed: boolean }) =>
       top: -sp.m,
     },
 
+    longTitle: { flex: 1.25 },
+
     newCollectionContainer: { flexDirection: "row" },
     newCollectionContentContainerStyle: { paddingLeft: sp.sl },
 

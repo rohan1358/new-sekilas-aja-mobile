@@ -11,6 +11,7 @@ module.exports = {
       {
         extensions: [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
         alias: {
+          "@actions": "./src/redux/actions/index.ts",
           "@assets": "./assets/index.ts",
           "@atom": "./src/components/atom/index.ts",
           "@components": "./src/components/index.ts",
