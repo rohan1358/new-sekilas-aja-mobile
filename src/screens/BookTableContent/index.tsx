@@ -1,22 +1,30 @@
 import { Base, EmptyPlaceholder, MenuArrow } from "@components";
 import { skeleton, strings } from "@constants";
-import React, { useEffect, useRef, useState } from "react";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { logger } from "../../helpers";
+import { RootStackParamList } from "src/types";
+import { logger, useMounted } from "../../helpers";
 import { fetchBookTableOfContent } from "../../services";
 import styles from "./styles";
-import { BookTableContentProps, BookTableOfContentProps } from "./types";
 
-const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
-  const BOOK_ID = route.params?.id;
-  const isFromReading = route.params?.isFromReading;
-  const readingPayload = route.params?.readingPayload;
-
-  const isMounted = useRef<boolean>(true);
+const BookTableContent = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, "BookTableContent">>();
+  const isMounted = useMounted();
 
   const [contents, setContents] = useState<BookTableOfContentProps[] | null>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    getContent();
+  }, []);
+
+  const BOOK_ID = route.params?.id;
+  const isFromReading = route.params?.isFromReading;
+  const readingPayload = route.params?.readingPayload;
 
   const getContent = async () => {
     if (isFromReading) {
@@ -29,12 +37,8 @@ const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
       const { data, isSuccess } = await fetchBookTableOfContent({
         bookTitle: BOOK_ID,
       });
-      if (!isMounted.current) {
-        return;
-      }
-      if (!isSuccess) {
-        return;
-      }
+      if (!isMounted) return;
+      if (!isSuccess) return;
       setContents(data);
     } catch (error) {
       logger("BookTableContent, getContent", error);
@@ -50,6 +54,13 @@ const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
   };
 
   const keyExtractor = ({ id }: BookTableOfContentProps) => `${id}`;
+
+  const ListEmptyComponent = (
+    <EmptyPlaceholder
+      title={strings.kilasEmpty}
+      subtitle={strings.kilasEmptyDesc}
+    />
+  );
 
   const renderItem = ({
     item,
@@ -67,16 +78,6 @@ const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
     />
   );
 
-  useEffect(() => {
-    isMounted.current = true;
-
-    getContent();
-
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
   return (
     <Base headerState={headerState}>
       <SkeletonContent
@@ -89,12 +90,7 @@ const BookTableContent = ({ navigation, route }: BookTableContentProps) => {
             data={contents}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
-            ListEmptyComponent={
-              <EmptyPlaceholder
-                title={strings.kilasEmpty}
-                subtitle={strings.kilasEmptyDesc}
-              />
-            }
+            ListEmptyComponent={ListEmptyComponent}
           />
         ) : (
           <EmptyPlaceholder

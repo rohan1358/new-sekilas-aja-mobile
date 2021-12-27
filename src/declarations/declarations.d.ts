@@ -1,3 +1,9 @@
+interface BookTableOfContentProps {
+  id: string;
+  title: string;
+  kilas: string;
+}
+
 interface CompactBooksProps {
   id: string;
   book_title: string;
