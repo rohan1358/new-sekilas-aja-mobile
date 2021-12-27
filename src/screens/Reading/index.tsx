@@ -38,7 +38,7 @@ import { logger, widthPercent } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
 import { fetchBookContent } from "../../services";
 import styles from "./styles";
-import { BookContentProps, ReadingProps } from "./types";
+import { ReadingProps } from "./types";
 
 const WIDTH = widthPercent(100);
 const ACTION_HIDE = -128;

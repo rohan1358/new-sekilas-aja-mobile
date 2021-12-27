@@ -1,3 +1,8 @@
+interface BookContentProps {
+  numberOfPage: number;
+  pageContent: PageContentProps[];
+}
+
 interface BookTableOfContentProps {
   id: string;
   title: string;
@@ -11,6 +16,9 @@ interface CompactBooksProps {
   read_time: number;
   book_cover: string | undefined;
   isVideoAvailable: boolean;
+}
+interface PageContentProps extends BookTableOfContentProps {
+  details: string[];
 }
 
 interface ReadingBookProps {
