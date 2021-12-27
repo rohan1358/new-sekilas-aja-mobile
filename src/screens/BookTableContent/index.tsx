@@ -1,13 +1,13 @@
-import { Base, EmptyPlaceholder, MenuArrow, DuoRender } from "@components";
+import { Base, DuoRender, EmptyPlaceholder, MenuArrow } from "@components";
 import { skeleton, strings } from "@constants";
+import { logger, useMounted } from "@helpers";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { fetchBookTableOfContent } from "@services";
 import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { RootStackParamList } from "src/types";
-import { logger, useMounted } from "../../helpers";
-import { fetchBookTableOfContent } from "../../services";
 import styles from "./styles";
 
 const BookTableContent = () => {
