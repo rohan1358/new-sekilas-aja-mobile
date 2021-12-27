@@ -22,6 +22,7 @@ const localPushNotif = async (message: {
       color: primaryColor.main,
       largeIcon: "logo",
       circularLargeIcon: true,
+      smallIcon: "ic_small_icon",
     },
   });
 };
