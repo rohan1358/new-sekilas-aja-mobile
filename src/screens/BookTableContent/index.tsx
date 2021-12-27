@@ -1,4 +1,4 @@
-import { Base, EmptyPlaceholder, MenuArrow } from "@components";
+import { Base, EmptyPlaceholder, MenuArrow, DuoRender } from "@components";
 import { skeleton, strings } from "@constants";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -25,6 +25,13 @@ const BookTableContent = () => {
   const BOOK_ID = route.params?.id;
   const isFromReading = route.params?.isFromReading;
   const readingPayload = route.params?.readingPayload;
+
+  const falseComponent = (
+    <EmptyPlaceholder
+      title={strings.kilasEmpty}
+      subtitle={strings.kilasEmptyDesc}
+    />
+  );
 
   const getContent = async () => {
     if (isFromReading) {
@@ -85,19 +92,14 @@ const BookTableContent = () => {
         layout={skeleton.mainTableContent}
         containerStyle={styles.skeleton}
       >
-        {!!contents ? (
+        <DuoRender falseComponent={falseComponent} isRenderMain={!!contents}>
           <FlatList
             data={contents}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             ListEmptyComponent={ListEmptyComponent}
           />
-        ) : (
-          <EmptyPlaceholder
-            title={strings.kilasEmpty}
-            subtitle={strings.kilasEmptyDesc}
-          />
-        )}
+        </DuoRender>
       </SkeletonContent>
     </Base>
   );
