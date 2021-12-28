@@ -1,5 +1,13 @@
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../types";
+interface BookContentProps {
+  numberOfPage: number;
+  pageContent: PageContentProps[];
+}
+
+interface BookTableOfContentProps {
+  id: string;
+  title: string;
+  kilas: string;
+}
 
 interface CompactBooksProps {
   id: string;
@@ -9,6 +17,9 @@ interface CompactBooksProps {
   book_cover: string | undefined;
   isVideoAvailable: boolean;
 }
+interface PageContentProps extends BookTableOfContentProps {
+  details: string[];
+}
 
 interface ReadingBookProps {
   book: string;
@@ -16,7 +27,3 @@ interface ReadingBookProps {
   kilas: string;
   available: boolean;
 }
-
-type Props = StackScreenProps<RootStackParamList, "Search">;
-
-interface HomeProps extends Props {}

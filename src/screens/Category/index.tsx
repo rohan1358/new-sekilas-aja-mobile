@@ -3,17 +3,24 @@ import { skeleton, spacing as sp, strings } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { logger } from "../../helpers";
-import { fetchCategorizedBooks } from "../../services";
-import { CompactBooksProps } from "../Home/types";
+import { logger, useMounted } from "@helpers";
+import { fetchCategorizedBooks } from "@services";
 import styles from "./styles";
-import { CategoryProps } from "./types";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "src/types";
 
-const Category = ({ navigation, route }: CategoryProps) => {
-  const isMounted = useRef<boolean>();
+const Category = () => {
+  const isMounted = useMounted();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, "Category">>();
 
   const [books, setBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    getBooks();
+  }, []);
 
   const getBooks = async () => {
     setIsLoading(true);
@@ -21,12 +28,9 @@ const Category = ({ navigation, route }: CategoryProps) => {
       const { data, isSuccess } = await fetchCategorizedBooks({
         category: route.params?.payload,
       });
-      if (!isMounted.current) {
-        return;
-      }
-      if (!isSuccess) {
-        return;
-      }
+      if (!isMounted) return;
+      if (!isSuccess) return;
+
       setBooks(data);
     } catch (error) {
       logger(`Category, getBooks()`, error);
@@ -62,16 +66,6 @@ const Category = ({ navigation, route }: CategoryProps) => {
     </View>
   );
 
-  useEffect(() => {
-    isMounted.current = true;
-
-    getBooks();
-
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
   return (
     <Base headerState={headerState}>
       <SkeletonContent
@@ -85,7 +79,6 @@ const Category = ({ navigation, route }: CategoryProps) => {
           numColumns={2}
           renderItem={renderItem}
           columnWrapperStyle={styles.columnWrapperStyle}
-          listKey="mostreadbooklist"
           contentContainerStyle={styles.contentContainerStyle}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={ListEmptyComponent}

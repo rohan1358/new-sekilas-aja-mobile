@@ -16,6 +16,8 @@ import ProfileHeader from "./ProfileHeader";
 import ReadingHeader from "./ReadingHeader";
 import SearchHeader from "./SearchHeader";
 
+export { default as DuoRender } from "./DuoRender";
+
 export {
   AboutHeader,
   BookTile,

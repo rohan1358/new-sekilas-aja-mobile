@@ -4,6 +4,7 @@ import {
   Base,
   Button,
   DummyFlatList,
+  DuoRender,
   EmptyPlaceholder,
   Gap,
   PageController,
@@ -11,14 +12,19 @@ import {
   TextItem,
 } from "@components";
 import {
+  firebaseNode,
   primaryColor,
   skeleton,
+  snackState as ss,
   spacing as sp,
   strings,
-  snackState as ss,
-  firebaseNode,
 } from "@constants";
+import { logger, useMounted, widthPercent } from "@helpers";
 import firestore from "@react-native-firebase/firestore";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { ReduxState } from "@rux";
+import { fetchBookContent } from "@services";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Share, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -30,26 +36,25 @@ import Animated, {
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
+import { RootStackParamList } from "src/types";
 import {
   HeaderStateProps,
   SnackStateProps,
 } from "../../components/atom/Base/types";
-import { logger, widthPercent } from "../../helpers";
-import { ReduxState } from "../../redux/reducers";
-import { fetchBookContent } from "../../services";
 import styles from "./styles";
-import { BookContentProps, ReadingProps } from "./types";
 
 const WIDTH = widthPercent(100);
 const ACTION_HIDE = -128;
 
-const Reading = ({ navigation, route }: ReadingProps) => {
-  const BOOK_ID = route.params?.id;
+const Reading = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, "Reading">>();
+
   const {
     sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
-  const isMounted = useRef<boolean>(true);
+  const isMounted = useMounted();
   const overlayRef = useRef<any>();
   const scrollRef = useRef<FlatList<any>>();
 
@@ -65,14 +70,29 @@ const Reading = ({ navigation, route }: ReadingProps) => {
     bottom: actionPosition.value,
   }));
 
+  const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
+
+  const currentTitle = useMemo(
+    () => (!!content ? content?.pageContent[currentPage]?.title : ""),
+    [content, currentPage]
+  );
+
+  useEffect(() => {
+    getBookContent();
+  }, []);
+
+  useEffect(() => {
+    if (!route.params?.page) {
+      return;
+    }
+    setCurrentPage(parseInt(route.params?.page) || 0);
+  }, [route.params?.page]);
+
   const closeActions = () => (actionPosition.value = withTiming(0));
 
   const closeTip = () => (tipPosition.value = withTiming(-WIDTH / 2));
 
-  const currenTitle = useMemo(
-    () => (!!content ? content?.pageContent[currentPage]?.title : ""),
-    [content, currentPage]
-  );
+  const BOOK_ID = route.params?.id;
 
   const customComp = () => (
     <ReadingHeader
@@ -87,6 +107,13 @@ const Reading = ({ navigation, route }: ReadingProps) => {
     />
   );
 
+  const falseComponent = (
+    <EmptyPlaceholder
+      title={strings.kilasEmpty}
+      subtitle={strings.kilasEmptyDesc}
+    />
+  );
+
   const getBookContent = async () => {
     if (!BOOK_ID) {
       setIsLoading(false);
@@ -97,12 +124,9 @@ const Reading = ({ navigation, route }: ReadingProps) => {
       const { data, isSuccess } = await fetchBookContent({
         bookTitle: BOOK_ID,
       });
-      if (!isMounted.current) {
-        return;
-      }
-      if (!isSuccess) {
-        return;
-      }
+      if (!isMounted) return;
+      if (!isSuccess) return;
+
       if (!!data) actionPosition.value = withTiming(0);
       setContent(data);
     } catch (error) {
@@ -173,20 +197,17 @@ const Reading = ({ navigation, route }: ReadingProps) => {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `"${currenTitle}"
+        message: `"${currentTitle}"
         
 Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kilas di https://sekilasaja.com`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
-          // shared with activity type of result.activityType
-          logger(result);
           onTap();
           overlayRef.current?.close();
         } else {
           onTap();
           overlayRef.current?.close();
-          // shared
         }
       } else if (result.action === Share.dismissedAction) {
         onTap();
@@ -198,7 +219,6 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
       onTap();
       overlayRef.current?.close();
       //@ts-ignore
-
       logger("Reading, onShare", error?.message);
     }
   };
@@ -217,26 +237,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
     });
   };
 
-  const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
-
   const s = styles({ isOnFirstPage, isOnLastPage });
-
-  useEffect(() => {
-    isMounted.current = true;
-
-    getBookContent();
-
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!route.params?.page) {
-      return;
-    }
-    setCurrentPage(parseInt(route.params?.page) || 0);
-  }, [route.params?.page]);
 
   return (
     <Base {...{ headerState, snackState, setSnackState }}>
@@ -245,7 +246,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
         layout={skeleton.mainReading}
         containerStyle={s.skeleton}
       >
-        {!!content ? (
+        <DuoRender isRenderMain={!!content} falseComponent={falseComponent}>
           <DummyFlatList
             contentContainerStyle={s.contentContainerStyle}
             ref={scrollRef}
@@ -261,7 +262,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
               }}
             />
             <Gap vertical={36} />
-            <TextItem type="b.32.nc.100">{currenTitle}</TextItem>
+            <TextItem type="b.32.nc.100">{currentTitle}</TextItem>
             <Gap vertical={sp.sl} />
             <FlatList
               data={content?.pageContent[currentPage]?.details}
@@ -280,12 +281,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
             />
             <Gap vertical={sp.xl * 3} />
           </DummyFlatList>
-        ) : (
-          <EmptyPlaceholder
-            title={strings.kilasEmpty}
-            subtitle={strings.kilasEmptyDesc}
-          />
-        )}
+        </DuoRender>
       </SkeletonContent>
       <Animated.View style={[s.actionWrapper, actionStyle]}>
         <LinearGradient

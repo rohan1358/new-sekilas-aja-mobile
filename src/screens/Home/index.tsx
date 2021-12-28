@@ -1,3 +1,4 @@
+import { setProfileRedux } from "@actions";
 import {
   Base,
   BookTile,
@@ -9,7 +10,7 @@ import {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
-  TextItem
+  TextItem,
 } from "@components";
 import {
   pages,
@@ -17,39 +18,41 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import { logger, useMounted } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
 import {
   fetchMostBooks,
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken
+  modifyToken,
 } from "@services";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
+import { RootStackParamList } from "src/types";
 import { SnackStateProps } from "../../components/atom/Base/types";
-import { setProfileRedux } from "../../redux/actions";
-import { dummyBanner, dummyCollection } from "./dummy";
+import { dummyBanner } from "./dummy";
+import { dummyMiniCollectionData, pageParser } from "./helper";
 import styles from "./styles";
-import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
+import { HORIZONTAL_GAP } from "./values";
 
-const Home = ({ navigation }: HomeProps) => {
-  const isFocused = useIsFocused();
-  const {
-    sessionReducer: { email }
-  } = useSelector((state: ReduxState) => state);
-
-  const isMounted = useMounted();
-
+const Home = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  const isMounted = useMounted();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const {
+    sessionReducer: { email },
+  } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -108,26 +111,18 @@ const Home = ({ navigation }: HomeProps) => {
     </View>
   );
 
-  const dummyMiniCollectionData = dummyCollection.map((item, index, value) => {
-    if (index % 2 !== 0) {
-      return;
-    }
-    return [item, value[index + 1]];
-  });
-
   const dummyMiniCollectionKey = (item: any, index: number) =>
     !item ? `${item}${index}` : `${item[0].id}`;
 
   const dummyMiniCollectionRender = ({
     item,
-    index
+    index,
   }: {
     item: any;
     index: number;
   }) => {
-    if (!item) {
-      return null;
-    }
+    if (!item) return null;
+
     return (
       <View>
         {item.map((value: any) => (
@@ -146,11 +141,9 @@ const Home = ({ navigation }: HomeProps) => {
     );
   };
 
-  const handleSub = (data: any) => {
-    const subsc = data?.is_subscribed;
-    if (!subsc) {
-      setModalAllPlan(true);
-    }
+  const handleSub = (data: ProfileProps) => {
+    if (data?.is_subscribed) return;
+    setModalAllPlan(true);
   };
 
   const getHomeData = async () => {
@@ -161,7 +154,7 @@ const Home = ({ navigation }: HomeProps) => {
           fetchProfile(email),
           fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks()
+          fetchMostBooks(),
         ]);
       if (!isMounted) return;
       if (profileData.isSuccess) {
@@ -196,7 +189,6 @@ const Home = ({ navigation }: HomeProps) => {
   const getReadingBook = async () => {
     try {
       const { data, isSuccess } = await fetchReadingBook(email);
-
       if (!isMounted) return;
       if (!isSuccess) return;
       setReadingBook(data);
@@ -209,7 +201,6 @@ const Home = ({ navigation }: HomeProps) => {
     setIsRefreshing(true);
     try {
       const { data, isSuccess } = await fetchProfile(email);
-
       if (!isMounted) return;
       if (!isSuccess) return;
       setProfile(data);
@@ -223,13 +214,27 @@ const Home = ({ navigation }: HomeProps) => {
 
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
 
+  const onBellPress = () => navigation.navigate("Notification");
+
   const onGoingPress = () =>
     !!readingBook?.available
       ? navigation.navigate("Reading", {
           id: readingBook?.book || "",
-          page: `${parseInt(readingBook?.kilas || "1") - 1}`
+          page: pageParser(readingBook?.kilas),
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
+
+  const onPressProfile = () => navigation.navigate("AccountSettings");
+
+  const onPressRecommend = () =>
+    navigation.navigate("SpecialBookList", {
+      type: "recommendation",
+    });
+
+  const onMostReadPress = () =>
+    navigation.navigate("SpecialBookList", {
+      type: "mostRead",
+    });
 
   const onRefresh = async () => {
     setIsRefreshing(true);
@@ -257,10 +262,8 @@ const Home = ({ navigation }: HomeProps) => {
           <HomeHeader
             name={profile?.firstName}
             uri=""
-            //@ts-ignore
-            onBellPress={() => navigation.navigate(pages.Notification)}
-            //@ts-ignore
-            onPressProfile={() => navigation.navigate(pages.AccountSettings)}
+            onBellPress={onBellPress}
+            onPressProfile={onPressProfile}
           />
           <View>
             <View style={s.dummyHeader} />
@@ -272,7 +275,7 @@ const Home = ({ navigation }: HomeProps) => {
             />
           </View>
           <View style={s.adjuster}>
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap>
             <Gap vertical={sp.sm} />
@@ -286,7 +289,7 @@ const Home = ({ navigation }: HomeProps) => {
               listKey={"bannerlist"}
             />
             <Gap vertical={sp.m} />
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
               <TextItem type="r.14.nc.70">
                 {strings.bookCollectionsDesc}
@@ -304,24 +307,18 @@ const Home = ({ navigation }: HomeProps) => {
             />
             <Gap vertical={sp.sl} />
             <View style={s.clickTitle}>
-              <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
+              <TextItem type="b.24.nc.90" style={s.longTitle}>
                 {strings.recommendedBook}
               </TextItem>
               <Gap horizontal={20} />
-              <Button
-                onPress={() =>
-                  navigation.navigate("SpecialBookList", {
-                    type: "recommendation"
-                  })
-                }
-              >
+              <Button onPress={onPressRecommend}>
                 <TextItem type="b.14.nc.90" style={s.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
             </View>
             <Gap vertical={sp.sm} />
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <FlatList
                 data={recommendedBooks}
                 keyExtractor={idKeyExtractor}
@@ -333,24 +330,18 @@ const Home = ({ navigation }: HomeProps) => {
             </Gap>
             <Gap vertical={sp.sl} />
             <View style={s.clickTitle}>
-              <TextItem type="b.24.nc.90" style={{ flex: 1.25 }}>
+              <TextItem type="b.24.nc.90" style={s.longTitle}>
                 {strings.mostRead}
               </TextItem>
               <Gap horizontal={20} />
-              <Button
-                onPress={() =>
-                  navigation.navigate("SpecialBookList", {
-                    type: "mostRead"
-                  })
-                }
-              >
+              <Button onPress={onMostReadPress}>
                 <TextItem type="b.14.nc.90" style={s.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
             </View>
             <Gap vertical={sp.sm} />
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <FlatList
                 data={mostReadBooks}
                 keyExtractor={idKeyExtractor}

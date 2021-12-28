@@ -6,50 +6,41 @@ import {
   ExploreSearch,
   Gap,
   TextItem,
-  TitleTap
+  TitleTap,
 } from "@components";
 import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
-import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from "react-native-reanimated";
-import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { categories, newCategories } from "../../../assets/dummy";
 import { heightPercent, logger, useMounted } from "@helpers";
 import {
   fetchListCategory,
   fetchRecommendedBooks,
   fetchReleasedBooks,
-  fetchTrendBooks
-} from "../../services";
-import { CompactBooksProps } from "../Home/types";
+  fetchTrendBooks,
+} from "@services";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { categories, newCategories } from "../../../assets/dummy";
 import styles from "./styles";
 import { ExploreProps } from "./types";
-
-const boundary =
-  categories.length % 2 === 0
-    ? categories.length / 2
-    : Math.ceil(categories.length / 2);
-
-const bottomChips = categories.slice(boundary, categories.length + 1);
-const topChips = categories.slice(0, boundary);
-
-const HORIZONTAL_GAP = sp.sl * 2;
-
-const bottomHeaderGap = sp.sm;
-const bottomNavHeight = 64;
-const topHeaderGap = sp.m;
-
-const flatlistSecondGap = sp.sl * 2;
+import {
+  BOTTOM_HEADER_GAP,
+  BOTTOM_NAV_HEIGHT,
+  BOUNDARY,
+  FLATLIST_SECOND_GAP,
+  HORIZONTAL_GAP,
+  TOP_HEADER_GAP,
+} from "./values";
 
 const CategoryChips = ({
   item,
   index,
-  onPress
+  onPress,
 }: {
   item: { id: string; label: string; Icon: any };
   index: number;
@@ -58,13 +49,12 @@ const CategoryChips = ({
   <View key={item.id} style={styles.row}>
     {index == 0 && <Gap horizontal={sp.sl} />}
     <Chips label={item.label} id={item.id} Icon={item.Icon} onPress={onPress} />
-    <Gap horizontal={index === boundary - 1 ? sp.sl : sp.xs} />
+    <Gap horizontal={index === BOUNDARY - 1 ? sp.sl : sp.xs} />
   </View>
 );
 
 const Explore = ({ navigation }: ExploreProps) => {
   const isMounted = useMounted();
-
   const scrollY = useSharedValue(0);
 
   const [newChips, setChipd] = useState<any>(false);
@@ -75,6 +65,19 @@ const Explore = ({ navigation }: ExploreProps) => {
   const [trendBooks, setTrendBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const flatListTopAdjuster = headerHeight + TOP_HEADER_GAP * 2;
+
+  const headerTranslate = headerHeight + TOP_HEADER_GAP + BOTTOM_HEADER_GAP / 2;
+
+  const headerStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY:
+          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0),
+      },
+    ],
+  }));
+
   useEffect(() => {
     fetchCategory();
   }, []);
@@ -82,10 +85,6 @@ const Explore = ({ navigation }: ExploreProps) => {
   useEffect(() => {
     getExploreData();
   }, []);
-
-  const flatListTopAdjuster = headerHeight + topHeaderGap * 2;
-
-  const headerTranslate = headerHeight + topHeaderGap + bottomHeaderGap / 2;
 
   const booksRenderItem = ({ item }: { item: CompactBooksProps }) => (
     <View>
@@ -108,11 +107,9 @@ const Explore = ({ navigation }: ExploreProps) => {
       const [recomData, releaseData, trendData] = await Promise.all([
         fetchRecommendedBooks(),
         fetchReleasedBooks(),
-        fetchTrendBooks()
+        fetchTrendBooks(),
       ]);
-      if (!isMounted) {
-        return;
-      }
+      if (!isMounted) return;
       if (releaseData.isSuccess) {
         setReleaseBooks(releaseData.data?.slice(0, 2));
       } else {
@@ -135,16 +132,24 @@ const Explore = ({ navigation }: ExploreProps) => {
     }
   };
 
-  const headerStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0)
-      }
-    ]
-  }));
-
   const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
+
+  const onNewPress = () =>
+    navigation.navigate("SpecialBookList", {
+      type: "newRelease",
+    });
+
+  const onRecommendPress = () =>
+    navigation.navigate("SpecialBookList", {
+      type: "recommendation",
+    });
+
+  const onSearchPress = () => navigation.navigate("Search");
+
+  const onTrendPress = () =>
+    navigation.navigate("SpecialBookList", {
+      type: "trending",
+    });
 
   const fetchCategory = async () => {
     try {
@@ -163,21 +168,21 @@ const Explore = ({ navigation }: ExploreProps) => {
         layout={skeleton.mainExplore}
       >
         <Animated.View style={[styles.container, headerStyle]}>
-          <Gap vertical={topHeaderGap} />
+          <Gap vertical={TOP_HEADER_GAP} />
           <View onLayout={(e) => setHeaderHeight(e.nativeEvent.layout.height)}>
             <TextItem type="b.24.nc.90">{strings.findFavBook}</TextItem>
           </View>
-          <Gap vertical={bottomHeaderGap} />
+          <Gap vertical={BOTTOM_HEADER_GAP} />
           <ExploreSearch
             cameraPress={() => logger("camera")}
-            onPress={() => navigation.navigate("Search")}
+            onPress={onSearchPress}
           />
           <Gap vertical={sp.sm} />
         </Animated.View>
         <View
           style={{
             top: -flatListTopAdjuster,
-            height: heightPercent(100) + flatListTopAdjuster
+            height: heightPercent(100) + flatListTopAdjuster,
           }}
         >
           <DummyFlatList
@@ -186,7 +191,7 @@ const Explore = ({ navigation }: ExploreProps) => {
             }
             scrollEventThrottle={16}
           >
-            <Gap vertical={flatListTopAdjuster - sp.m + flatlistSecondGap} />
+            <Gap vertical={flatListTopAdjuster - sp.m + FLATLIST_SECOND_GAP} />
             <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCategory}</TextItem>
             </Gap>
@@ -202,7 +207,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                           navigation.navigate("Category", {
                             type: "category",
                             title: item,
-                            payload: id
+                            payload: id,
                           });
                         return (
                           <CategoryChips
@@ -211,7 +216,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                             item={{
                               id: item,
                               label: item,
-                              Icon: newCategories(item)
+                              Icon: newCategories(item),
                             }}
                             key={index}
                           />
@@ -228,7 +233,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                           navigation.navigate("Category", {
                             type: "category",
                             title: item,
-                            payload: id
+                            payload: id,
                           });
                         return (
                           <CategoryChips
@@ -237,7 +242,7 @@ const Explore = ({ navigation }: ExploreProps) => {
                             item={{
                               id: item,
                               label: item,
-                              Icon: newCategories(item)
+                              Icon: newCategories(item),
                             }}
                             key={index}
                           />
@@ -247,16 +252,9 @@ const Explore = ({ navigation }: ExploreProps) => {
               </View>
             </ScrollView>
             <Gap vertical={sp.sl} />
-            <TitleTap
-              title={strings.newRelease}
-              onPress={() =>
-                navigation.navigate("SpecialBookList", {
-                  type: "newRelease"
-                })
-              }
-            />
+            <TitleTap title={strings.newRelease} onPress={onNewPress} />
             <Gap vertical={sp.sm} />
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <FlatList
                 data={releaseBooks}
                 keyExtractor={idKeyExtractor}
@@ -266,16 +264,9 @@ const Explore = ({ navigation }: ExploreProps) => {
                 listKey={"releasedbooklist"}
               />
             </Gap>
-            <TitleTap
-              title={strings.trendingBook}
-              onPress={() =>
-                navigation.navigate("SpecialBookList", {
-                  type: "trending"
-                })
-              }
-            />
+            <TitleTap title={strings.trendingBook} onPress={onTrendPress} />
             <Gap vertical={sp.sm} />
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <FlatList
                 data={trendBooks}
                 keyExtractor={idKeyExtractor}
@@ -287,14 +278,10 @@ const Explore = ({ navigation }: ExploreProps) => {
             </Gap>
             <TitleTap
               title={strings.recommendedBook}
-              onPress={() =>
-                navigation.navigate("SpecialBookList", {
-                  type: "recommendation"
-                })
-              }
+              onPress={onRecommendPress}
             />
             <Gap vertical={sp.sm} />
-            <Gap horizontal={sp.sl * 2}>
+            <Gap horizontal={HORIZONTAL_GAP}>
               <FlatList
                 data={recommendedBooks}
                 keyExtractor={idKeyExtractor}
@@ -306,7 +293,9 @@ const Explore = ({ navigation }: ExploreProps) => {
             </Gap>
             <Gap
               vertical={
-                flatListTopAdjuster + flatlistSecondGap + bottomNavHeight * 2
+                flatListTopAdjuster +
+                FLATLIST_SECOND_GAP +
+                BOTTOM_NAV_HEIGHT * 2
               }
             />
           </DummyFlatList>

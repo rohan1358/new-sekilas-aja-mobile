@@ -9,14 +9,14 @@ import {
   Gap,
   SearchHeader,
   TextIcon,
-  TextItem
+  TextItem,
 } from "@components";
 import {
   neutralColor,
   primaryColor,
   skeleton,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, Keyboard, View } from "react-native";
@@ -27,7 +27,6 @@ import { logger } from "../../helpers";
 import { addSearchHistory, clearSearchHistory } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
 import { fetchBooks, fetchListCategory } from "../../services";
-import { CompactBooksProps } from "../Home/types";
 import styles from "./styles";
 import { SearchProps } from "./types";
 
@@ -91,7 +90,7 @@ const Search = ({ navigation }: SearchProps) => {
     navigation.navigate("Category", {
       type: "category",
       title: item.label,
-      payload: item.id
+      payload: item.id,
     });
 
   const closePress = () => {
