@@ -33,7 +33,7 @@ import { SearchProps } from "./types";
 
 const Search = ({ navigation }: SearchProps) => {
   const dispatch = useDispatch();
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any>([]);
 
   const currentKeyword = useRef<string>("");
   const isMounted = useRef<boolean>(true);
@@ -177,8 +177,12 @@ const Search = ({ navigation }: SearchProps) => {
   }, [books]);
 
   const fetchCategory = async () => {
-    const list = await fetchListCategory();
-    setCategories(list?.list);
+    try {
+      const list = await fetchListCategory();
+      setCategories(list?.list);
+    } catch {
+      setCategories(false);
+    }
   };
   useEffect(() => {
     fetchCategory();
@@ -279,24 +283,25 @@ const Search = ({ navigation }: SearchProps) => {
                   </TextItem>
                   <Gap vertical={sp.sm} />
                   <View style={styles.categoriesWrapper}>
-                    {categories.map((item: any) => {
-                      return (
-                        <View key={`${item}`}>
-                          <View style={styles.chipsContainer}>
-                            <Chips
-                              label={item}
-                              id={item}
-                              Icon={newCategories(item)}
-                              onPress={() =>
-                                chipPress({ label: item, id: item })
-                              }
-                            />
-                            <Gap horizontal={sp.xs} />
+                    {categories &&
+                      categories.map((item: any) => {
+                        return (
+                          <View key={`${item}`}>
+                            <View style={styles.chipsContainer}>
+                              <Chips
+                                label={item}
+                                id={item}
+                                Icon={newCategories(item)}
+                                onPress={() =>
+                                  chipPress({ label: item, id: item })
+                                }
+                              />
+                              <Gap horizontal={sp.xs} />
+                            </View>
+                            <Gap vertical={sp.sm} />
                           </View>
-                          <Gap vertical={sp.sm} />
-                        </View>
-                      );
-                    })}
+                        );
+                      })}
                   </View>
                 </View>
               </>

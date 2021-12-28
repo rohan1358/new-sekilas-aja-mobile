@@ -223,13 +223,8 @@ export default function BookDetail({ navigation, route }: any) {
     }
   };
 
-  const lockReadingListenViewBook = () => {
-    if (statusSub || profile.owned_books.includes(book?.book_title)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  const lockReadingListenViewBook =
+    statusSub || profile.owned_books.includes(book?.book_title) ? true : false;
 
   return (
     <Base
@@ -249,9 +244,9 @@ export default function BookDetail({ navigation, route }: any) {
             addToFavorite();
           }}
           onDownload={() => logger("donwload")}
-          Active={active}
+          active={active}
         />
-        {lockReadingListenViewBook() ? (
+        {lockReadingListenViewBook ? (
           <>
             <Animated.View style={[styles.SelectBarUp, stylez]}>
               {}
@@ -318,7 +313,7 @@ export default function BookDetail({ navigation, route }: any) {
           </View>
 
           <View style={[styles.boxSelect]}>
-            {lockReadingListenViewBook() ? (
+            {lockReadingListenViewBook ? (
               <View style={styles.SelectBar}>
                 <Button
                   onPress={() => navigationTopBar("reading")}
