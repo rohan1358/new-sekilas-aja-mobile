@@ -9,7 +9,7 @@ export default function HeaderBookDetail({
   navigation,
   onDownload,
   onFavorite,
-  Active,
+  Active
 }: HeaderBookDetailProps) {
   return (
     <View style={styles.container}>
@@ -22,7 +22,7 @@ export default function HeaderBookDetail({
         </Button>
         <Button
           onPress={() => onFavorite && onFavorite()}
-          style={[styles.btnHeart, styles.btn]}
+          style={[Active ? styles.btnHeartActive : styles.btnHeart, styles.btn]}
         >
           <HeartBook />
         </Button>

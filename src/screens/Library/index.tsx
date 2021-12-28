@@ -1,14 +1,15 @@
-import { Check, Download, Heart, Search } from '@assets';
-import { Base, Button, Gap, LibraryMenu, TextItem } from '@components';
-import { neutralColor, primaryColor, spacing as sp, strings } from '@constants';
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
-import { logger } from '../../helpers';
-import { ReduxState } from '../../redux/reducers';
-import { fetchFavoriteBooks } from '../../services';
-import styles from './styles';
+import { Check, Download, Heart, Search } from "@assets";
+import { Base, Button, Gap, LibraryMenu, TextItem } from "@components";
+import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
+import React, { useCallback, useEffect } from "react";
+import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
+import { logger } from "../../helpers";
+import { ReduxState } from "../../redux/reducers";
+import { fetchFavoriteBooks } from "../../services";
+import styles from "./styles";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Library = (navigation: any) => {
   const [favorit, setFavorit] = React.useState(0);
@@ -17,15 +18,43 @@ const Library = (navigation: any) => {
     sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
-  useEffect(() => {
-    async function getTotalFavorit() {
+  const getTotalFavorit = async () => {
+    try {
       const total = await fetchFavoriteBooks(email);
-      if (total) {
-        setFavorit(total.jumlah);
-      }
+      setFavorit(total?.jumlah);
+    } catch (e) {
+      setFavorit(0);
+
+      // Handle error
     }
+  };
+
+  useEffect(() => {
     getTotalFavorit();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const getTotalFavorit = async () => {
+        try {
+          const total = await fetchFavoriteBooks(email);
+          if (isActive) {
+            setFavorit(total?.jumlah);
+          }
+        } catch (e) {
+          // Handle error
+        }
+      };
+
+      getTotalFavorit();
+
+      return () => {
+        getTotalFavorit();
+        isActive = false;
+      };
+    }, [])
+  );
 
   return (
     <Base barColor={primaryColor.main}>
@@ -44,7 +73,7 @@ const Library = (navigation: any) => {
         contentContainerStyle={styles.contentContainerStyle}
       >
         <LibraryMenu
-          action={() => logger('masuk ke page buku yang di unduh')}
+          action={() => logger("masuk ke page buku yang di unduh")}
           title={strings.downloadedBooks}
           bookCount={5}
           icon={<Download stroke={neutralColor[90]} />}
@@ -52,8 +81,8 @@ const Library = (navigation: any) => {
         <Gap vertical={sp.sm} />
         <LibraryMenu
           action={() =>
-            navigation.navigation.navigate('SpecialBookList', {
-              type: 'myFavorite'
+            navigation.navigation.navigate("SpecialBookList", {
+              type: "myFavorite"
             })
           }
           title={strings.favBooks}
@@ -62,7 +91,7 @@ const Library = (navigation: any) => {
         />
         <Gap vertical={sp.sm} />
         <LibraryMenu
-          action={() => logger('masuk ke page buku yang telah selesai di baca')}
+          action={() => logger("masuk ke page buku yang telah selesai di baca")}
           title={strings.finishedBooks}
           bookCount={17}
           icon={<Check stroke={neutralColor[90]} />}
