@@ -1,5 +1,5 @@
 import { spacing as sp } from "@constants";
-import { categories } from "assets/dummy";
+import { categories } from "../../../assets/dummy";
 
 const BOTTOM_HEADER_GAP = sp.sm;
 
