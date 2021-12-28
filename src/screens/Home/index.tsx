@@ -9,7 +9,7 @@ import {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
-  TextItem,
+  TextItem
 } from "@components";
 import {
   pages,
@@ -17,7 +17,7 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import { logger, useMounted } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
@@ -28,7 +28,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken,
+  modifyToken
 } from "@services";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -44,7 +44,7 @@ import { CompactBooksProps, HomeProps, ReadingBookProps } from "./types";
 const Home = ({ navigation }: HomeProps) => {
   const isFocused = useIsFocused();
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useMounted();
@@ -120,7 +120,7 @@ const Home = ({ navigation }: HomeProps) => {
 
   const dummyMiniCollectionRender = ({
     item,
-    index,
+    index
   }: {
     item: any;
     index: number;
@@ -161,7 +161,7 @@ const Home = ({ navigation }: HomeProps) => {
           fetchProfile(email),
           fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks(),
+          fetchMostBooks()
         ]);
       if (!isMounted) return;
       if (profileData.isSuccess) {
@@ -227,7 +227,7 @@ const Home = ({ navigation }: HomeProps) => {
     !!readingBook?.available
       ? navigation.navigate("Reading", {
           id: readingBook?.book || "",
-          page: `${parseInt(readingBook?.kilas || "1") - 1}`,
+          page: `${parseInt(readingBook?.kilas || "1") - 1}`
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
 
@@ -311,7 +311,7 @@ const Home = ({ navigation }: HomeProps) => {
               <Button
                 onPress={() =>
                   navigation.navigate("SpecialBookList", {
-                    type: "recommendation",
+                    type: "recommendation"
                   })
                 }
               >
@@ -340,7 +340,7 @@ const Home = ({ navigation }: HomeProps) => {
               <Button
                 onPress={() =>
                   navigation.navigate("SpecialBookList", {
-                    type: "mostRead",
+                    type: "mostRead"
                   })
                 }
               >
