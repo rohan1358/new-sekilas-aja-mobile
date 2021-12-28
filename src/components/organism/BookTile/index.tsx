@@ -14,15 +14,20 @@ const BookTile = ({
   cover,
   onPress,
   navSubscrive,
-  isVideoAvailable,
+  isVideoAvailable
 }: BookTileProps) => {
   const {
-    editProfile: { profile },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const subsPress = () => navSubscrive && navSubscrive();
 
   const tilePress = () => onPress(title);
+
+  const lockReadingListenViewBook =
+    profile?.is_subscribed || profile.owned_books.includes(title)
+      ? false
+      : true;
 
   return (
     <Button onPress={tilePress} style={styles.container}>
@@ -40,7 +45,7 @@ const BookTile = ({
           <TextItem type="b.24.nc.90" numberOfLines={1} style={styles.title}>
             {title}
           </TextItem>
-          {!profile?.is_subscribed && (
+          {lockReadingListenViewBook && (
             <Button onPress={subsPress} style={styles.lock}>
               <Lock color={neutralColor[90]} width={30} />
             </Button>

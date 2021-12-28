@@ -21,14 +21,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: 0,
+      x: 0
     });
   };
   const handleNext = () => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(100),
+      x: widthPercent(100)
     });
   };
 
@@ -91,7 +91,7 @@ export default function ModalSubscribe({
         <View
           style={[
             styles.contentCard,
-            statusNormal ? styles.backBlack : styles.backWhite,
+            statusNormal ? styles.backBlack : styles.backWhite
           ]}
         >
           <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>

@@ -25,7 +25,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { newCategories } from "../../../assets/dummy";
+import { categories, newCategories } from "../../../assets/dummy";
 import styles from "./styles";
 import { ExploreProps } from "./types";
 import {
@@ -152,8 +152,12 @@ const Explore = ({ navigation }: ExploreProps) => {
     });
 
   const fetchCategory = async () => {
-    const list = await fetchListCategory();
-    setChipd(list?.list);
+    try {
+      const list = await fetchListCategory();
+      setChipd(list?.list);
+    } catch {
+      setChipd(false);
+    }
   };
 
   return (

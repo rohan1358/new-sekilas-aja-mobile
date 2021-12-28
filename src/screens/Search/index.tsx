@@ -22,16 +22,17 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, Keyboard, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
-import { categories } from "../../../assets/dummy";
+import { newCategories } from "../../../assets/dummy";
 import { logger } from "../../helpers";
 import { addSearchHistory, clearSearchHistory } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
-import { fetchBooks } from "../../services";
+import { fetchBooks, fetchListCategory } from "../../services";
 import styles from "./styles";
 import { SearchProps } from "./types";
 
 const Search = ({ navigation }: SearchProps) => {
   const dispatch = useDispatch();
+  const [categories, setCategories] = useState<any>([]);
 
   const currentKeyword = useRef<string>("");
   const isMounted = useRef<boolean>(true);
@@ -174,6 +175,18 @@ const Search = ({ navigation }: SearchProps) => {
     };
   }, [books]);
 
+  const fetchCategory = async () => {
+    try {
+      const list = await fetchListCategory();
+      setCategories(list?.list);
+    } catch {
+      setCategories(false);
+    }
+  };
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -269,20 +282,25 @@ const Search = ({ navigation }: SearchProps) => {
                   </TextItem>
                   <Gap vertical={sp.sm} />
                   <View style={styles.categoriesWrapper}>
-                    {categories.map((item) => (
-                      <View key={`${item.label}`}>
-                        <View style={styles.chipsContainer}>
-                          <Chips
-                            label={item.label}
-                            id={item.id}
-                            Icon={item.Icon}
-                            onPress={() => chipPress(item)}
-                          />
-                          <Gap horizontal={sp.xs} />
-                        </View>
-                        <Gap vertical={sp.sm} />
-                      </View>
-                    ))}
+                    {categories &&
+                      categories.map((item: any) => {
+                        return (
+                          <View key={`${item}`}>
+                            <View style={styles.chipsContainer}>
+                              <Chips
+                                label={item}
+                                id={item}
+                                Icon={newCategories(item)}
+                                onPress={() =>
+                                  chipPress({ label: item, id: item })
+                                }
+                              />
+                              <Gap horizontal={sp.xs} />
+                            </View>
+                            <Gap vertical={sp.sm} />
+                          </View>
+                        );
+                      })}
                   </View>
                 </View>
               </>
