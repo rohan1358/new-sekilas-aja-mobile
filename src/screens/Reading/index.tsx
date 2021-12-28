@@ -4,12 +4,12 @@ import {
   Base,
   Button,
   DummyFlatList,
+  DuoRender,
   EmptyPlaceholder,
   Gap,
   PageController,
   ReadingHeader,
   TextItem,
-  DuoRender,
 } from "@components";
 import {
   firebaseNode,
