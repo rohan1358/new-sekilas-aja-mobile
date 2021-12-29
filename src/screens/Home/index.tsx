@@ -289,7 +289,7 @@ const Home = () => {
               listKey={"bannerlist"}
             />
             <Gap vertical={sp.m} />
-            <Gap horizontal={HORIZONTAL_GAP}>
+            {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
               <TextItem type="r.14.nc.70">
                 {strings.bookCollectionsDesc}
@@ -304,7 +304,7 @@ const Home = () => {
               renderItem={dummyMiniCollectionRender}
               keyExtractor={dummyMiniCollectionKey}
               listKey={"kilaslist"}
-            />
+            /> */}
             <Gap vertical={sp.sl} />
             <View style={s.clickTitle}>
               <TextItem type="b.24.nc.90" style={s.longTitle}>
