@@ -14,22 +14,33 @@ const fetchProfile = (email: string) => {
         data: user,
         isSuccess: true,
         error: null,
-        message: "Profile successfuly fetched.",
+        message: "Profile successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch profile failed.",
+        message: "Fetch profile failed."
       });
     }
   });
 };
 
+const fetchProfileRealtime = async (email: string) => {
+  try {
+    await firestore()
+      .collection(firebaseNode.users)
+      .where("email", "==", "riskiggg125@gmail.com")
+      .onSnapshot((res) => {});
+  } catch {
+    return {};
+  }
+};
+
 const modifyToken = ({
   FcmToken,
-  id,
+  id
 }: {
   FcmToken: string;
   id: string | undefined;
@@ -41,14 +52,14 @@ const modifyToken = ({
         .collection(firebaseNode.users)
         .doc(id)
         .update({
-          FcmToken,
+          FcmToken
         })
         .then(() => {
           resolve({
             data: null,
             isSuccess: true,
             error: null,
-            message: "Token successfuly updated.",
+            message: "Token successfuly updated."
           });
         });
     } catch (error) {
@@ -56,10 +67,10 @@ const modifyToken = ({
         data: null,
         isSuccess: false,
         error,
-        message: "Token update failed.",
+        message: "Token update failed."
       });
     }
   });
 };
 
-export { fetchProfile, modifyToken };
+export { fetchProfile, modifyToken, fetchProfileRealtime };

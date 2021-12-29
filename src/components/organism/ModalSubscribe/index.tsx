@@ -1,34 +1,44 @@
 import { ArrowLeft, Check, Exit } from "@assets";
-import { neutralColor, strings } from "@constants";
-import React, { useRef, useState } from "react";
+import { firebaseNode, neutralColor, strings } from "@constants";
+import { fetchProfileRealtime } from "@services";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, ScrollView, View } from "react-native";
 import { widthPercent } from "../../../helpers";
 import { Button, TextItem } from "../../atom";
+import Payment from "./child/Payment";
 import paketList from "./dummy";
 import styles from "./styles";
+import firestore from "@react-native-firebase/firestore";
+import { useSelector } from "react-redux";
+import { ReduxState } from "@rux";
 
 export default function ModalSubscribe({
   modalVisible,
   setModalVisible,
   ...props
 }: ModalSubscribeProps) {
+  const {
+    sessionReducer: { email }
+  } = useSelector((state: ReduxState) => state);
+
   const refScroll = useRef();
 
   const [statusBest, setBest] = useState(false);
   const [statusNormal, setNormal] = useState(false);
+  const [btnBack, setBtnBack] = useState(false);
 
-  const handlePrev = () => {
+  const handlePrev = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: 0
+      x: widthPercent(to)
     });
   };
-  const handleNext = () => {
+  const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(100)
+      x: widthPercent(to)
     });
   };
 
@@ -36,7 +46,7 @@ export default function ModalSubscribe({
     setModalVisible(!modalVisible);
   };
 
-  const handlePressCard = (type) => {
+  const handlePressCard = (type: any) => {
     if (type == "best") {
       setBest(!statusBest);
       setNormal(false);
@@ -45,6 +55,29 @@ export default function ModalSubscribe({
       setBest(false);
     }
   };
+
+  useEffect(() => {
+    const fetchProfileRealtime = async () => {
+      try {
+        await firestore()
+          .collection(firebaseNode.users)
+          .where("email", "==", email)
+          .onSnapshot((res: any) => {
+            const result = res.docs[0].data();
+            if (result.last_position_web_view === "/payment-success-mobile") {
+              setBtnBack(true);
+            } else {
+              setBtnBack(false);
+            }
+            // if(result.)
+            // if(res.docs[0].data())
+          });
+      } catch {
+        return {};
+      }
+    };
+    fetchProfileRealtime();
+  }, []);
 
   const CardBest = ({ item }: any) => {
     return (
@@ -165,7 +198,7 @@ export default function ModalSubscribe({
                   </TextItem>
                 </View>
               </View>
-              <Button onPress={() => handleNext()} style={styles.btnPilih}>
+              <Button onPress={() => handleNext(100)} style={styles.btnPilih}>
                 <TextItem type="b.24.pc.main">{strings.pilih_paket}</TextItem>
               </Button>
             </View>
@@ -173,7 +206,7 @@ export default function ModalSubscribe({
 
           <View style={styles.content}>
             <View style={styles.boxBack}>
-              <Button onPress={() => handlePrev()} style={styles.btn}>
+              <Button onPress={() => handlePrev(0)} style={styles.btn}>
                 <ArrowLeft color={neutralColor[90]} width={30} height={25} />
               </Button>
             </View>
@@ -193,7 +226,7 @@ export default function ModalSubscribe({
                   )
                 )}
               </View>
-              <Button onPress={() => exitPage()} style={styles.btnPilih}>
+              <Button onPress={() => handleNext(200)} style={styles.btnPilih}>
                 <TextItem type="b.24.pc.main">
                   {strings.langganan_sekaarang}
                 </TextItem>
@@ -203,6 +236,16 @@ export default function ModalSubscribe({
               </Button>
             </View>
           </View>
+
+          <Payment
+            baseUrl={
+              statusBest ? "/payment-twelve-mobile/" : "/payment-three-mobile/"
+            }
+            handlePrev={handlePrev}
+            email={email}
+            btnBack={btnBack}
+            handleClose={exitPage}
+          />
         </ScrollView>
       </View>
     </Modal>
