@@ -27,8 +27,22 @@ const HomeHeader = ({
       </Button>
       <Gap horizontal={sp.xs} />
       <View style={styles.detailContainer}>
-        <TextItem type="r.14.nc.80">{strings.happyReading}</TextItem>
-        <TextItem type="b.24.nc.90.c">{name}</TextItem>
+        <TextItem
+          onPress={() => {
+            name && onPressProfile();
+          }}
+          type="r.14.nc.80"
+        >
+          {strings.happyReading}
+        </TextItem>
+        <TextItem
+          onPress={() => {
+            name && onPressProfile();
+          }}
+          type="b.24.nc.90.c"
+        >
+          {name}
+        </TextItem>
       </View>
       <Button
         style={styles.iconContainer}

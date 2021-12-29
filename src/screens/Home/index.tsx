@@ -271,7 +271,7 @@ const Home = () => {
     >
       <SkeletonContent
         containerStyle={styles.skeleton}
-        isLoading={isLoading}
+        isLoading={isLoading || !isFocused}
         layout={skeleton.mainHome}
       >
         <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
@@ -281,6 +281,7 @@ const Home = () => {
             onBellPress={onBellPress}
             onPressProfile={onPressProfile}
           />
+
           <View>
             <View style={styles.dummyHeader} />
             <OngoingTile
