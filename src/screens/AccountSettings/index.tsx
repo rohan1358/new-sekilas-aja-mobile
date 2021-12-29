@@ -134,8 +134,6 @@ export default function AccountSettings({ navigation }: any) {
     }
   };
 
-  console.log("profile", profile);
-
   const logOut = () => {
     setKeyAlert("");
     setModalAlert(!modalAlert);
@@ -199,7 +197,7 @@ export default function AccountSettings({ navigation }: any) {
                 </TextItem>
                 <TextItem style={styles.textContent}>
                   {profile?.end_date
-                    ? formatDate(profile?.end_date.toDate())
+                    ? formatDate(profile?.end_date.toDate(), "d-m-y")
                     : "-"}
                 </TextItem>
               </View>
