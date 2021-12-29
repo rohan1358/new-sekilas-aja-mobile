@@ -14,10 +14,10 @@ const BookTile = ({
   cover,
   onPress,
   navSubscrive,
-  isVideoAvailable
+  isVideoAvailable,
 }: BookTileProps) => {
   const {
-    editProfile: { profile }
+    editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
 
   const subsPress = () => navSubscrive && navSubscrive();
@@ -42,7 +42,7 @@ const BookTile = ({
       <Gap vertical={sp.sm} />
       <View style={styles.detail}>
         <View style={styles.boxTitle}>
-          <TextItem type="b.24.nc.90" numberOfLines={1} style={styles.title}>
+          <TextItem type="b.18.nc.90" numberOfLines={1} style={styles.title}>
             {title}
           </TextItem>
           {lockReadingListenViewBook && (
@@ -51,7 +51,7 @@ const BookTile = ({
             </Button>
           )}
         </View>
-        <TextItem type="r.14.nc.70" numberOfLines={1}>{`${author}`}</TextItem>
+        <TextItem type="i.14.nc.80" numberOfLines={1}>{`${author}`}</TextItem>
       </View>
       <Gap vertical={sp.sm} />
       <View style={styles.seeds}>

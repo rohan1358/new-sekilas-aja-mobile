@@ -1,38 +1,38 @@
-import { Base, Button, DummyFlatList, TextItem } from '../../components';
+import { Base, Button, DummyFlatList, TextItem } from "../../components";
 import {
   neutralColor,
   pages,
   primaryColor,
   skeleton,
   snackState as ss,
-  strings
-} from '@constants';
-import React, { useEffect, useRef, useState } from 'react';
-import { Modal, StyleSheet, Switch, Text, View } from 'react-native';
-import SkeletonContent from 'react-native-skeleton-content-nonexpo';
-import { useDispatch, useSelector } from 'react-redux';
-import AccountSettingsHeader from '../../components/organism/AccountSettingsHeader';
-import { logger } from '../../helpers';
-import { ReduxState } from '../../redux/reducers';
-import { fetchProfile } from '../../services';
-import DropDownPicker from 'react-native-dropdown-picker';
+  strings,
+} from "@constants";
+import React, { useEffect, useRef, useState } from "react";
+import { Modal, StyleSheet, Switch, Text, View } from "react-native";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { useDispatch, useSelector } from "react-redux";
+import AccountSettingsHeader from "../../components/organism/AccountSettingsHeader";
+import { logger } from "../../helpers";
+import { ReduxState } from "../../redux/reducers";
+import { fetchProfile } from "../../services";
+import DropDownPicker from "react-native-dropdown-picker";
 
-import styles from './styles';
+import styles from "./styles";
 import {
   AlertModal,
   ChevronRight,
   Exit,
   IconFb,
   IconIg,
-  IconTw
-} from '@assets';
-import { loggingIn, setProfileRedux } from '../../redux/actions';
-import { CommonActions } from '@react-navigation/routers';
-import { SnackStateProps } from '../../components/atom/Base/types';
+  IconTw,
+} from "@assets";
+import { loggingIn, setProfileRedux } from "../../redux/actions";
+import { CommonActions } from "@react-navigation/routers";
+import { SnackStateProps } from "../../components/atom/Base/types";
 
 export default function AccountSettings({ navigation }: any) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>();
@@ -43,18 +43,18 @@ export default function AccountSettings({ navigation }: any) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalAlert, setModalAlert] = useState<boolean>(false);
   const [profile, setProfile] = useState<ProfileProps>();
-  const [language, setLanguage] = useState<string>('Indoneisa');
+  const [language, setLanguage] = useState<string>("Indoneisa");
   const [modeOffline, setModeOffline] = useState(false);
   const [modeGelap, setModeGelap] = useState(false);
   const [putarAudio, setPutarAudio] = useState(false);
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
-  const [keyAlert, setKeyAlert] = useState('');
+  const [keyAlert, setKeyAlert] = useState("");
 
   const [textAlert, setTextAlert] = useState({
-    text: '',
-    action: '',
-    button: ''
+    text: "",
+    action: "",
+    button: "",
   });
 
   const [openAudio, setOpenAudio] = useState(false);
@@ -64,14 +64,14 @@ export default function AccountSettings({ navigation }: any) {
   const [valueVideo, setValueVideo] = useState(null);
 
   const [itemsAudio, setItemsAudio] = useState([
-    { label: 'Tinggi', value: 'tinggi' },
-    { label: 'Sedang', value: 'sedang' },
-    { label: 'Rendah', value: 'rendah' }
+    { label: "Tinggi", value: "tinggi" },
+    { label: "Sedang", value: "sedang" },
+    { label: "Rendah", value: "rendah" },
   ]);
   const [itemsVideo, setItemsVideo] = useState([
-    { label: 'Tinggi', value: 'tinggi' },
-    { label: 'Sedang', value: 'sedang' },
-    { label: 'Rendah', value: 'rendah' }
+    { label: "Tinggi", value: "tinggi" },
+    { label: "Sedang", value: "sedang" },
+    { label: "Rendah", value: "rendah" },
   ]);
 
   const getDataAccount = async () => {
@@ -81,10 +81,10 @@ export default function AccountSettings({ navigation }: any) {
       if (profileData.isSuccess) {
         setProfile(profileData.data);
       } else {
-        throw new Error('Fail on fetching profile data');
+        throw new Error("Fail on fetching profile data");
       }
     } catch (error) {
-      logger('Home, getHomeData', error);
+      logger("Home, getHomeData", error);
     } finally {
       setIsLoading(false);
     }
@@ -105,26 +105,26 @@ export default function AccountSettings({ navigation }: any) {
 
   const handleModalAlert = (
     dataAlert = {
-      text: '',
-      action: '',
-      button: ''
+      text: "",
+      action: "",
+      button: "",
     }
   ) => {
     setModalAlert(!modalAlert);
     setTextAlert({
       text: dataAlert.text,
       action: dataAlert.action,
-      button: dataAlert.button
+      button: dataAlert.button,
     });
   };
 
   const handlAlert = () => {
     switch (keyAlert) {
-      case 'logout':
+      case "logout":
         logOut();
         break;
 
-      case '':
+      case "":
         setModalAlert(!modalAlert);
         break;
 
@@ -134,14 +134,14 @@ export default function AccountSettings({ navigation }: any) {
   };
 
   const logOut = () => {
-    setKeyAlert('');
+    setKeyAlert("");
     setModalAlert(!modalAlert);
-    dispatch(loggingIn({ isLogin: false, email: '' }));
+    dispatch(loggingIn({ isLogin: false, email: "" }));
     dispatch(setProfileRedux(null));
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: pages.SignIn }]
+        routes: [{ name: pages.SignIn }],
       })
     );
   };
@@ -186,12 +186,12 @@ export default function AccountSettings({ navigation }: any) {
                 </TextItem>
                 <TextItem style={styles.textContent}>28 Oktober 2022</TextItem>
               </View>
-              <Button
+              {/* <Button
                 onPress={() =>
                   handleModalAlert({
                     text: strings.alert_text_langganan,
                     action: strings.alert_action,
-                    button: strings.alert_button
+                    button: strings.alert_button,
                   })
                 }
                 style={styles.btnAction}
@@ -199,14 +199,14 @@ export default function AccountSettings({ navigation }: any) {
                 <TextItem style={styles.textBtnBatal}>
                   {strings.btnBatal}
                 </TextItem>
-              </Button>
+              </Button> */}
             </View>
 
             <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>
                 {strings.preferensi_Account}
               </TextItem>
-              <View style={[styles.list, styles.listPreferens]}>
+              {/* <View style={[styles.list, styles.listPreferens]}>
                 <View>
                   <TextItem style={styles.titleList}>{strings.bahasa}</TextItem>
                   <TextItem style={styles.textContent}>
@@ -227,8 +227,8 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </View>
                 <Switch
-                  trackColor={{ false: '#E3E8EF', true: '#464D6F' }}
-                  thumbColor={modeOffline ? '#f5dd4b' : '#BBC0CE'}
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={modeOffline ? "#f5dd4b" : "#BBC0CE"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={() => setModeOffline(!modeOffline)}
                   value={modeOffline}
@@ -244,15 +244,15 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </View>
                 <Switch
-                  trackColor={{ false: '#E3E8EF', true: '#464D6F' }}
-                  thumbColor={modeGelap ? '#f5dd4b' : '#BBC0CE'}
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={modeGelap ? "#f5dd4b" : "#BBC0CE"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={() => setModeGelap(!modeGelap)}
                   value={modeGelap}
                 />
-              </View>
+              </View> */}
               <Button
-                onPress={() => navigation.navigate('NotifSettings')}
+                onPress={() => navigation.navigate("NotifSettings")}
                 style={[styles.list, styles.listPreferens]}
               >
                 <View>
@@ -265,7 +265,7 @@ export default function AccountSettings({ navigation }: any) {
               </Button>
             </View>
 
-            <View style={styles.listContent}>
+            {/* <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>
                 {strings.audio_Account}
               </TextItem>
@@ -277,8 +277,8 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </View>
                 <Switch
-                  trackColor={{ false: '#E3E8EF', true: '#464D6F' }}
-                  thumbColor={putarAudio ? '#f5dd4b' : '#BBC0CE'}
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={putarAudio ? "#f5dd4b" : "#BBC0CE"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={() => setPutarAudio(!putarAudio)}
                   value={putarAudio}
@@ -309,9 +309,9 @@ export default function AccountSettings({ navigation }: any) {
                   dropDownContainerStyle={styles.containerList}
                 />
               </View>
-            </View>
+            </View> */}
 
-            <View style={styles.listContent}>
+            {/* <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>
                 {strings.video_Account}
               </TextItem>
@@ -325,8 +325,8 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </View>
                 <Switch
-                  trackColor={{ false: '#E3E8EF', true: '#464D6F' }}
-                  thumbColor={putarVideo ? '#f5dd4b' : '#BBC0CE'}
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={putarVideo ? "#f5dd4b" : "#BBC0CE"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={() => setPutarVideo(!putarVideo)}
                   value={putarVideo}
@@ -357,9 +357,9 @@ export default function AccountSettings({ navigation }: any) {
                   dropDownContainerStyle={styles.containerList}
                 />
               </View>
-            </View>
+            </View> */}
 
-            <View style={styles.listContent}>
+            {/* <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>
                 {strings.download_Account}
               </TextItem>
@@ -373,8 +373,8 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </View>
                 <Switch
-                  trackColor={{ false: '#E3E8EF', true: '#464D6F' }}
-                  thumbColor={kualitasDown ? '#f5dd4b' : '#BBC0CE'}
+                  trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                  thumbColor={kualitasDown ? "#f5dd4b" : "#BBC0CE"}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={() => setKualitasDown(!kualitasDown)}
                   value={kualitasDown}
@@ -384,7 +384,7 @@ export default function AccountSettings({ navigation }: any) {
                 style={[
                   styles.list,
                   styles.listPreferens,
-                  styles.boxHapusDownload
+                  styles.boxHapusDownload,
                 ]}
               >
                 <View style={styles.boxText}>
@@ -400,7 +400,7 @@ export default function AccountSettings({ navigation }: any) {
                     handleModalAlert({
                       text: strings.alert_text_hapus,
                       action: strings.alert_action_hapus,
-                      button: strings.alert_button_hapus
+                      button: strings.alert_button_hapus,
                     })
                   }
                 >
@@ -409,23 +409,10 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </Button>
               </View>
-            </View>
-            <Button
-              onPress={() => {
-                handleModalAlert({
-                  text: strings.yakin_keluar,
-                  action: strings.cacel,
-                  button: strings.btn_keluar
-                });
-                setKeyAlert('logout');
-              }}
-              style={styles.btnKeluar}
-            >
-              <TextItem type="b.18.nc.90">{strings.btn_keluar}</TextItem>
-            </Button>
+            </View> */}
           </View>
 
-          <View style={styles.sectionContent}>
+          {/* <View style={styles.sectionContent}>
             <TextItem type="b.24.nc.90" style={styles.title}>
               {strings.tentang}
             </TextItem>
@@ -443,7 +430,7 @@ export default function AccountSettings({ navigation }: any) {
 
             <Button
               onPress={() =>
-                navigation.navigate(pages.About, { title: 'Kebijakan Privasi' })
+                navigation.navigate(pages.About, { title: "Kebijakan Privasi" })
               }
               style={[styles.btnAction, styles.btnUp]}
             >
@@ -451,7 +438,7 @@ export default function AccountSettings({ navigation }: any) {
             </Button>
             <Button
               onPress={() =>
-                navigation.navigate(pages.About, { title: 'Ketentuan Layanan' })
+                navigation.navigate(pages.About, { title: "Ketentuan Layanan" })
               }
               style={[styles.btnAction, styles.btnUp]}
             >
@@ -462,7 +449,7 @@ export default function AccountSettings({ navigation }: any) {
                 {strings.btn_berikan_ulasan}
               </TextItem>
             </Button>
-          </View>
+          </View> */}
 
           <View style={styles.sectionContent}>
             <View style={[styles.list]}>
@@ -473,6 +460,24 @@ export default function AccountSettings({ navigation }: any) {
                 <IconTw />
               </View>
             </View>
+          </View>
+
+          <View style={styles.sectionContent}>
+            <Button
+              onPress={() => {
+                handleModalAlert({
+                  text: strings.yakin_keluar,
+                  action: strings.cacel,
+                  button: strings.btn_keluar,
+                });
+                setKeyAlert("logout");
+              }}
+              style={styles.btnKeluar}
+            >
+              <TextItem type="b.18.nc.90" style={styles.textBtnHapus}>
+                {strings.btn_keluar}
+              </TextItem>
+            </Button>
           </View>
         </DummyFlatList>
       </SkeletonContent>
@@ -496,13 +501,13 @@ export default function AccountSettings({ navigation }: any) {
             <DummyFlatList>
               <Button
                 style={styles.boxListLanguage}
-                onPress={() => handleLanguage('Indonesia')}
+                onPress={() => handleLanguage("Indonesia")}
               >
                 <TextItem style={styles.textLanguage}>Indonesia</TextItem>
               </Button>
               <Button
                 style={styles.boxListLanguage}
-                onPress={() => handleLanguage('English')}
+                onPress={() => handleLanguage("English")}
               >
                 <TextItem style={styles.textLanguage}>English</TextItem>
               </Button>
