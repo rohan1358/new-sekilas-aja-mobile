@@ -6,7 +6,7 @@ import {
   Headphones,
   Lock,
   Sunrise,
-  Video,
+  Video
 } from "@assets";
 import {
   neutralColor,
@@ -15,19 +15,19 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   TextInput,
-  View,
+  View
 } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
+  useSharedValue
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
@@ -39,7 +39,8 @@ import {
   CardComent,
   Gap,
   HeaderBookDetail,
-  TextItem,
+  ModalSubscribe,
+  TextItem
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import { logger } from "../../helpers";
@@ -49,7 +50,7 @@ import {
   fetchDetailBooks,
   fetchFavoriteBooks,
   fetchRecommendedBooks,
-  postBookFavorite,
+  postBookFavorite
 } from "../../services";
 import { fetchCommentarryBook } from "../../services/commentarry";
 import { formatDate } from "../../utils";
@@ -62,7 +63,7 @@ const openRate = false;
 export default function BookDetail({ navigation, route }: any) {
   const {
     editProfile: { profile },
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const { id } = route.params;
@@ -72,7 +73,7 @@ export default function BookDetail({ navigation, route }: any) {
 
   const yOffset = useSharedValue(0);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [allInfo, setAllInfo] = useState(false);
+  const [modalAllPlan, setModalAllPlan] = useState(false);
   const [ratingCount, setRatingCount] = useState(4.5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
@@ -94,7 +95,7 @@ export default function BookDetail({ navigation, route }: any) {
     audio_link: "",
     video_link: "",
     watch_time: "",
-    descriptions: [],
+    descriptions: []
   });
 
   const getDetailBookData = async () => {
@@ -103,7 +104,7 @@ export default function BookDetail({ navigation, route }: any) {
       const [detailBook, recomData, kilasBook] = await Promise.all([
         fetchDetailBooks(id),
         fetchRecommendedBooks(),
-        fetchBookContent({ bookTitle: id }),
+        fetchBookContent({ bookTitle: id })
       ]);
 
       if (!isMounted.current) {
@@ -188,19 +189,19 @@ export default function BookDetail({ navigation, route }: any) {
 
   const stylez = useAnimatedStyle(() => {
     return {
-      display: yOffset.value > 268 ? "flex" : "none",
+      display: yOffset.value > 268 ? "flex" : "none"
     };
   });
 
   const navigationTopBar = (type = "", link = "") => {
     switch (type) {
       case "reading":
-        // navigation.navigate(pages.Listening);
+        navigation.navigate("Reading", { id: book.id, page: 1, book });
         break;
       case "listening":
         navigation.navigate(pages.Listening, {
           book: book,
-          listAudio: daftarIsi,
+          listAudio: daftarIsi
         });
         break;
       case "watching":
@@ -217,7 +218,7 @@ export default function BookDetail({ navigation, route }: any) {
     if (list.includes(id)) {
       postBookFavorite(email, {
         book: favorite.filter((t: []) => t !== id),
-        jumlah: favorite.length - 1,
+        jumlah: favorite.length - 1
       });
     } else {
       postBookFavorite(email, { book: favorite, jumlah: favorite.length });
@@ -246,6 +247,7 @@ export default function BookDetail({ navigation, route }: any) {
           }}
           onDownload={() => logger("donwload")}
           active={active}
+          isSubscribe={lockReadingListenViewBook}
         />
         {lockReadingListenViewBook ? (
           <>
@@ -287,10 +289,19 @@ export default function BookDetail({ navigation, route }: any) {
             <Animated.View
               style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
             >
-              <Lock color={primaryColor.main} width={28} />
+              <Button
+                onPress={() => setModalAllPlan(!modalAllPlan)}
+                style={styles.btnBar}
+              >
+                <Lock color={primaryColor.main} width={28} />
+                <TextItem style={styles.titleSelect}>
+                  {strings.yuk_upgrade}
+                </TextItem>
+              </Button>
+              {/* <Lock color={primaryColor.main} width={28} />
               <TextItem style={styles.titleSelect}>
                 {strings.yuk_upgrade}
-              </TextItem>
+              </TextItem> */}
             </Animated.View>
           </>
         )}
@@ -348,10 +359,15 @@ export default function BookDetail({ navigation, route }: any) {
               </View>
             ) : (
               <View style={[styles.SelectBar, styles.upgrade_yuk]}>
-                <Lock color={primaryColor.main} width={28} />
-                <TextItem style={styles.titleSelect}>
-                  {strings.yuk_upgrade}
-                </TextItem>
+                <Button
+                  onPress={() => setModalAllPlan(!modalAllPlan)}
+                  style={styles.btnBar}
+                >
+                  <Lock color={primaryColor.main} width={28} />
+                  <TextItem style={styles.titleSelect}>
+                    {strings.yuk_upgrade}
+                  </TextItem>
+                </Button>
               </View>
             )}
           </View>
@@ -577,6 +593,10 @@ export default function BookDetail({ navigation, route }: any) {
           </View>
         </Animated.ScrollView>
       </SkeletonContent>
+      <ModalSubscribe
+        modalVisible={modalAllPlan}
+        setModalVisible={setModalAllPlan}
+      />
     </Base>
   );
 }

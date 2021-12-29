@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: sp.sl,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
   columnWrapperStyle: { justifyContent: "space-between" },
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: primaryColor.main,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
-    top: -sp.m,
+    top: -sp.m
   },
 
   longTitle: { flex: 1.25 },
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   skeleton: { flex: 1 },
 
   underline: { textDecorationLine: "underline" },
+  row: { flexDirection: "row" }
 });
 
 export default styles;
