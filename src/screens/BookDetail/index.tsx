@@ -6,7 +6,7 @@ import {
   Headphones,
   Lock,
   Sunrise,
-  Video
+  Video,
 } from "@assets";
 import {
   neutralColor,
@@ -15,19 +15,19 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   TextInput,
-  View
+  View,
 } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue
+  useSharedValue,
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
@@ -39,7 +39,7 @@ import {
   CardComent,
   Gap,
   HeaderBookDetail,
-  TextItem
+  TextItem,
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import { logger } from "../../helpers";
@@ -49,7 +49,7 @@ import {
   fetchDetailBooks,
   fetchFavoriteBooks,
   fetchRecommendedBooks,
-  postBookFavorite
+  postBookFavorite,
 } from "../../services";
 import { fetchCommentarryBook } from "../../services/commentarry";
 import { formatDate } from "../../utils";
@@ -62,7 +62,7 @@ const openRate = false;
 export default function BookDetail({ navigation, route }: any) {
   const {
     editProfile: { profile },
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const { id } = route.params;
@@ -93,7 +93,7 @@ export default function BookDetail({ navigation, route }: any) {
     short_desc: "",
     audio_link: "",
     video_link: "",
-    watch_time: ""
+    watch_time: "",
   });
 
   const getDetailBookData = async () => {
@@ -102,7 +102,7 @@ export default function BookDetail({ navigation, route }: any) {
       const [detailBook, recomData, kilasBook] = await Promise.all([
         fetchDetailBooks(id),
         fetchRecommendedBooks(),
-        fetchBookContent({ bookTitle: id })
+        fetchBookContent({ bookTitle: id }),
       ]);
 
       if (!isMounted.current) {
@@ -187,7 +187,7 @@ export default function BookDetail({ navigation, route }: any) {
 
   const stylez = useAnimatedStyle(() => {
     return {
-      display: yOffset.value > 268 ? "flex" : "none"
+      display: yOffset.value > 268 ? "flex" : "none",
     };
   });
 
@@ -199,7 +199,7 @@ export default function BookDetail({ navigation, route }: any) {
       case "listening":
         navigation.navigate(pages.Listening, {
           book: book,
-          listAudio: daftarIsi
+          listAudio: daftarIsi,
         });
         break;
       case "watching":
@@ -216,7 +216,7 @@ export default function BookDetail({ navigation, route }: any) {
     if (list.includes(id)) {
       postBookFavorite(email, {
         book: favorite.filter((t: []) => t !== id),
-        jumlah: favorite.length - 1
+        jumlah: favorite.length - 1,
       });
     } else {
       postBookFavorite(email, { book: favorite, jumlah: favorite.length });
@@ -368,7 +368,9 @@ export default function BookDetail({ navigation, route }: any) {
                 </View>
                 <Sunrise style={styles.iconInfo} />
                 <View style={styles.boxTextInfo}>
-                  <TextItem style={styles.textInfo}>{"20 wawasan"}</TextItem>
+                  <TextItem style={styles.textInfo}>
+                    {daftarIsi.length + strings.kilas}
+                  </TextItem>
                 </View>
               </View>
             </View>
@@ -399,7 +401,7 @@ export default function BookDetail({ navigation, route }: any) {
             </View>
 
             <>
-              <View style={styles.boxRelease}>
+              {/* <View style={styles.boxRelease}>
                 <TextItem style={styles.texttglRelease}>
                   {strings.tgl_release}
                 </TextItem>
@@ -424,7 +426,7 @@ export default function BookDetail({ navigation, route }: any) {
                     </View>
                   </View>
                 </View>
-              </View>
+              </View> */}
 
               <View style={styles.boxDaftarIsi}>
                 <TextItem style={[styles.titleSection, styles.textDaftarIsi]}>
@@ -434,14 +436,14 @@ export default function BookDetail({ navigation, route }: any) {
                   {daftarIsi.map(({ title }, index) => (
                     <Button key={index} style={styles.listDaftar}>
                       <TextItem style={styles.textDfatar}>
-                        {index + 1}. {title || ""}
+                        Kilas {index + 1}: {title || ""}
                       </TextItem>
                       <ChevronRight color={neutralColor[50]} />
                     </Button>
                   ))}
                 </View>
               </View>
-              <View style={styles.boxTitleUlasan}>
+              {/* <View style={styles.boxTitleUlasan}>
                 <TextItem style={styles.titleSection}>
                   {strings.ulasan}
                 </TextItem>
@@ -527,7 +529,7 @@ export default function BookDetail({ navigation, route }: any) {
                 <Button style={styles.btnKirim}>
                   <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
                 </Button>
-              </View>
+              </View> */}
             </>
 
             {/* <View style={styles.boxLihatLebih}>

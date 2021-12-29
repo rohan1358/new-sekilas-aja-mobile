@@ -8,29 +8,29 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     alignItems: "center",
-    paddingVertical: 10
+    paddingVertical: 10,
   },
 
   boxRight: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   btn: {
     // borderWidth: 1,
-    padding: 10
+    padding: 10,
   },
 
   btnHeart: {
     backgroundColor: neutralColor[90],
     borderRadius: 100,
-    marginLeft: 10
+    marginLeft: 10,
   },
   btnHeartActive: {
-    backgroundColor: neutralColor[10],
+    backgroundColor: neutralColor[40],
     borderRadius: 100,
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });
 
 export default styles;

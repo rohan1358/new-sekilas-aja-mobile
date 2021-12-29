@@ -6,6 +6,7 @@ const neutralColor = {
   10: "#FBFCFC",
   20: "#ECF1F7",
   30: "#E3E8EF",
+  40: "#D9DDDC",
   50: "#BBC0CE",
   60: "#9BA2B5",
   70: "#767C91",

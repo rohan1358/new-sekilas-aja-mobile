@@ -85,10 +85,8 @@ const Home = () => {
     isFocused && getReadingBook();
   }, [isFocused]);
 
-  const s = styles({ isSubscribed: profile?.is_subscribed || false });
-
   const bannerRenderItem = ({ item }: { item: any }) => (
-    <View style={s.newCollectionContainer}>
+    <View style={styles.newCollectionContainer}>
       <ImageBanner placeholder={item.placeholder} />
       <Gap horizontal={sp.m} />
     </View>
@@ -102,9 +100,9 @@ const Home = () => {
         duration={item?.read_time}
         cover={item?.book_cover}
         //@ts-ignore
-        onPress={(id) => navigation.navigate(pages.BookDetail, { id })}
+        onPress={(id) => navigation.navigate(pagestyles.BookDetail, { id })}
         //@ts-ignore
-        navSubscrive={() => navigation.navigate(pages.Subscribe)}
+        navSubscrive={() => navigation.navigate(pagestyles.Subscribe)}
         isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
@@ -175,7 +173,7 @@ const Home = () => {
         throw new Error("Fail on fetching recommended books data");
       }
       if (mostBookData.isSuccess) {
-        setMostReadBooks(mostBookData.data?.slice(0, 2));
+        setMostReadBooks(mostBookData.data?.slice(0, 4));
       } else {
         throw new Error("Fail on fetching most read books data");
       }
@@ -254,7 +252,7 @@ const Home = () => {
       setSnackState={setSnackState}
     >
       <SkeletonContent
-        containerStyle={s.skeleton}
+        containerStyle={styles.skeleton}
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
@@ -266,7 +264,7 @@ const Home = () => {
             onPressProfile={onPressProfile}
           />
           <View>
-            <View style={s.dummyHeader} />
+            <View style={styles.dummyHeader} />
             <OngoingTile
               bookTitle={readingBook?.book}
               bookUri={readingBook?.book_cover}
@@ -274,13 +272,13 @@ const Home = () => {
               isAvailable={!!readingBook?.available}
             />
           </View>
-          <View style={s.adjuster}>
+          <View style={styles.adjuster}>
             <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap>
             <Gap vertical={sp.sm} />
             <FlatList
-              contentContainerStyle={s.newCollectionContentContainerStyle}
+              contentContainerStyle={styles.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
               data={dummyBanner}
@@ -289,7 +287,7 @@ const Home = () => {
               listKey={"bannerlist"}
             />
             <Gap vertical={sp.m} />
-            <Gap horizontal={HORIZONTAL_GAP}>
+            {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
               <TextItem type="r.14.nc.70">
                 {strings.bookCollectionsDesc}
@@ -297,22 +295,22 @@ const Home = () => {
             </Gap>
             <Gap vertical={sp.sm} />
             <FlatList
-              contentContainerStyle={s.newCollectionContentContainerStyle}
+              contentContainerStyle={styles.newCollectionContentContainerStyle}
               horizontal
               showsHorizontalScrollIndicator={false}
               data={dummyMiniCollectionData}
               renderItem={dummyMiniCollectionRender}
               keyExtractor={dummyMiniCollectionKey}
               listKey={"kilaslist"}
-            />
+            /> */}
             <Gap vertical={sp.sl} />
-            <View style={s.clickTitle}>
-              <TextItem type="b.24.nc.90" style={s.longTitle}>
+            <View style={styles.clickTitle}>
+              <TextItem type="b.24.nc.90" style={styles.longTitle}>
                 {strings.recommendedBook}
               </TextItem>
               <Gap horizontal={20} />
               <Button onPress={onPressRecommend}>
-                <TextItem type="b.14.nc.90" style={s.underline}>
+                <TextItem type="b.14.nc.90" style={styles.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
@@ -324,18 +322,18 @@ const Home = () => {
                 keyExtractor={idKeyExtractor}
                 numColumns={2}
                 renderItem={booksRenderItem}
-                columnWrapperStyle={s.columnWrapperStyle}
+                columnWrapperStyle={styles.columnWrapperStyle}
                 listKey={"recommendedbooklist"}
               />
             </Gap>
             <Gap vertical={sp.sl} />
-            <View style={s.clickTitle}>
-              <TextItem type="b.24.nc.90" style={s.longTitle}>
+            <View style={styles.clickTitle}>
+              <TextItem type="b.24.nc.90" style={styles.longTitle}>
                 {strings.mostRead}
               </TextItem>
               <Gap horizontal={20} />
               <Button onPress={onMostReadPress}>
-                <TextItem type="b.14.nc.90" style={s.underline}>
+                <TextItem type="b.14.nc.90" style={styles.underline}>
                   {strings.seeAll}
                 </TextItem>
               </Button>
@@ -347,7 +345,7 @@ const Home = () => {
                 keyExtractor={idKeyExtractor}
                 numColumns={2}
                 renderItem={booksRenderItem}
-                columnWrapperStyle={s.columnWrapperStyle}
+                columnWrapperStyle={styles.columnWrapperStyle}
                 listKey="mostreadbooklist"
               />
             </Gap>
