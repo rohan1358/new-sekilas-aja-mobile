@@ -39,6 +39,7 @@ import {
   CardComent,
   Gap,
   HeaderBookDetail,
+  ModalSubscribe,
   TextItem
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
@@ -72,7 +73,7 @@ export default function BookDetail({ navigation, route }: any) {
 
   const yOffset = useSharedValue(0);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [allInfo, setAllInfo] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [ratingCount, setRatingCount] = useState(4.5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
@@ -571,6 +572,10 @@ export default function BookDetail({ navigation, route }: any) {
           </View>
         </Animated.ScrollView>
       </SkeletonContent>
+      <ModalSubscribe
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </Base>
   );
 }
