@@ -10,7 +10,7 @@ export default function AccountSettingsHeader({
   name,
   data
 }: any) {
-  const { is_subscribed } = data;
+  const { is_subscribed } = data || {};
   return (
     <View style={styles.container}>
       <View style={styles.sectionMenu}>
