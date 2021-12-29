@@ -5,10 +5,20 @@ import { Bell, UserPlaceholder } from "../../../../assets";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
 import styles from "./styles";
 
-const HomeHeader = ({ name = "", uri, onBellPress, onPressProfile }: HomeHeaderProps) => {
+const HomeHeader = ({
+  name = "",
+  uri,
+  onBellPress,
+  onPressProfile
+}: HomeHeaderProps) => {
   return (
     <View style={styles.container}>
-      <Button onPress={onPressProfile} style={styles.profileContainer}>
+      <Button
+        onPress={() => {
+          name && onPressProfile();
+        }}
+        style={styles.profileContainer}
+      >
         {!!uri ? (
           <Amage source={uri} />
         ) : (
@@ -20,7 +30,12 @@ const HomeHeader = ({ name = "", uri, onBellPress, onPressProfile }: HomeHeaderP
         <TextItem type="r.14.nc.80">{strings.happyReading}</TextItem>
         <TextItem type="b.24.nc.90.c">{name}</TextItem>
       </View>
-      <Button style={styles.iconContainer} onPress={onBellPress}>
+      <Button
+        style={styles.iconContainer}
+        onPress={() => {
+          name && onBellPress();
+        }}
+      >
         <Bell stroke={neutralColor[90]} />
       </Button>
     </View>

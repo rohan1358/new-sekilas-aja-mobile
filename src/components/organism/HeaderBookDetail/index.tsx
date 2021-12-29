@@ -9,7 +9,8 @@ export default function HeaderBookDetail({
   navigation,
   onDownload,
   onFavorite,
-  active
+  active,
+  isSubscribe
 }: HeaderBookDetailProps) {
   return (
     <View style={styles.container}>
@@ -17,15 +18,20 @@ export default function HeaderBookDetail({
         <ArrowLeft color={neutralColor[90]} />
       </Button>
       <View style={styles.boxRight}>
-        <Button onPress={() => onDownload && onDownload()} style={styles.btn}>
+        {/* <Button onPress={() => onDownload && onDownload()} style={styles.btn}>
           <Download color={neutralColor[90]} />
-        </Button>
-        <Button
-          onPress={() => onFavorite && onFavorite()}
-          style={[active ? styles.btnHeartActive : styles.btnHeart, styles.btn]}
-        >
-          <HeartBook />
-        </Button>
+        </Button> */}
+        {isSubscribe && (
+          <Button
+            onPress={() => onFavorite && onFavorite()}
+            style={[
+              active ? styles.btnHeartActive : styles.btnHeart,
+              styles.btn
+            ]}
+          >
+            <HeartBook />
+          </Button>
+        )}
       </View>
     </View>
   );

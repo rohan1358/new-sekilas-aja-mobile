@@ -6,7 +6,7 @@ import {
   ExploreSearch,
   Gap,
   TextItem,
-  TitleTap,
+  TitleTap
 } from "@components";
 import { primaryColor, skeleton, spacing as sp, strings } from "@constants";
 import { heightPercent, logger, useMounted } from "@helpers";
@@ -14,7 +14,7 @@ import {
   fetchListCategory,
   fetchRecommendedBooks,
   fetchReleasedBooks,
-  fetchTrendBooks,
+  fetchTrendBooks
 } from "@services";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -22,7 +22,7 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { categories, newCategories } from "../../../assets/dummy";
@@ -34,13 +34,13 @@ import {
   BOUNDARY,
   FLATLIST_SECOND_GAP,
   HORIZONTAL_GAP,
-  TOP_HEADER_GAP,
+  TOP_HEADER_GAP
 } from "./values";
 
 const CategoryChips = ({
   item,
   index,
-  onPress,
+  onPress
 }: {
   item: { id: string; label: string; Icon: any };
   index: number;
@@ -73,9 +73,9 @@ const Explore = ({ navigation }: ExploreProps) => {
     transform: [
       {
         translateY:
-          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0),
-      },
-    ],
+          scrollY.value >= 32 ? withTiming(-headerTranslate) : withTiming(0)
+      }
+    ]
   }));
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const Explore = ({ navigation }: ExploreProps) => {
       const [recomData, releaseData, trendData] = await Promise.all([
         fetchRecommendedBooks(),
         fetchReleasedBooks(),
-        fetchTrendBooks(),
+        fetchTrendBooks()
       ]);
       if (!isMounted) return;
       if (releaseData.isSuccess) {
@@ -136,19 +136,19 @@ const Explore = ({ navigation }: ExploreProps) => {
 
   const onNewPress = () =>
     navigation.navigate("SpecialBookList", {
-      type: "newRelease",
+      type: "newRelease"
     });
 
   const onRecommendPress = () =>
     navigation.navigate("SpecialBookList", {
-      type: "recommendation",
+      type: "recommendation"
     });
 
   const onSearchPress = () => navigation.navigate("Search");
 
   const onTrendPress = () =>
     navigation.navigate("SpecialBookList", {
-      type: "trending",
+      type: "trending"
     });
 
   const fetchCategory = async () => {
@@ -182,7 +182,7 @@ const Explore = ({ navigation }: ExploreProps) => {
         <View
           style={{
             top: -flatListTopAdjuster,
-            height: heightPercent(100) + flatListTopAdjuster,
+            height: heightPercent(100) + flatListTopAdjuster
           }}
         >
           <DummyFlatList
@@ -192,65 +192,68 @@ const Explore = ({ navigation }: ExploreProps) => {
             scrollEventThrottle={16}
           >
             <Gap vertical={flatListTopAdjuster - sp.m + FLATLIST_SECOND_GAP} />
-            <Gap horizontal={HORIZONTAL_GAP}>
-              <TextItem type="b.24.nc.90">{strings.bookCategory}</TextItem>
-            </Gap>
-            <Gap vertical={sp.sm} />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View>
-                <View style={styles.row}>
-                  {newChips &&
-                    newChips
-                      .slice(0, newChips.length / 2 + 1)
-                      .map((item: any, index: any) => {
-                        const onPress = (id: string) =>
-                          navigation.navigate("Category", {
-                            type: "category",
-                            title: item,
-                            payload: id,
-                          });
-                        return (
-                          <CategoryChips
-                            onPress={onPress}
-                            index={index}
-                            item={{
-                              id: item,
-                              label: item,
-                              Icon: newCategories(item),
-                            }}
-                            key={index}
-                          />
-                        );
-                      })}
+            {/* category */}
+            <>
+              <Gap horizontal={HORIZONTAL_GAP}>
+                <TextItem type="b.24.nc.90">{strings.bookCategory}</TextItem>
+              </Gap>
+              <Gap vertical={sp.sm} />
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View>
+                  <View style={styles.row}>
+                    {newChips &&
+                      newChips
+                        .slice(0, newChips.length / 2 + 1)
+                        .map((item: any, index: any) => {
+                          const onPress = (id: string) =>
+                            navigation.navigate("Category", {
+                              type: "category",
+                              title: item,
+                              payload: id
+                            });
+                          return (
+                            <CategoryChips
+                              onPress={onPress}
+                              index={index}
+                              item={{
+                                id: item,
+                                label: item,
+                                Icon: newCategories(item)
+                              }}
+                              key={index}
+                            />
+                          );
+                        })}
+                  </View>
+                  <Gap vertical={sp.sm} />
+                  <View style={styles.row}>
+                    {newChips &&
+                      newChips
+                        .slice(newChips.length / 2 + 1, newChips.length)
+                        .map((item: any, index: any) => {
+                          const onPress = (id: string) =>
+                            navigation.navigate("Category", {
+                              type: "category",
+                              title: item,
+                              payload: id
+                            });
+                          return (
+                            <CategoryChips
+                              onPress={onPress}
+                              index={index}
+                              item={{
+                                id: item,
+                                label: item,
+                                Icon: newCategories(item)
+                              }}
+                              key={index}
+                            />
+                          );
+                        })}
+                  </View>
                 </View>
-                <Gap vertical={sp.sm} />
-                <View style={styles.row}>
-                  {newChips &&
-                    newChips
-                      .slice(newChips.length / 2 + 1, newChips.length)
-                      .map((item: any, index: any) => {
-                        const onPress = (id: string) =>
-                          navigation.navigate("Category", {
-                            type: "category",
-                            title: item,
-                            payload: id,
-                          });
-                        return (
-                          <CategoryChips
-                            onPress={onPress}
-                            index={index}
-                            item={{
-                              id: item,
-                              label: item,
-                              Icon: newCategories(item),
-                            }}
-                            key={index}
-                          />
-                        );
-                      })}
-                </View>
-              </View>
-            </ScrollView>
+              </ScrollView>
+            </>
             <Gap vertical={sp.sl} />
             <TitleTap title={strings.newRelease} onPress={onNewPress} />
             <Gap vertical={sp.sm} />

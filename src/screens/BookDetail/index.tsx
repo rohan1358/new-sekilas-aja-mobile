@@ -39,6 +39,7 @@ import {
   CardComent,
   Gap,
   HeaderBookDetail,
+  ModalSubscribe,
   TextItem
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
@@ -72,7 +73,7 @@ export default function BookDetail({ navigation, route }: any) {
 
   const yOffset = useSharedValue(0);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [allInfo, setAllInfo] = useState(false);
+  const [modalAllPlan, setModalAllPlan] = useState(false);
   const [ratingCount, setRatingCount] = useState(4.5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
@@ -93,7 +94,8 @@ export default function BookDetail({ navigation, route }: any) {
     short_desc: "",
     audio_link: "",
     video_link: "",
-    watch_time: ""
+    watch_time: "",
+    descriptions: []
   });
 
   const getDetailBookData = async () => {
@@ -194,7 +196,7 @@ export default function BookDetail({ navigation, route }: any) {
   const navigationTopBar = (type = "", link = "") => {
     switch (type) {
       case "reading":
-        // navigation.navigate(pages.Listening);
+        navigation.navigate("Reading", { id: book.id, page: 1, book });
         break;
       case "listening":
         navigation.navigate(pages.Listening, {
@@ -245,6 +247,7 @@ export default function BookDetail({ navigation, route }: any) {
           }}
           onDownload={() => logger("donwload")}
           active={active}
+          isSubscribe={lockReadingListenViewBook}
         />
         {lockReadingListenViewBook ? (
           <>
@@ -286,10 +289,19 @@ export default function BookDetail({ navigation, route }: any) {
             <Animated.View
               style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
             >
-              <Lock color={primaryColor.main} width={28} />
+              <Button
+                onPress={() => setModalAllPlan(!modalAllPlan)}
+                style={styles.btnBar}
+              >
+                <Lock color={primaryColor.main} width={28} />
+                <TextItem style={styles.titleSelect}>
+                  {strings.yuk_upgrade}
+                </TextItem>
+              </Button>
+              {/* <Lock color={primaryColor.main} width={28} />
               <TextItem style={styles.titleSelect}>
                 {strings.yuk_upgrade}
-              </TextItem>
+              </TextItem> */}
             </Animated.View>
           </>
         )}
@@ -347,10 +359,15 @@ export default function BookDetail({ navigation, route }: any) {
               </View>
             ) : (
               <View style={[styles.SelectBar, styles.upgrade_yuk]}>
-                <Lock color={primaryColor.main} width={28} />
-                <TextItem style={styles.titleSelect}>
-                  {strings.yuk_upgrade}
-                </TextItem>
+                <Button
+                  onPress={() => setModalAllPlan(!modalAllPlan)}
+                  style={styles.btnBar}
+                >
+                  <Lock color={primaryColor.main} width={28} />
+                  <TextItem style={styles.titleSelect}>
+                    {strings.yuk_upgrade}
+                  </TextItem>
+                </Button>
               </View>
             )}
           </View>
@@ -358,6 +375,9 @@ export default function BookDetail({ navigation, route }: any) {
           <View style={styles.sectionDetail}>
             <View style={styles.boxTitle}>
               <TextItem style={styles.titleBook}>{book?.book_title}</TextItem>
+              <TextItem style={styles.textShortDesc}>
+                {book?.short_desc}
+              </TextItem>
               <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
               <View style={styles.info}>
                 <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
@@ -368,7 +388,9 @@ export default function BookDetail({ navigation, route }: any) {
                 </View>
                 <Sunrise style={styles.iconInfo} />
                 <View style={styles.boxTextInfo}>
-                  <TextItem style={styles.textInfo}>{"20 wawasan"}</TextItem>
+                  <TextItem style={styles.textInfo}>
+                    {daftarIsi.length + " " + strings.kilas}
+                  </TextItem>
                 </View>
               </View>
             </View>
@@ -392,14 +414,14 @@ export default function BookDetail({ navigation, route }: any) {
                 {strings.tentang_buku}
               </TextItem>
               <View style={styles.boxTextTentang}>
-                <TextItem style={styles.textTentang}>
-                  {book?.short_desc}
-                </TextItem>
+                {book?.descriptions.map((desc, index) => (
+                  <TextItem style={styles.textTentang}>{desc}</TextItem>
+                ))}
               </View>
             </View>
 
             <>
-              <View style={styles.boxRelease}>
+              {/* <View style={styles.boxRelease}>
                 <TextItem style={styles.texttglRelease}>
                   {strings.tgl_release}
                 </TextItem>
@@ -424,7 +446,7 @@ export default function BookDetail({ navigation, route }: any) {
                     </View>
                   </View>
                 </View>
-              </View>
+              </View> */}
 
               <View style={styles.boxDaftarIsi}>
                 <TextItem style={[styles.titleSection, styles.textDaftarIsi]}>
@@ -434,14 +456,14 @@ export default function BookDetail({ navigation, route }: any) {
                   {daftarIsi.map(({ title }, index) => (
                     <Button key={index} style={styles.listDaftar}>
                       <TextItem style={styles.textDfatar}>
-                        {index + 1}. {title || ""}
+                        Kilas {index + 1}: {title || ""}
                       </TextItem>
                       <ChevronRight color={neutralColor[50]} />
                     </Button>
                   ))}
                 </View>
               </View>
-              <View style={styles.boxTitleUlasan}>
+              {/* <View style={styles.boxTitleUlasan}>
                 <TextItem style={styles.titleSection}>
                   {strings.ulasan}
                 </TextItem>
@@ -527,7 +549,7 @@ export default function BookDetail({ navigation, route }: any) {
                 <Button style={styles.btnKirim}>
                   <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
                 </Button>
-              </View>
+              </View> */}
             </>
 
             {/* <View style={styles.boxLihatLebih}>
@@ -571,6 +593,10 @@ export default function BookDetail({ navigation, route }: any) {
           </View>
         </Animated.ScrollView>
       </SkeletonContent>
+      <ModalSubscribe
+        modalVisible={modalAllPlan}
+        setModalVisible={setModalAllPlan}
+      />
     </Base>
   );
 }

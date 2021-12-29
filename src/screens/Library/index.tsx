@@ -15,7 +15,7 @@ const Library = (navigation: any) => {
   const [favorit, setFavorit] = React.useState(0);
 
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const getTotalFavorit = async () => {
@@ -62,9 +62,9 @@ const Library = (navigation: any) => {
         <Gap vertical={sp.sm} />
         <View style={styles.headerTitle}>
           <TextItem type="b.24.nc.90">Koleksi Bukuku</TextItem>
-          <Button style={styles.icon}>
+          {/* <Button style={styles.icon}>
             <Search stroke={neutralColor[90]} />
-          </Button>
+          </Button> */}
         </View>
         <Gap vertical={sp.sm} />
       </View>
@@ -72,17 +72,17 @@ const Library = (navigation: any) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainerStyle}
       >
-        <LibraryMenu
+        {/* <LibraryMenu
           action={() => logger("masuk ke page buku yang di unduh")}
           title={strings.downloadedBooks}
           bookCount={5}
           icon={<Download stroke={neutralColor[90]} />}
         />
-        <Gap vertical={sp.sm} />
+        <Gap vertical={sp.sm} /> */}
         <LibraryMenu
           action={() =>
             navigation.navigation.navigate("SpecialBookList", {
-              type: "myFavorite"
+              type: "myFavorite",
             })
           }
           title={strings.favBooks}
@@ -90,12 +90,12 @@ const Library = (navigation: any) => {
           icon={<Heart stroke={neutralColor[90]} width={24} height={24} />}
         />
         <Gap vertical={sp.sm} />
-        <LibraryMenu
+        {/* <LibraryMenu
           action={() => logger("masuk ke page buku yang telah selesai di baca")}
           title={strings.finishedBooks}
           bookCount={17}
           icon={<Check stroke={neutralColor[90]} />}
-        />
+        /> */}
       </ScrollView>
     </Base>
   );

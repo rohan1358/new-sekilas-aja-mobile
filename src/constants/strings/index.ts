@@ -103,12 +103,11 @@ export const strings = {
   lebih_banyak: "Lihat Lebih Banyak",
   lebih_sedikit: "Lihat Lebih Sedikit",
   library: "Bukuku",
-  lihat_semua: "Lihat Semua",
+  lihat_semua: "Lihat Semua >",
   listen: "Dengar",
   login: "Masuk!",
   loginHere: "Login di sini",
   langganan_sekaarang: "Langganan sekarang",
-  kembaliKeHome: "Kembali Ke Beranda",
   lagi_bokek: "Lagi bokek",
 
   mark: "Tandai",
@@ -131,7 +130,7 @@ export const strings = {
   newRelease: "Baru rilis",
   newSearch: "Pencarian terbaru",
   noBook: "Buku ga ditemukan!",
-  notif_sistem: "Notifikasi Sistem",
+  notif_sistem: "Sistem Notifikasi",
   notif_promo: "Notifikasi Promo",
   notification: "Notifikasi",
   notif_empty: "Notifikasi kosong!",
@@ -150,9 +149,10 @@ export const strings = {
   policy: "Kebijakan Privasi",
   preferensi_Account: "Preferensi",
   premium_Account: "Premium",
+  free_Account: "Belum Subscribe",
   pilih_bahasa: "Pilih bahasa yang kamu mengerti.",
   putar: "Putar Otomatis",
-  password_minimal: "Password minimal harus berisi 8 karakter.",
+  password_minimal: "Password minimal harus berisi 6 karakter.",
   password_lama: "Password Lama",
   password_baru: "Password Baru",
   password_konfir: "Konfirmasi Password",
@@ -179,7 +179,7 @@ export const strings = {
   rp: "Rp ",
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
-  seeAll: "Lihat semua",
+  seeAll: "Lihat Semua >",
   share: "Bagikan",
   sub_onBoard_1:
     "Solusi buat kamu yang malas baca buku, tapi kepo pengen tau isinya.",
@@ -239,5 +239,7 @@ export const strings = {
   yakin_keluar: "Yakin ingin keluar?",
   yuk_upgrade: "Yuk, upgrade dulu ke premium!",
 
-  zona: "Zona"
+  zona: "Zona",
+
+  kilas: "kilas"
 };
