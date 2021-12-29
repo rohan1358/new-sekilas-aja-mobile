@@ -2,13 +2,7 @@ import { StyleSheet } from "react-native";
 import { neutralColor, spacing as sp } from "../../../constants";
 import { widthPercent } from "../../../helpers";
 
-const styles = ({
-  tileHeight,
-  is_subscribed,
-}: {
-  tileHeight: number;
-  is_subscribed: boolean;
-}) =>
+const styles = ({ tileHeight }: { tileHeight: number }) =>
   StyleSheet.create({
     child: {
       flexDirection: "row",
@@ -24,7 +18,6 @@ const styles = ({
       top: -24 - tileHeight / 2,
       borderRadius: 12,
       elevation: 3,
-      opacity: is_subscribed ? 1 : 0,
     },
 
     imageContainer: { width: 40, height: 60 },
