@@ -94,6 +94,7 @@ export default function BookDetail({ navigation, route }: any) {
     audio_link: "",
     video_link: "",
     watch_time: "",
+    descriptions: [],
   });
 
   const getDetailBookData = async () => {
@@ -358,6 +359,9 @@ export default function BookDetail({ navigation, route }: any) {
           <View style={styles.sectionDetail}>
             <View style={styles.boxTitle}>
               <TextItem style={styles.titleBook}>{book?.book_title}</TextItem>
+              <TextItem style={styles.textShortDesc}>
+                {book?.short_desc}
+              </TextItem>
               <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
               <View style={styles.info}>
                 <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
@@ -369,7 +373,7 @@ export default function BookDetail({ navigation, route }: any) {
                 <Sunrise style={styles.iconInfo} />
                 <View style={styles.boxTextInfo}>
                   <TextItem style={styles.textInfo}>
-                    {daftarIsi.length + strings.kilas}
+                    {daftarIsi.length + " " + strings.kilas}
                   </TextItem>
                 </View>
               </View>
@@ -394,9 +398,9 @@ export default function BookDetail({ navigation, route }: any) {
                 {strings.tentang_buku}
               </TextItem>
               <View style={styles.boxTextTentang}>
-                <TextItem style={styles.textTentang}>
-                  {book?.short_desc}
-                </TextItem>
+                {book?.descriptions.map((desc, index) => (
+                  <TextItem style={styles.textTentang}>{desc}</TextItem>
+                ))}
               </View>
             </View>
 
