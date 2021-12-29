@@ -21,13 +21,10 @@ const Payment = ({
           <ArrowLeft color={neutralColor[90]} width={30} height={25} />
         </Button>
       </View>
-      {/* /payment-three-mobile/rohanDev50@gmail.com */}
-      {/* fix */}
-      {/* http://192.168.43.129:3000/payment-three-mobile/${email} */}
       <View style={styles.webView}>
         <WebView
           source={{
-            uri: `http://192.168.43.129:3000${baseUrl}${email}`
+            uri: `https://sekilasaja.com${baseUrl}${email}`
           }}
         />
       </View>
