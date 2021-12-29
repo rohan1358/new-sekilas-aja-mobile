@@ -149,6 +149,7 @@ export const strings = {
   policy: "Kebijakan Privasi",
   preferensi_Account: "Preferensi",
   premium_Account: "Premium",
+  free_Account: "Belum Subscribe",
   pilih_bahasa: "Pilih bahasa yang kamu mengerti.",
   putar: "Putar Otomatis",
   password_minimal: "Password minimal harus berisi 6 karakter.",
@@ -240,5 +241,5 @@ export const strings = {
 
   zona: "Zona",
 
-  kilas: "kilas",
+  kilas: "kilas"
 };
