@@ -117,9 +117,9 @@ const Home = () => {
         duration={item?.read_time}
         cover={item?.book_cover}
         //@ts-ignore
-        onPress={(id) => navigation.navigate(pages.BookDetail, { id })}
+        onPress={(id) => navigation.navigate("BookDetail", { id })}
         //@ts-ignore
-        navSubscrive={() => navigation.navigate(pages.Subscribe)}
+        navSubscrive={() => navigation.navigate("Subscribe")}
         isVideoAvailable={item?.isVideoAvailable}
       />
       <Gap vertical={sp.sl} />
@@ -271,7 +271,7 @@ const Home = () => {
     >
       <SkeletonContent
         containerStyle={styles.skeleton}
-        isLoading={isLoading}
+        isLoading={isLoading || !isFocused}
         layout={skeleton.mainHome}
       >
         <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
@@ -281,6 +281,7 @@ const Home = () => {
             onBellPress={onBellPress}
             onPressProfile={onPressProfile}
           />
+
           <View>
             <View style={styles.dummyHeader} />
             <OngoingTile
