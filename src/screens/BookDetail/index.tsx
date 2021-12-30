@@ -260,18 +260,14 @@ export default function BookDetail({ navigation, route }: any) {
                 <File />
                 <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
               </Button>
-              {book.audio_link != "" && (
-                <Button
-                  onPress={() => navigationTopBar("listening")}
-                  style={styles.btnBar}
-                >
-                  <Headphones />
-                  <TextItem style={styles.titleSelect}>
-                    {strings.dengar}
-                  </TextItem>
-                </Button>
-              )}
-              {book.video_link != "" && (
+              <Button
+                onPress={() => navigationTopBar("listening")}
+                style={styles.btnBar}
+              >
+                <Headphones />
+                <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
+              </Button>
+              {book.video_link !== "" && (
                 <Button
                   onPress={() => navigationTopBar("watching")}
                   style={styles.btnBar}

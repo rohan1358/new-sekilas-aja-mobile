@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Modal, ScrollView, View } from "react-native";
 import { widthPercent } from "../../../helpers";
 import { Button, TextItem } from "../../atom";
-import Payment from "./child/Payment";
+import Payment from "../ChildModalSubs/Payment";
 import paketList from "./dummy";
 import styles from "./styles";
 import firestore from "@react-native-firebase/firestore";
