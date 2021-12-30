@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 20,
     color: neutralColor[70],
-    marginTop: 8,
+    marginTop: 14,
     fontStyle: "italic",
     // textDecorationLine: 'underline'
   },
@@ -158,6 +158,13 @@ const styles = StyleSheet.create({
   },
 
   textTentang: {
+    fontSize: 16,
+    color: neutralColor[70],
+    marginBottom: 10,
+  },
+
+  textShortDesc: {
+    marginTop: 6,
     fontSize: 16,
     color: neutralColor[70],
   },

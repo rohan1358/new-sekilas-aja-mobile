@@ -1,6 +1,7 @@
 interface HeaderBookDetailProps {
-    navigation: {goBack: any},
-    onDownload: any,
-    onFavorite: any,
-    Active: boolean,
+  navigation: { goBack: any };
+  onDownload: any;
+  onFavorite: any;
+  active: boolean;
+  isSubscribe: boolean;
 }
