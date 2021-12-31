@@ -18,7 +18,7 @@ export default function ModalSubscribe({
   ...props
 }: ModalSubscribeProps) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const refScroll = useRef();
@@ -31,14 +31,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
   const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
 
@@ -124,7 +124,7 @@ export default function ModalSubscribe({
         <View
           style={[
             styles.contentCard,
-            statusNormal ? styles.backBlack : styles.backWhite
+            statusNormal ? styles.backBlack : styles.backWhite,
           ]}
         >
           <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>
@@ -173,10 +173,16 @@ export default function ModalSubscribe({
                 {strings.keuntungan}
               </TextItem>
               <View style={styles.boxWhite}>
+                {/* <View style={styles.list}>
+                <Check color={neutralColor[70]} />
+                <TextItem type="r.16.nc.70" style={styles.textList}>
+                  {strings.akses_online}
+                </TextItem>
+              </View> */}
                 <View style={styles.list}>
                   <Check color={neutralColor[70]} />
                   <TextItem type="r.16.nc.70" style={styles.textList}>
-                    {strings.akses_online}
+                    {strings.kilas_buku}
                   </TextItem>
                 </View>
                 <View style={styles.list}>
@@ -189,12 +195,6 @@ export default function ModalSubscribe({
                   <Check color={neutralColor[70]} />
                   <TextItem type="r.16.nc.70" style={styles.textList}>
                     {strings.membuka_semua}
-                  </TextItem>
-                </View>
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.16.nc.70" style={styles.textList}>
-                    {strings.kilas_buku}
                   </TextItem>
                 </View>
               </View>

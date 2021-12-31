@@ -96,7 +96,7 @@ export const strings = {
   kecepatan_video: "Kecepatan Video",
   kecepatan_audio: "Kecepatan Audio",
   keuntungan: "Keuntungan yang didapat dengan upgrade ke premium adalah:",
-  kilas_buku: "30+ Kilas Buku baru setiap bulannya!",
+  kilas_buku: "Dapatkan 100++ rangkuman buku terbaik dunia",
 
   lalu: " lalu",
   lastReadClue: "Eksplor kilas buku terpopuler",
@@ -241,5 +241,5 @@ export const strings = {
 
   zona: "Zona",
 
-  kilas: "kilas"
+  kilas: "kilas",
 };
