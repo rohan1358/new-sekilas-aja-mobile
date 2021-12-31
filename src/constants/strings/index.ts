@@ -123,10 +123,14 @@ export const strings = {
     "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
 
   name: "Nama",
+  numberPhone: "Nomor Hp",
   notif: "Notifikasi",
   nameCantBeEmpty: "Nama tidak boleh kosong",
+  phoneNumberCantBeEmpty: "Nomor Hp tidak boleh kosong",
+  phoneNumberMinChar: "Nomor Hp minimal berisi 11 angka",
   nameMinChar: "Nama minimal berisi 3 karakter",
   namePlaceholder: "Isi nama disini ...",
+  phoneNumberPlaceholder: "Isi Nomor Hp disini ...",
   newRelease: "Baru rilis",
   newSearch: "Pencarian terbaru",
   noBook: "Buku ga ditemukan!",
@@ -243,5 +247,5 @@ export const strings = {
   zona: "Zona",
 
   kilas: "kilas",
-  kembaliKeHome: "Kembali ke halaman beranda",
+  kembaliKeHome: "Kembali ke halaman beranda"
 };

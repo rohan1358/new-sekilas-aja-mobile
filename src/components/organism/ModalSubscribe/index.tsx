@@ -18,7 +18,7 @@ export default function ModalSubscribe({
   ...props
 }: ModalSubscribeProps) {
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const refScroll = useRef();
@@ -31,14 +31,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to),
+      x: widthPercent(to)
     });
   };
   const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to),
+      x: widthPercent(to)
     });
   };
 
@@ -63,12 +63,15 @@ export default function ModalSubscribe({
           .collection(firebaseNode.users)
           .where("email", "==", email)
           .onSnapshot((res: any) => {
-            const result = res.docs[0].data();
-            if (result.last_position_web_view === "/payment-success-mobile") {
-              setBtnBack(true);
-            } else {
-              setBtnBack(false);
+            if (res.docs[0]) {
+              const result = res.docs[0].data();
+              if (result.last_position_web_view === "/payment-success-mobile") {
+                setBtnBack(true);
+              } else {
+                setBtnBack(false);
+              }
             }
+
             // if(result.)
             // if(res.docs[0].data())
           });
@@ -124,7 +127,7 @@ export default function ModalSubscribe({
         <View
           style={[
             styles.contentCard,
-            statusNormal ? styles.backBlack : styles.backWhite,
+            statusNormal ? styles.backBlack : styles.backWhite
           ]}
         >
           <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>

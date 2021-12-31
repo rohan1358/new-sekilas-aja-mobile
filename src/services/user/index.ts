@@ -9,7 +9,23 @@ const fetchProfile = (email: string) => {
         .collection(firebaseNode.users)
         .where("email", "==", email)
         .get();
-      const user = { ...raw.docs[0].data(), id: raw.docs[0].id };
+      const newData = raw.docs[0].data();
+      const id = raw.docs[0].id;
+      const { is_subscribed } = newData;
+      const rawData = {
+        ...newData,
+        is_subscribed:
+          newData.end_date.toDate() < new Date() && is_subscribed
+            ? false
+            : is_subscribed
+      };
+      if (raw.docs[0].data()) {
+        if (newData.end_date.toDate() < new Date() && is_subscribed) {
+          firestore().collection(firebaseNode.users).doc(id).update(rawData);
+        }
+      }
+
+      const user = { ...rawData, id };
       resolve({
         data: user,
         isSuccess: true,

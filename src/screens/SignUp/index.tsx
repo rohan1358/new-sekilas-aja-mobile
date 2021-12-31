@@ -10,7 +10,7 @@ import {
   Button,
   Gap,
   TextField,
-  TextItem,
+  TextItem
 } from "../../components";
 import {
   defaultValue as dv,
@@ -19,7 +19,7 @@ import {
   snackState as ss,
   spacing as sp,
   strings,
-  successColor,
+  successColor
 } from "../../constants";
 import styles from "./styles";
 import { SignUpProps } from "./types";
@@ -36,6 +36,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const [isSecurePassword, setIsSecurePassword] = useState<boolean>(true);
   const [isSecureRePassword, setIsSecureRepassword] = useState<boolean>(true);
   const [name, setName] = useState<string>();
+  const [lastName, setLastName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -45,7 +47,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
       nameCheck.state,
       emailCheck.state,
       passwordCheck.state,
-      repasswordCheck.state,
+      repasswordCheck.state
     ];
     return !check.every((item) => item === textFieldState.success);
   };
@@ -58,18 +60,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (email.length === 0) {
       return {
         message: strings.emailCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.invalidEmail,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [email]);
 
@@ -81,20 +83,43 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (name.length === 0) {
       return {
         message: strings.nameCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.nameMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [name]);
+
+  const phoneNumberCheck = useMemo(() => {
+    if (phoneNumber === undefined) {
+      return { state: textFieldState.none };
+    }
+    if (phoneNumber?.length > 3) {
+      return {
+        message: "",
+        state: textFieldState.success,
+        Icon: <Check stroke={successColor.main} />
+      };
+    }
+    if (phoneNumber.length === 0) {
+      return {
+        message: strings.phoneNumberCantBeEmpty,
+        state: textFieldState.warn
+      };
+    }
+    return {
+      message: strings.nameMinChar,
+      state: textFieldState.warn
+    };
+  }, [phoneNumber]);
 
   const passwordCheck = useMemo(() => {
     if (password === undefined) {
@@ -103,18 +128,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (password?.length >= 6) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     if (password.length === 0) {
       return {
         message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.passwordMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [password]);
 
@@ -125,12 +150,12 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (repassword === password) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     return {
       message: strings.passwordDontMatch,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [repassword, password]);
 
@@ -141,6 +166,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (!email || !password) {
       return;
     }
+
     setIsLoading(true);
     Keyboard.dismiss();
     auth()
@@ -151,12 +177,39 @@ const SignUp = ({ navigation }: SignUpProps) => {
           .add({
             firstName: name,
             email,
-            sign_up_date: firestore.FieldValue.serverTimestamp(),
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            owned_books: [
+              "Atomic Habits",
+              "The Little Book of Common Sense Investing"
+            ],
+            favorite_books: [],
+            is_subscribed: false,
+            cart: [],
+            // sign_up_date: firestore.FieldValue.serverTimestamp(),
+            start_date: new Date(), // this date means UNSUBSCRIBED
+            end_date: new Date(), // this date means UNSUBSCRIBED
+            sign_up_date: new Date(),
+            promo_codes_used: []
           })
           .then(() => {
-            navigation.replace(pages.Home);
-            dispatch(loggingIn({ isLogin: true, email }));
-          });
+            firestore()
+              .collection("dashboard")
+              .doc("track_record")
+              .set(
+                {
+                  sign_up: {
+                    [new Date().getTime()]: { email, date: new Date() }
+                  }
+                },
+                { merge: true }
+              )
+              .then((res) => {
+                navigation.replace(pages.Home);
+                dispatch(loggingIn({ isLogin: true, email }));
+              });
+          })
+          .catch((err) => {});
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -230,6 +283,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
           iconPress={() => setIsSecureRepassword((current) => !current)}
           {...repasswordCheck}
         />
+        <Gap vertical={sp.sm} />
+
+        <TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem>
+        <Gap vertical={sp.xs} />
+        <TextField
+          placeholder={strings.namePlaceholder}
+          onChangeText={setPhoneNumber}
+          autoCapitalize="words"
+          keyboardType="name-phone-pad"
+          {...phoneNumberCheck}
+        />
+
         <Gap vertical={sp.sm} />
         <View style={styles.centering}>
           <TextItem type="r.14.nc.90" style={styles.textCenter}>
