@@ -214,7 +214,7 @@ export default function ModalSubscribe({
               <TextItem type="b.32.nc.90">
                 {strings.pilih_paket_premium}
               </TextItem>
-              <TextItem type="r.20.nc.70" style={styles.subTextTitle}>
+              <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
                 {strings.pilihan_paket}
               </TextItem>
               <View style={styles.boxListCard}>

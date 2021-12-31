@@ -6,11 +6,11 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: primaryColor.main,
     flex: 1,
-    paddingHorizontal: 25,
+    paddingHorizontal: 25
   },
   boxImage: {
-    height: heightPercent(25),
-    marginVertical: 23,
+    height: heightPercent(25)
+    // marginVertical: 23
   },
 
   backgroundVideo: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   },
 
   loadVideo: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     zIndex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   loadVideoActive: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     zIndex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   text: {
@@ -50,22 +50,22 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontSize: 20,
     color: neutralColor[70],
-    fontWeight: "500",
+    fontWeight: "500"
   },
 
   SliderContainer: {
-    height: heightPercent(5),
+    height: heightPercent(5)
   },
 
   trackSliderStyle: {
     height: 8,
-    borderRadius: 10,
+    borderRadius: 10
   },
 
   boxTextTime: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   boxAction: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginVertical: heightPercent(5),
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
 
   play: {
@@ -82,25 +82,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 50,
-    height: 50,
+    height: 50
   },
 
   rotate: {
     width: 10,
-    height: 10,
+    height: 10
   },
 
   iconPlay: {
-    marginLeft: 5,
+    marginLeft: 5
   },
 
   boxFooter: {
-    alignItems: "center",
+    alignItems: "center"
   },
 
   speedText: {
     fontWeight: "700",
-    marginBottom: heightPercent(5),
+    marginBottom: heightPercent(5)
   },
 
   SelectBar: {
@@ -110,21 +110,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
-    marginTop: heightPercent(10),
+    marginTop: heightPercent(10)
   },
 
   btnBar: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "center"
   },
 
   titleSelect: {
     fontSize: 16,
     color: primaryColor.main,
     fontWeight: "700",
-    marginLeft: 10,
+    marginLeft: 10
   },
 
   boxTitleSheet: {
@@ -132,27 +132,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 24,
-    paddingVertical: 15,
+    paddingVertical: 15
   },
 
   titleSheet: {
     fontSize: 24,
     fontWeight: "700",
-    color: neutralColor[90],
+    color: neutralColor[90]
   },
 
   boxListSpeed: {
     borderTopWidth: 1,
     borderTopColor: neutralColor[50],
-    marginBottom: heightPercent(8),
+    marginBottom: heightPercent(8)
   },
 
   listSpeed: {
     borderBottomWidth: 1,
     borderBottomColor: neutralColor[50],
     paddingVertical: 8,
-    paddingHorizontal: 24,
-  },
+    paddingHorizontal: 24
+  }
 });
 
 export default styles;

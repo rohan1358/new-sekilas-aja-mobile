@@ -183,30 +183,30 @@ export default function Watching({ navigation, route }: any) {
         onShare={() => onShare()}
         title="Bab 2 : Keberuntungan"
       />
+      <View style={styles.boxImage}>
+        {isLoading && (
+          <View style={styles.loadVideo}>
+            <ActivityIndicator size="large" color={primaryColor.main} />
+          </View>
+        )}
+        {isBufferLoad && (
+          <View style={styles.loadVideoActive}>
+            <ActivityIndicator size="large" color={primaryColor.main} />
+          </View>
+        )}
+        <Video
+          ref={videoPlayer}
+          source={videoBigbany}
+          onLoadStart={onLoadStart}
+          onLoad={onLoad}
+          style={styles.backgroundVideo}
+          paused={play}
+          onProgress={onProgress}
+          resizeMode="cover"
+          rate={speed}
+        />
+      </View>
       <View style={styles.content}>
-        <View style={styles.boxImage}>
-          {isLoading && (
-            <View style={styles.loadVideo}>
-              <ActivityIndicator size="large" color={primaryColor.main} />
-            </View>
-          )}
-          {isBufferLoad && (
-            <View style={styles.loadVideoActive}>
-              <ActivityIndicator size="large" color={primaryColor.main} />
-            </View>
-          )}
-          <Video
-            ref={videoPlayer}
-            source={videoBigbany}
-            onLoadStart={onLoadStart}
-            onLoad={onLoad}
-            style={styles.backgroundVideo}
-            paused={play}
-            onProgress={onProgress}
-            resizeMode="cover"
-            rate={speed}
-          />
-        </View>
         <View>
           <Slider
             value={currentTime}
