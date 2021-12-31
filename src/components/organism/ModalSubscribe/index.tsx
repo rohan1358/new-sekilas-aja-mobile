@@ -23,7 +23,7 @@ export default function ModalSubscribe({
 
   const refScroll = useRef();
 
-  const [statusBest, setBest] = useState(false);
+  const [statusBest, setBest] = useState(true);
   const [statusNormal, setNormal] = useState(false);
   const [btnBack, setBtnBack] = useState(false);
 

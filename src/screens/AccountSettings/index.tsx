@@ -1,4 +1,10 @@
-import { Base, Button, DummyFlatList, TextItem } from "../../components";
+import {
+  Base,
+  Button,
+  DummyFlatList,
+  ModalSubscribe,
+  TextItem
+} from "../../components";
 import {
   neutralColor,
   pages,
@@ -50,6 +56,7 @@ export default function AccountSettings({ navigation }: any) {
   const [putarAudio, setPutarAudio] = useState(false);
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
+  const [modalSubsVisible, setModalSubsVisible] = useState(false);
   const [keyAlert, setKeyAlert] = useState("");
 
   const [textAlert, setTextAlert] = useState({
@@ -494,6 +501,12 @@ export default function AccountSettings({ navigation }: any) {
               </TextItem>
             </Button>
           </View>
+          <Button
+            onPress={() => setModalSubsVisible(!modalSubsVisible)}
+            style={styles.btnPilih}
+          >
+            <TextItem type="b.24.pc.main">{strings.upgrade_premium}</TextItem>
+          </Button>
         </DummyFlatList>
       </SkeletonContent>
       <Modal
@@ -565,6 +578,10 @@ export default function AccountSettings({ navigation }: any) {
           </View>
         </View>
       </Modal>
+      <ModalSubscribe
+        modalVisible={modalSubsVisible}
+        setModalVisible={setModalSubsVisible}
+      />
     </Base>
   );
 }

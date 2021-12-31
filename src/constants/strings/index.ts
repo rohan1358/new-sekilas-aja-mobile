@@ -238,8 +238,10 @@ export const strings = {
 
   yakin_keluar: "Yakin ingin keluar?",
   yuk_upgrade: "Yuk, upgrade dulu ke premium!",
+  upgrade_premium: "upgrade ke premium",
 
   zona: "Zona",
 
-  kilas: "kilas"
+  kilas: "kilas",
+  kembaliKeHome: "Kembali ke halaman beranda"
 };

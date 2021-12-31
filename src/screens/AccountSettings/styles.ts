@@ -201,6 +201,14 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     // paddingLeft: 32,
     alignItems: "center"
+  },
+  btnPilih: {
+    height: 64,
+    backgroundColor: neutralColor[90],
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    margin: 10
   }
 });
 

@@ -334,12 +334,12 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
           >
             <Headphones stroke={primaryColor.main} />
             <Gap horizontal={sp.xs} />
-            <TextItem type="b.20.pc.main">{strings.listen}</TextItem>
+            <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
           </Button>
           <Button onPress={() => navigationTopBar("watching")} style={s.button}>
             <Video stroke={primaryColor.main} />
             <Gap horizontal={sp.xs} />
-            <TextItem type="b.20.pc.main">{strings.watch}</TextItem>
+            <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
           </Button>
         </View>
         <Gap vertical={sp.sl} />
