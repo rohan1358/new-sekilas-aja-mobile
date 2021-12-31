@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Button, TextItem } from "../../../atom";
+import { Button, TextItem } from "../../atom";
 import { ArrowLeft } from "@assets";
-import styles from "../styles";
+import styles from "../ModalSubscribe/styles";
 import { neutralColor, strings } from "@constants";
-import paketList from "../dummy";
 import WebView from "react-native-webview";
 
 const Payment = ({

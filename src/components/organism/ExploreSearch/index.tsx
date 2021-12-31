@@ -16,12 +16,12 @@ const ExploreSearch = ({ cameraPress, onPress }: ExploreSesarchProps) => {
       <View style={styles.input}>
         <TextItem type="r.14.nc.70">{strings.findFavBookPlaceholder}</TextItem>
       </View>
-      <Button
+      {/* <Button
         onPress={cameraPress}
         style={[styles.iconContainer, styles.primaryIcon]}
       >
         <Camera stroke={primaryColor.main} />
-      </Button>
+      </Button> */}
     </Button>
   );
 };

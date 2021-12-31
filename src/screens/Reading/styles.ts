@@ -1,4 +1,4 @@
-import { neutralColor, spacing as sp } from "@constants";
+import { neutralColor, primaryColor, spacing as sp } from "@constants";
 import { StyleSheet } from "react-native";
 
 const TIP_COLOR = neutralColor[10];
@@ -6,7 +6,7 @@ const TIP_SIZE = 16;
 
 const styles = ({
   isOnFirstPage,
-  isOnLastPage,
+  isOnLastPage
 }: {
   isOnFirstPage: boolean;
   isOnLastPage: boolean;
@@ -17,20 +17,20 @@ const styles = ({
       borderRadius: 12,
       overflow: "hidden",
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "center"
     },
     actionWrapper: {
       width: "100%",
       position: "absolute",
       bottom: 0,
-      alignItems: "center",
+      alignItems: "center"
     },
 
     button: {
       flexDirection: "row",
       alignItems: "center",
       paddingVertical: sp.xs,
-      paddingHorizontal: sp.sm,
+      paddingHorizontal: sp.sm
     },
 
     contentContainerStyle: { paddingHorizontal: sp.sl },
@@ -39,7 +39,7 @@ const styles = ({
       width: "100%",
       height: "100%",
       paddingVertical: sp.sl,
-      position: "absolute",
+      position: "absolute"
     },
 
     tip: {
@@ -57,13 +57,20 @@ const styles = ({
       borderTopColor: "transparent",
       borderRightColor: "transparent",
       borderBottomColor: TIP_COLOR,
-      borderLeftColor: "transparent",
+      borderLeftColor: "transparent"
     },
     tipButton: { paddingHorizontal: sp.s, paddingVertical: sp.xs },
     tipContainer: { position: "absolute", top: 64, right: 44 },
     tipContent: { backgroundColor: TIP_COLOR },
 
     skeleton: { flex: 1 },
+
+    titleSelect: {
+      fontSize: 16,
+      color: primaryColor.main,
+      fontWeight: "700",
+      marginLeft: 10
+    }
   });
 
 export default styles;

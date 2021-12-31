@@ -5,10 +5,10 @@ import {
   DummyFlatList,
   HeaderListening,
   TextItem
-} from '../../components';
-import React, { useEffect, useRef, useState } from 'react';
-import { Share, Text, View } from 'react-native';
-import styles from './styles';
+} from "../../components";
+import React, { useEffect, useRef, useState } from "react";
+import { Share, Text, View } from "react-native";
+import styles from "./styles";
 import {
   colors,
   neutralColor,
@@ -16,8 +16,8 @@ import {
   primaryColor,
   snackState as ss,
   strings
-} from '@constants';
-import { Slider } from '@miblanchard/react-native-slider';
+} from "@constants";
+import { Slider } from "@miblanchard/react-native-slider";
 import {
   Exit,
   File,
@@ -28,12 +28,12 @@ import {
   SkipBack,
   SkipForward,
   Video
-} from '@assets';
+} from "@assets";
 // import TextTicker from 'react-native-text-ticker'
-import LinearGradient from 'react-native-linear-gradient';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import { heightPercent, logger } from '../../helpers';
-import { speedList } from './dummy';
+import LinearGradient from "react-native-linear-gradient";
+import RBSheet from "react-native-raw-bottom-sheet";
+import { heightPercent, logger } from "../../helpers";
+import { speedList } from "./dummy";
 import TrackPlayer, {
   State,
   Capability,
@@ -41,11 +41,11 @@ import TrackPlayer, {
   useProgress,
   useTrackPlayerEvents,
   Event
-} from 'react-native-track-player';
-import { ScrollView } from 'react-native-gesture-handler';
-import { getBookAudioURL, fetchProfile, getKilas } from '../../services/index';
-import { useSelector } from 'react-redux';
-import { ReduxState } from '../../redux/reducers';
+} from "react-native-track-player";
+import { ScrollView } from "react-native-gesture-handler";
+import { getBookAudioURL, fetchProfile, getKilas } from "../../services/index";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../redux/reducers";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -144,7 +144,7 @@ export default function Listening({ navigation, route }: any) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: 'https://sekilasaja.com/'
+        message: "https://sekilasaja.com/"
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -188,10 +188,10 @@ export default function Listening({ navigation, route }: any) {
       if (profileData.isSuccess) {
         setDataUser(profileData.data);
       } else {
-        throw new Error('Fail on fetching profile data');
+        throw new Error("Fail on fetching profile data");
       }
     } catch (error) {
-      logger('Home, getHomeData', error);
+      logger("Home, getHomeData", error);
     } finally {
     }
   };
@@ -200,13 +200,17 @@ export default function Listening({ navigation, route }: any) {
     getHomeData();
   }, []);
 
-  const navigationTopBar = async (type = '') => {
+  const navigationTopBar = async (type = "") => {
     switch (type) {
-      case 'reading':
-        navigation.navigate(pages.Listening);
+      case "reading":
+        navigation.navigate("Reading", {
+          id: book.book_title,
+          page: 1,
+          book
+        });
         await TrackPlayer.pause();
         break;
-      case 'watching':
+      case "watching":
         navigation.navigate(pages.Watching, { book });
         await TrackPlayer.pause();
         break;
@@ -232,7 +236,7 @@ export default function Listening({ navigation, route }: any) {
       <HeaderListening
         navigation={navigation}
         onShare={() => onShare()}
-        title={listBab ? listBab[bab]?.title : 'bab'}
+        title={listBab ? listBab[bab]?.title : "bab"}
       />
       <View style={styles.content}>
         <View style={styles.boxImage}>
@@ -242,8 +246,8 @@ export default function Listening({ navigation, route }: any) {
           <LinearGradient
             colors={[
               primaryColor.main,
-              'rgba(251, 207, 50, 0.5)',
-              'transparent'
+              "rgba(251, 207, 50, 0.5)",
+              "transparent"
             ]}
             useAngle={true}
             angle={45}
@@ -266,8 +270,8 @@ export default function Listening({ navigation, route }: any) {
           {/* </TextTicker> */}
           <LinearGradient
             colors={[
-              'transparent',
-              'rgba(251, 207, 50, 0.5)',
+              "transparent",
+              "rgba(251, 207, 50, 0.5)",
               primaryColor.main
             ]}
             useAngle={true}
@@ -284,7 +288,7 @@ export default function Listening({ navigation, route }: any) {
             minimumValue={0}
             maximumValue={progress.duration}
             minimumTrackTintColor={neutralColor[90]}
-            maximumTrackTintColor={'#D1D7E1'}
+            maximumTrackTintColor={"#D1D7E1"}
             thumbTintColor={colors.white}
             trackStyle={styles.trackSliderStyle}
             onSlidingComplete={(value) => {
@@ -344,14 +348,14 @@ export default function Listening({ navigation, route }: any) {
           </Button>
           <View style={styles.SelectBar}>
             <Button
-              onPress={() => navigationTopBar('reading')}
+              onPress={() => navigationTopBar("reading")}
               style={styles.btnBar}
             >
               <File />
               <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
             </Button>
             <Button
-              onPress={() => navigationTopBar('watching')}
+              onPress={() => navigationTopBar("watching")}
               style={styles.btnBar}
             >
               <Video />
@@ -366,7 +370,7 @@ export default function Listening({ navigation, route }: any) {
         closeOnPressMask={true}
         customStyles={{
           wrapper: {
-            backgroundColor: 'rgba(0,0,0,0.3)'
+            backgroundColor: "rgba(0,0,0,0.3)"
           },
           container: {
             borderTopLeftRadius: 24,
@@ -397,7 +401,7 @@ export default function Listening({ navigation, route }: any) {
                   key={index}
                   style={styles.listSpeed}
                 >
-                  <TextItem type={'r.16.nc.90'}>{item + strings.x}</TextItem>
+                  <TextItem type={"r.16.nc.90"}>{item + strings.x}</TextItem>
                 </Button>
               ))}
             </View>

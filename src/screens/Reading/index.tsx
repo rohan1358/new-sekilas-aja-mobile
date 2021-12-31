@@ -9,7 +9,7 @@ import {
   Gap,
   PageController,
   ReadingHeader,
-  TextItem,
+  TextItem
 } from "@components";
 import {
   firebaseNode,
@@ -17,14 +17,14 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import firestore from "@react-native-firebase/firestore";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
-import { fetchBookContent } from "@services";
+import { fetchBookContent, fetchDetailBooks } from "@services";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Share, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -32,14 +32,14 @@ import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
 import { RootStackParamList } from "src/types";
 import {
   HeaderStateProps,
-  SnackStateProps,
+  SnackStateProps
 } from "../../components/atom/Base/types";
 import styles from "./styles";
 
@@ -51,7 +51,7 @@ const Reading = () => {
   const route = useRoute<RouteProp<RootStackParamList, "Reading">>();
 
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useMounted();
@@ -65,9 +65,10 @@ const Reading = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
+  const [detailBook, setDetailBook] = useState(false);
 
   const actionStyle = useAnimatedStyle(() => ({
-    bottom: actionPosition.value,
+    bottom: actionPosition.value
   }));
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
@@ -93,6 +94,7 @@ const Reading = () => {
   const closeTip = () => (tipPosition.value = withTiming(-WIDTH / 2));
 
   const BOOK_ID = route.params?.id;
+  const BOOK = route.params?.book;
 
   const customComp = () => (
     <ReadingHeader
@@ -114,6 +116,20 @@ const Reading = () => {
     />
   );
 
+  const getDetailBook = async () => {
+    try {
+      const [detailBook] = await Promise.all([fetchDetailBooks(BOOK_ID)]);
+
+      if (!BOOK) {
+        setDetailBook(detailBook.data);
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    getDetailBook();
+  }, []);
+
   const getBookContent = async () => {
     if (!BOOK_ID) {
       setIsLoading(false);
@@ -122,7 +138,7 @@ const Reading = () => {
     setIsLoading(true);
     try {
       const { data, isSuccess } = await fetchBookContent({
-        bookTitle: BOOK_ID,
+        bookTitle: BOOK_ID
       });
       if (!isMounted) return;
       if (!isSuccess) return;
@@ -139,7 +155,7 @@ const Reading = () => {
   const headerState: HeaderStateProps = {
     visible: true,
     type: "custom",
-    customComp,
+    customComp
   };
 
   const isOnFirstPage = currentPage === 0;
@@ -156,7 +172,7 @@ const Reading = () => {
       .doc(email)
       .update({
         "book.book": BOOK_ID,
-        "book.kilas": currentPage + 1,
+        "book.kilas": currentPage + 1
       })
       .then(() => {
         setSnackState(ss.successState(strings.marked));
@@ -199,7 +215,7 @@ const Reading = () => {
       const result = await Share.share({
         message: `"${currentTitle}"
         
-Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kilas di https://sekilasaja.com`,
+Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kilas di https://sekilasaja.com`
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -232,9 +248,32 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
       readingPayload: content?.pageContent?.map((item) => ({
         id: item?.id,
         kilas: item?.kilas,
-        title: item?.title,
-      })),
+        title: item?.title
+      }))
     });
+  };
+
+  const navigationTopBar = (type: any) => {
+    switch (type) {
+      case "reading":
+        navigation.navigate("Reading", {
+          id: BOOK_ID,
+          page: 1,
+          book: BOOK || detailBook
+        });
+        break;
+      case "listening":
+        navigation.navigate("Listening", {
+          book: BOOK || detailBook
+        });
+        break;
+      case "watching":
+        navigation.navigate("Watching", { book: BOOK || detailBook });
+        break;
+
+      default:
+        break;
+    }
   };
 
   const s = styles({ isOnFirstPage, isOnLastPage });
@@ -258,7 +297,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 isOnLastPage,
                 label,
                 onNextPress,
-                onPrevPress,
+                onPrevPress
               }}
             />
             <Gap vertical={36} />
@@ -276,7 +315,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 isOnLastPage,
                 label,
                 onNextPress,
-                onPrevPress,
+                onPrevPress
               }}
             />
             <Gap vertical={sp.xl * 3} />
@@ -289,15 +328,18 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
           style={s.linearGradient}
         ></LinearGradient>
         <View style={s.actions}>
-          <Button style={s.button}>
+          <Button
+            style={s.button}
+            onPress={() => navigationTopBar("listening")}
+          >
             <Headphones stroke={primaryColor.main} />
             <Gap horizontal={sp.xs} />
-            <TextItem type="b.20.pc.main">{strings.listen}</TextItem>
+            <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
           </Button>
-          <Button style={s.button}>
+          <Button onPress={() => navigationTopBar("watching")} style={s.button}>
             <Video stroke={primaryColor.main} />
             <Gap horizontal={sp.xs} />
-            <TextItem type="b.20.pc.main">{strings.watch}</TextItem>
+            <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
           </Button>
         </View>
         <Gap vertical={sp.sl} />
