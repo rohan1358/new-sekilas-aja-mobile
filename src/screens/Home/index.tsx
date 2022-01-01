@@ -10,7 +10,7 @@ import {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
-  TextItem
+  TextItem,
 } from "@components";
 import {
   pages,
@@ -18,7 +18,7 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import { logger, useMounted } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
@@ -31,7 +31,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken
+  modifyToken,
 } from "@services";
 import { newCategories } from "../../../assets/dummy";
 import React, { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const Home = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -131,7 +131,7 @@ const Home = () => {
 
   const dummyMiniCollectionRender = ({
     item,
-    index
+    index,
   }: {
     item: any;
     index: number;
@@ -169,7 +169,7 @@ const Home = () => {
           fetchProfile(email),
           fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks()
+          fetchMostBooks(),
         ]);
       if (!isMounted) return;
       if (profileData.isSuccess) {
@@ -235,7 +235,7 @@ const Home = () => {
     !!readingBook?.available
       ? navigation.navigate("Reading", {
           id: readingBook?.book || "",
-          page: pageParser(readingBook?.kilas)
+          page: pageParser(readingBook?.kilas),
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
   };
@@ -244,12 +244,12 @@ const Home = () => {
 
   const onPressRecommend = () =>
     navigation.navigate("SpecialBookList", {
-      type: "recommendation"
+      type: "recommendation",
     });
 
   const onMostReadPress = () =>
     navigation.navigate("SpecialBookList", {
-      type: "mostRead"
+      type: "mostRead",
     });
 
   const onRefresh = async () => {
@@ -292,10 +292,10 @@ const Home = () => {
             />
           </View>
           <View style={styles.adjuster}>
-            <Gap horizontal={HORIZONTAL_GAP}>
+            {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
-            </Gap>
-            <Gap vertical={sp.sm} />
+            </Gap> */}
+            {/* <Gap vertical={sp.sm} /> */}
             <FlatList
               contentContainerStyle={styles.newCollectionContentContainerStyle}
               horizontal
@@ -338,7 +338,7 @@ const Home = () => {
                             navigation.navigate("Category", {
                               type: "category",
                               title: item,
-                              payload: id
+                              payload: id,
                             });
                           return (
                             <CategoryChips
@@ -347,7 +347,7 @@ const Home = () => {
                               item={{
                                 id: item,
                                 label: item,
-                                Icon: newCategories(item)
+                                Icon: newCategories(item),
                               }}
                               key={index}
                             />
@@ -364,7 +364,7 @@ const Home = () => {
                             navigation.navigate("Category", {
                               type: "category",
                               title: item,
-                              payload: id
+                              payload: id,
                             });
                           return (
                             <CategoryChips
@@ -373,7 +373,7 @@ const Home = () => {
                               item={{
                                 id: item,
                                 label: item,
-                                Icon: newCategories(item)
+                                Icon: newCategories(item),
                               }}
                               key={index}
                             />
