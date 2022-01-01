@@ -180,7 +180,7 @@ export const strings = {
   recommendedBook: "Rekomendasi buku",
   regist: "Daftar!",
   registHere: "Daftar di sini.",
-  rp: "Rp ",
+  rp: "Rp",
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
   seeAll: "Lihat Semua >",

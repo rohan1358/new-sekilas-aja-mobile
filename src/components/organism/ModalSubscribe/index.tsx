@@ -72,8 +72,8 @@ export default function ModalSubscribe({
               }
             }
 
-            // if(result.)
-            // if(res.docs[0].data())
+            //if(result.)
+            //if(res.docs[0].data())
           });
       } catch {
         return {};
@@ -96,13 +96,13 @@ export default function ModalSubscribe({
           </TextItem>
         </View>
         <View style={[styles.contentCard, statusBest && styles.backBlack]}>
-          <TextItem
-            style={[styles.hemat, statusBest && styles.colorPink]}
-          >{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
+          <TextItem style={[styles.hemat, statusBest && styles.colorPink]}>{`${
+            strings.hemat
+          } ${strings.rp}${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
           <TextItem style={[styles.price, statusBest && styles.colorPrimary]}>
-            <TextItem
-              style={styles.textBold}
-            >{`${strings.rp} ${item.harga}/ `}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
           <TextItem style={[styles.note, statusBest && styles.colorWhite]}>
@@ -131,9 +131,9 @@ export default function ModalSubscribe({
           ]}
         >
           <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>
-            <TextItem
-              style={styles.textBold}
-            >{`${strings.rp} ${item.harga}/ `}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
           <TextItem style={[styles.note, statusNormal && styles.colorWhite]}>
