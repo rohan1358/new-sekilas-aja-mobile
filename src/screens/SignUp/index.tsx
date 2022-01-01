@@ -171,10 +171,11 @@ const SignUp = ({ navigation }: SignUpProps) => {
     Keyboard.dismiss();
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((res) => {
         firestore()
           .collection("users")
-          .add({
+          .doc(res.user.uid)
+          .set({
             firstName: name,
             email,
             lastName: lastName,
