@@ -18,7 +18,7 @@ export default function ModalSubscribe({
   ...props
 }: ModalSubscribeProps) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const refScroll = useRef();
@@ -31,14 +31,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
   const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
 
@@ -72,8 +72,8 @@ export default function ModalSubscribe({
               }
             }
 
-            // if(result.)
-            // if(res.docs[0].data())
+            //if(result.)
+            //if(res.docs[0].data())
           });
       } catch {
         return {};
@@ -96,13 +96,13 @@ export default function ModalSubscribe({
           </TextItem>
         </View>
         <View style={[styles.contentCard, statusBest && styles.backBlack]}>
-          <TextItem
-            style={[styles.hemat, statusBest && styles.colorPink]}
-          >{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
+          <TextItem style={[styles.hemat, statusBest && styles.colorPink]}>{`${
+            strings.hemat
+          } ${strings.rp}${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
           <TextItem style={[styles.price, statusBest && styles.colorPrimary]}>
-            <TextItem
-              style={styles.textBold}
-            >{`${strings.rp} ${item.harga}/ `}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
           <TextItem style={[styles.note, statusBest && styles.colorWhite]}>
@@ -127,13 +127,13 @@ export default function ModalSubscribe({
         <View
           style={[
             styles.contentCard,
-            statusNormal ? styles.backBlack : styles.backWhite
+            statusNormal ? styles.backBlack : styles.backWhite,
           ]}
         >
           <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>
-            <TextItem
-              style={styles.textBold}
-            >{`${strings.rp} ${item.harga}/ `}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
           <TextItem style={[styles.note, statusNormal && styles.colorWhite]}>
@@ -172,7 +172,7 @@ export default function ModalSubscribe({
               <TextItem type="b.32.nc.90">
                 {strings.dapatkan_ringkasan}
               </TextItem>
-              <TextItem type="r.20.nc.70" style={styles.subTextTitle}>
+              <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
                 {strings.keuntungan}
               </TextItem>
               <View style={styles.boxWhite}>

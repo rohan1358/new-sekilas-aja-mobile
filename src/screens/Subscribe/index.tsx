@@ -121,7 +121,7 @@ export default function Subscribe({ navigation }: SubscribeProps) {
           </View>
           <View style={styles.boxContent}>
             <TextItem type="b.32.nc.90">{strings.dapatkan_ringkasan}</TextItem>
-            <TextItem type="r.20.nc.70" style={styles.subTextTitle}>
+            <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
               {strings.keuntungan}
             </TextItem>
             <View style={styles.boxWhite}>
