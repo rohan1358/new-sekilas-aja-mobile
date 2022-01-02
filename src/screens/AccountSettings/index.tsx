@@ -1,11 +1,17 @@
-import { Base, Button, DummyFlatList, TextItem } from "../../components";
+import {
+  Base,
+  Button,
+  DummyFlatList,
+  ModalSubscribe,
+  TextItem,
+} from "../../components";
 import {
   neutralColor,
   pages,
   primaryColor,
   skeleton,
   snackState as ss,
-  strings
+  strings,
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Switch, Text, View } from "react-native";
@@ -24,7 +30,7 @@ import {
   Exit,
   IconFb,
   IconIg,
-  IconTw
+  IconTw,
 } from "@assets";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { CommonActions } from "@react-navigation/routers";
@@ -33,7 +39,7 @@ import { formatDate } from "../../../src/utils";
 
 export default function AccountSettings({ navigation }: any) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>();
@@ -50,12 +56,13 @@ export default function AccountSettings({ navigation }: any) {
   const [putarAudio, setPutarAudio] = useState(false);
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
+  const [modalSubsVisible, setModalSubsVisible] = useState(false);
   const [keyAlert, setKeyAlert] = useState("");
 
   const [textAlert, setTextAlert] = useState({
     text: "",
     action: "",
-    button: ""
+    button: "",
   });
 
   const [openAudio, setOpenAudio] = useState(false);
@@ -67,12 +74,12 @@ export default function AccountSettings({ navigation }: any) {
   const [itemsAudio, setItemsAudio] = useState([
     { label: "Tinggi", value: "tinggi" },
     { label: "Sedang", value: "sedang" },
-    { label: "Rendah", value: "rendah" }
+    { label: "Rendah", value: "rendah" },
   ]);
   const [itemsVideo, setItemsVideo] = useState([
     { label: "Tinggi", value: "tinggi" },
     { label: "Sedang", value: "sedang" },
-    { label: "Rendah", value: "rendah" }
+    { label: "Rendah", value: "rendah" },
   ]);
 
   const getDataAccount = async () => {
@@ -108,14 +115,14 @@ export default function AccountSettings({ navigation }: any) {
     dataAlert = {
       text: "",
       action: "",
-      button: ""
+      button: "",
     }
   ) => {
     setModalAlert(!modalAlert);
     setTextAlert({
       text: dataAlert.text,
       action: dataAlert.action,
-      button: dataAlert.button
+      button: dataAlert.button,
     });
   };
 
@@ -142,7 +149,7 @@ export default function AccountSettings({ navigation }: any) {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: pages.SignIn }]
+        routes: [{ name: pages.SignIn }],
       })
     );
   };
@@ -195,11 +202,23 @@ export default function AccountSettings({ navigation }: any) {
                 <TextItem style={styles.titleList}>
                   {strings.masa_Account}
                 </TextItem>
-                <TextItem style={styles.textContent}>
-                  {profile?.end_date
-                    ? formatDate(profile?.end_date.toDate(), "d-m-y")
-                    : "-"}
-                </TextItem>
+
+                <View style={styles.spaceBetween}>
+                  <TextItem style={styles.textLevelNonSubs}>
+                    {profile?.end_date
+                      ? formatDate(profile?.end_date.toDate(), "d-m-y")
+                      : "-"}
+                  </TextItem>
+
+                  <Button
+                    // style={styles.btnPilih}
+                    onPress={() => setModalSubsVisible(!modalSubsVisible)}
+                  >
+                    <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
+                      {strings.upgrade_premium}
+                    </TextItem>
+                  </Button>
+                </View>
               </View>
               {/* <Button
                 onPress={() =>
@@ -483,7 +502,7 @@ export default function AccountSettings({ navigation }: any) {
                 handleModalAlert({
                   text: strings.yakin_keluar,
                   action: strings.cacel,
-                  button: strings.btn_keluar
+                  button: strings.btn_keluar,
                 });
                 setKeyAlert("logout");
               }}
@@ -565,6 +584,10 @@ export default function AccountSettings({ navigation }: any) {
           </View>
         </View>
       </Modal>
+      <ModalSubscribe
+        modalVisible={modalSubsVisible}
+        setModalVisible={setModalSubsVisible}
+      />
     </Base>
   );
 }

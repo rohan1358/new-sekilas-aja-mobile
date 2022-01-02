@@ -121,14 +121,20 @@ export default function Subscribe({ navigation }: SubscribeProps) {
           </View>
           <View style={styles.boxContent}>
             <TextItem type="b.32.nc.90">{strings.dapatkan_ringkasan}</TextItem>
-            <TextItem type="r.20.nc.70" style={styles.subTextTitle}>
+            <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
               {strings.keuntungan}
             </TextItem>
             <View style={styles.boxWhite}>
-              <View style={styles.list}>
+              {/* <View style={styles.list}>
                 <Check color={neutralColor[70]} />
                 <TextItem type="r.16.nc.70" style={styles.textList}>
                   {strings.akses_online}
+                </TextItem>
+              </View> */}
+              <View style={styles.list}>
+                <Check color={neutralColor[70]} />
+                <TextItem type="r.16.nc.70" style={styles.textList}>
+                  {strings.kilas_buku}
                 </TextItem>
               </View>
               <View style={styles.list}>
@@ -141,12 +147,6 @@ export default function Subscribe({ navigation }: SubscribeProps) {
                 <Check color={neutralColor[70]} />
                 <TextItem type="r.16.nc.70" style={styles.textList}>
                   {strings.membuka_semua}
-                </TextItem>
-              </View>
-              <View style={styles.list}>
-                <Check color={neutralColor[70]} />
-                <TextItem type="r.16.nc.70" style={styles.textList}>
-                  {strings.kilas_buku}
                 </TextItem>
               </View>
             </View>
@@ -164,7 +164,7 @@ export default function Subscribe({ navigation }: SubscribeProps) {
           </View>
           <View style={styles.boxContent}>
             <TextItem type="b.32.nc.90">{strings.pilih_paket_premium}</TextItem>
-            <TextItem type="r.20.nc.70" style={styles.subTextTitle}>
+            <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
               {strings.pilihan_paket}
             </TextItem>
             <View style={styles.boxListCard}>

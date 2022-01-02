@@ -62,6 +62,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 16
   },
+  btnBackToHome: {
+    height: 64,
+    backgroundColor: neutralColor[90],
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    marginBottom: 20,
+    marginTop: 20,
+    margin: 10
+  },
 
   btnCancel: {
     height: 64,
@@ -160,6 +170,9 @@ const styles = StyleSheet.create({
   webview: {
     height: "100%"
     // paddingBottom: 25
+  },
+  webView: {
+    flex: 2
   }
 });
 

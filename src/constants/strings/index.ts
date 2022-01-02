@@ -96,7 +96,7 @@ export const strings = {
   kecepatan_video: "Kecepatan Video",
   kecepatan_audio: "Kecepatan Audio",
   keuntungan: "Keuntungan yang didapat dengan upgrade ke premium adalah:",
-  kilas_buku: "30+ Kilas Buku baru setiap bulannya!",
+  kilas_buku: "Dapatkan 100++ rangkuman buku terbaik dunia",
 
   lalu: " lalu",
   lastReadClue: "Eksplor kilas buku terpopuler",
@@ -123,10 +123,14 @@ export const strings = {
     "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
 
   name: "Nama",
+  numberPhone: "Nomor Hp",
   notif: "Notifikasi",
   nameCantBeEmpty: "Nama tidak boleh kosong",
+  phoneNumberCantBeEmpty: "Nomor Hp tidak boleh kosong",
+  phoneNumberMinChar: "Nomor Hp minimal berisi 11 angka",
   nameMinChar: "Nama minimal berisi 3 karakter",
   namePlaceholder: "Isi nama disini ...",
+  phoneNumberPlaceholder: "Isi Nomor Hp disini ...",
   newRelease: "Baru rilis",
   newSearch: "Pencarian terbaru",
   noBook: "Buku ga ditemukan!",
@@ -176,7 +180,7 @@ export const strings = {
   recommendedBook: "Rekomendasi buku",
   regist: "Daftar!",
   registHere: "Daftar di sini.",
-  rp: "Rp ",
+  rp: "Rp. ",
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
   seeAll: "Lihat Semua >",
@@ -238,8 +242,10 @@ export const strings = {
 
   yakin_keluar: "Yakin ingin keluar?",
   yuk_upgrade: "Yuk, upgrade dulu ke premium!",
+  upgrade_premium: "Upgrade ke premium",
 
   zona: "Zona",
 
-  kilas: "kilas"
+  kilas: "kilas",
+  kembaliKeHome: "Kembali ke halaman beranda",
 };

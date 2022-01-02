@@ -36,6 +36,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const [isSecurePassword, setIsSecurePassword] = useState<boolean>(true);
   const [isSecureRePassword, setIsSecureRepassword] = useState<boolean>(true);
   const [name, setName] = useState<string>();
+  const [lastName, setLastName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -96,6 +98,29 @@ const SignUp = ({ navigation }: SignUpProps) => {
     };
   }, [name]);
 
+  const phoneNumberCheck = useMemo(() => {
+    if (phoneNumber === undefined) {
+      return { state: textFieldState.none };
+    }
+    if (phoneNumber?.length > 3) {
+      return {
+        message: "",
+        state: textFieldState.success,
+        Icon: <Check stroke={successColor.main} />,
+      };
+    }
+    if (phoneNumber.length === 0) {
+      return {
+        message: strings.phoneNumberCantBeEmpty,
+        state: textFieldState.warn,
+      };
+    }
+    return {
+      message: strings.nameMinChar,
+      state: textFieldState.warn,
+    };
+  }, [phoneNumber]);
+
   const passwordCheck = useMemo(() => {
     if (password === undefined) {
       return { state: textFieldState.none };
@@ -141,22 +166,51 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (!email || !password) {
       return;
     }
+
     setIsLoading(true);
     Keyboard.dismiss();
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((res) => {
         firestore()
           .collection("users")
-          .add({
+          .doc(res.user.uid)
+          .set({
             firstName: name,
             email,
-            sign_up_date: firestore.FieldValue.serverTimestamp(),
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            owned_books: [
+              "Atomic Habits",
+              "The Little Book of Common Sense Investing",
+            ],
+            favorite_books: [],
+            is_subscribed: false,
+            cart: [],
+            // sign_up_date: firestore.FieldValue.serverTimestamp(),
+            start_date: new Date(), // this date means UNSUBSCRIBED
+            end_date: new Date(), // this date means UNSUBSCRIBED
+            sign_up_date: new Date(),
+            promo_codes_used: [],
           })
           .then(() => {
-            navigation.replace(pages.Home);
-            dispatch(loggingIn({ isLogin: true, email }));
-          });
+            firestore()
+              .collection("dashboard")
+              .doc("track_record")
+              .set(
+                {
+                  sign_up: {
+                    [new Date().getTime()]: { email, date: new Date() },
+                  },
+                },
+                { merge: true }
+              )
+              .then((res) => {
+                navigation.replace(pages.Home);
+                dispatch(loggingIn({ isLogin: true, email }));
+              });
+          })
+          .catch((err) => {});
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -231,21 +285,29 @@ const SignUp = ({ navigation }: SignUpProps) => {
           {...repasswordCheck}
         />
         <Gap vertical={sp.sm} />
+
+        <TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem>
+        <Gap vertical={sp.xs} />
+        <TextField
+          placeholder={strings.namePlaceholder}
+          onChangeText={setPhoneNumber}
+          autoCapitalize="words"
+          keyboardType="name-phone-pad"
+          {...phoneNumberCheck}
+        />
+
+        <Gap vertical={sp.sm} />
         <View style={styles.centering}>
           <TextItem type="r.14.nc.90" style={styles.textCenter}>
             {`${strings.agreeByCreate} `}
           </TextItem>
           <View style={styles.centerEnd}>
             <Button>
-              <TextItem type="b.14.nc.90" style={styles.underlineText}>
-                {strings.terms}
-              </TextItem>
+              <TextItem type="b.14.nc.90">{strings.terms}</TextItem>
             </Button>
             <TextItem type="r.14.nc.90">{` & `}</TextItem>
             <Button>
-              <TextItem type="b.14.nc.90" style={styles.underlineText}>
-                {strings.policy}
-              </TextItem>
+              <TextItem type="b.14.nc.90">{strings.policy}</TextItem>
             </Button>
           </View>
         </View>
@@ -260,9 +322,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
         <View style={styles.bottomCta}>
           <TextItem type="r.14.nc.90">{`${strings.doHaveAcc} `}</TextItem>
           <Button onPress={() => navigation.navigate(pages.SignIn)}>
-            <TextItem type="b.14.nc.90" style={styles.underlineText}>
-              {strings.loginHere}
-            </TextItem>
+            <TextItem type="b.14.nc.90">{strings.loginHere}</TextItem>
           </Button>
         </View>
       </ScrollView>

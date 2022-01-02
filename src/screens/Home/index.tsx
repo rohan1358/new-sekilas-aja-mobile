@@ -65,7 +65,7 @@ const Home = () => {
   const [recommendedBooks, setRecommendedBooks] =
     useState<CompactBooksProps[]>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [modalAllPlan, setModalAllPlan] = useState(false);
+  const [modalAllPlan, setModalAllPlan] = useState(true);
   const [newChips, setChipd] = useState<any>(false);
 
   useEffect(() => {
@@ -157,8 +157,9 @@ const Home = () => {
   };
 
   const handleSub = (data: ProfileProps) => {
-    if (data?.is_subscribed) return;
-    setModalAllPlan(true);
+    if (data?.is_subscribed) {
+      setModalAllPlan(false);
+    }
   };
 
   const getHomeData = async () => {
@@ -292,10 +293,10 @@ const Home = () => {
             />
           </View>
           <View style={styles.adjuster}>
-            <Gap horizontal={HORIZONTAL_GAP}>
+            {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
-            </Gap>
-            <Gap vertical={sp.sm} />
+            </Gap> */}
+            {/* <Gap vertical={sp.sm} /> */}
             <FlatList
               contentContainerStyle={styles.newCollectionContentContainerStyle}
               horizontal
