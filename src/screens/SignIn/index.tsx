@@ -179,9 +179,7 @@ const SignIn = ({ navigation }: any) => {
         <Gap vertical={sp.xs} />
         <View style={{ alignItems: "flex-end" }}>
           <Button>
-            <TextItem type="b.14.nc.90" style={styles.underlineText}>
-              {strings.forgotPassword}
-            </TextItem>
+            <TextItem type="b.14.nc.90">{strings.forgotPassword}</TextItem>
           </Button>
         </View>
         <Gap vertical={sp.sm} />
@@ -195,9 +193,7 @@ const SignIn = ({ navigation }: any) => {
         <View style={styles.bottomCta}>
           <TextItem type="r.14.nc.90">{`${strings.dontHaveAcc} `}</TextItem>
           <Button onPress={() => navigation.navigate(pages.SignUp)}>
-            <TextItem type="b.14.nc.90" style={styles.underlineText}>
-              {strings.registHere}
-            </TextItem>
+            <TextItem type="b.14.nc.90">{strings.registHere}</TextItem>
           </Button>
         </View>
       </ScrollView>
