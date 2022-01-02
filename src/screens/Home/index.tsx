@@ -157,8 +157,8 @@ const Home = () => {
   };
 
   const handleSub = (data: ProfileProps) => {
-    if (!data?.is_subscribed) {
-      setModalAllPlan(true);
+    if (data?.is_subscribed) {
+      setModalAllPlan(false);
     }
   };
 
