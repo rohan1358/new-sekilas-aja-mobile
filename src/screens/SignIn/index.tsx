@@ -1,5 +1,6 @@
 import auth from "@react-native-firebase/auth";
 import { Link } from "@react-navigation/native";
+import { fetchProfile } from "@services";
 import React, { useMemo, useRef, useState } from "react";
 import { Keyboard, Linking, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,7 +25,7 @@ import {
   strings,
   successColor
 } from "../../constants";
-import { loggingIn } from "../../redux/actions";
+import { loggingIn, setProfileRedux } from "../../redux/actions";
 import styles from "./styles";
 
 const { textFieldState } = dv;
@@ -89,8 +90,11 @@ const SignIn = ({ navigation }: any) => {
     currentEmail.current = email;
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
+      .then(async () => {
         navigation.replace(pages.Home);
+        const profile = await fetchProfile(email);
+        dispatch(setProfileRedux(profile.data));
+
         dispatch(loggingIn({ isLogin: true, email }));
       })
       .catch((error) => {

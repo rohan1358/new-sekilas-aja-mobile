@@ -210,14 +210,16 @@ export default function AccountSettings({ navigation }: any) {
                       : "-"}
                   </TextItem>
 
-                  <Button
-                    // style={styles.btnPilih}
-                    onPress={() => setModalSubsVisible(!modalSubsVisible)}
-                  >
-                    <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
-                      {strings.upgrade_premium}
-                    </TextItem>
-                  </Button>
+                  {!profile?.is_subscribed && (
+                    <Button
+                      // style={styles.btnPilih}
+                      onPress={() => setModalSubsVisible(!modalSubsVisible)}
+                    >
+                      <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
+                        {strings.upgrade_premium}
+                      </TextItem>
+                    </Button>
+                  )}
                 </View>
               </View>
               {/* <Button

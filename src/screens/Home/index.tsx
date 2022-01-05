@@ -46,8 +46,10 @@ import { dummyBanner } from "./dummy";
 import { dummyMiniCollectionData, pageParser } from "./helper";
 import styles from "./styles";
 import { HORIZONTAL_GAP } from "./values";
+import { store, persistor } from "../../redux/store";
 
 const Home = () => {
+  const profileStore = store.getState().editProfile.profile;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const isMounted = useMounted();
@@ -69,6 +71,11 @@ const Home = () => {
   const [newChips, setChipd] = useState<any>(false);
 
   useEffect(() => {
+    console.log("profileStore", profileStore);
+    if (profileStore && profileStore.is_subscribed) {
+      setModalAllPlan(false);
+    }
+
     if (!profile?.id) return;
     messaging()
       .getToken()
@@ -266,7 +273,7 @@ const Home = () => {
 
   return (
     <>
-      {profile?.statusFetch && (
+      {profileStore && (
         <>
           <Base
             barColor={primaryColor.main}
