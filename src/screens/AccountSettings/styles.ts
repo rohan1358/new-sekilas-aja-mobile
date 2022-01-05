@@ -207,12 +207,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnPilih: {
-    height: 24,
-    width: 180,
-    backgroundColor: neutralColor[90],
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 7,
+    marginTop: 8,
   },
   txtBtnPilih: {
     color: successColor.main,

@@ -3,7 +3,7 @@ import {
   Button,
   DummyFlatList,
   ModalSubscribe,
-  TextItem
+  TextItem,
 } from "../../components";
 import {
   neutralColor,
@@ -11,7 +11,7 @@ import {
   primaryColor,
   skeleton,
   snackState as ss,
-  strings
+  strings,
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Switch, Text, View } from "react-native";
@@ -30,7 +30,7 @@ import {
   Exit,
   IconFb,
   IconIg,
-  IconTw
+  IconTw,
 } from "@assets";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { CommonActions } from "@react-navigation/routers";
@@ -39,7 +39,7 @@ import { formatDate } from "../../../src/utils";
 
 export default function AccountSettings({ navigation }: any) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>();
@@ -62,7 +62,7 @@ export default function AccountSettings({ navigation }: any) {
   const [textAlert, setTextAlert] = useState({
     text: "",
     action: "",
-    button: ""
+    button: "",
   });
 
   const [openAudio, setOpenAudio] = useState(false);
@@ -74,12 +74,12 @@ export default function AccountSettings({ navigation }: any) {
   const [itemsAudio, setItemsAudio] = useState([
     { label: "Tinggi", value: "tinggi" },
     { label: "Sedang", value: "sedang" },
-    { label: "Rendah", value: "rendah" }
+    { label: "Rendah", value: "rendah" },
   ]);
   const [itemsVideo, setItemsVideo] = useState([
     { label: "Tinggi", value: "tinggi" },
     { label: "Sedang", value: "sedang" },
-    { label: "Rendah", value: "rendah" }
+    { label: "Rendah", value: "rendah" },
   ]);
 
   const getDataAccount = async () => {
@@ -115,14 +115,14 @@ export default function AccountSettings({ navigation }: any) {
     dataAlert = {
       text: "",
       action: "",
-      button: ""
+      button: "",
     }
   ) => {
     setModalAlert(!modalAlert);
     setTextAlert({
       text: dataAlert.text,
       action: dataAlert.action,
-      button: dataAlert.button
+      button: dataAlert.button,
     });
   };
 
@@ -149,7 +149,7 @@ export default function AccountSettings({ navigation }: any) {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: pages.SignIn }]
+        routes: [{ name: pages.SignIn }],
       })
     );
   };
@@ -197,31 +197,29 @@ export default function AccountSettings({ navigation }: any) {
                     ? strings.premium_Account
                     : strings.free_Account}
                 </TextItem>
+                {!profile?.is_subscribed && (
+                  <Button
+                    style={styles.btnPilih}
+                    onPress={() => setModalSubsVisible(!modalSubsVisible)}
+                  >
+                    <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
+                      {strings.upgrade_premium}
+                    </TextItem>
+                  </Button>
+                )}
               </View>
-              <View style={styles.list}>
-                <TextItem style={styles.titleList}>
-                  {strings.masa_Account}
-                </TextItem>
 
-                <View style={styles.spaceBetween}>
-                  <TextItem style={styles.textLevelNonSubs}>
-                    {profile?.is_subscribed
-                      ? formatDate(profile?.end_date.toDate(), "d-m-y")
-                      : "-"}
+              {profile?.is_subscribed && (
+                <View style={styles.list}>
+                  <TextItem style={styles.titleList}>
+                    {strings.masa_Account}
                   </TextItem>
 
-                  {!profile?.is_subscribed && (
-                    <Button
-                      // style={styles.btnPilih}
-                      onPress={() => setModalSubsVisible(!modalSubsVisible)}
-                    >
-                      <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
-                        {strings.upgrade_premium}
-                      </TextItem>
-                    </Button>
-                  )}
+                  <TextItem style={styles.textLevelNonSubs}>
+                    {formatDate(profile?.end_date.toDate(), "d-m-y")}
+                  </TextItem>
                 </View>
-              </View>
+              )}
               {/* <Button
                 onPress={() =>
                   handleModalAlert({
@@ -504,7 +502,7 @@ export default function AccountSettings({ navigation }: any) {
                 handleModalAlert({
                   text: strings.yakin_keluar,
                   action: strings.cacel,
-                  button: strings.btn_keluar
+                  button: strings.btn_keluar,
                 });
                 setKeyAlert("logout");
               }}
