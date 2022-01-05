@@ -4,7 +4,7 @@ import {
   Button,
   DummyFlatList,
   HeaderListening,
-  TextItem
+  TextItem,
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Share, View } from "react-native";
@@ -15,7 +15,7 @@ import {
   pages,
   primaryColor,
   snackState as ss,
-  strings
+  strings,
 } from "@constants";
 import { Slider } from "@miblanchard/react-native-slider";
 import {
@@ -27,7 +27,7 @@ import {
   RotateCcw,
   RotateCw,
   SkipBack,
-  SkipForward
+  SkipForward,
 } from "@assets";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { heightPercent, logger } from "../../helpers";
@@ -47,7 +47,7 @@ export default function Watching({ navigation, route }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [isBufferLoad, setBuffer] = useState(false);
   const [videoBigbany, setVideoBigbany] = useState({
-    uri: "https://api-files.sproutvideo.com/file/069dd8b0181fe6c08f/54cbce85df89c93d/240.mp4"
+    uri: "https://api-files.sproutvideo.com/file/069dd8b0181fe6c08f/54cbce85df89c93d/240.mp4",
   });
   // const [videoUrl, setVideoUrl] = useState(videoNusa)
 
@@ -113,7 +113,7 @@ export default function Watching({ navigation, route }: any) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: "https://sekilasaja.com/"
+        message: "https://sekilasaja.com/",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -135,7 +135,7 @@ export default function Watching({ navigation, route }: any) {
         navigation.navigate("Reading", {
           id: book.book_title,
           page: 1,
-          book
+          book,
         });
         break;
       case "listening":
@@ -151,7 +151,7 @@ export default function Watching({ navigation, route }: any) {
   };
   useEffect(() => {
     var myHeaders = new Headers({
-      "SproutVideo-Api-Key": "c1c6624f7314a47777f9e3fdb3dcaccf"
+      "SproutVideo-Api-Key": "c1c6624f7314a47777f9e3fdb3dcaccf",
     });
 
     const myRequest = new Request(
@@ -160,7 +160,7 @@ export default function Watching({ navigation, route }: any) {
       }`,
       {
         method: "GET",
-        headers: myHeaders
+        headers: myHeaders,
       }
     );
 
@@ -223,8 +223,12 @@ export default function Watching({ navigation, route }: any) {
             }}
           />
           <View style={styles.boxTextTime}>
-            <TextItem>{_convertDuration(currentTime)}</TextItem>
-            <TextItem>{_convertDuration(duration - currentTime)}</TextItem>
+            <TextItem type={"r.14.nc.90"}>
+              {_convertDuration(currentTime)}
+            </TextItem>
+            <TextItem type={"r.14.nc.90"}>
+              {_convertDuration(duration - currentTime)}
+            </TextItem>
           </View>
         </View>
         <View style={styles.boxAction}>
@@ -250,7 +254,7 @@ export default function Watching({ navigation, route }: any) {
         </View>
         <View style={styles.boxFooter}>
           <Button onPress={() => refRBSheet.current.open()}>
-            <TextItem style={styles.speedText}>
+            <TextItem type={"b.14.nc.90"} style={styles.speedText}>
               {strings.kecepatan + speed.toString() + strings.x}
             </TextItem>
           </Button>
@@ -278,12 +282,12 @@ export default function Watching({ navigation, route }: any) {
         closeOnPressMask={true}
         customStyles={{
           wrapper: {
-            backgroundColor: "rgba(0,0,0,0.3)"
+            backgroundColor: "rgba(0,0,0,0.3)",
           },
           container: {
             borderTopLeftRadius: 24,
-            borderTopRightRadius: 24
-          }
+            borderTopRightRadius: 24,
+          },
         }}
         height={heightPercent(42)}
       >
