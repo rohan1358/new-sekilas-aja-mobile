@@ -1,6 +1,7 @@
 import auth from "@react-native-firebase/auth";
+import { Link } from "@react-navigation/native";
 import React, { useMemo, useRef, useState } from "react";
-import { Keyboard, View } from "react-native";
+import { Keyboard, Linking, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { Alert, Check, Eye, EyeOff } from "../../../assets";
@@ -10,7 +11,7 @@ import {
   Button,
   Gap,
   TextField,
-  TextItem,
+  TextItem
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import {
@@ -21,7 +22,7 @@ import {
   snackState as ss,
   spacing as sp,
   strings,
-  successColor,
+  successColor
 } from "../../constants";
 import { loggingIn } from "../../redux/actions";
 import styles from "./styles";
@@ -60,18 +61,18 @@ const SignIn = ({ navigation }: any) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (email.length === 0) {
       return {
         message: strings.emailCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.invalidEmail,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [email, isEmailNotFound]);
 
@@ -113,7 +114,7 @@ const SignIn = ({ navigation }: any) => {
     if (isPasswordWrong) {
       return {
         message: "",
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     if (password === undefined) {
@@ -122,18 +123,18 @@ const SignIn = ({ navigation }: any) => {
     if (password?.length >= 6) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     if (password.length === 0) {
       return {
         message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.passwordMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [password, isPasswordWrong]);
 
@@ -178,7 +179,11 @@ const SignIn = ({ navigation }: any) => {
         />
         <Gap vertical={sp.xs} />
         <View style={{ alignItems: "flex-end" }}>
-          <Button>
+          <Button
+            onPress={() =>
+              Linking.openURL("https://sekilasaja.com/lupa-password")
+            }
+          >
             <TextItem type="b.14.nc.90">{strings.forgotPassword}</TextItem>
           </Button>
         </View>
