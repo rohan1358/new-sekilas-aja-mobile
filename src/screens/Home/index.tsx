@@ -174,7 +174,7 @@ const Home = () => {
         ]);
       if (!isMounted) return;
       if (profileData.isSuccess) {
-        setProfile(profileData.data);
+        setProfile({ ...profileData.data, statusFetch: true });
         dispatch(setProfileRedux(profileData.data));
         handleSub(profileData.data);
       } else {
@@ -265,49 +265,54 @@ const Home = () => {
   };
 
   return (
-    <Base
-      barColor={primaryColor.main}
-      snackState={snackState}
-      setSnackState={setSnackState}
-    >
-      <SkeletonContent
-        containerStyle={styles.skeleton}
-        isLoading={isLoading || !isFocused}
-        layout={skeleton.mainHome}
-      >
-        <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
-          <HomeHeader
-            name={profile?.firstName}
-            uri=""
-            onBellPress={onBellPress}
-            onPressProfile={onPressProfile}
-          />
+    <>
+      {profile?.statusFetch && (
+        <>
+          <Base
+            barColor={primaryColor.main}
+            snackState={snackState}
+            setSnackState={setSnackState}
+          >
+            <SkeletonContent
+              containerStyle={styles.skeleton}
+              isLoading={isLoading || !isFocused}
+              layout={skeleton.mainHome}
+            >
+              <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
+                <HomeHeader
+                  name={profile?.firstName}
+                  uri=""
+                  onBellPress={onBellPress}
+                  onPressProfile={onPressProfile}
+                />
 
-          <View>
-            <View style={styles.dummyHeader} />
-            <OngoingTile
-              bookTitle={readingBook?.book}
-              bookUri={readingBook?.book_cover}
-              onPress={onGoingPress}
-              isAvailable={!!readingBook?.available}
-            />
-          </View>
-          <View style={styles.adjuster}>
-            {/* <Gap horizontal={HORIZONTAL_GAP}>
+                <View>
+                  <View style={styles.dummyHeader} />
+                  <OngoingTile
+                    bookTitle={readingBook?.book}
+                    bookUri={readingBook?.book_cover}
+                    onPress={onGoingPress}
+                    isAvailable={!!readingBook?.available}
+                  />
+                </View>
+                <View style={styles.adjuster}>
+                  {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap> */}
-            {/* <Gap vertical={sp.sm} /> */}
-            <FlatList
-              contentContainerStyle={styles.newCollectionContentContainerStyle}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              data={dummyBanner}
-              renderItem={bannerRenderItem}
-              keyExtractor={idKeyExtractor}
-              listKey={"bannerlist"}
-            />
-            <Gap vertical={sp.m} />
-            {/* <Gap horizontal={HORIZONTAL_GAP}>
+                  {/* <Gap vertical={sp.sm} /> */}
+                  <FlatList
+                    contentContainerStyle={
+                      styles.newCollectionContentContainerStyle
+                    }
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={dummyBanner}
+                    renderItem={bannerRenderItem}
+                    keyExtractor={idKeyExtractor}
+                    listKey={"bannerlist"}
+                  />
+                  <Gap vertical={sp.m} />
+                  {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
               <TextItem type="r.14.nc.70">
                 {strings.bookCollectionsDesc}
@@ -323,122 +328,130 @@ const Home = () => {
               keyExtractor={dummyMiniCollectionKey}
               listKey={"kilaslist"}
             /> */}
-            <>
-              <Gap horizontal={HORIZONTAL_GAP}>
-                <TextItem type="b.24.nc.90">{strings.bookCategory}</TextItem>
-              </Gap>
-              <Gap vertical={sp.sm} />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View>
-                  <View style={styles.row}>
-                    {newChips &&
-                      newChips
-                        .slice(0, newChips.length / 2 + 1)
-                        .map((item: any, index: any) => {
-                          const onPress = (id: string) =>
-                            navigation.navigate("Category", {
-                              type: "category",
-                              title: item,
-                              payload: id
-                            });
-                          return (
-                            <CategoryChips
-                              onPress={onPress}
-                              index={index}
-                              item={{
-                                id: item,
-                                label: item,
-                                Icon: newCategories(item)
-                              }}
-                              key={index}
-                            />
-                          );
-                        })}
+                  <>
+                    <Gap horizontal={HORIZONTAL_GAP}>
+                      <TextItem type="b.24.nc.90">
+                        {strings.bookCategory}
+                      </TextItem>
+                    </Gap>
+                    <Gap vertical={sp.sm} />
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                    >
+                      <View>
+                        <View style={styles.row}>
+                          {newChips &&
+                            newChips
+                              .slice(0, newChips.length / 2 + 1)
+                              .map((item: any, index: any) => {
+                                const onPress = (id: string) =>
+                                  navigation.navigate("Category", {
+                                    type: "category",
+                                    title: item,
+                                    payload: id
+                                  });
+                                return (
+                                  <CategoryChips
+                                    onPress={onPress}
+                                    index={index}
+                                    item={{
+                                      id: item,
+                                      label: item,
+                                      Icon: newCategories(item)
+                                    }}
+                                    key={index}
+                                  />
+                                );
+                              })}
+                        </View>
+                        <Gap vertical={sp.sm} />
+                        <View style={styles.row}>
+                          {newChips &&
+                            newChips
+                              .slice(newChips.length / 2 + 1, newChips.length)
+                              .map((item: any, index: any) => {
+                                const onPress = (id: string) =>
+                                  navigation.navigate("Category", {
+                                    type: "category",
+                                    title: item,
+                                    payload: id
+                                  });
+                                return (
+                                  <CategoryChips
+                                    onPress={onPress}
+                                    index={index}
+                                    item={{
+                                      id: item,
+                                      label: item,
+                                      Icon: newCategories(item)
+                                    }}
+                                    key={index}
+                                  />
+                                );
+                              })}
+                        </View>
+                      </View>
+                    </ScrollView>
+                  </>
+                  <Gap vertical={sp.sl} />
+                  <View style={styles.clickTitle}>
+                    <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                      {strings.recommendedBook}
+                    </TextItem>
+                    <Gap horizontal={20} />
+                    <Button onPress={onPressRecommend}>
+                      <TextItem type="b.14.nc.90" style={styles.underline}>
+                        {strings.seeAll}
+                      </TextItem>
+                    </Button>
                   </View>
                   <Gap vertical={sp.sm} />
-                  <View style={styles.row}>
-                    {newChips &&
-                      newChips
-                        .slice(newChips.length / 2 + 1, newChips.length)
-                        .map((item: any, index: any) => {
-                          const onPress = (id: string) =>
-                            navigation.navigate("Category", {
-                              type: "category",
-                              title: item,
-                              payload: id
-                            });
-                          return (
-                            <CategoryChips
-                              onPress={onPress}
-                              index={index}
-                              item={{
-                                id: item,
-                                label: item,
-                                Icon: newCategories(item)
-                              }}
-                              key={index}
-                            />
-                          );
-                        })}
+                  <Gap horizontal={HORIZONTAL_GAP}>
+                    <FlatList
+                      data={recommendedBooks}
+                      keyExtractor={idKeyExtractor}
+                      numColumns={2}
+                      renderItem={booksRenderItem}
+                      columnWrapperStyle={styles.columnWrapperStyle}
+                      listKey={"recommendedbooklist"}
+                    />
+                  </Gap>
+                  <Gap vertical={sp.sl} />
+                  <View style={styles.clickTitle}>
+                    <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                      {strings.mostRead}
+                    </TextItem>
+                    <Gap horizontal={20} />
+                    <Button onPress={onMostReadPress}>
+                      <TextItem type="b.14.nc.90" style={styles.underline}>
+                        {strings.seeAll}
+                      </TextItem>
+                    </Button>
                   </View>
+                  <Gap vertical={sp.sm} />
+                  <Gap horizontal={HORIZONTAL_GAP}>
+                    <FlatList
+                      data={mostReadBooks}
+                      keyExtractor={idKeyExtractor}
+                      numColumns={2}
+                      renderItem={booksRenderItem}
+                      columnWrapperStyle={styles.columnWrapperStyle}
+                      listKey="mostreadbooklist"
+                    />
+                  </Gap>
                 </View>
-              </ScrollView>
-            </>
-            <Gap vertical={sp.sl} />
-            <View style={styles.clickTitle}>
-              <TextItem type="b.24.nc.90" style={styles.longTitle}>
-                {strings.recommendedBook}
-              </TextItem>
-              <Gap horizontal={20} />
-              <Button onPress={onPressRecommend}>
-                <TextItem type="b.14.nc.90" style={styles.underline}>
-                  {strings.seeAll}
-                </TextItem>
-              </Button>
-            </View>
-            <Gap vertical={sp.sm} />
-            <Gap horizontal={HORIZONTAL_GAP}>
-              <FlatList
-                data={recommendedBooks}
-                keyExtractor={idKeyExtractor}
-                numColumns={2}
-                renderItem={booksRenderItem}
-                columnWrapperStyle={styles.columnWrapperStyle}
-                listKey={"recommendedbooklist"}
-              />
-            </Gap>
-            <Gap vertical={sp.sl} />
-            <View style={styles.clickTitle}>
-              <TextItem type="b.24.nc.90" style={styles.longTitle}>
-                {strings.mostRead}
-              </TextItem>
-              <Gap horizontal={20} />
-              <Button onPress={onMostReadPress}>
-                <TextItem type="b.14.nc.90" style={styles.underline}>
-                  {strings.seeAll}
-                </TextItem>
-              </Button>
-            </View>
-            <Gap vertical={sp.sm} />
-            <Gap horizontal={HORIZONTAL_GAP}>
-              <FlatList
-                data={mostReadBooks}
-                keyExtractor={idKeyExtractor}
-                numColumns={2}
-                renderItem={booksRenderItem}
-                columnWrapperStyle={styles.columnWrapperStyle}
-                listKey="mostreadbooklist"
-              />
-            </Gap>
-          </View>
-          <Gap vertical={sp.xxl} />
-        </DummyFlatList>
-      </SkeletonContent>
-      <ModalSubscribe
-        modalVisible={modalAllPlan}
-        setModalVisible={setModalAllPlan}
-      />
-    </Base>
+                <Gap vertical={sp.xxl} />
+              </DummyFlatList>
+            </SkeletonContent>
+            <ModalSubscribe
+              modalVisible={modalAllPlan}
+              setModalVisible={setModalAllPlan}
+            />
+          </Base>
+        </>
+      )}
+    </>
   );
 };
 
