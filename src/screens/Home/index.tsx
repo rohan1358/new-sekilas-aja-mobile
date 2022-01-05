@@ -71,7 +71,6 @@ const Home = () => {
   const [newChips, setChipd] = useState<any>(false);
 
   useEffect(() => {
-    console.log("profileStore", profileStore);
     if (profileStore && profileStore.is_subscribed) {
       setModalAllPlan(false);
     }

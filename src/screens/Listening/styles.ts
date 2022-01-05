@@ -1,4 +1,4 @@
-import { neutralColor, primaryColor } from "@constants";
+import { neutralColor, primaryColor, spacing } from "@constants";
 import { StyleSheet } from "react-native";
 import { heightPercent } from "../../helpers";
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   boxAction: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: heightPercent(5),
+    marginVertical: heightPercent(3),
     alignItems: "center",
     paddingHorizontal: 10
   },
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
   btnBar: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.sm
   },
 
   titleSelect: {

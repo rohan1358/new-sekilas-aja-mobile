@@ -10,7 +10,7 @@ import {
   Button,
   Gap,
   TextField,
-  TextItem,
+  TextItem
 } from "../../components";
 import {
   defaultValue as dv,
@@ -19,7 +19,7 @@ import {
   snackState as ss,
   spacing as sp,
   strings,
-  successColor,
+  successColor
 } from "../../constants";
 import styles from "./styles";
 import { SignUpProps } from "./types";
@@ -47,7 +47,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
       nameCheck.state,
       emailCheck.state,
       passwordCheck.state,
-      repasswordCheck.state,
+      repasswordCheck.state
     ];
     return !check.every((item) => item === textFieldState.success);
   };
@@ -60,18 +60,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (email.length === 0) {
       return {
         message: strings.emailCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.invalidEmail,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [email]);
 
@@ -83,18 +83,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (name.length === 0) {
       return {
         message: strings.nameCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.nameMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [name]);
 
@@ -106,18 +106,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (phoneNumber.length === 0) {
       return {
         message: strings.phoneNumberCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
-      message: strings.nameMinChar,
-      state: textFieldState.warn,
+      message: strings.phoneNumberCantBeEmpty,
+      state: textFieldState.warn
     };
   }, [phoneNumber]);
 
@@ -128,18 +128,18 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (password?.length >= 6) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     if (password.length === 0) {
       return {
         message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.passwordMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [password]);
 
@@ -150,12 +150,12 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (repassword === password) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     return {
       message: strings.passwordDontMatch,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [repassword, password]);
 
@@ -182,7 +182,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
             phoneNumber: phoneNumber,
             owned_books: [
               "Atomic Habits",
-              "The Little Book of Common Sense Investing",
+              "The Little Book of Common Sense Investing"
             ],
             favorite_books: [],
             is_subscribed: false,
@@ -191,7 +191,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
             start_date: new Date(), // this date means UNSUBSCRIBED
             end_date: new Date(), // this date means UNSUBSCRIBED
             sign_up_date: new Date(),
-            promo_codes_used: [],
+            promo_codes_used: []
           })
           .then(() => {
             firestore()
@@ -200,8 +200,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
               .set(
                 {
                   sign_up: {
-                    [new Date().getTime()]: { email, date: new Date() },
-                  },
+                    [new Date().getTime()]: { email, date: new Date() }
+                  }
                 },
                 { merge: true }
               )
@@ -215,8 +215,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
                     full_name: name,
                     email: email,
                     no_hp: phoneNumber,
-                    kirim_email_list_id: "190689",
-                  }),
+                    kirim_email_list_id: "190689"
+                  })
                 }).then(function (response) {
                   console.log(response);
                 });
@@ -230,8 +230,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
                     full_name: name,
                     email: email,
                     no_hp: phoneNumber,
-                    kirim_email_list_id: "190688",
-                  }),
+                    kirim_email_list_id: "190688"
+                  })
                 }).then(function (response) {
                   console.log(response);
                 });

@@ -226,7 +226,6 @@ export default function Listening({ navigation, route }: any) {
   const handlePrevBab = () => {
     if (bab - 1 > 0) setBab(bab - 1);
   };
-
   return (
     <Base
       barColor={primaryColor.main}
@@ -354,13 +353,15 @@ export default function Listening({ navigation, route }: any) {
               <File />
               <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
             </Button>
-            <Button
-              onPress={() => navigationTopBar("watching")}
-              style={styles.btnBar}
-            >
-              <Video />
-              <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
-            </Button>
+            {book.video_link !== "" && (
+              <Button
+                onPress={() => navigationTopBar("watching")}
+                style={styles.btnBar}
+              >
+                <Video />
+                <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+              </Button>
+            )}
           </View>
         </View>
       </View>

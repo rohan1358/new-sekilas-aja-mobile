@@ -188,7 +188,9 @@ const SignIn = ({ navigation }: any) => {
               Linking.openURL("https://sekilasaja.com/lupa-password")
             }
           >
-            <TextItem type="b.14.nc.90">{strings.forgotPassword}</TextItem>
+            <TextItem style={styles.underlineText} type="b.14.nc.90">
+              {strings.forgotPassword}
+            </TextItem>
           </Button>
         </View>
         <Gap vertical={sp.sm} />

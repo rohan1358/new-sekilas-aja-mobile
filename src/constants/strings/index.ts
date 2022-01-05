@@ -105,7 +105,7 @@ export const strings = {
   library: "Bukuku",
   lihat_semua: "Lihat Semua >",
   listen: "Dengar",
-  login: "Masuk!",
+  login: "Masuk",
   loginHere: "Login di sini",
   langganan_sekaarang: "Langganan sekarang",
   lagi_bokek: "Lagi bokek",
@@ -178,7 +178,7 @@ export const strings = {
 
   repasswordPlaceholder: "Konfirmasi password disini ...",
   recommendedBook: "Rekomendasi buku",
-  regist: "Daftar!",
+  regist: "Daftar",
   registHere: "Daftar di sini.",
   rp: "Rp. ",
 
@@ -247,5 +247,5 @@ export const strings = {
   zona: "Zona",
 
   kilas: "kilas",
-  kembaliKeHome: "Kembali ke halaman beranda",
+  kembaliKeHome: "Kembali ke halaman beranda"
 };

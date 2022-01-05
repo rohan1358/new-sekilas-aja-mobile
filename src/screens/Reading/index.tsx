@@ -336,11 +336,16 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
             <Gap horizontal={sp.xs} />
             <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
           </Button>
-          <Button onPress={() => navigationTopBar("watching")} style={s.button}>
-            <Video stroke={primaryColor.main} />
-            <Gap horizontal={sp.xs} />
-            <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
-          </Button>
+          {BOOK.video_link !== "" && (
+            <Button
+              onPress={() => navigationTopBar("watching")}
+              style={s.button}
+            >
+              <Video stroke={primaryColor.main} />
+              <Gap horizontal={sp.xs} />
+              <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
+            </Button>
+          )}
         </View>
         <Gap vertical={sp.sl} />
       </Animated.View>
