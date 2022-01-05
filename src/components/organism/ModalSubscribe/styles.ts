@@ -173,6 +173,9 @@ const styles = StyleSheet.create({
   },
   webView: {
     flex: 2
+  },
+  flex1: {
+    flex: 1
   }
 });
 

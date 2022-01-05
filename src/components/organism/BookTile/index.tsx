@@ -1,5 +1,6 @@
 import { Lock } from "@assets";
-import React from "react";
+import { getBookCoverImageURL } from "@services";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
@@ -14,10 +15,10 @@ const BookTile = ({
   cover,
   onPress,
   navSubscrive,
-  isVideoAvailable,
+  isVideoAvailable
 }: BookTileProps) => {
   const {
-    editProfile: { profile },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const subsPress = () => navSubscrive && navSubscrive();
@@ -29,6 +30,21 @@ const BookTile = ({
       ? false
       : true;
 
+  const [newCover, setNewCover] = useState<any>("");
+
+  const newGetCover = async () => {
+    const getCover = await getBookCoverImageURL(title);
+    setNewCover(getCover);
+  };
+
+  useEffect(() => {
+    if (cover) {
+      setNewCover(cover);
+    } else {
+      newGetCover();
+    }
+  }, []);
+
   return (
     <Button onPress={tilePress} style={styles.container}>
       <View style={styles.imageContainer}>
@@ -36,7 +52,13 @@ const BookTile = ({
           <View style={styles.innerBackgorund} />
         </View>
         <View>
-          <Amage style={styles.image} source={cover} resizeMode="contain" />
+          {newCover !== "" && (
+            <Amage
+              style={styles.image}
+              source={newCover}
+              resizeMode="contain"
+            />
+          )}
         </View>
       </View>
       <Gap vertical={sp.sm} />

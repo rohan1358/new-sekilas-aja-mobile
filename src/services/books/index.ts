@@ -1,7 +1,7 @@
-import { firebaseNode } from '@constants';
-import firestore from '@react-native-firebase/firestore';
-import { scrapBook } from '../../helpers';
-
+import { firebaseNode } from "@constants";
+import firestore from "@react-native-firebase/firestore";
+import { scrapBook } from "../../helpers";
+import storage from "@react-native-firebase/storage";
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
@@ -18,14 +18,14 @@ const fetchBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Books successfuly fetched.'
+        message: "Books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch books failed.'
+        message: "Fetch books failed."
       });
     }
   });
@@ -40,7 +40,7 @@ const fetchCategorizedBooks = ({
     try {
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where('category', 'array-contains', category)
+        .where("category", "array-contains", category)
         .get();
 
       const books: BookResponse[] = raw.docs.map((item) => ({
@@ -55,14 +55,14 @@ const fetchCategorizedBooks = ({
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Categorized books successfuly fetched.'
+        message: "Categorized books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch categorized books failed.'
+        message: "Fetch categorized books failed."
       });
     }
   });
@@ -82,7 +82,7 @@ const fetchMostBooks = () => {
       const titles = scrapBook(mostRaw);
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where('book_title', 'in', titles)
+        .where("book_title", "in", titles)
         .get();
       const result: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
@@ -102,14 +102,14 @@ const fetchMostBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Most read books successfuly fetched.'
+        message: "Most read books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch most read books failed.'
+        message: "Fetch most read books failed."
       });
     }
   });
@@ -127,10 +127,10 @@ const fetchReadingBook = (email: string) => {
 
       if (!rawBook) {
         resolve({
-          data: { book: '', book_cover: '', kilas: '', available: false },
+          data: { book: "", book_cover: "", kilas: "", available: false },
           isSuccess: true,
           error: null,
-          message: 'Reading book successfuly fetched.'
+          message: "Reading book successfuly fetched."
         });
       }
 
@@ -138,14 +138,14 @@ const fetchReadingBook = (email: string) => {
         data: { ...rawBook?.book, available: true },
         isSuccess: true,
         error: null,
-        message: 'Reading book successfuly fetched.'
+        message: "Reading book successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch reading book failed.'
+        message: "Fetch reading book failed."
       });
     }
   });
@@ -156,13 +156,13 @@ const fetchRecommendedBooks = () => {
     try {
       const bookTitles = await firestore()
         .collection(firebaseNode.rate)
-        .where('read.average', '>=', 4)
+        .where("read.average", ">=", 4)
         .limit(10)
         .get();
       const titles = bookTitles.docs.map((item) => item.id);
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where('book_title', 'in', titles)
+        .where("book_title", "in", titles)
         .get();
       const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
@@ -176,14 +176,14 @@ const fetchRecommendedBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Recommended books successfuly fetched.'
+        message: "Recommended books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch recommended books failed.'
+        message: "Fetch recommended books failed."
       });
     }
   });
@@ -194,7 +194,7 @@ const fetchReleasedBooks = () => {
     try {
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where('category', 'array-contains', 'New Release!')
+        .where("category", "array-contains", "New Release!")
         .get();
       const books: BookResponse[] = raw.docs.map((item) => ({
         book_title: item.data()?.book_title,
@@ -208,14 +208,14 @@ const fetchReleasedBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'New released books successfuly fetched.'
+        message: "New released books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch new released books failed.'
+        message: "Fetch new released books failed."
       });
     }
   });
@@ -236,7 +236,7 @@ const fetchTrendBooks = () => {
 
       const raw = await firestore()
         .collection(firebaseNode.books)
-        .where('book_title', 'in', titles)
+        .where("book_title", "in", titles)
         .get();
 
       const books = raw.docs.map((item) => ({
@@ -251,14 +251,14 @@ const fetchTrendBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Trend books successfuly fetched.'
+        message: "Trend books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch most trend books failed.'
+        message: "Fetch most trend books failed."
       });
     }
   });
@@ -290,14 +290,14 @@ const fetchDetailBooks = (id: any) => {
         data: books,
         isSuccess: true,
         error: null,
-        message: 'Trend books successfuly fetched.'
+        message: "Trend books successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: 'Fetch most trend books failed.'
+        message: "Fetch most trend books failed."
       });
     }
   });
@@ -305,8 +305,24 @@ const fetchDetailBooks = (id: any) => {
 
 const fetchListCategory = async () =>
   await (
-    await firestore().collection('listCategory').doc('category').get()
+    await firestore().collection("listCategory").doc("category").get()
   ).data();
+
+//Method to get book cover image from firebase storage
+const getBookCoverImageURL = async (referenceName: string) => {
+  // var refName = "Book_Cover_Images/" + referenceName + " Cover.png";
+  var refName = "Book_Cover_Images_JPG/" + referenceName + " Cover.jpg";
+  var imgRef = storage().ref().child(refName);
+
+  try {
+    var url = await imgRef.getDownloadURL();
+    if (url) {
+      return url;
+    }
+  } catch (err: any) {
+    return "";
+  }
+};
 
 export {
   fetchBooks,
@@ -317,5 +333,6 @@ export {
   fetchReleasedBooks,
   fetchTrendBooks,
   fetchDetailBooks,
-  fetchListCategory
+  fetchListCategory,
+  getBookCoverImageURL
 };

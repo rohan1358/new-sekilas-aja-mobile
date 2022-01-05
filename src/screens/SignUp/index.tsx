@@ -24,7 +24,8 @@ import {
 import styles from "./styles";
 import { SignUpProps } from "./types";
 import { useDispatch } from "react-redux";
-import { loggingIn } from "../../redux/actions";
+import { loggingIn, setProfileRedux } from "../../redux/actions";
+import { fetchProfile } from "@services";
 
 const { textFieldState } = dv;
 
@@ -46,8 +47,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
     const check = [
       nameCheck.state,
       emailCheck.state,
-      passwordCheck.state,
-      repasswordCheck.state
+      passwordCheck.state
+      // repasswordCheck.state
     ];
     return !check.every((item) => item === textFieldState.success);
   };
@@ -205,7 +206,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
                 },
                 { merge: true }
               )
-              .then((res) => {
+              .then(async (res) => {
                 //Make API request to create new subscriber for Non-Subscribers in KIRIM.EMAIL
                 fetch("https://sekilasaja.com/kirim-email-create-subscriber", {
                   method: "POST",
@@ -238,6 +239,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
 
                 navigation.replace(pages.Home);
                 dispatch(loggingIn({ isLogin: true, email }));
+                const profile = await fetchProfile(email);
+                dispatch(setProfileRedux(profile.data));
               });
           })
           .catch((err) => {});
@@ -298,7 +301,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           {...passwordCheck}
         />
         <Gap vertical={sp.xs} />
-        <TextItem type="b.20.nc.90.c">{strings.enterConfirmPassword}</TextItem>
+        {/* <TextItem type="b.20.nc.90.c">{strings.enterConfirmPassword}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           onChangeText={setRepassword}
@@ -314,7 +317,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           iconPress={() => setIsSecureRepassword((current) => !current)}
           {...repasswordCheck}
         />
-        <Gap vertical={sp.sm} />
+        <Gap vertical={sp.sm} /> */}
 
         <TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem>
         <Gap vertical={sp.xs} />

@@ -23,7 +23,7 @@ export default function ModalSubscribe({
 
   const refScroll = useRef();
 
-  const [statusBest, setBest] = useState(false);
+  const [statusBest, setBest] = useState(true);
   const [statusNormal, setNormal] = useState(false);
   const [btnBack, setBtnBack] = useState(false);
 
@@ -105,7 +105,11 @@ export default function ModalSubscribe({
             }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.note, statusBest && styles.colorWhite]}>
+          <TextItem
+            style={
+              statusBest ? [styles.note, styles.colorWhite] : [styles.note]
+            }
+          >
             {strings.pembayaran_langsung + item.mount + strings.didepan}
           </TextItem>
         </View>
@@ -136,7 +140,11 @@ export default function ModalSubscribe({
             }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.note, statusNormal && styles.colorWhite]}>
+          <TextItem
+            style={
+              !statusNormal ? [styles.note] : [styles.note, styles.colorWhite]
+            }
+          >
             {strings.pembayaran_langsung + item.mount + strings.didepan}
           </TextItem>
         </View>
@@ -213,7 +221,7 @@ export default function ModalSubscribe({
                 <ArrowLeft color={neutralColor[90]} width={30} height={25} />
               </Button>
             </View>
-            <View style={styles.boxContent}>
+            <View style={[styles.boxContent, styles.flex1]}>
               <TextItem type="b.32.nc.90">
                 {strings.pilih_paket_premium}
               </TextItem>
@@ -229,6 +237,8 @@ export default function ModalSubscribe({
                   )
                 )}
               </View>
+            </View>
+            <View style={styles.boxContent}>
               <Button onPress={() => handleNext(200)} style={styles.btnPilih}>
                 <TextItem type="b.24.pc.main">
                   {strings.langganan_sekaarang}

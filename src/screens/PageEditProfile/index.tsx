@@ -4,7 +4,7 @@ import {
   Button,
   DummyFlatList,
   TextField,
-  TextItem,
+  TextItem
 } from "../../components";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -13,7 +13,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import styles from "./styles";
 import {
@@ -23,7 +23,7 @@ import {
   pages,
   defaultValue as dv,
   successColor,
-  primaryColor,
+  primaryColor
 } from "../../constants";
 import { Check, Exit, Eye, EyeOff } from "@assets";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +40,7 @@ const { textFieldState } = dv;
 
 export default function PageEditProfile({ route, navigation }: any) {
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const dispatch = useDispatch();
@@ -83,18 +83,18 @@ export default function PageEditProfile({ route, navigation }: any) {
       return {
         message: "",
         state: textFieldState.success,
-        Icon: <Check stroke={successColor.main} />,
+        Icon: <Check stroke={successColor.main} />
       };
     }
     if (value.length === 0) {
       return {
         message: strings.emailCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.invalidEmail,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [value]);
 
@@ -105,18 +105,18 @@ export default function PageEditProfile({ route, navigation }: any) {
     if (passwordBaru?.length >= 6) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     if (passwordBaru.length === 0) {
       return {
         message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.passwordMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [passwordBaru]);
 
@@ -127,18 +127,18 @@ export default function PageEditProfile({ route, navigation }: any) {
     if (passwordLama?.length >= 6) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     if (passwordLama.length === 0) {
       return {
         message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.passwordMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [passwordLama]);
 
@@ -149,18 +149,18 @@ export default function PageEditProfile({ route, navigation }: any) {
     if (passwordKonfir?.length >= 6) {
       return {
         message: "",
-        state: textFieldState.success,
+        state: textFieldState.success
       };
     }
     if (passwordKonfir.length === 0) {
       return {
         message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn,
+        state: textFieldState.warn
       };
     }
     return {
       message: strings.passwordMinChar,
-      state: textFieldState.warn,
+      state: textFieldState.warn
     };
   }, [passwordKonfir]);
 
@@ -213,7 +213,7 @@ export default function PageEditProfile({ route, navigation }: any) {
         case "nama":
           user
             ?.updateProfile({
-              displayName: value,
+              displayName: value
             })
             .then(() => {
               firestore()
@@ -221,7 +221,7 @@ export default function PageEditProfile({ route, navigation }: any) {
                 .doc(uid)
                 .update({
                   firstName: value,
-                  sign_up_date: firestore.FieldValue.serverTimestamp(),
+                  sign_up_date: firestore.FieldValue.serverTimestamp()
                 })
                 .then(() => {
                   setSnackState(ss.successState(strings.success));
@@ -248,12 +248,12 @@ export default function PageEditProfile({ route, navigation }: any) {
                     .doc(uid)
                     .update({
                       email: value,
-                      sign_up_date: firestore.FieldValue.serverTimestamp(),
+                      sign_up_date: firestore.FieldValue.serverTimestamp()
                     })
                     .then(async () => {
                       try {
                         const [profileData] = await Promise.all([
-                          fetchProfile(value),
+                          fetchProfile(value)
                         ]);
                         if (profileData.isSuccess) {
                           dispatch(setProfileRedux(profileData.data));
