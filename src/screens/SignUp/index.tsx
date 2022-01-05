@@ -206,6 +206,36 @@ const SignUp = ({ navigation }: SignUpProps) => {
                 { merge: true }
               )
               .then((res) => {
+                //Make API request to create new subscriber for Non-Subscribers in KIRIM.EMAIL
+                fetch("https://sekilasaja.com/kirim-email-create-subscriber", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  // We convert the React state to JSON and send it as the POST body
+                  body: JSON.stringify({
+                    full_name: name,
+                    email: email,
+                    no_hp: phoneNumber,
+                    kirim_email_list_id: "190689",
+                  }),
+                }).then(function (response) {
+                  console.log(response);
+                });
+
+                //Make API request to create new subscriber for All in KIRIM.EMAIL
+                fetch("https://sekilasaja.com/kirim-email-create-subscriber", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  // We convert the React state to JSON and send it as the POST body
+                  body: JSON.stringify({
+                    full_name: name,
+                    email: email,
+                    no_hp: phoneNumber,
+                    kirim_email_list_id: "190688",
+                  }),
+                }).then(function (response) {
+                  console.log(response);
+                });
+
                 navigation.replace(pages.Home);
                 dispatch(loggingIn({ isLogin: true, email }));
               });
