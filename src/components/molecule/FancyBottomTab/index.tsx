@@ -17,6 +17,7 @@ import {
 import { ModalSubscribe } from "@organism";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { LabelPosition } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
+import { ReduxState } from "@rux";
 import React, { useEffect, useState } from "react";
 import { Keyboard, TouchableOpacity, View } from "react-native";
 import Animated, {
@@ -25,6 +26,7 @@ import Animated, {
   withDelay,
   withTiming
 } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 import { Gap, TextItem } from "../../atom";
 import styles from "./styles";
 
@@ -122,6 +124,10 @@ const FancyBottomTab = ({
     bottom: navPosition.value
   }));
 
+  const {
+    editProfile: { profile }
+  } = useSelector((state: ReduxState) => state);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const detectKeyboard = () => {
@@ -217,38 +223,40 @@ const FancyBottomTab = ({
                 </TouchableOpacity>
               );
             })}
-            <TouchableOpacity
-              accessibilityRole="button"
-              // accessibilityState={isFocused ? { selected: true } : {}}
-              // accessibilityLabel={options.tabBarAccessibilityLabel}
-              onPress={() => setModalVisible(true)}
-              style={styles.tabContainer}
-            >
-              <View
-                style={[
-                  styles.tab,
-                  {
-                    top: modalVisible ? sp.xxs / 2 : 0
-                  }
-                ]}
+            {!profile?.is_subscribed && (
+              <TouchableOpacity
+                accessibilityRole="button"
+                onPress={() => setModalVisible(true)}
+                style={styles.tabContainer}
               >
-                <View style={styles.iconContainer}>
-                  {/* <Icon {...{ label, isFocused }} /> */}
-                  <SubscribeCard
-                    color={modalVisible ? activeColor : inactiveColor}
-                    fill={activeColor}
-                    width={ACTIVE_ICON_SIZE}
-                    height={ACTIVE_ICON_SIZE}
-                  />
+                <View
+                  style={[
+                    styles.tab,
+                    {
+                      top: modalVisible ? sp.xxs / 2 : 0
+                    }
+                  ]}
+                >
+                  <View style={styles.iconContainer}>
+                    {modalVisible ? (
+                      <SubscribeCard
+                        color={activeColor}
+                        width={ACTIVE_ICON_SIZE}
+                        height={ACTIVE_ICON_SIZE}
+                      />
+                    ) : (
+                      <SubscribeCard color={inactiveColor} />
+                    )}
+                  </View>
+                  {modalVisible && (
+                    <>
+                      <Gap vertical={sp.xxs} />
+                      <TextItem type="b.10.pc.main">Berlangganan</TextItem>
+                    </>
+                  )}
                 </View>
-                {modalVisible && (
-                  <>
-                    <Gap vertical={sp.xxs} />
-                    <TextItem type="b.10.pc.main">Berlangganan</TextItem>
-                  </>
-                )}
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            )}
           </View>
         </Animated.View>
       </View>
