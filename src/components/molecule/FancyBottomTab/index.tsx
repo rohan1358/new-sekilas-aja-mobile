@@ -236,7 +236,7 @@ const FancyBottomTab = ({
                   {/* <Icon {...{ label, isFocused }} /> */}
                   <SubscribeCard
                     color={modalVisible ? activeColor : inactiveColor}
-                    // fill={activeColor}
+                    fill={activeColor}
                     width={ACTIVE_ICON_SIZE}
                     height={ACTIVE_ICON_SIZE}
                   />
