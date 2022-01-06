@@ -19,6 +19,7 @@ import SignUp from "./SignUp";
 import SpecialBookList from "./SpecialBookList";
 import Subscribe from "./Subscribe";
 import Watching from "./Watching";
+import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
 
 export {
   About,
@@ -42,4 +43,5 @@ export {
   SpecialBookList,
   Subscribe,
   Watching,
+  ModalSubscribe
 };

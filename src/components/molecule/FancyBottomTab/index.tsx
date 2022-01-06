@@ -5,23 +5,25 @@ import {
   GridFilled,
   Home,
   HomeFilled,
+  SubscribeCard
 } from "@assets";
 import {
   neutralColor,
   pages,
   primaryColor,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
+import { ModalSubscribe } from "@organism";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { LabelPosition } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Keyboard, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import { Gap, TextItem } from "../../atom";
 import styles from "./styles";
@@ -56,7 +58,7 @@ const recentLabel = (
 
 const Icon = ({
   label,
-  isFocused,
+  isFocused
 }: {
   label:
     | string
@@ -112,13 +114,15 @@ const TAB_BOTTOM_GAP = sp.m;
 const FancyBottomTab = ({
   state,
   descriptors,
-  navigation,
+  navigation
 }: BottomTabBarProps) => {
   const navPosition = useSharedValue(TAB_BOTTOM_GAP);
 
   const containerStyle = useAnimatedStyle(() => ({
-    bottom: navPosition.value,
+    bottom: navPosition.value
   }));
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const detectKeyboard = () => {
     Keyboard.addListener(
@@ -139,80 +143,120 @@ const FancyBottomTab = ({
     detectKeyboard();
   }, []);
 
+  const onPress = () => {};
+
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.innerContainer, containerStyle]}>
-        <View style={styles.overlay} />
-        <View style={styles.tabsContainer}>
-          {state.routes.map((route, index) => {
-            const { options } = descriptors[route.key];
-            const label =
-              options.tabBarLabel !== undefined
-                ? options.tabBarLabel
-                : options.title !== undefined
-                ? options.title
-                : route.name;
+    <>
+      <View style={styles.container}>
+        <Animated.View style={[styles.innerContainer, containerStyle]}>
+          <View style={styles.overlay} />
+          <View style={styles.tabsContainer}>
+            {state.routes.map((route, index) => {
+              const { options } = descriptors[route.key];
+              const label =
+                options.tabBarLabel !== undefined
+                  ? options.tabBarLabel
+                  : options.title !== undefined
+                  ? options.title
+                  : route.name;
 
-            const isFocused = state.index === index;
+              const isFocused = state.index === index;
 
-            const onPress = () => {
-              const event = navigation.emit({
-                type: "tabPress",
-                target: route.key,
-                canPreventDefault: true,
-              });
+              const onPress = () => {
+                const event = navigation.emit({
+                  type: "tabPress",
+                  target: route.key,
+                  canPreventDefault: true
+                });
 
-              if (!isFocused && !event.defaultPrevented) {
-                // The `merge: true` option makes sure that the params inside the tab screen are preserved
-                // @ts-ignore
-                navigation.navigate({ name: route.name, merge: true });
-              }
-            };
+                if (!isFocused && !event.defaultPrevented) {
+                  // The `merge: true` option makes sure that the params inside the tab screen are preserved
+                  // @ts-ignore
+                  navigation.navigate({ name: route.name, merge: true });
+                }
+              };
 
-            const onLongPress = () => {
-              navigation.emit({
-                type: "tabLongPress",
-                target: route.key,
-              });
-            };
+              const onLongPress = () => {
+                navigation.emit({
+                  type: "tabLongPress",
+                  target: route.key
+                });
+              };
 
-            return (
-              <TouchableOpacity
-                accessibilityRole="button"
-                accessibilityState={isFocused ? { selected: true } : {}}
-                accessibilityLabel={options.tabBarAccessibilityLabel}
-                testID={options.tabBarTestID}
-                onPress={onPress}
-                onLongPress={onLongPress}
-                style={styles.tabContainer}
-                key={`${label}`}
-              >
-                <View
-                  style={[
-                    styles.tab,
-                    {
-                      top: isFocused ? sp.xxs / 2 : 0,
-                    },
-                  ]}
+              return (
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  accessibilityState={isFocused ? { selected: true } : {}}
+                  accessibilityLabel={options.tabBarAccessibilityLabel}
+                  testID={options.tabBarTestID}
+                  onPress={onPress}
+                  onLongPress={onLongPress}
+                  style={styles.tabContainer}
+                  key={`${label}`}
                 >
-                  <View style={styles.iconContainer}>
-                    <Icon {...{ label, isFocused }} />
+                  <View
+                    style={[
+                      styles.tab,
+                      {
+                        top: isFocused ? sp.xxs / 2 : 0
+                      }
+                    ]}
+                  >
+                    <View style={styles.iconContainer}>
+                      <Icon {...{ label, isFocused }} />
+                    </View>
+                    {isFocused && (
+                      <>
+                        <Gap vertical={sp.xxs} />
+                        <TextItem type="b.10.pc.main">
+                          {recentLabel(label)}
+                        </TextItem>
+                      </>
+                    )}
                   </View>
-                  {isFocused && (
-                    <>
-                      <Gap vertical={sp.xxs} />
-                      <TextItem type="b.10.pc.main">
-                        {recentLabel(label)}
-                      </TextItem>
-                    </>
-                  )}
+                </TouchableOpacity>
+              );
+            })}
+            <TouchableOpacity
+              accessibilityRole="button"
+              // accessibilityState={isFocused ? { selected: true } : {}}
+              // accessibilityLabel={options.tabBarAccessibilityLabel}
+              onPress={() => setModalVisible(true)}
+              style={styles.tabContainer}
+            >
+              <View
+                style={[
+                  styles.tab,
+                  {
+                    top: modalVisible ? sp.xxs / 2 : 0
+                  }
+                ]}
+              >
+                <View style={styles.iconContainer}>
+                  {/* <Icon {...{ label, isFocused }} /> */}
+                  <SubscribeCard
+                    color={modalVisible ? activeColor : inactiveColor}
+                    // fill={activeColor}
+                    width={ACTIVE_ICON_SIZE}
+                    height={ACTIVE_ICON_SIZE}
+                  />
                 </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </Animated.View>
-    </View>
+                {modalVisible && (
+                  <>
+                    <Gap vertical={sp.xxs} />
+                    <TextItem type="b.10.pc.main">Berlangganan</TextItem>
+                  </>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </View>
+      <ModalSubscribe
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+    </>
   );
 };
 

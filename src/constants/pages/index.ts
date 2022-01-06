@@ -1,7 +1,7 @@
 export const pages = {
   About: "About",
   AccountSettings: "AccountSettings",
-  
+
   BookDetail: "BookDetail",
 
   Category: "Category",
@@ -11,6 +11,7 @@ export const pages = {
   Home: "Home",
 
   Library: "Library",
+  ModalSubs: "ModalSubs",
   Listening: "Listening",
 
   MainBottomRoute: "MainBottomRoute",
@@ -28,6 +29,5 @@ export const pages = {
   SignUp: "SignUp",
   Subscribe: "Subscribe",
 
-  Watching:'Watching',
-  
+  Watching: "Watching"
 };
