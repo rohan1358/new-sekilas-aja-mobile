@@ -77,6 +77,7 @@ import ArrowRightCategory from "./arrow-right-category.svg";
 import Bookmark from "./bookmark.svg";
 import BookmarkDetailInActive from "./bookmarkDetail.svg";
 import BookmarkDetail from "./bookmark-solid.svg";
+import SubscribeCard from "./SubscribeCard.svg";
 
 export {
   Alert,
@@ -142,6 +143,7 @@ export {
   Search,
   SearchDollar,
   Suitcase,
+  SubscribeCard,
   Tree,
   Video,
   YinYang,
@@ -157,5 +159,5 @@ export {
   ArrowRightCategory,
   Bookmark,
   BookmarkDetail,
-  BookmarkDetailInActive
+  BookmarkDetailInActive,
 };

@@ -18,7 +18,7 @@ export default function ModalSubscribe({
   ...props
 }: ModalSubscribeProps) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const refScroll = useRef();
@@ -31,14 +31,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
   const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
 
@@ -88,32 +88,29 @@ export default function ModalSubscribe({
     return (
       <Button onPress={() => handlePressCard(item.type)} style={styles.card}>
         <View style={[styles.headCard, styles.backBlack]}>
-          <TextItem style={[styles.textBestValue]}>
+          <TextItem type="b.14.nc.90" style={[styles.textBestValue]}>
             {strings.best_value}
           </TextItem>
         </View>
         <View style={[styles.contentCard, styles.boxBest]}>
-          <TextItem
-            type="b.20.c.white"
-            style={[styles.colorBlack, styles.month12]}
-          >
-            {item.mount + strings.bulan}
+          <TextItem type="b.18.nc.90">
+            Paket {item.mount + " " + strings.bulan}
+          </TextItem>
+          <TextItem style={[styles.price]}>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            {`/${strings.bulan}`}
           </TextItem>
           <TextItem style={[styles.hemat]}>{`${strings.hemat} ${
             strings.rp
           }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
-          <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${
-              strings.rp
-            }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
-            {`${strings.bulan}`}
-          </TextItem>
-          <TextItem style={[styles.note]}>
+          <TextItem type="n.14.nc.70" style={[styles.note]}>
             {strings.pembayaran_langsung + item.mount + strings.didepan}
           </TextItem>
         </View>
         <View style={[styles.chevronRight, styles.bgYellow]}>
-          <ChevronRight color={"black"} width={50} height={50} />
+          <ChevronRight stroke={neutralColor[90]} width={50} height={50} />
         </View>
       </Button>
     );
@@ -129,21 +126,21 @@ export default function ModalSubscribe({
           style={[styles.headCard, statusNormal && styles.backWhite]}
         ></View> */}
         <View style={[styles.contentCard]}>
-          <TextItem type="b.20.c.white" style={styles.colorBlack}>
-            {item.mount + strings.bulan}
+          <TextItem type="b.18.nc.90" style={styles.colorBlack}>
+            Paket {item.mount + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
             <TextItem style={styles.textBold}>{`${
               strings.rp
-            }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
-            {`${strings.bulan}`}
+            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            {`/${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.note]}>
+          <TextItem type="n.14.nc.70" style={[styles.note]}>
             {strings.pembayaran_langsung + item.mount + strings.didepan}
           </TextItem>
         </View>
         <View style={styles.chevronRight}>
-          <ChevronRight color={"black"} width={50} height={50} />
+          <ChevronRight stroke={neutralColor[90]} width={50} height={50} />
         </View>
       </Button>
     );
@@ -240,6 +237,7 @@ export default function ModalSubscribe({
                   {strings.langganan_sekaarang}
                 </TextItem>
               </Button> */}
+
                 <Button onPress={() => exitPage()} style={styles.btnPilih}>
                   <TextItem type="b.24.pc.main">{strings.lagi_bokek}</TextItem>
                 </Button>

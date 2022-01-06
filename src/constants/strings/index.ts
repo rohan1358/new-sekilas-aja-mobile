@@ -35,7 +35,7 @@ export const strings = {
   btn_simpan: "Simpan",
   buku_serupa: "Buku Serupa",
   best_value: "Best Value",
-  bulan: " Bulan",
+  bulan: "Bulan",
 
   camera_unavailable: "Kamera tidak tersedia di perangkat",
   continueReading: "Lanjutkan membaca",
@@ -64,7 +64,7 @@ export const strings = {
   enterConfirmPassword: "Konfirmasi Password",
   explore: "Eksplor",
 
-  favBooks: "Buku favoritku",
+  favBooks: "Bukuku",
   findFavBook: "Cari Buku Favoritmu!",
   findFavBookPlaceholder: "Cari buku favoritmu di sini..",
   finishedBooks: "Buku yang selesai dibaca",
@@ -118,7 +118,7 @@ export const strings = {
   mode_gelap: "Mode Gelap",
   masa_Account: "Masa Berlaku Premium",
   mode_offline: "Mode Offline",
-  myFavorite: "Buku Favoritku",
+  myFavorite: "Bukuku",
   membuka_semua:
     "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
 
@@ -247,5 +247,5 @@ export const strings = {
   zona: "Zona",
 
   kilas: "kilas",
-  kembaliKeHome: "Kembali ke halaman beranda"
+  kembaliKeHome: "Kembali ke halaman beranda",
 };
