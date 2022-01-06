@@ -5,14 +5,14 @@ import {
   GridFilled,
   Home,
   HomeFilled,
-  SubscribeCard
+  SubscribeCard,
 } from "@assets";
 import {
   neutralColor,
   pages,
   primaryColor,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import { ModalSubscribe } from "@organism";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
@@ -23,7 +23,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 import { Gap, TextItem } from "../../atom";
 import styles from "./styles";
@@ -58,7 +58,7 @@ const recentLabel = (
 
 const Icon = ({
   label,
-  isFocused
+  isFocused,
 }: {
   label:
     | string
@@ -114,12 +114,12 @@ const TAB_BOTTOM_GAP = sp.m;
 const FancyBottomTab = ({
   state,
   descriptors,
-  navigation
+  navigation,
 }: BottomTabBarProps) => {
   const navPosition = useSharedValue(TAB_BOTTOM_GAP);
 
   const containerStyle = useAnimatedStyle(() => ({
-    bottom: navPosition.value
+    bottom: navPosition.value,
   }));
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -166,7 +166,7 @@ const FancyBottomTab = ({
                 const event = navigation.emit({
                   type: "tabPress",
                   target: route.key,
-                  canPreventDefault: true
+                  canPreventDefault: true,
                 });
 
                 if (!isFocused && !event.defaultPrevented) {
@@ -179,7 +179,7 @@ const FancyBottomTab = ({
               const onLongPress = () => {
                 navigation.emit({
                   type: "tabLongPress",
-                  target: route.key
+                  target: route.key,
                 });
               };
 
@@ -198,8 +198,8 @@ const FancyBottomTab = ({
                     style={[
                       styles.tab,
                       {
-                        top: isFocused ? sp.xxs / 2 : 0
-                      }
+                        top: isFocused ? sp.xxs / 2 : 0,
+                      },
                     ]}
                   >
                     <View style={styles.iconContainer}>
@@ -219,8 +219,6 @@ const FancyBottomTab = ({
             })}
             <TouchableOpacity
               accessibilityRole="button"
-              // accessibilityState={isFocused ? { selected: true } : {}}
-              // accessibilityLabel={options.tabBarAccessibilityLabel}
               onPress={() => setModalVisible(true)}
               style={styles.tabContainer}
             >
@@ -228,18 +226,20 @@ const FancyBottomTab = ({
                 style={[
                   styles.tab,
                   {
-                    top: modalVisible ? sp.xxs / 2 : 0
-                  }
+                    top: modalVisible ? sp.xxs / 2 : 0,
+                  },
                 ]}
               >
                 <View style={styles.iconContainer}>
-                  {/* <Icon {...{ label, isFocused }} /> */}
-                  <SubscribeCard
-                    color={modalVisible ? activeColor : inactiveColor}
-                    // fill={activeColor}
-                    width={ACTIVE_ICON_SIZE}
-                    height={ACTIVE_ICON_SIZE}
-                  />
+                  {modalVisible ? (
+                    <SubscribeCard
+                      color={activeColor}
+                      width={ACTIVE_ICON_SIZE}
+                      height={ACTIVE_ICON_SIZE}
+                    />
+                  ) : (
+                    <SubscribeCard color={inactiveColor} />
+                  )}
                 </View>
                 {modalVisible && (
                   <>
