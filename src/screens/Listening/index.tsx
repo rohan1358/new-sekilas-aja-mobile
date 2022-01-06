@@ -4,7 +4,7 @@ import {
   Button,
   DummyFlatList,
   HeaderListening,
-  TextItem,
+  TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
 import { Share, Text, View } from "react-native";
@@ -15,7 +15,7 @@ import {
   pages,
   primaryColor,
   snackState as ss,
-  strings,
+  strings
 } from "@constants";
 import { Slider } from "@miblanchard/react-native-slider";
 import {
@@ -27,7 +27,7 @@ import {
   RotateCw,
   SkipBack,
   SkipForward,
-  Video,
+  Video
 } from "@assets";
 // import TextTicker from 'react-native-text-ticker'
 import LinearGradient from "react-native-linear-gradient";
@@ -40,10 +40,15 @@ import TrackPlayer, {
   usePlaybackState,
   useProgress,
   useTrackPlayerEvents,
-  Event,
+  Event
 } from "react-native-track-player";
 import { ScrollView } from "react-native-gesture-handler";
-import { getBookAudioURL, fetchProfile, getKilas } from "../../services/index";
+import {
+  getBookAudioURL,
+  fetchProfile,
+  getKilas,
+  getBookCoverImageURL
+} from "../../services/index";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
 
@@ -54,15 +59,15 @@ TrackPlayer.updateOptions({
     Capability.Pause,
     Capability.SkipToNext,
     Capability.SkipToPrevious,
-    Capability.Stop,
+    Capability.Stop
   ],
-  compactCapabilities: [Capability.Play, Capability.Pause],
+  compactCapabilities: [Capability.Play, Capability.Pause]
 });
 
 export default function Listening({ navigation, route }: any) {
   const { book } = route.params;
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
   const playbackState = usePlaybackState();
   const progress = useProgress();
@@ -144,7 +149,7 @@ export default function Listening({ navigation, route }: any) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: "https://sekilasaja.com/",
+        message: "https://sekilasaja.com/"
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -198,6 +203,7 @@ export default function Listening({ navigation, route }: any) {
 
   useEffect(() => {
     getHomeData();
+    newGetCover();
   }, []);
 
   const navigationTopBar = async (type = "") => {
@@ -206,7 +212,7 @@ export default function Listening({ navigation, route }: any) {
         navigation.navigate("Reading", {
           id: book.book_title,
           page: 1,
-          book,
+          book
         });
         await TrackPlayer.pause();
         break;
@@ -226,6 +232,13 @@ export default function Listening({ navigation, route }: any) {
   const handlePrevBab = () => {
     if (bab - 1 > 0) setBab(bab - 1);
   };
+
+  const [newCover, setNewCover] = useState<any>("");
+
+  const newGetCover = async () => {
+    const getCover = await getBookCoverImageURL(book?.book_title);
+    setNewCover(getCover);
+  };
   return (
     <Base
       barColor={primaryColor.main}
@@ -239,14 +252,14 @@ export default function Listening({ navigation, route }: any) {
       />
       <View style={styles.content}>
         <View style={styles.boxImage}>
-          <Amage resizeMode="contain" source={book?.book_cover} />
+          <Amage resizeMode="contain" source={book?.book_cover || newCover} />
         </View>
         <View style={styles.containerTitle}>
           <LinearGradient
             colors={[
               primaryColor.main,
               "rgba(251, 207, 50, 0.5)",
-              "transparent",
+              "transparent"
             ]}
             useAngle={true}
             angle={45}
@@ -271,7 +284,7 @@ export default function Listening({ navigation, route }: any) {
             colors={[
               "transparent",
               "rgba(251, 207, 50, 0.5)",
-              primaryColor.main,
+              primaryColor.main
             ]}
             useAngle={true}
             angle={45}
@@ -371,12 +384,12 @@ export default function Listening({ navigation, route }: any) {
         closeOnPressMask={true}
         customStyles={{
           wrapper: {
-            backgroundColor: "rgba(0,0,0,0.3)",
+            backgroundColor: "rgba(0,0,0,0.3)"
           },
           container: {
             borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          },
+            borderTopRightRadius: 24
+          }
         }}
         height={heightPercent(42)}
       >

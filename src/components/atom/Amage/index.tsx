@@ -6,7 +6,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import { SelfDevImg } from "../../../../assets";
 import styles from "./styles";
@@ -24,13 +24,13 @@ const Amage = ({
 
   const imageStyle = useAnimatedStyle(() => ({
     transform: [
-      { scale: ready.value ? withTiming(0.8) : withDelay(200, withTiming(1)) },
+      { scale: ready.value ? withTiming(0.8) : withDelay(200, withTiming(1)) }
     ],
-    opacity: ready.value ? withTiming(0) : withTiming(1),
+    opacity: ready.value ? withTiming(0) : withTiming(1)
   }));
 
   const overlayStyle = useAnimatedStyle(() => ({
-    opacity: ready.value,
+    opacity: ready.value
   }));
 
   const onLoad = () => (ready.value = withTiming(0));

@@ -50,13 +50,15 @@ import {
   fetchDetailBooks,
   fetchFavoriteBooks,
   fetchRecommendedBooks,
+  getBookCoverImageURL,
   postBookFavorite
 } from "../../services";
 import { fetchCommentarryBook } from "../../services/commentarry";
-import { formatDate } from "../../utils";
+import { checkData, formatDate } from "../../utils";
 import { CompactBooksProps } from "../Home/types";
 import { WebView } from "react-native-webview";
 import styles from "./styles";
+import { useIsFocused } from "@react-navigation/native";
 
 const openRate = false;
 
@@ -83,6 +85,8 @@ export default function BookDetail({ navigation, route }: any) {
   const [daftarIsi, setDaftarIsi] = useState([]);
   const [favorite, setFavorite] = useState<any>([]);
   const [listComment, setListComment] = useState<any>(false);
+  const [newCover, setNewCover] = useState<any>("");
+
   const [book, setBook] = useState({
     book_title: "",
     author: "",
@@ -112,6 +116,7 @@ export default function BookDetail({ navigation, route }: any) {
       }
       if (detailBook.isSuccess) {
         setBook(detailBook.data);
+        newGetCover(detailBook.data);
         setDaftarIsi(kilasBook.data.pageContent);
       } else {
         throw new Error("Fail on fetching released books data");
@@ -176,6 +181,8 @@ export default function BookDetail({ navigation, route }: any) {
     return res ? res?.book : [];
   };
 
+  const focus = useIsFocused();
+
   useEffect(() => {
     getFavorite(false);
   }, []);
@@ -225,104 +232,40 @@ export default function BookDetail({ navigation, route }: any) {
     }
   };
 
+  const newGetCover = async (param: any) => {
+    const getCover = await getBookCoverImageURL(param?.book_title);
+    setNewCover(getCover);
+  };
+
   const lockReadingListenViewBook =
     statusSub || profile.owned_books.includes(book?.book_title) ? true : false;
 
   return (
-    <Base
-      barColor={primaryColor.main}
-      snackState={snackState}
-      setSnackState={setSnackState}
-    >
-      <SkeletonContent
-        containerStyle={styles.skeleton}
-        isLoading={isLoading}
-        layout={skeleton.mainHome}
+    <>
+      <Base
+        barColor={primaryColor.main}
+        snackState={snackState}
+        setSnackState={setSnackState}
       >
-        <HeaderBookDetail
-          navigation={navigation}
-          onFavorite={() => {
-            setActive(!active);
-            addToFavorite();
-          }}
-          onDownload={() => logger("donwload")}
-          active={active}
-          isSubscribe={lockReadingListenViewBook}
-        />
-        {lockReadingListenViewBook ? (
-          <>
-            <Animated.View style={[styles.SelectBarUp, stylez]}>
-              {}
-              <Button
-                onPress={() => navigationTopBar("reading")}
-                style={styles.btnBar}
-              >
-                <File />
-                <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-              </Button>
-              <Button
-                onPress={() => navigationTopBar("listening")}
-                style={styles.btnBar}
-              >
-                <Headphones />
-                <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-              </Button>
-              {book.video_link !== "" && (
-                <Button
-                  onPress={() => navigationTopBar("watching")}
-                  style={styles.btnBar}
-                >
-                  <Video />
-                  <TextItem style={styles.titleSelect}>
-                    {strings.tonton}
-                  </TextItem>
-                </Button>
-              )}
-            </Animated.View>
-          </>
-        ) : (
-          <>
-            <Animated.View
-              style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
-            >
-              <Button
-                onPress={() => setModalAllPlan(!modalAllPlan)}
-                style={styles.btnBar}
-              >
-                <Lock color={primaryColor.main} width={28} />
-                <TextItem style={styles.titleSelect}>
-                  {strings.yuk_upgrade}
-                </TextItem>
-              </Button>
-              {/* <Lock color={primaryColor.main} width={28} />
-              <TextItem style={styles.titleSelect}>
-                {strings.yuk_upgrade}
-              </TextItem> */}
-            </Animated.View>
-          </>
-        )}
-        <Animated.ScrollView
-          ref={refScroll}
-          onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
-            (yOffset.value = event.nativeEvent.contentOffset.y)
-          }
-          scrollEventThrottle={16}
+        <SkeletonContent
+          containerStyle={styles.skeleton}
+          isLoading={isLoading}
+          layout={skeleton.mainHome}
         >
-          <View style={styles.layer}>
-            <View style={styles.head}>
-              <View style={styles.boxImage}>
-                <Amage
-                  style={styles.image}
-                  source={book?.book_cover}
-                  resizeMode="contain"
-                />
-              </View>
-            </View>
-          </View>
-
-          <View style={[styles.boxSelect]}>
-            {lockReadingListenViewBook ? (
-              <View style={styles.SelectBar}>
+          <HeaderBookDetail
+            navigation={navigation}
+            onFavorite={() => {
+              setActive(!active);
+              addToFavorite();
+            }}
+            onDownload={() => logger("donwload")}
+            active={active}
+            isSubscribe={lockReadingListenViewBook}
+          />
+          {lockReadingListenViewBook ? (
+            <>
+              <Animated.View style={[styles.SelectBarUp, stylez]}>
+                {}
                 <Button
                   onPress={() => navigationTopBar("reading")}
                   style={styles.btnBar}
@@ -330,7 +273,6 @@ export default function BookDetail({ navigation, route }: any) {
                   <File />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
-                {/* {book.audio_link != '' && ( */}
                 <Button
                   onPress={() => navigationTopBar("listening")}
                   style={styles.btnBar}
@@ -340,8 +282,7 @@ export default function BookDetail({ navigation, route }: any) {
                     {strings.dengar}
                   </TextItem>
                 </Button>
-                {/* )} */}
-                {book.video_link != "" && (
+                {checkData(book.video_link) && (
                   <Button
                     onPress={() => navigationTopBar("watching")}
                     style={styles.btnBar}
@@ -352,9 +293,13 @@ export default function BookDetail({ navigation, route }: any) {
                     </TextItem>
                   </Button>
                 )}
-              </View>
-            ) : (
-              <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+              </Animated.View>
+            </>
+          ) : (
+            <>
+              <Animated.View
+                style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
+              >
                 <Button
                   onPress={() => setModalAllPlan(!modalAllPlan)}
                   style={styles.btnBar}
@@ -364,60 +309,134 @@ export default function BookDetail({ navigation, route }: any) {
                     {strings.yuk_upgrade}
                   </TextItem>
                 </Button>
-              </View>
-            )}
-          </View>
-
-          <View style={styles.sectionDetail}>
-            <View style={styles.boxTitle}>
-              <TextItem style={styles.titleBook}>{book?.book_title}</TextItem>
-              <TextItem style={styles.textShortDesc}>
-                {book?.short_desc}
-              </TextItem>
-              <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
-              <View style={styles.info}>
-                <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
-                <View style={styles.boxTextInfo}>
-                  <TextItem style={styles.textInfo}>
-                    {book?.read_time + " min"}
-                  </TextItem>
-                </View>
-                <Sunrise style={styles.iconInfo} />
-                <View style={styles.boxTextInfo}>
-                  <TextItem style={styles.textInfo}>
-                    {daftarIsi.length + " " + strings.kilas}
-                  </TextItem>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.sectionList}>
-              <TextItem style={styles.titleSection}>
-                {strings.kategori}
-              </TextItem>
-              <View style={{ flexDirection: "row" }}>
-                <View style={styles.boxTextKategori}>
-                  <TextItem style={styles.textKategori}>
-                    {book?.category[1]}
-                  </TextItem>
-                  <Bank />
+                {/* <Lock color={primaryColor.main} width={28} />
+              <TextItem style={styles.titleSelect}>
+                {strings.yuk_upgrade}
+              </TextItem> */}
+              </Animated.View>
+            </>
+          )}
+          <Animated.ScrollView
+            ref={refScroll}
+            onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
+              (yOffset.value = event.nativeEvent.contentOffset.y)
+            }
+            scrollEventThrottle={16}
+          >
+            <View style={styles.layer}>
+              <View style={styles.head}>
+                <View style={styles.boxImage}>
+                  <Amage
+                    style={styles.image}
+                    source={
+                      checkData(book?.book_cover) ? book?.book_cover : newCover
+                    }
+                    resizeMode="contain"
+                  />
                 </View>
               </View>
             </View>
 
-            <View style={styles.sectionList}>
-              <TextItem style={styles.titleSection}>
-                {strings.tentang_buku}
-              </TextItem>
-              <View style={styles.boxTextTentang}>
-                {book?.descriptions.map((desc, index) => (
-                  <TextItem style={styles.textTentang}>{desc}</TextItem>
-                ))}
-              </View>
+            <View style={[styles.boxSelect]}>
+              {lockReadingListenViewBook ? (
+                <View style={styles.SelectBar}>
+                  <Button
+                    onPress={() => navigationTopBar("reading")}
+                    style={styles.btnBar}
+                  >
+                    <File />
+                    <TextItem style={styles.titleSelect}>
+                      {strings.baca}
+                    </TextItem>
+                  </Button>
+                  {/* {book.audio_link != '' && ( */}
+                  <Button
+                    onPress={() => navigationTopBar("listening")}
+                    style={styles.btnBar}
+                  >
+                    <Headphones />
+                    <TextItem style={styles.titleSelect}>
+                      {strings.dengar}
+                    </TextItem>
+                  </Button>
+                  {/* )} */}
+                  {book.video_link != "" && (
+                    <Button
+                      onPress={() => navigationTopBar("watching")}
+                      style={styles.btnBar}
+                    >
+                      <Video />
+                      <TextItem style={styles.titleSelect}>
+                        {strings.tonton}
+                      </TextItem>
+                    </Button>
+                  )}
+                </View>
+              ) : (
+                <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+                  <Button
+                    onPress={() => setModalAllPlan(!modalAllPlan)}
+                    style={styles.btnBar}
+                  >
+                    <Lock color={primaryColor.main} width={28} />
+                    <TextItem style={styles.titleSelect}>
+                      {strings.yuk_upgrade}
+                    </TextItem>
+                  </Button>
+                </View>
+              )}
             </View>
 
-            <>
-              {/* <View style={styles.boxRelease}>
+            <View style={styles.sectionDetail}>
+              <View style={styles.boxTitle}>
+                <TextItem style={styles.titleBook}>{book?.book_title}</TextItem>
+                <TextItem style={styles.textShortDesc}>
+                  {book?.short_desc}
+                </TextItem>
+                <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
+                <View style={styles.info}>
+                  <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
+                  <View style={styles.boxTextInfo}>
+                    <TextItem style={styles.textInfo}>
+                      {book?.read_time + " min"}
+                    </TextItem>
+                  </View>
+                  <Sunrise style={styles.iconInfo} />
+                  <View style={styles.boxTextInfo}>
+                    <TextItem style={styles.textInfo}>
+                      {daftarIsi.length + " " + strings.kilas}
+                    </TextItem>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.sectionList}>
+                <TextItem style={styles.titleSection}>
+                  {strings.kategori}
+                </TextItem>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={styles.boxTextKategori}>
+                    <TextItem style={styles.textKategori}>
+                      {book?.category[1]}
+                    </TextItem>
+                    <Bank />
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.sectionList}>
+                <TextItem style={styles.titleSection}>
+                  {strings.tentang_buku}
+                </TextItem>
+                <View style={styles.boxTextTentang}>
+                  {book?.descriptions.map((desc, index) => (
+                    <TextItem style={styles.textTentang}>{desc}</TextItem>
+                  ))}
+                </View>
+              </View>
+
+              <>
+                {/* <View style={styles.boxRelease}>
                 <TextItem style={styles.texttglRelease}>
                   {strings.tgl_release}
                 </TextItem>
@@ -444,22 +463,22 @@ export default function BookDetail({ navigation, route }: any) {
                 </View>
               </View> */}
 
-              <View style={styles.boxDaftarIsi}>
-                <TextItem style={[styles.titleSection, styles.textDaftarIsi]}>
-                  {strings.daftar_isi}
-                </TextItem>
-                <View style={styles.boxListDaftar}>
-                  {daftarIsi.map(({ title }, index) => (
-                    <Button key={index} style={styles.listDaftar}>
-                      <TextItem style={styles.textDfatar}>
-                        Kilas {index + 1}: {title || ""}
-                      </TextItem>
-                      <ChevronRight color={neutralColor[50]} />
-                    </Button>
-                  ))}
+                <View style={styles.boxDaftarIsi}>
+                  <TextItem style={[styles.titleSection, styles.textDaftarIsi]}>
+                    {strings.daftar_isi}
+                  </TextItem>
+                  <View style={styles.boxListDaftar}>
+                    {daftarIsi.map(({ title }, index) => (
+                      <Button key={index} style={styles.listDaftar}>
+                        <TextItem style={styles.textDfatar}>
+                          Kilas {index + 1}: {title || ""}
+                        </TextItem>
+                        <ChevronRight color={neutralColor[50]} />
+                      </Button>
+                    ))}
+                  </View>
                 </View>
-              </View>
-              {/* <View style={styles.boxTitleUlasan}>
+                {/* <View style={styles.boxTitleUlasan}>
                 <TextItem style={styles.titleSection}>
                   {strings.ulasan}
                 </TextItem>
@@ -546,53 +565,56 @@ export default function BookDetail({ navigation, route }: any) {
                   <TextItem style={styles.textBtn}>{strings.kirim}</TextItem>
                 </Button>
               </View> */}
-            </>
+              </>
 
-            {/* <View style={styles.boxLihatLebih}>
+              {/* <View style={styles.boxLihatLebih}>
               <Button onPress={() => setAllInfo(!allInfo)}>
                 <TextItem style={styles.texttglRelease}>
                   {allInfo ? strings.lebih_sedikit : strings.lebih_banyak}
                 </TextItem>
               </Button>
             </View> */}
-          </View>
+            </View>
 
-          <View style={styles.sectionSaran}>
-            <View style={styles.headSaran}>
-              <TextItem style={styles.titleSection}>
-                {strings.buku_serupa}
-              </TextItem>
-              <Button>
-                <TextItem style={styles.textLihatSemua}>
-                  {strings.lihat_semua}
+            <View style={styles.sectionSaran}>
+              <View style={styles.headSaran}>
+                <TextItem style={styles.titleSection}>
+                  {strings.buku_serupa}
                 </TextItem>
-              </Button>
+                <Button>
+                  <TextItem style={styles.textLihatSemua}>
+                    {strings.lihat_semua}
+                  </TextItem>
+                </Button>
+              </View>
+              <View style={styles.boxListBook}>
+                {recommendedBooks?.map((item: CompactBooksProps, index) => {
+                  return (
+                    <View key={index} style={styles.columnWrapperStyle}>
+                      <BookTile
+                        title={item?.book_title}
+                        author={`${item?.author}`}
+                        duration={item?.read_time}
+                        cover={item?.book_cover}
+                        isVideoAvailable={item?.isVideoAvailable}
+                        onPress={() => toTop(item.id)}
+                        navSubscrive={() =>
+                          navigation.navigate(pages.Subscribe)
+                        }
+                      />
+                      <Gap vertical={sp.sl} />
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-            <View style={styles.boxListBook}>
-              {recommendedBooks?.map((item: CompactBooksProps, index) => {
-                return (
-                  <View key={index} style={styles.columnWrapperStyle}>
-                    <BookTile
-                      title={item?.book_title}
-                      author={`${item?.author}`}
-                      duration={item?.read_time}
-                      cover={item?.book_cover}
-                      isVideoAvailable={item?.isVideoAvailable}
-                      onPress={() => toTop(item.id)}
-                      navSubscrive={() => navigation.navigate(pages.Subscribe)}
-                    />
-                    <Gap vertical={sp.sl} />
-                  </View>
-                );
-              })}
-            </View>
-          </View>
-        </Animated.ScrollView>
-      </SkeletonContent>
-      <ModalSubscribe
-        modalVisible={modalAllPlan}
-        setModalVisible={setModalAllPlan}
-      />
-    </Base>
+          </Animated.ScrollView>
+        </SkeletonContent>
+        <ModalSubscribe
+          modalVisible={modalAllPlan}
+          setModalVisible={setModalAllPlan}
+        />
+      </Base>
+    </>
   );
 }

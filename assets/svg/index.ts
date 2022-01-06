@@ -74,6 +74,9 @@ import AccessibilityNewIcon from "./AccessibilityNewIcon.svg";
 import ArrowUp from "./arrow-up.svg";
 import AlertOctagon from "./alert-octagon.svg";
 import ArrowRightCategory from "./arrow-right-category.svg";
+import Bookmark from "./bookmark.svg";
+import BookmarkDetailInActive from "./bookmarkDetail.svg";
+import BookmarkDetail from "./bookmark-solid.svg";
 
 export {
   Alert,
@@ -151,5 +154,8 @@ export {
   AccessibilityNewIcon,
   ArrowUp,
   AlertOctagon,
-  ArrowRightCategory
+  ArrowRightCategory,
+  Bookmark,
+  BookmarkDetail,
+  BookmarkDetailInActive
 };

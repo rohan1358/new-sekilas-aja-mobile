@@ -1,5 +1,11 @@
-import { ArrowLeft, Download, HeartBook } from "@assets";
-import { neutralColor } from "@constants";
+import {
+  ArrowLeft,
+  BookmarkDetail,
+  BookmarkDetailInActive,
+  Download,
+  HeartBook
+} from "@assets";
+import { neutralColor, primaryColor } from "@constants";
 import React from "react";
 import { View } from "react-native";
 import { Button } from "../../atom";
@@ -24,12 +30,13 @@ export default function HeaderBookDetail({
         {isSubscribe && (
           <Button
             onPress={() => onFavorite && onFavorite()}
-            style={[
-              active ? styles.btnHeartActive : styles.btnHeart,
-              styles.btn
-            ]}
+            style={[styles.btnHeart, styles.btn]}
           >
-            <HeartBook />
+            {active ? (
+              <BookmarkDetail color={primaryColor.main} />
+            ) : (
+              <BookmarkDetailInActive color={primaryColor.main} />
+            )}
           </Button>
         )}
       </View>

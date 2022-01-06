@@ -18,5 +18,13 @@ const formatDate = (date: Date, format: any) => {
   }
 };
 
+const checkData = (param: any) => {
+  if (param) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const openRate = false;
-export { padTo2Digits, formatDate, openRate };
+export { padTo2Digits, formatDate, openRate, checkData };

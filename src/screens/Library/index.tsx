@@ -1,4 +1,4 @@
-import { Check, Download, Heart, Search } from "@assets";
+import { Bookmark, Check, Download, Heart, Search } from "@assets";
 import { Base, Button, Gap, LibraryMenu, TextItem } from "@components";
 import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
 import React, { useCallback, useEffect } from "react";
@@ -15,7 +15,7 @@ const Library = (navigation: any) => {
   const [favorit, setFavorit] = React.useState(0);
 
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const getTotalFavorit = async () => {
@@ -82,12 +82,12 @@ const Library = (navigation: any) => {
         <LibraryMenu
           action={() =>
             navigation.navigation.navigate("SpecialBookList", {
-              type: "myFavorite",
+              type: "myFavorite"
             })
           }
           title={strings.favBooks}
           bookCount={favorit}
-          icon={<Heart stroke={neutralColor[90]} width={24} height={24} />}
+          icon={<Bookmark stroke={neutralColor[90]} width={24} height={24} />}
         />
         <Gap vertical={sp.sm} />
         {/* <LibraryMenu

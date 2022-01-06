@@ -25,12 +25,16 @@ const styles = StyleSheet.create({
   btnHeart: {
     backgroundColor: neutralColor[90],
     borderRadius: 100,
-    marginLeft: 10
+    marginLeft: 10,
+    color: "lightblue",
+    fontSize: 20
   },
   btnHeartActive: {
     backgroundColor: neutralColor[40],
     borderRadius: 100,
-    marginLeft: 10
+    marginLeft: 10,
+    color: "lightblue",
+    fontSize: 20
   }
 });
 

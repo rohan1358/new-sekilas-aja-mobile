@@ -82,25 +82,30 @@ const styles = StyleSheet.create({
   },
 
   boxListCard: {
-    flexDirection: "row",
+    // flexDirection: "row",
     marginVertical: 24,
     width: "100%",
     justifyContent: "space-between"
   },
 
   card: {
+    flexDirection: "row",
     borderWidth: 2,
     borderColor: neutralColor[90],
     borderRadius: 16,
     overflow: "hidden",
-    width: "47%",
-    height: 200
+    width: "100%",
+    marginBottom: 10,
+    backgroundColor: neutralColor[90]
   },
 
   headCard: {
-    backgroundColor: neutralColor[90],
-    alignItems: "center",
-    paddingVertical: 8
+    // backgroundColor: primaryColor.main,
+    // flex: 0.5,
+    justifyContent: "center",
+    margin: 0,
+    padding: 0
+    // alignItems: "center"
   },
 
   backPrimaryColor: {
@@ -112,15 +117,17 @@ const styles = StyleSheet.create({
   },
 
   contentCard: {
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingVertical: 8,
     paddingHorizontal: 10,
-    height: "100%"
+    height: "100%",
+    flex: 2
   },
 
   textBestValue: {
     fontWeight: "bold",
-    color: primaryColor.main
+    color: "#FCCF32",
+    transform: [{ rotate: "90deg" }]
   },
 
   colorBlack: {
@@ -156,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     color: neutralColor[90],
-    marginVertical: 8
+    marginVertical: 5
   },
 
   textBold: {
@@ -176,6 +183,23 @@ const styles = StyleSheet.create({
   },
   flex1: {
     flex: 1
+  },
+  month12: {
+    fontSize: 15
+  },
+  chevronRight: {
+    justifyContent: "center"
+    // paddingVertical: 0,
+    // marginVertical: 0
+  },
+  boxBest: {
+    borderTopLeftRadius: 10,
+    borderLeftWidth: 1,
+    borderBottomLeftRadius: 10,
+    backgroundColor: "#FCCF32"
+  },
+  bgYellow: {
+    backgroundColor: "#FCCF32"
   }
 });
 

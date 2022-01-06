@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, Exit } from "@assets";
+import { ArrowLeft, Check, ChevronRight, Exit } from "@assets";
 import { firebaseNode, neutralColor, strings } from "@constants";
 import { fetchProfileRealtime } from "@services";
 import React, { useEffect, useRef, useState } from "react";
@@ -46,13 +46,15 @@ export default function ModalSubscribe({
     setModalVisible(!modalVisible);
   };
 
-  const handlePressCard = (type: any) => {
+  const handlePressCard = async (type: any) => {
     if (type == "best") {
-      setBest(!statusBest);
-      setNormal(false);
+      await setBest(true);
+      await setNormal(false);
+      handleNext(200);
     } else {
-      setNormal(!statusNormal);
-      setBest(false);
+      await setNormal(true);
+      await setBest(false);
+      handleNext(200);
     }
   };
 
@@ -85,33 +87,33 @@ export default function ModalSubscribe({
   const CardBest = ({ item }: any) => {
     return (
       <Button onPress={() => handlePressCard(item.type)} style={styles.card}>
-        <View style={[styles.headCard, statusBest && styles.backPrimaryColor]}>
-          <TextItem
-            style={[styles.textBestValue, statusBest && styles.colorBlack]}
-          >
+        <View style={[styles.headCard, styles.backBlack]}>
+          <TextItem style={[styles.textBestValue]}>
             {strings.best_value}
           </TextItem>
-          <TextItem type="b.20.c.white" style={statusBest && styles.colorBlack}>
+        </View>
+        <View style={[styles.contentCard, styles.boxBest]}>
+          <TextItem
+            type="b.20.c.white"
+            style={[styles.colorBlack, styles.month12]}
+          >
             {item.mount + strings.bulan}
           </TextItem>
-        </View>
-        <View style={[styles.contentCard, statusBest && styles.backBlack]}>
-          <TextItem style={[styles.hemat, statusBest && styles.colorPink]}>{`${
-            strings.hemat
-          } ${strings.rp}${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
-          <TextItem style={[styles.price, statusBest && styles.colorPrimary]}>
+          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${
+            strings.rp
+          }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
+          <TextItem style={[styles.price]}>
             <TextItem style={styles.textBold}>{`${
               strings.rp
             }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
-          <TextItem
-            style={
-              statusBest ? [styles.note, styles.colorWhite] : [styles.note]
-            }
-          >
+          <TextItem style={[styles.note]}>
             {strings.pembayaran_langsung + item.mount + strings.didepan}
           </TextItem>
+        </View>
+        <View style={[styles.chevronRight, styles.bgYellow]}>
+          <ChevronRight color={"black"} width={50} height={50} />
         </View>
       </Button>
     );
@@ -119,34 +121,29 @@ export default function ModalSubscribe({
 
   const CardNormal = ({ item }: any) => {
     return (
-      <Button onPress={() => handlePressCard(item.type)} style={styles.card}>
-        <View style={[styles.headCard, statusNormal && styles.backWhite]}>
-          <TextItem
-            type="b.20.c.white"
-            style={statusNormal && styles.colorBlack}
-          >
+      <Button
+        onPress={() => handlePressCard(item.type)}
+        style={[styles.card, styles.bgYellow]}
+      >
+        {/* <View
+          style={[styles.headCard, statusNormal && styles.backWhite]}
+        ></View> */}
+        <View style={[styles.contentCard]}>
+          <TextItem type="b.20.c.white" style={styles.colorBlack}>
             {item.mount + strings.bulan}
           </TextItem>
-        </View>
-        <View
-          style={[
-            styles.contentCard,
-            statusNormal ? styles.backBlack : styles.backWhite
-          ]}
-        >
-          <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>
+          <TextItem style={[styles.price]}>
             <TextItem style={styles.textBold}>{`${
               strings.rp
             }${Intl.NumberFormat()?.format(item.harga)}/`}</TextItem>
             {`${strings.bulan}`}
           </TextItem>
-          <TextItem
-            style={
-              !statusNormal ? [styles.note] : [styles.note, styles.colorWhite]
-            }
-          >
+          <TextItem style={[styles.note]}>
             {strings.pembayaran_langsung + item.mount + strings.didepan}
           </TextItem>
+        </View>
+        <View style={styles.chevronRight}>
+          <ChevronRight color={"black"} width={50} height={50} />
         </View>
       </Button>
     );
@@ -237,16 +234,16 @@ export default function ModalSubscribe({
                   )
                 )}
               </View>
-            </View>
-            <View style={styles.boxContent}>
-              <Button onPress={() => handleNext(200)} style={styles.btnPilih}>
+              <View>
+                {/* <Button onPress={() => handleNext(200)} style={styles.btnPilih}>
                 <TextItem type="b.24.pc.main">
                   {strings.langganan_sekaarang}
                 </TextItem>
-              </Button>
-              <Button onPress={() => exitPage()} style={styles.btnCancel}>
-                <TextItem type="b.24.nc.90">{strings.lagi_bokek}</TextItem>
-              </Button>
+              </Button> */}
+                <Button onPress={() => exitPage()} style={styles.btnPilih}>
+                  <TextItem type="b.24.pc.main">{strings.lagi_bokek}</TextItem>
+                </Button>
+              </View>
             </View>
           </View>
 
