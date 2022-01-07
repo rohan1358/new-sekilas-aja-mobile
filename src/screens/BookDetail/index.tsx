@@ -203,7 +203,7 @@ export default function BookDetail({ navigation, route }: any) {
   const navigationTopBar = (type = "", link = "") => {
     switch (type) {
       case "reading":
-        navigation.navigate("Reading", { id: book.id, page: 1, book });
+        navigation.navigate("Reading", { id: book.id, page: 0, book });
         break;
       case "listening":
         navigation.navigate(pages.Listening, {

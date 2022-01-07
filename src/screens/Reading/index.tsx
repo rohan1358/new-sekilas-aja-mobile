@@ -37,6 +37,7 @@ import Animated, {
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
 import { RootStackParamList } from "src/types";
+import { checkData } from "../../utils";
 import {
   HeaderStateProps,
   SnackStateProps
@@ -258,17 +259,19 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
       case "reading":
         navigation.navigate("Reading", {
           id: BOOK_ID,
-          page: 1,
-          book: BOOK || detailBook
+          page: 0,
+          book: checkData(BOOK) ? BOOK : detailBook
         });
         break;
       case "listening":
         navigation.navigate("Listening", {
-          book: BOOK || detailBook
+          book: checkData(BOOK) ? BOOK : detailBook
         });
         break;
       case "watching":
-        navigation.navigate("Watching", { book: BOOK || detailBook });
+        navigation.navigate("Watching", {
+          book: checkData(BOOK) ? BOOK : detailBook
+        });
         break;
 
       default:
@@ -336,7 +339,8 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
             <Gap horizontal={sp.xs} />
             <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
           </Button>
-          {BOOK.video_link !== "" && (
+          {(checkData(BOOK?.video_link) ||
+            checkData(detailBook?.video_link)) && (
             <Button
               onPress={() => navigationTopBar("watching")}
               style={s.button}

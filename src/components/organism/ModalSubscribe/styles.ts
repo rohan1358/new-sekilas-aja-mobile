@@ -5,34 +5,34 @@ import { widthPercent } from "../../../helpers";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: primaryColor.main,
-    flex: 1,
+    flex: 1
   },
 
   boxExit: {
-    alignItems: "flex-end",
+    alignItems: "flex-end"
   },
 
   boxBack: {
-    alignItems: "flex-start",
+    alignItems: "flex-start"
   },
 
   btn: {
     marginHorizontal: 27,
     marginVertical: 19,
-    padding: 5,
+    padding: 5
   },
 
   content: {
     flex: 1,
-    width: widthPercent(100),
+    width: widthPercent(100)
   },
 
   boxContent: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 25
   },
 
   subTextTitle: {
-    marginTop: 8,
+    marginTop: 8
   },
 
   boxWhite: {
@@ -42,17 +42,17 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 29,
     paddingHorizontal: 16,
-    marginVertical: 24,
+    marginVertical: 24
   },
 
   list: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 12
   },
 
   textList: {
-    marginLeft: 8,
+    marginLeft: 8
   },
 
   btnPilih: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: neutralColor[90],
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 16,
+    borderRadius: 16
   },
   btnBackToHome: {
     height: 64,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 20,
     marginTop: 20,
-    margin: 10,
+    margin: 10
   },
 
   btnCancel: {
@@ -78,14 +78,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 16,
-    marginTop: 8,
+    marginTop: 8
   },
 
   boxListCard: {
     // flexDirection: "row",
     marginVertical: 24,
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
 
   card: {
@@ -97,20 +97,21 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 10,
     backgroundColor: neutralColor[90],
+    elevation: 50
   },
 
   headCard: {
     justifyContent: "center",
     margin: -20,
-    padding: 0,
+    padding: 0
   },
 
   backPrimaryColor: {
-    backgroundColor: primaryColor.main,
+    backgroundColor: primaryColor.main
   },
 
   headCardActiveNormal: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.white
   },
 
   contentCard: {
@@ -118,79 +119,79 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     height: "100%",
-    flex: 2,
+    flex: 2
   },
 
   textBestValue: {
     color: primaryColor.main,
-    transform: [{ rotate: "-90deg" }],
+    transform: [{ rotate: "-90deg" }]
   },
 
   colorBlack: {
-    color: neutralColor[90],
+    color: neutralColor[90]
   },
 
   colorWhite: {
-    color: colors.white,
+    color: colors.white
   },
 
   colorPrimary: {
-    color: primaryColor.main,
+    color: primaryColor.main
   },
 
   colorPink: {
-    color: "#f7948d",
+    color: "#f7948d"
   },
 
   backBlack: {
-    backgroundColor: neutralColor[90],
+    backgroundColor: neutralColor[90]
   },
 
   backWhite: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.white
   },
 
   hemat: {
     color: "#CB3168",
-    fontWeight: "700",
+    fontWeight: "700"
   },
 
   price: {
     fontSize: 20,
     textAlign: "center",
     color: neutralColor[90],
-    marginVertical: 5,
+    marginVertical: 5
   },
 
   textBold: {
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
 
   note: {
     // textAlign: "center",
-    fontSize: 12,
+    fontSize: 12
   },
   webview: {
-    height: "100%",
+    height: "100%"
   },
   webView: {
-    flex: 2,
+    flex: 2
   },
   flex1: {
-    flex: 1,
+    flex: 1
   },
   chevronRight: {
-    justifyContent: "center",
+    justifyContent: "center"
   },
   boxBest: {
     borderTopLeftRadius: 10,
     borderLeftWidth: 1,
     borderBottomLeftRadius: 10,
-    backgroundColor: "#FCCF32",
+    backgroundColor: "#FCCF32"
   },
   bgYellow: {
-    backgroundColor: "#FCCF32",
-  },
+    backgroundColor: "#FCCF32"
+  }
 });
 
 export default styles;

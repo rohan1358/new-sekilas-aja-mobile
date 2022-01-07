@@ -211,7 +211,7 @@ export default function Listening({ navigation, route }: any) {
       case "reading":
         navigation.navigate("Reading", {
           id: book.book_title,
-          page: 1,
+          page: 0,
           book
         });
         await TrackPlayer.pause();
