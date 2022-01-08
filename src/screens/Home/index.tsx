@@ -47,6 +47,8 @@ import { dummyMiniCollectionData, pageParser } from "./helper";
 import styles from "./styles";
 import { HORIZONTAL_GAP } from "./values";
 import { store, persistor } from "../../redux/store";
+import { getLastReading } from "../../services/trackReading";
+import { checkData } from "../../utils";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -98,6 +100,15 @@ const Home = () => {
   useEffect(() => {
     fetchCategory();
   }, []);
+
+  // useEffect(() => {
+
+  //   const [newLastRead] =
+  //       await Promise.all([
+  //         getLastReading(email)
+  //       ]);
+
+  // }, []);
 
   const fetchCategory = async () => {
     try {
@@ -168,15 +179,18 @@ const Home = () => {
     }
   };
 
+  const [lastReading, setLastReading] = useState({ book: false });
+
   const getHomeData = async () => {
     setIsLoading(true);
     try {
-      const [profileData, readingData, recomData, mostBookData] =
+      const [profileData, readingData, recomData, mostBookData, newLastRead] =
         await Promise.all([
           fetchProfile(email),
           fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks()
+          fetchMostBooks(),
+          getLastReading(email)
         ]);
       if (!isMounted) return;
       if (profileData.isSuccess) {
@@ -186,6 +200,7 @@ const Home = () => {
       } else {
         throw new Error("Fail on fetching profile data");
       }
+
       if (readingData.isSuccess) {
         setReadingBook(readingData.data);
       } else {
@@ -200,6 +215,9 @@ const Home = () => {
         setMostReadBooks(mostBookData.data?.slice(0, 4));
       } else {
         throw new Error("Fail on fetching most read books data");
+      }
+      if (newLastRead.isSuccess) {
+        setLastReading(newLastRead.data);
       }
     } catch (error) {
       logger("Home, getHomeData", error);
@@ -239,10 +257,10 @@ const Home = () => {
   const onBellPress = () => navigation.navigate("Notification");
 
   const onGoingPress = () => {
-    !!readingBook?.available
+    !!lastReading?.book
       ? navigation.navigate("Reading", {
-          id: readingBook?.book || "",
-          page: pageParser(readingBook?.kilas)
+          id: lastReading?.book || "",
+          page: pageParser(lastReading?.kilas)
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
   };
@@ -295,10 +313,10 @@ const Home = () => {
                 <View>
                   <View style={styles.dummyHeader} />
                   <OngoingTile
-                    bookTitle={readingBook?.book}
-                    bookUri={readingBook?.book_cover}
+                    bookTitle={lastReading?.book}
+                    bookUri={lastReading?.book_cover}
                     onPress={onGoingPress}
-                    isAvailable={!!readingBook?.available}
+                    isAvailable={checkData(lastReading?.book)}
                   />
                 </View>
                 <View style={styles.adjuster}>

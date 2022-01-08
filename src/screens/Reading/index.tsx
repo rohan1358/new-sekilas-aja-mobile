@@ -24,7 +24,11 @@ import firestore from "@react-native-firebase/firestore";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
-import { fetchBookContent, fetchDetailBooks } from "@services";
+import {
+  fetchBookContent,
+  fetchDetailBooks,
+  getBookCoverImageURL
+} from "@services";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Share, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -43,6 +47,7 @@ import {
   SnackStateProps
 } from "../../components/atom/Base/types";
 import styles from "./styles";
+import { setTrackingLastReadLinten } from "../../services/trackReading";
 
 const WIDTH = widthPercent(100);
 const ACTION_HIDE = -128;
@@ -87,6 +92,7 @@ const Reading = () => {
     if (!route.params?.page) {
       return;
     }
+
     setCurrentPage(parseInt(route.params?.page) || 0);
   }, [route.params?.page]);
 
@@ -120,10 +126,18 @@ const Reading = () => {
   const getDetailBook = async () => {
     try {
       const [detailBook] = await Promise.all([fetchDetailBooks(BOOK_ID)]);
-
-      if (!BOOK) {
-        setDetailBook(detailBook.data);
-      }
+      const book_cover = await getBookCoverImageURL(
+        detailBook?.data.book_title
+      );
+      // parseInt(route.params?.page) || 0
+      setTrackingLastReadLinten(email, {
+        book: {
+          book: detailBook?.data.book_title,
+          book_cover,
+          kilas: parseInt(route.params?.page) || 0
+        }
+      });
+      setDetailBook({ ...detailBook.data, book_cover });
     } catch {}
   };
 
@@ -187,16 +201,32 @@ const Reading = () => {
       });
   };
 
-  const onNextPress = () => {
+  const onNextPress = async () => {
     scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
     setCurrentPage((current) =>
       current < (content?.numberOfPage || 0) - 1 ? current + 1 : current
     );
+
+    setTrackingLastReadLinten(email, {
+      book: {
+        book: detailBook?.book_title,
+        book_cover: detailBook?.book_cover,
+        kilas: currentPage + 1
+      }
+    });
   };
 
-  const onPrevPress = () => {
+  const onPrevPress = async () => {
     scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
     setCurrentPage((current) => (current > 0 ? current - 1 : current));
+
+    setTrackingLastReadLinten(email, {
+      book: {
+        book: detailBook?.book_title,
+        book_cover: detailBook?.book_cover,
+        kilas: currentPage - 1
+      }
+    });
   };
 
   const onTap = () => {
