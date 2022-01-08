@@ -94,7 +94,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    isFocused && getReadingBook();
+    if (isFocused) {
+      getReadingBook();
+      getHomeData();
+    }
   }, [isFocused]);
 
   useEffect(() => {
@@ -184,14 +187,14 @@ const Home = () => {
   const getHomeData = async () => {
     setIsLoading(true);
     try {
-      const [profileData, readingData, recomData, mostBookData, newLastRead] =
-        await Promise.all([
-          fetchProfile(email),
-          fetchReadingBook(email),
-          fetchRecommendedBooks(),
-          fetchMostBooks(),
-          getLastReading(email)
-        ]);
+      // newLastRead
+      // readingData
+      const [profileData, recomData, mostBookData] = await Promise.all([
+        fetchProfile(email),
+        // fetchReadingBook(email),
+        fetchRecommendedBooks(),
+        fetchMostBooks()
+      ]);
       if (!isMounted) return;
       if (profileData.isSuccess) {
         setProfile({ ...profileData.data, statusFetch: true });
@@ -201,11 +204,11 @@ const Home = () => {
         throw new Error("Fail on fetching profile data");
       }
 
-      if (readingData.isSuccess) {
-        setReadingBook(readingData.data);
-      } else {
-        throw new Error("Fail on fetching reading book data");
-      }
+      // if (readingData.isSuccess) {
+      //   setReadingBook(readingData.data);
+      // } else {
+      //   throw new Error("Fail on fetching reading book data");
+      // }
       if (recomData.isSuccess) {
         setRecommendedBooks(recomData.data?.slice(0, 4));
       } else {
@@ -216,6 +219,7 @@ const Home = () => {
       } else {
         throw new Error("Fail on fetching most read books data");
       }
+      const newLastRead = await getLastReading(email);
       if (newLastRead.isSuccess) {
         setLastReading(newLastRead.data);
       }
@@ -280,7 +284,7 @@ const Home = () => {
   const onRefresh = async () => {
     setIsRefreshing(true);
     try {
-      Promise.all([getProfile(), getReadingBook()]);
+      Promise.all([getProfile(), getReadingBook(), getHomeData()]);
     } catch (error) {
       logger("onRefresh", error);
     } finally {
