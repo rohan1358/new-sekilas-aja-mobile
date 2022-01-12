@@ -192,6 +192,13 @@ export default function Watching({ navigation, route }: any) {
     await setOrientation(orientation);
   };
 
+  const toggleIndicator = async () => {
+    await setIndicator(!indicator);
+    setTimeout(() => {
+      setIndicator(false);
+    }, 5000);
+  };
+
   return (
     <>
       {newOrientation.includes(PORTRAIT) ? (
@@ -243,7 +250,7 @@ export default function Watching({ navigation, route }: any) {
 
           <Video
             onTouchStart={(e) =>
-              newOrientation.includes(LANDSCAPE) && setIndicator(!indicator)
+              newOrientation.includes(LANDSCAPE) && toggleIndicator()
             }
             ref={videoPlayer}
             source={videoBigbany}
@@ -261,11 +268,7 @@ export default function Watching({ navigation, route }: any) {
           {newOrientation.includes(LANDSCAPE) && indicator && (
             <>
               <View
-                onTouchStart={(e) =>
-                  setTimeout(() => {
-                    setIndicator(!indicator);
-                  }, 200)
-                }
+                onTouchStart={(e) => toggleIndicator()}
                 style={{
                   flex: 1,
                   position: "absolute",
