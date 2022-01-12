@@ -230,13 +230,10 @@ export default function Watching({ navigation, route }: any) {
                     styles.boxAction,
                     {
                       width: "100%",
-                      marginBottom: heightPercent(10)
+                      marginBottom: heightPercent(15)
                     }
                   ]}
                 >
-                  <Button onPress={() => handleOrientation()}>
-                    <RotateCcw height={25} color={neutralColor[90]} />
-                  </Button>
                   <Button onPress={() => handlePrev()}>
                     <RotateCcw height={25} color={neutralColor[90]} />
                   </Button>
