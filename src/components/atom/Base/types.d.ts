@@ -22,4 +22,5 @@ interface BaseProps {
 
   setSnackState?(arg0: SnackStateProps): void;
   snackState?: SnackStateProps;
+  fullScreen?: boolean;
 }

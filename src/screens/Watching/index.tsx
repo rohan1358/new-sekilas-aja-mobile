@@ -64,12 +64,15 @@ export default function Watching({ navigation, route }: any) {
     setIsLoading(true);
   };
 
-  const onLoad = (data) => {
+  const onLoad = (data: any) => {
     setDuration(Math.round(data.duration));
     setIsLoading(false);
+    if (videoPlayer.current) {
+      videoPlayer.current.seek(currentTime);
+    }
   };
 
-  const onProgress = (data) => {
+  const onProgress = (data: any) => {
     if (!isLoading) {
       setCurrentTime(data.currentTime);
     }
@@ -185,8 +188,8 @@ export default function Watching({ navigation, route }: any) {
 
   const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
 
-  const handleOrientation = (orientation: any) => {
-    setOrientation(orientation);
+  const handleOrientation = async (orientation: any) => {
+    await setOrientation(orientation);
   };
 
   return (
@@ -194,49 +197,84 @@ export default function Watching({ navigation, route }: any) {
       {newOrientation.includes(PORTRAIT) ? (
         <OrientationLocker
           orientation={PORTRAIT}
-          onChange={(orientation) => setOrientation(orientation)}
-          onDeviceChange={(orientation) => setOrientation(orientation)}
+          onChange={handleOrientation}
+          onDeviceChange={handleOrientation}
         />
       ) : (
         <OrientationLocker
           orientation={LANDSCAPE}
-          onChange={(orientation) => setOrientation(orientation)}
-          onDeviceChange={(orientation) => setOrientation(orientation)}
+          onChange={handleOrientation}
+          onDeviceChange={handleOrientation}
         />
       )}
-      <View style={{ flex: 1 }}>
-        {newOrientation.includes(LANDSCAPE) ? (
-          <>
-            <Video
-              onTouchStart={(e) => setIndicator(!indicator)}
-              ref={videoPlayer}
-              source={videoBigbany}
-              onLoadStart={onLoadStart}
-              onLoad={onLoad}
-              style={styles.backgroundVideo}
-              paused={play}
-              onProgress={onProgress}
-              resizeMode="stretch"
-              rate={speed}
-            />
-            <View
-              onTouchStart={(e) =>
-                setTimeout(() => {
-                  setIndicator(!indicator);
-                }, 200)
-              }
-              style={{
-                flex: 1,
-                position: "absolute",
-                backgroundColor: "#3B3B3B",
-                height: 1900,
-                width: "100%",
-                opacity: 0.5
-              }}
-            >
-              <TextItem>Test</TextItem>
-            </View>
-            {indicator && (
+      <Base
+        barColor={primaryColor.main}
+        snackState={snackState}
+        setSnackState={setSnackState}
+        fullScreen={newOrientation.includes(LANDSCAPE)}
+      >
+        {!newOrientation.includes(LANDSCAPE) && (
+          <HeaderListening
+            navigation={navigation}
+            onShare={() => onShare()}
+            title={book.book_title}
+          />
+        )}
+
+        <View
+          style={
+            newOrientation.includes(LANDSCAPE) ? { flex: 1 } : styles.boxImage
+          }
+        >
+          {!newOrientation.includes(LANDSCAPE) && (
+            <>
+              {isLoading && (
+                <View style={styles.loadVideo}>
+                  <ActivityIndicator size="large" color={primaryColor.main} />
+                </View>
+              )}
+              {isBufferLoad && (
+                <View style={styles.loadVideoActive}>
+                  <ActivityIndicator size="large" color={primaryColor.main} />
+                </View>
+              )}
+            </>
+          )}
+
+          <Video
+            onTouchStart={(e) =>
+              newOrientation.includes(LANDSCAPE) && setIndicator(!indicator)
+            }
+            ref={videoPlayer}
+            source={videoBigbany}
+            onLoadStart={onLoadStart}
+            onLoad={onLoad}
+            style={styles.backgroundVideo}
+            paused={play}
+            onProgress={onProgress}
+            resizeMode={
+              newOrientation.includes(LANDSCAPE) ? "contain" : "cover"
+            }
+            // resizeMode={"contain"}
+            rate={speed}
+          />
+          {newOrientation.includes(LANDSCAPE) && indicator && (
+            <>
+              <View
+                onTouchStart={(e) =>
+                  setTimeout(() => {
+                    setIndicator(!indicator);
+                  }, 200)
+                }
+                style={{
+                  flex: 1,
+                  position: "absolute",
+                  backgroundColor: "#3B3B3B",
+                  height: 1900,
+                  width: "100%",
+                  opacity: 0.5
+                }}
+              ></View>
               <View
                 style={{
                   bottom: 0,
@@ -304,42 +342,11 @@ export default function Watching({ navigation, route }: any) {
                   />
                 </View>
               </View>
-            )}
-          </>
-        ) : (
-          <Base
-            barColor={primaryColor.main}
-            snackState={snackState}
-            setSnackState={setSnackState}
-          >
-            <HeaderListening
-              navigation={navigation}
-              onShare={() => onShare()}
-              title={book.book_title}
-            />
-            <View style={styles.boxImage}>
-              {isLoading && (
-                <View style={styles.loadVideo}>
-                  <ActivityIndicator size="large" color={primaryColor.main} />
-                </View>
-              )}
-              {isBufferLoad && (
-                <View style={styles.loadVideoActive}>
-                  <ActivityIndicator size="large" color={primaryColor.main} />
-                </View>
-              )}
-              <Video
-                ref={videoPlayer}
-                source={videoBigbany}
-                onLoadStart={onLoadStart}
-                onLoad={onLoad}
-                style={styles.backgroundVideo}
-                paused={play}
-                onProgress={onProgress}
-                resizeMode="cover"
-                rate={speed}
-              />
-            </View>
+            </>
+          )}
+        </View>
+        {!newOrientation.includes(LANDSCAPE) && (
+          <>
             <View style={styles.content}>
               <View>
                 <Slider
@@ -465,11 +472,9 @@ export default function Watching({ navigation, route }: any) {
                 </DummyFlatList>
               </View>
             </RBSheet>
-          </Base>
+          </>
         )}
-
-        <></>
-      </View>
+      </Base>
     </>
   );
 }
