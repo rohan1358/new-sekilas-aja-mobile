@@ -7,7 +7,7 @@ import {
   TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Share, View } from "react-native";
+import { ActivityIndicator, Share, View, Dimensions } from "react-native";
 import {
   PORTRAIT,
   OrientationLocker,
@@ -249,6 +249,7 @@ export default function Watching({ navigation, route }: any) {
           )}
 
           <Video
+            fullscreen={newOrientation.includes(LANDSCAPE)}
             onTouchStart={(e) =>
               newOrientation.includes(LANDSCAPE) && toggleIndicator()
             }

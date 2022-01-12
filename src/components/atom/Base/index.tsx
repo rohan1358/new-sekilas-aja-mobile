@@ -6,6 +6,7 @@ import Header from "../Header";
 import styles from "./styles";
 import { Snackbar } from "react-native-paper";
 import { BaseProps } from "./types";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 const Base = ({
   children,
@@ -21,7 +22,18 @@ const Base = ({
   return (
     <>
       {fullScreen ? (
-        <>{children}</>
+        <SafeAreaProvider style={s.container}>
+          <StatusBar hidden={true} />
+
+          <SafeAreaView
+            style={{
+              flex: 1,
+              backgroundColor: barColor
+            }}
+          >
+            {children}
+          </SafeAreaView>
+        </SafeAreaProvider>
       ) : (
         <GestureHandlerRootView style={s.container}>
           <StatusBar backgroundColor={barColor} barStyle={barStyle} />
