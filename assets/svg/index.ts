@@ -79,6 +79,7 @@ import BookmarkDetailInActive from "./bookmarkDetail.svg";
 import BookmarkDetail from "./bookmark-solid.svg";
 import SubscribeCard from "./SubscribeCard.svg";
 import Minimize from "./minimize.svg";
+import Maximize from "./maximize.svg";
 
 export {
   Alert,
@@ -161,5 +162,6 @@ export {
   Bookmark,
   BookmarkDetail,
   BookmarkDetailInActive,
-  Minimize
+  Minimize,
+  Maximize
 };

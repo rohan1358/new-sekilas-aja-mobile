@@ -27,6 +27,7 @@ import {
   Exit,
   File,
   Headphones,
+  Maximize,
   Minimize,
   Pause,
   Play,
@@ -263,7 +264,8 @@ export default function Watching({ navigation, route }: any) {
                     <TextItem type={"r.14.nc.90"}>
                       <Minimize
                         onPress={() => handleOrientation(PORTRAIT)}
-                        color={"black"}
+                        height={25}
+                        color={neutralColor[90]}
                       />
                     </TextItem>
                   </View>
@@ -341,9 +343,10 @@ export default function Watching({ navigation, route }: any) {
                     {_convertDuration(duration - currentTime)}
                   </TextItem>
                   <TextItem type={"r.14.nc.90"}>
-                    <Minimize
+                    <Maximize
                       onPress={() => handleOrientation(LANDSCAPE)}
-                      color={"black"}
+                      height={25}
+                      color={neutralColor[90]}
                     />
                   </TextItem>
                 </View>

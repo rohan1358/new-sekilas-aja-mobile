@@ -14,7 +14,7 @@ const Base = ({
   barColor = neutralColor[10],
   barStyle = "dark-content",
   backgroundColor = neutralColor[10],
-  headerState,
+  headerState
 }: PropsWithChildren<BaseProps>) => {
   const s = styles({ snackType: snackState?.type, backgroundColor });
   return (
@@ -26,7 +26,7 @@ const Base = ({
         visible={snackState?.visible || false}
         onDismiss={() => setSnackState && setSnackState(ss.closeState)}
         style={s.snack}
-        duration={2000}
+        // duration={1000}
       >
         {snackState?.message}
       </Snackbar>
