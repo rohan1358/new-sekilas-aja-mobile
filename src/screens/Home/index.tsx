@@ -1,4 +1,9 @@
-import { setProfileRedux } from "@actions";
+import {
+  setBookRecomended,
+  setListCategory,
+  setMostReadBook,
+  setProfileRedux
+} from "@actions";
 import {
   Base,
   BookTile,
@@ -46,7 +51,7 @@ import { dummyBanner } from "./dummy";
 import { dummyMiniCollectionData, pageParser } from "./helper";
 import styles from "./styles";
 import { HORIZONTAL_GAP } from "./values";
-import { store, persistor } from "../../redux/store";
+import { store, persistor, mostBookStorage } from "../../redux/store";
 import { getLastReading } from "../../services/trackReading";
 import { checkData } from "../../utils";
 
@@ -58,45 +63,44 @@ const Home = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
+    bookRedux: { bookRecomended, mostReadBook, listCategory },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [profile, setProfile] = useState<ProfileProps>();
+  const [profiles, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
-  const [mostReadBooks, setMostReadBooks] = useState<CompactBooksProps[]>();
-  const [recommendedBooks, setRecommendedBooks] =
-    useState<CompactBooksProps[]>();
+
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAllPlan, setModalAllPlan] = useState(true);
-  const [newChips, setChipd] = useState<any>(false);
 
   useEffect(() => {
     if (profileStore && profileStore.is_subscribed) {
       setModalAllPlan(false);
     }
 
-    if (!profile?.id) return;
+    if (!profiles?.id) return;
     messaging()
       .getToken()
       .then((FcmToken) => {
-        return modifyToken({ FcmToken, id: profile?.id });
+        return modifyToken({ FcmToken, id: profiles?.id });
       });
 
     return messaging().onTokenRefresh((FcmToken) => {
-      modifyToken({ FcmToken, id: profile?.id });
+      modifyToken({ FcmToken, id: profiles?.id });
     });
-  }, [profile]);
+  }, [profiles]);
 
   useEffect(() => {
-    getHomeData();
+    getHomeData(false);
   }, []);
 
   useEffect(() => {
     if (isFocused) {
       getReadingBook();
-      getHomeData();
+      getHomeData(false);
     }
   }, [isFocused]);
 
@@ -116,9 +120,9 @@ const Home = () => {
   const fetchCategory = async () => {
     try {
       const list = await fetchListCategory();
-      setChipd(list?.list);
+      dispatch(setListCategory(list?.list));
     } catch {
-      setChipd(false);
+      dispatch(setListCategory(false));
     }
   };
 
@@ -184,48 +188,54 @@ const Home = () => {
 
   const [lastReading, setLastReading] = useState({ book: false });
 
-  const getHomeData = async () => {
+  const getHomeData = async (isRefresh: any) => {
     setIsLoading(true);
-    try {
-      // newLastRead
-      // readingData
-      const [profileData, recomData, mostBookData] = await Promise.all([
-        fetchProfile(email),
-        // fetchReadingBook(email),
-        fetchRecommendedBooks(),
-        fetchMostBooks()
-      ]);
-      if (!isMounted) return;
-      if (profileData.isSuccess) {
-        setProfile({ ...profileData.data, statusFetch: true });
-        dispatch(setProfileRedux(profileData.data));
-        handleSub(profileData.data);
-      } else {
-        throw new Error("Fail on fetching profile data");
-      }
 
-      // if (readingData.isSuccess) {
-      //   setReadingBook(readingData.data);
-      // } else {
-      //   throw new Error("Fail on fetching reading book data");
-      // }
-      if (recomData.isSuccess) {
-        setRecommendedBooks(recomData.data?.slice(0, 4));
-      } else {
-        throw new Error("Fail on fetching recommended books data");
+    if (!checkData(mostReadBook) || isRefresh) {
+      try {
+        // newLastRead
+        // readingData
+        const [profileData, recomData, mostBookData] = await Promise.all([
+          fetchProfile(email),
+          // fetchReadingBook(email),
+          fetchRecommendedBooks(),
+          fetchMostBooks()
+        ]);
+        if (!isMounted) return;
+        if (profileData.isSuccess) {
+          setProfile({ ...profileData.data, statusFetch: true });
+          dispatch(setProfileRedux(profileData.data));
+
+          handleSub(profileData.data);
+        } else {
+          throw new Error("Fail on fetching profile data");
+        }
+
+        // if (readingData.isSuccess) {
+        //   setReadingBook(readingData.data);
+        // } else {
+        //   throw new Error("Fail on fetching reading book data");
+        // }
+        if (recomData.isSuccess) {
+          dispatch(setBookRecomended(recomData.data?.slice(0, 4)));
+        } else {
+          throw new Error("Fail on fetching recommended books data");
+        }
+        if (mostBookData.isSuccess) {
+          dispatch(setMostReadBook(mostBookData.data?.slice(0, 4)));
+        } else {
+          throw new Error("Fail on fetching most read books data");
+        }
+        const newLastRead = await getLastReading(email);
+        if (newLastRead.isSuccess) {
+          setLastReading(newLastRead.data);
+        }
+      } catch (error) {
+        logger("Home, getHomeData", error);
+      } finally {
+        setIsLoading(false);
       }
-      if (mostBookData.isSuccess) {
-        setMostReadBooks(mostBookData.data?.slice(0, 4));
-      } else {
-        throw new Error("Fail on fetching most read books data");
-      }
-      const newLastRead = await getLastReading(email);
-      if (newLastRead.isSuccess) {
-        setLastReading(newLastRead.data);
-      }
-    } catch (error) {
-      logger("Home, getHomeData", error);
-    } finally {
+    } else {
       setIsLoading(false);
     }
   };
@@ -284,7 +294,7 @@ const Home = () => {
   const onRefresh = async () => {
     setIsRefreshing(true);
     try {
-      Promise.all([getProfile(), getReadingBook(), getHomeData()]);
+      Promise.all([getHomeData(true)]);
     } catch (error) {
       logger("onRefresh", error);
     } finally {
@@ -303,25 +313,29 @@ const Home = () => {
           >
             <SkeletonContent
               containerStyle={styles.skeleton}
-              isLoading={isLoading || !isFocused}
+              isLoading={isLoading}
               layout={skeleton.mainHome}
             >
               <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
-                <HomeHeader
-                  name={profile?.firstName}
-                  uri=""
-                  onBellPress={onBellPress}
-                  onPressProfile={onPressProfile}
-                />
+                {isFocused && (
+                  <HomeHeader
+                    name={profile?.firstName}
+                    uri=""
+                    onBellPress={onBellPress}
+                    onPressProfile={onPressProfile}
+                  />
+                )}
 
                 <View>
                   <View style={styles.dummyHeader} />
-                  <OngoingTile
-                    bookTitle={lastReading?.book}
-                    bookUri={lastReading?.book_cover}
-                    onPress={onGoingPress}
-                    isAvailable={checkData(lastReading?.book)}
-                  />
+                  {isFocused && (
+                    <OngoingTile
+                      bookTitle={lastReading?.book}
+                      bookUri={lastReading?.book_cover}
+                      onPress={onGoingPress}
+                      isAvailable={checkData(lastReading?.book)}
+                    />
+                  )}
                 </View>
                 <View style={styles.adjuster}>
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
@@ -369,9 +383,10 @@ const Home = () => {
                     >
                       <View>
                         <View style={styles.row}>
-                          {newChips &&
-                            newChips
-                              .slice(0, newChips.length / 2 + 1)
+                          {isFocused &&
+                            checkData(listCategory) &&
+                            listCategory
+                              .slice(0, listCategory.length / 2 + 1)
                               .map((item: any, index: any) => {
                                 const onPress = (id: string) =>
                                   navigation.navigate("Category", {
@@ -395,9 +410,13 @@ const Home = () => {
                         </View>
                         <Gap vertical={sp.sm} />
                         <View style={styles.row}>
-                          {newChips &&
-                            newChips
-                              .slice(newChips.length / 2 + 1, newChips.length)
+                          {isFocused &&
+                            listCategory &&
+                            listCategory
+                              .slice(
+                                listCategory.length / 2 + 1,
+                                listCategory.length
+                              )
                               .map((item: any, index: any) => {
                                 const onPress = (id: string) =>
                                   navigation.navigate("Category", {
@@ -436,14 +455,16 @@ const Home = () => {
                   </View>
                   <Gap vertical={sp.sm} />
                   <Gap horizontal={HORIZONTAL_GAP}>
-                    <FlatList
-                      data={recommendedBooks}
-                      keyExtractor={idKeyExtractor}
-                      numColumns={2}
-                      renderItem={booksRenderItem}
-                      columnWrapperStyle={styles.columnWrapperStyle}
-                      listKey={"recommendedbooklist"}
-                    />
+                    {isFocused && (
+                      <FlatList
+                        data={bookRecomended}
+                        keyExtractor={idKeyExtractor}
+                        numColumns={2}
+                        renderItem={booksRenderItem}
+                        columnWrapperStyle={styles.columnWrapperStyle}
+                        listKey={"recommendedbooklist"}
+                      />
+                    )}
                   </Gap>
                   <Gap vertical={sp.sl} />
                   <View style={styles.clickTitle}>
@@ -459,14 +480,16 @@ const Home = () => {
                   </View>
                   <Gap vertical={sp.sm} />
                   <Gap horizontal={HORIZONTAL_GAP}>
-                    <FlatList
-                      data={mostReadBooks}
-                      keyExtractor={idKeyExtractor}
-                      numColumns={2}
-                      renderItem={booksRenderItem}
-                      columnWrapperStyle={styles.columnWrapperStyle}
-                      listKey="mostreadbooklist"
-                    />
+                    {isFocused && checkData(mostReadBook) && (
+                      <FlatList
+                        data={mostReadBook}
+                        keyExtractor={idKeyExtractor}
+                        numColumns={2}
+                        renderItem={booksRenderItem}
+                        columnWrapperStyle={styles.columnWrapperStyle}
+                        listKey="mostreadbooklist"
+                      />
+                    )}
                   </Gap>
                 </View>
                 <Gap vertical={sp.xxl} />

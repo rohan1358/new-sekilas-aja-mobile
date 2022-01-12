@@ -32,6 +32,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-picker": "^4.1.2",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-orientation-locker": "^1.4.0",
     "react-native-pager-view": "^5.4.9",
     "react-native-paper": "^4.9.2",
     "react-native-ratings": "^8.1.0",

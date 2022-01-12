@@ -5,7 +5,7 @@ import { rootReducer } from "./reducers";
 
 const persistConfig = {
   key: "iti28urcljals",
-  storage: AsyncStorage,
+  storage: AsyncStorage
 };
 
 let middlewaresToApply = [];
@@ -21,4 +21,42 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store: any = createStore(persistedReducer, middleware);
 const persistor = persistStore(store);
 
-export { persistor, store };
+const mostBookStorage = {
+  set: async (value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("mostBook", jsonValue);
+    } catch (e) {
+      return false;
+    }
+  },
+  get: async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("mostBook");
+      return jsonValue != null ? JSON.parse(jsonValue) : false;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
+const bookRecomendedStorage = {
+  set: async (value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("recomendedBook", jsonValue);
+    } catch (e) {
+      return false;
+    }
+  },
+  get: async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("recomendedBook");
+      return jsonValue != null ? JSON.parse(jsonValue) : false;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
+export { persistor, store, mostBookStorage, bookRecomendedStorage };

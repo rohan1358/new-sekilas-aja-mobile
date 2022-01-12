@@ -45,6 +45,7 @@ const MainRoute = () => {
       <Stack.Screen
         name={"Home"}
         component={!isFirstTime ? Home : MainBottomRoute}
+        // component={Home}
       />
       <Stack.Screen name={"SignIn"} component={SignIn} />
 

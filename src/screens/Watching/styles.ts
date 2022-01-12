@@ -1,5 +1,5 @@
 import { neutralColor, primaryColor } from "@constants";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { heightPercent, widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
   },
   boxImage: {
     height: heightPercent(25)
+    // marginVertical: 23
+  },
+  boxImageLanscape: {
+    width: heightPercent(100),
+    height: widthPercent(100)
     // marginVertical: 23
   },
 

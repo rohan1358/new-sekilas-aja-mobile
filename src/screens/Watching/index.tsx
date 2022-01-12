@@ -8,6 +8,11 @@ import {
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Share, View } from "react-native";
+import {
+  PORTRAIT,
+  OrientationLocker,
+  LANDSCAPE
+} from "react-native-orientation-locker";
 import styles from "./styles";
 import {
   colors,
@@ -22,6 +27,7 @@ import {
   Exit,
   File,
   Headphones,
+  Minimize,
   Pause,
   Play,
   RotateCcw,
@@ -172,154 +178,279 @@ export default function Watching({ navigation, route }: any) {
       .catch((err) => {});
   }, []);
 
+  const [indicator, setIndicator] = useState(true);
+
+  const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
+
+  const handleOrientation = (orientation: any) => {
+    setOrientation(orientation);
+  };
+
   return (
-    <Base
-      barColor={primaryColor.main}
-      snackState={snackState}
-      setSnackState={setSnackState}
-    >
-      <HeaderListening
-        navigation={navigation}
-        onShare={() => onShare()}
-        title="Bab 2 : Keberuntungan"
-      />
-      <View style={styles.boxImage}>
-        {isLoading && (
-          <View style={styles.loadVideo}>
-            <ActivityIndicator size="large" color={primaryColor.main} />
-          </View>
-        )}
-        {isBufferLoad && (
-          <View style={styles.loadVideoActive}>
-            <ActivityIndicator size="large" color={primaryColor.main} />
-          </View>
-        )}
-        <Video
-          ref={videoPlayer}
-          source={videoBigbany}
-          onLoadStart={onLoadStart}
-          onLoad={onLoad}
-          style={styles.backgroundVideo}
-          paused={play}
-          onProgress={onProgress}
-          resizeMode="cover"
-          rate={speed}
+    <>
+      {newOrientation.includes(PORTRAIT) ? (
+        <OrientationLocker
+          orientation={PORTRAIT}
+          onChange={(orientation) => setOrientation(orientation)}
+          onDeviceChange={(orientation) => setOrientation(orientation)}
         />
-      </View>
-      <View style={styles.content}>
-        <View>
-          <Slider
-            value={currentTime}
-            containerStyle={styles.SliderContainer}
-            minimumValue={0}
-            maximumValue={duration}
-            minimumTrackTintColor={neutralColor[90]}
-            maximumTrackTintColor={"#D1D7E1"}
-            thumbTintColor={colors.white}
-            trackStyle={styles.trackSliderStyle}
-            onValueChange={(value) => {
-              videoPlayer.current.seek(Number(value));
-              setCurrentTime(Number(value));
-            }}
-          />
-          <View style={styles.boxTextTime}>
-            <TextItem type={"r.14.nc.90"}>
-              {_convertDuration(currentTime)}
-            </TextItem>
-            <TextItem type={"r.14.nc.90"}>
-              {_convertDuration(duration - currentTime)}
-            </TextItem>
-          </View>
-        </View>
-        <View style={styles.boxAction}>
-          <Button onPress={() => handlePrev()}>
-            <RotateCcw height={25} color={neutralColor[90]} />
-          </Button>
-          <Button>
-            <SkipBack color={neutralColor[90]} />
-          </Button>
-          <Button onPress={() => setPlay(!play)} style={styles.play}>
-            {play ? (
-              <Play color={primaryColor.main} style={styles.iconPlay} />
-            ) : (
-              <Pause color={primaryColor.main} />
-            )}
-          </Button>
-          <Button>
-            <SkipForward color={neutralColor[90]} />
-          </Button>
-          <Button onPress={() => handleNext()}>
-            <RotateCw height={25} color={neutralColor[90]} />
-          </Button>
-        </View>
-        <View style={styles.boxFooter}>
-          <Button onPress={() => refRBSheet.current.open()}>
-            <TextItem type={"b.14.nc.90"} style={styles.speedText}>
-              {strings.kecepatan + speed.toString() + strings.x}
-            </TextItem>
-          </Button>
-          <View style={styles.SelectBar}>
-            <Button
-              onPress={() => navigationTopBar("reading")}
-              style={styles.btnBar}
-            >
-              <File />
-              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-            </Button>
-            <Button
-              onPress={() => navigationTopBar("listening")}
-              style={styles.btnBar}
-            >
-              <Headphones />
-              <TextItem style={styles.titleSelect}>{strings.dengar}</TextItem>
-            </Button>
-          </View>
-        </View>
-      </View>
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={false}
-        closeOnPressMask={true}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "rgba(0,0,0,0.3)"
-          },
-          container: {
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24
-          }
-        }}
-        height={heightPercent(42)}
-      >
-        <View>
-          <View style={styles.boxTitleSheet}>
-            <TextItem style={styles.titleSheet}>
-              {strings.kecepatan_video}
-            </TextItem>
-            <Button onPress={() => refRBSheet.current.close()}>
-              <Exit color={neutralColor[90]} />
-            </Button>
-          </View>
-          <DummyFlatList>
-            <View style={styles.boxListSpeed}>
-              {speedList.map((item, index) => (
-                <Button
-                  onPress={() => {
-                    refRBSheet.current.close();
-                    setTimeout(() => {
-                      setSpeed(item);
-                    }, 1200);
-                  }}
-                  key={index}
-                  style={styles.listSpeed}
+      ) : (
+        <OrientationLocker
+          orientation={LANDSCAPE}
+          onChange={(orientation) => setOrientation(orientation)}
+          onDeviceChange={(orientation) => setOrientation(orientation)}
+        />
+      )}
+      <View style={{ flex: 1 }}>
+        {newOrientation.includes(LANDSCAPE) ? (
+          <>
+            <Video
+              onTouchStart={(e) => setIndicator(!indicator)}
+              ref={videoPlayer}
+              source={videoBigbany}
+              onLoadStart={onLoadStart}
+              onLoad={onLoad}
+              style={styles.backgroundVideo}
+              paused={play}
+              onProgress={onProgress}
+              resizeMode="stretch"
+              rate={speed}
+            />
+            {indicator && (
+              <View
+                style={{
+                  position: "absolute",
+                  width: "100%",
+                  bottom: 0,
+                  alignItems: "center"
+                }}
+              >
+                <View
+                  style={[
+                    styles.boxAction,
+                    {
+                      width: "100%",
+                      marginBottom: heightPercent(10)
+                    }
+                  ]}
                 >
-                  <TextItem type={"r.16.nc.90"}>{item + strings.x}</TextItem>
-                </Button>
-              ))}
+                  <Button onPress={() => handleOrientation()}>
+                    <RotateCcw height={25} color={neutralColor[90]} />
+                  </Button>
+                  <Button onPress={() => handlePrev()}>
+                    <RotateCcw height={25} color={neutralColor[90]} />
+                  </Button>
+                  <Button>
+                    <SkipBack color={neutralColor[90]} />
+                  </Button>
+                  <Button onPress={() => setPlay(!play)} style={styles.play}>
+                    {play ? (
+                      <Play color={primaryColor.main} style={styles.iconPlay} />
+                    ) : (
+                      <Pause color={primaryColor.main} />
+                    )}
+                  </Button>
+                  <Button>
+                    <SkipForward color={neutralColor[90]} />
+                  </Button>
+                  <Button onPress={() => handleNext()}>
+                    <RotateCw height={25} color={neutralColor[90]} />
+                  </Button>
+                </View>
+                <View style={{ width: "90%" }}>
+                  <View style={styles.boxTextTime}>
+                    <TextItem type={"r.14.nc.90"}>
+                      {_convertDuration(currentTime)}/
+                      {_convertDuration(duration - currentTime)}
+                    </TextItem>
+                    <TextItem type={"r.14.nc.90"}>
+                      <Minimize
+                        onPress={() => handleOrientation(PORTRAIT)}
+                        color={"black"}
+                      />
+                    </TextItem>
+                  </View>
+                  <Slider
+                    value={currentTime}
+                    containerStyle={styles.SliderContainer}
+                    minimumValue={0}
+                    maximumValue={duration}
+                    minimumTrackTintColor={neutralColor[90]}
+                    maximumTrackTintColor={"#D1D7E1"}
+                    thumbTintColor={colors.white}
+                    trackStyle={styles.trackSliderStyle}
+                    onValueChange={(value) => {
+                      videoPlayer.current.seek(Number(value));
+                      setCurrentTime(Number(value));
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+          </>
+        ) : (
+          <Base
+            barColor={primaryColor.main}
+            snackState={snackState}
+            setSnackState={setSnackState}
+          >
+            <HeaderListening
+              navigation={navigation}
+              onShare={() => onShare()}
+              title={book.book_title}
+            />
+            <View style={styles.boxImage}>
+              {isLoading && (
+                <View style={styles.loadVideo}>
+                  <ActivityIndicator size="large" color={primaryColor.main} />
+                </View>
+              )}
+              {isBufferLoad && (
+                <View style={styles.loadVideoActive}>
+                  <ActivityIndicator size="large" color={primaryColor.main} />
+                </View>
+              )}
+              <Video
+                ref={videoPlayer}
+                source={videoBigbany}
+                onLoadStart={onLoadStart}
+                onLoad={onLoad}
+                style={styles.backgroundVideo}
+                paused={play}
+                onProgress={onProgress}
+                resizeMode="cover"
+                rate={speed}
+              />
             </View>
-          </DummyFlatList>
-        </View>
-      </RBSheet>
-    </Base>
+            <View style={styles.content}>
+              <View>
+                <Slider
+                  value={currentTime}
+                  containerStyle={styles.SliderContainer}
+                  minimumValue={0}
+                  maximumValue={duration}
+                  minimumTrackTintColor={neutralColor[90]}
+                  maximumTrackTintColor={"#D1D7E1"}
+                  thumbTintColor={colors.white}
+                  trackStyle={styles.trackSliderStyle}
+                  onValueChange={(value) => {
+                    videoPlayer.current.seek(Number(value));
+                    setCurrentTime(Number(value));
+                  }}
+                />
+                <View style={styles.boxTextTime}>
+                  <TextItem type={"r.14.nc.90"}>
+                    {_convertDuration(currentTime)}/
+                    {_convertDuration(duration - currentTime)}
+                  </TextItem>
+                  <TextItem type={"r.14.nc.90"}>
+                    <Minimize
+                      onPress={() => handleOrientation(LANDSCAPE)}
+                      color={"black"}
+                    />
+                  </TextItem>
+                </View>
+              </View>
+              <View style={styles.boxAction}>
+                <Button onPress={() => handlePrev()}>
+                  <RotateCcw height={25} color={neutralColor[90]} />
+                </Button>
+                <Button>
+                  <SkipBack color={neutralColor[90]} />
+                </Button>
+                <Button onPress={() => setPlay(!play)} style={styles.play}>
+                  {play ? (
+                    <Play color={primaryColor.main} style={styles.iconPlay} />
+                  ) : (
+                    <Pause color={primaryColor.main} />
+                  )}
+                </Button>
+                <Button>
+                  <SkipForward color={neutralColor[90]} />
+                </Button>
+                <Button onPress={() => handleNext()}>
+                  <RotateCw height={25} color={neutralColor[90]} />
+                </Button>
+              </View>
+              <View style={styles.boxFooter}>
+                <Button onPress={() => refRBSheet.current.open()}>
+                  <TextItem type={"b.14.nc.90"} style={styles.speedText}>
+                    {strings.kecepatan + speed.toString() + strings.x}
+                  </TextItem>
+                </Button>
+                <View style={styles.SelectBar}>
+                  <Button
+                    onPress={() => navigationTopBar("reading")}
+                    style={styles.btnBar}
+                  >
+                    <File />
+                    <TextItem style={styles.titleSelect}>
+                      {strings.baca}
+                    </TextItem>
+                  </Button>
+                  <Button
+                    onPress={() => navigationTopBar("listening")}
+                    style={styles.btnBar}
+                  >
+                    <Headphones />
+                    <TextItem style={styles.titleSelect}>
+                      {strings.dengar}
+                    </TextItem>
+                  </Button>
+                </View>
+              </View>
+            </View>
+            <RBSheet
+              ref={refRBSheet}
+              closeOnDragDown={false}
+              closeOnPressMask={true}
+              customStyles={{
+                wrapper: {
+                  backgroundColor: "rgba(0,0,0,0.3)"
+                },
+                container: {
+                  borderTopLeftRadius: 24,
+                  borderTopRightRadius: 24
+                }
+              }}
+              height={heightPercent(42)}
+            >
+              <View>
+                <View style={styles.boxTitleSheet}>
+                  <TextItem style={styles.titleSheet}>
+                    {strings.kecepatan_video}
+                  </TextItem>
+                  <Button onPress={() => refRBSheet.current.close()}>
+                    <Exit color={neutralColor[90]} />
+                  </Button>
+                </View>
+                <DummyFlatList>
+                  <View style={styles.boxListSpeed}>
+                    {speedList.map((item, index) => (
+                      <Button
+                        onPress={() => {
+                          refRBSheet.current.close();
+                          setTimeout(() => {
+                            setSpeed(item);
+                          }, 1200);
+                        }}
+                        key={index}
+                        style={styles.listSpeed}
+                      >
+                        <TextItem type={"r.16.nc.90"}>
+                          {item + strings.x}
+                        </TextItem>
+                      </Button>
+                    ))}
+                  </View>
+                </DummyFlatList>
+              </View>
+            </RBSheet>
+          </Base>
+        )}
+
+        <></>
+      </View>
+    </>
   );
 }
