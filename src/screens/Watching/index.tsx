@@ -34,7 +34,9 @@ import {
   RotateCcw,
   RotateCw,
   SkipBack,
-  SkipForward
+  SkipBackFullScreen,
+  SkipForward,
+  SkipForwardFullScreen
 } from "@assets";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { heightPercent, logger } from "../../helpers";
@@ -217,55 +219,72 @@ export default function Watching({ navigation, route }: any) {
               resizeMode="stretch"
               rate={speed}
             />
+            <View
+              onTouchStart={(e) =>
+                setTimeout(() => {
+                  setIndicator(!indicator);
+                }, 200)
+              }
+              style={{
+                flex: 1,
+                position: "absolute",
+                backgroundColor: "#3B3B3B",
+                height: 1900,
+                width: "100%",
+                opacity: 0.5
+              }}
+            >
+              <TextItem>Test</TextItem>
+            </View>
             {indicator && (
               <View
                 style={{
-                  position: "absolute",
-                  width: "100%",
                   bottom: 0,
-                  alignItems: "center"
+                  alignItems: "center",
+                  flex: 1,
+                  justifyContent: "center"
                 }}
               >
                 <View
                   style={[
                     styles.boxAction,
                     {
-                      width: "100%",
-                      marginBottom: heightPercent(15)
+                      width: "100%"
+                      // marginBottom: heightPercent(15)
                     }
                   ]}
                 >
                   <Button onPress={() => handlePrev()}>
-                    <RotateCcw height={25} color={neutralColor[90]} />
+                    <RotateCcw height={25} color={neutralColor[10]} />
                   </Button>
                   <Button>
-                    <SkipBack color={neutralColor[90]} />
+                    <SkipBackFullScreen color={neutralColor[10]} />
                   </Button>
-                  <Button onPress={() => setPlay(!play)} style={styles.play}>
+                  <Button onPress={() => setPlay(!play)}>
                     {play ? (
-                      <Play color={primaryColor.main} style={styles.iconPlay} />
+                      <Play color={neutralColor[10]} style={styles.iconPlay} />
                     ) : (
-                      <Pause color={primaryColor.main} />
+                      <Pause color={neutralColor[10]} />
                     )}
                   </Button>
                   <Button>
-                    <SkipForward color={neutralColor[90]} />
+                    <SkipForwardFullScreen color={neutralColor[10]} />
                   </Button>
                   <Button onPress={() => handleNext()}>
-                    <RotateCw height={25} color={neutralColor[90]} />
+                    <RotateCw height={25} color={neutralColor[10]} />
                   </Button>
                 </View>
-                <View style={{ width: "90%" }}>
+                <View style={{ width: "90%", position: "absolute", bottom: 0 }}>
                   <View style={styles.boxTextTime}>
-                    <TextItem type={"r.14.nc.90"}>
+                    <TextItem type={"r.14.nc.10"}>
                       {_convertDuration(currentTime)}/
                       {_convertDuration(duration - currentTime)}
                     </TextItem>
-                    <TextItem type={"r.14.nc.90"}>
+                    <TextItem type={"r.14.nc.10"}>
                       <Minimize
                         onPress={() => handleOrientation(PORTRAIT)}
                         height={25}
-                        color={neutralColor[90]}
+                        color={neutralColor[10]}
                       />
                     </TextItem>
                   </View>
@@ -274,7 +293,7 @@ export default function Watching({ navigation, route }: any) {
                     containerStyle={styles.SliderContainer}
                     minimumValue={0}
                     maximumValue={duration}
-                    minimumTrackTintColor={neutralColor[90]}
+                    minimumTrackTintColor={neutralColor[10]}
                     maximumTrackTintColor={"#D1D7E1"}
                     thumbTintColor={colors.white}
                     trackStyle={styles.trackSliderStyle}

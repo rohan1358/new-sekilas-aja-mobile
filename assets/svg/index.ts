@@ -60,7 +60,10 @@ import StarActive from "./StarActive.svg";
 import StarAnActive from "./StarAnActive.svg";
 import ShareIcon from "./Share.svg";
 import SkipBack from "./SkipBack.svg";
+import SkipBackFullScreen from "./SkipBackFullScreen.svg";
+
 import SkipForward from "./SkipForward.svg";
+import SkipForwardFullScreen from "./SkipForwardFullScreen.svg";
 import Tree from "./Tree.svg";
 import Video from "./Video.svg";
 import YinYang from "./YinYang.svg";
@@ -163,5 +166,7 @@ export {
   BookmarkDetail,
   BookmarkDetailInActive,
   Minimize,
-  Maximize
+  Maximize,
+  SkipBackFullScreen,
+  SkipForwardFullScreen
 };
