@@ -5,10 +5,10 @@ import { Amage, Button, Gap, TextItem } from "../../atom";
 import styles from "./styles";
 
 const OngoingTile = ({
-  bookTitle = "",
+  bookTitle,
   bookUri,
   onPress,
-  isAvailable,
+  isAvailable
 }: OngoingTileProps) => {
   const [tileHeight, setTileHeight] = useState<number>(74);
   const s = styles({ tileHeight });

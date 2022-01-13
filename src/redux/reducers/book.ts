@@ -26,8 +26,8 @@ const inisialState: initialStateItf = {
   email: "",
   password: "",
   profile: null,
-  bookRecomended: async () => await bookRecomendedStorage.get(),
-  mostReadBook: async () => await mostBookStorage.get(),
+  bookRecomended: false,
+  mostReadBook: false,
   listCategory: false
 };
 

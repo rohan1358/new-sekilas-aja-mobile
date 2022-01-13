@@ -40,7 +40,7 @@ import {
 } from "@services";
 import { newCategories } from "../../../assets/dummy";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,6 +54,7 @@ import { HORIZONTAL_GAP } from "./values";
 import { store, persistor, mostBookStorage } from "../../redux/store";
 import { getLastReading } from "../../services/trackReading";
 import { checkData } from "../../utils";
+import { useCallback } from "react";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -75,8 +76,13 @@ const Home = () => {
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [modalAllPlan, setModalAllPlan] = useState(true);
+  const [lastReading, setLastReading] = useState({ book: false });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
     if (profileStore && profileStore.is_subscribed) {
       setModalAllPlan(false);
     }
@@ -93,20 +99,17 @@ const Home = () => {
     });
   }, [profiles]);
 
-  useEffect(() => {
-    getHomeData(false);
-  }, []);
+  // useEffect(() => {
+  //   getHomeData(false);
+  // }, []);
 
   useEffect(() => {
     if (isFocused) {
       getReadingBook();
       getHomeData(false);
+      fetchCategory();
     }
   }, [isFocused]);
-
-  useEffect(() => {
-    fetchCategory();
-  }, []);
 
   // useEffect(() => {
 
@@ -133,22 +136,39 @@ const Home = () => {
     </View>
   );
 
-  const booksRenderItem = ({ item }: { item: CompactBooksProps }) => (
-    <View>
-      <BookTile
-        title={item?.book_title}
-        author={`${item?.author}`}
-        duration={item?.read_time}
-        cover={item?.book_cover}
-        //@ts-ignore
-        onPress={(id) => navigation.navigate("BookDetail", { id })}
-        //@ts-ignore
-        navSubscrive={() => navigation.navigate("Subscribe")}
-        isVideoAvailable={item?.isVideoAvailable}
-      />
-      <Gap vertical={sp.sl} />
-    </View>
-  );
+  const booksRenderItem = ({ item }: { item: CompactBooksProps }) => {
+    return (
+      <View>
+        {isFocused ? (
+          <BookTile
+            title={item?.book_title}
+            author={`${item?.author}`}
+            duration={item?.read_time}
+            cover={item?.book_cover}
+            //@ts-ignore
+            onPress={(id) => {
+              navigation.navigate("BookDetail", { id });
+            }}
+            //@ts-ignore
+            navSubscrive={() => navigation.navigate("Subscribe")}
+            isVideoAvailable={item?.isVideoAvailable}
+          />
+        ) : (
+          <View
+            style={{
+              justifyContent: "center",
+              alignContent: "center",
+              margin: "20%"
+            }}
+          >
+            <ActivityIndicator />
+          </View>
+        )}
+
+        <Gap vertical={sp.sl} />
+      </View>
+    );
+  };
 
   const dummyMiniCollectionKey = (item: any, index: number) =>
     !item ? `${item}${index}` : `${item[0].id}`;
@@ -185,8 +205,6 @@ const Home = () => {
       setModalAllPlan(false);
     }
   };
-
-  const [lastReading, setLastReading] = useState({ book: false });
 
   const getHomeData = async (isRefresh: any) => {
     setIsLoading(true);
@@ -237,6 +255,10 @@ const Home = () => {
       }
     } else {
       setIsLoading(false);
+      const newLastRead = await getLastReading(email);
+      if (newLastRead.isSuccess) {
+        setLastReading(newLastRead.data);
+      }
     }
   };
 
@@ -248,21 +270,6 @@ const Home = () => {
       setReadingBook(data);
     } catch (error) {
       logger("Home, getReadingBook", error);
-    }
-  };
-
-  const getProfile = async () => {
-    setIsRefreshing(true);
-    try {
-      const { data, isSuccess } = await fetchProfile(email);
-      if (!isMounted) return;
-      if (!isSuccess) return;
-      setProfile(data);
-      dispatch(setProfileRedux(data));
-    } catch (error) {
-      logger("Home, getProfile", error);
-    } finally {
-      setIsRefreshing(false);
     }
   };
 
@@ -302,37 +309,168 @@ const Home = () => {
     }
   };
 
-  const testing = false;
+  const testing = true;
 
   return (
     <>
       {testing ? (
-        <View style={styles.row}>
-          {isFocused &&
-            listCategory &&
-            listCategory
-              .slice(listCategory.length / 2 + 1, listCategory.length)
-              .map((item: any, index: any) => {
-                const onPress = (id: string) =>
-                  navigation.navigate("Category", {
-                    type: "category",
-                    title: item,
-                    payload: id
-                  });
-                return (
-                  <CategoryChips
-                    onPress={onPress}
-                    index={index}
-                    item={{
-                      id: item,
-                      label: item,
-                      Icon: newCategories(item)
-                    }}
-                    key={index}
-                  />
-                );
-              })}
-        </View>
+        <>
+          <ScrollView>
+            <HomeHeader
+              name={profile?.firstName}
+              uri=""
+              onBellPress={onBellPress}
+              onPressProfile={onPressProfile}
+            />
+            <View>
+              <View style={styles.dummyHeader} />
+              {isFocused ? (
+                <OngoingTile
+                  bookTitle={lastReading?.book}
+                  bookUri={lastReading?.book_cover}
+                  onPress={onGoingPress}
+                  isAvailable={checkData(lastReading?.book)}
+                />
+              ) : (
+                <ActivityIndicator />
+              )}
+            </View>
+
+            <>
+              <View style={styles.adjuster}>
+                <FlatList
+                  contentContainerStyle={
+                    styles.newCollectionContentContainerStyle
+                  }
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={dummyBanner}
+                  renderItem={bannerRenderItem}
+                  keyExtractor={idKeyExtractor}
+                  listKey={"bannerlist"}
+                />
+                <Gap vertical={sp.m} />
+                <>
+                  <Gap horizontal={HORIZONTAL_GAP}>
+                    <TextItem type="b.24.nc.90">
+                      {strings.bookCategory}
+                    </TextItem>
+                  </Gap>
+                  <Gap vertical={sp.sm} />
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View>
+                      <View style={styles.row}>
+                        {checkData(listCategory) &&
+                          listCategory
+                            .slice(0, listCategory.length / 2 + 1)
+                            .map((item: any, index: any) => {
+                              const onPress = (id: string) =>
+                                navigation.navigate("Category", {
+                                  type: "category",
+                                  title: item,
+                                  payload: id
+                                });
+                              return (
+                                <CategoryChips
+                                  onPress={onPress}
+                                  index={index}
+                                  item={{
+                                    id: item,
+                                    label: item,
+                                    Icon: newCategories(item)
+                                  }}
+                                  key={index}
+                                />
+                              );
+                            })}
+                      </View>
+                      <Gap vertical={sp.sm} />
+                      <View style={styles.row}>
+                        {listCategory &&
+                          listCategory
+                            .slice(
+                              listCategory.length / 2 + 1,
+                              listCategory.length
+                            )
+                            .map((item: any, index: any) => {
+                              const onPress = (id: string) =>
+                                navigation.navigate("Category", {
+                                  type: "category",
+                                  title: item,
+                                  payload: id
+                                });
+                              return (
+                                <CategoryChips
+                                  onPress={onPress}
+                                  index={index}
+                                  item={{
+                                    id: item,
+                                    label: item,
+                                    Icon: newCategories(item)
+                                  }}
+                                  key={index}
+                                />
+                              );
+                            })}
+                      </View>
+                    </View>
+                  </ScrollView>
+                </>
+                <Gap vertical={sp.sl} />
+                <View style={styles.clickTitle}>
+                  <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                    {strings.recommendedBook}
+                  </TextItem>
+                  <Gap horizontal={20} />
+                  <Button onPress={onPressRecommend}>
+                    <TextItem type="b.14.nc.90" style={styles.underline}>
+                      {strings.seeAll}
+                    </TextItem>
+                  </Button>
+                </View>
+                <Gap vertical={sp.sm} />
+                <Gap horizontal={HORIZONTAL_GAP}>
+                  {checkData(bookRecomended) && (
+                    <FlatList
+                      data={bookRecomended}
+                      keyExtractor={idKeyExtractor}
+                      numColumns={2}
+                      renderItem={booksRenderItem}
+                      columnWrapperStyle={styles.columnWrapperStyle}
+                      listKey={"recommendedbooklist"}
+                    />
+                  )}
+                </Gap>
+                <Gap vertical={sp.sl} />
+                <View style={styles.clickTitle}>
+                  <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                    {strings.mostRead}
+                  </TextItem>
+                  <Gap horizontal={20} />
+                  <Button onPress={onMostReadPress}>
+                    <TextItem type="b.14.nc.90" style={styles.underline}>
+                      {strings.seeAll}
+                    </TextItem>
+                  </Button>
+                </View>
+                <Gap vertical={sp.sm} />
+                <Gap horizontal={HORIZONTAL_GAP}>
+                  {checkData(mostReadBook) && (
+                    <FlatList
+                      data={mostReadBook}
+                      keyExtractor={idKeyExtractor}
+                      numColumns={2}
+                      renderItem={booksRenderItem}
+                      columnWrapperStyle={styles.columnWrapperStyle}
+                      listKey="mostreadbooklist"
+                    />
+                  )}
+                </Gap>
+              </View>
+              <Gap vertical={sp.xxl} />
+            </>
+          </ScrollView>
+        </>
       ) : (
         <>
           {profileStore && (
@@ -351,24 +489,24 @@ const Home = () => {
                     onRefresh={onRefresh}
                     refreshing={isRefreshing}
                   >
-                    {isFocused && (
-                      <HomeHeader
-                        name={profile?.firstName}
-                        uri=""
-                        onBellPress={onBellPress}
-                        onPressProfile={onPressProfile}
-                      />
-                    )}
+                    <HomeHeader
+                      name={profile?.firstName}
+                      uri=""
+                      onBellPress={onBellPress}
+                      onPressProfile={onPressProfile}
+                    />
 
                     <View>
                       <View style={styles.dummyHeader} />
-                      {isFocused && (
+                      {isFocused ? (
                         <OngoingTile
                           bookTitle={lastReading?.book}
                           bookUri={lastReading?.book_cover}
                           onPress={onGoingPress}
                           isAvailable={checkData(lastReading?.book)}
                         />
+                      ) : (
+                        <ActivityIndicator />
                       )}
                     </View>
                     <View style={styles.adjuster}>
@@ -417,8 +555,7 @@ const Home = () => {
                         >
                           <View>
                             <View style={styles.row}>
-                              {isFocused &&
-                                checkData(listCategory) &&
+                              {checkData(listCategory) &&
                                 listCategory
                                   .slice(0, listCategory.length / 2 + 1)
                                   .map((item: any, index: any) => {
@@ -444,8 +581,7 @@ const Home = () => {
                             </View>
                             <Gap vertical={sp.sm} />
                             <View style={styles.row}>
-                              {isFocused &&
-                                listCategory &&
+                              {listCategory &&
                                 listCategory
                                   .slice(
                                     listCategory.length / 2 + 1,
@@ -489,7 +625,7 @@ const Home = () => {
                       </View>
                       <Gap vertical={sp.sm} />
                       <Gap horizontal={HORIZONTAL_GAP}>
-                        {isFocused && (
+                        {!loading && checkData(bookRecomended) && (
                           <FlatList
                             data={bookRecomended}
                             keyExtractor={idKeyExtractor}
@@ -514,7 +650,7 @@ const Home = () => {
                       </View>
                       <Gap vertical={sp.sm} />
                       <Gap horizontal={HORIZONTAL_GAP}>
-                        {isFocused && checkData(mostReadBook) && (
+                        {!loading && checkData(mostReadBook) && (
                           <FlatList
                             data={mostReadBook}
                             keyExtractor={idKeyExtractor}

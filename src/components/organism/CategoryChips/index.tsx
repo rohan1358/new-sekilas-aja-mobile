@@ -3,8 +3,9 @@ import { spacing } from "@constants";
 import { Chips } from "@molecule";
 import { categories } from "../../../../assets/dummy";
 import React from "react";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import styles from "./styles";
+import { useIsFocused } from "@react-navigation/native";
 const BOUNDARY =
   categories.length % 2 === 0
     ? categories.length / 2
@@ -17,12 +18,24 @@ const CategoryChips = ({
   item: { id: string; label: string; Icon: any };
   index: number;
   onPress(arg0: string): void;
-}) => (
-  <View key={item.id} style={styles.row}>
-    {index == 0 && <Gap horizontal={spacing.sl} />}
-    <Chips label={item.label} id={item.id} Icon={item.Icon} onPress={onPress} />
-    <Gap horizontal={index === BOUNDARY - 1 ? spacing.sl : spacing.xs} />
-  </View>
-);
+}) => {
+  const isFocus = useIsFocused();
+  return (
+    <View key={item.id} style={styles.row}>
+      {index == 0 && <Gap horizontal={spacing.sl} />}
+      {isFocus ? (
+        <Chips
+          label={item.label}
+          id={item.id}
+          Icon={item.Icon}
+          onPress={onPress}
+        />
+      ) : (
+        <ActivityIndicator />
+      )}
+      <Gap horizontal={index === BOUNDARY - 1 ? spacing.sl : spacing.xs} />
+    </View>
+  );
+};
 
 export default CategoryChips;

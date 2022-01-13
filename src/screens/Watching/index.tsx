@@ -190,6 +190,9 @@ export default function Watching({ navigation, route }: any) {
 
   const handleOrientation = async (orientation: any) => {
     await setOrientation(orientation);
+    setTimeout(() => {
+      setIndicator(false);
+    }, 10000);
   };
 
   const toggleIndicator = async () => {
