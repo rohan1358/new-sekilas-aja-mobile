@@ -5,6 +5,7 @@ import { Bell, UserPlaceholder } from "../../../../assets";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
 import styles from "./styles";
 import { useIsFocused } from "@react-navigation/native";
+import { primaryColor } from "@constants";
 
 const HomeHeader = ({
   name = "",
@@ -59,7 +60,7 @@ const HomeHeader = ({
           </Button>
         </>
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator color={primaryColor.main} />
       )}
     </View>
   );
