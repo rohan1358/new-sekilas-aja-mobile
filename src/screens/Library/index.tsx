@@ -7,12 +7,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
-import { fetchFavoriteBooks } from "../../services";
+import { fetchFavoriteBooks, getTotalFinishingRead } from "../../services";
 import styles from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
 
 const Library = (navigation: any) => {
   const [favorit, setFavorit] = React.useState(0);
+  const [totalReading, setTotalReading] = React.useState(0);
 
   const {
     sessionReducer: { email }
@@ -39,8 +40,11 @@ const Library = (navigation: any) => {
       const getTotalFavorit = async () => {
         try {
           const total = await fetchFavoriteBooks(email);
+          const totalDoneReading = await getTotalFinishingRead(email);
+
           if (isActive) {
             setFavorit(total?.jumlah);
+            setTotalReading(totalDoneReading);
           }
         } catch (e) {
           // Handle error
@@ -90,12 +94,16 @@ const Library = (navigation: any) => {
           icon={<Bookmark stroke={neutralColor[90]} width={24} height={24} />}
         />
         <Gap vertical={sp.sm} />
-        {/* <LibraryMenu
-          action={() => logger("masuk ke page buku yang telah selesai di baca")}
+        <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate("SpecialBookList", {
+              type: "doneReading"
+            })
+          }
           title={strings.finishedBooks}
-          bookCount={17}
+          bookCount={totalReading}
           icon={<Check stroke={neutralColor[90]} />}
-        /> */}
+        />
       </ScrollView>
     </Base>
   );

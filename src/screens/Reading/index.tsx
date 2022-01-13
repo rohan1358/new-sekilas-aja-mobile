@@ -76,6 +76,7 @@ const Reading = () => {
   const actionStyle = useAnimatedStyle(() => ({
     bottom: actionPosition.value
   }));
+  const [listBookFinishingRead, setListBookFinishingRead] = useState([]);
 
   const tipStyle = useAnimatedStyle(() => ({ top: tipPosition.value }));
 
@@ -100,7 +101,7 @@ const Reading = () => {
 
   const closeTip = () => (tipPosition.value = withTiming(-WIDTH / 2));
 
-  const BOOK_ID = route.params?.id;
+  const BOOK_ID = route.params?.id || "";
   const BOOK = route.params?.book;
 
   const customComp = () => (
@@ -191,6 +192,58 @@ const Reading = () => {
       })
       .then(() => {
         setSnackState(ss.successState(strings.marked));
+      })
+      .catch(() => {
+        setSnackState(ss.failState(strings.markFailed));
+      })
+      .finally(() => {
+        onTap();
+        overlayRef.current?.close();
+      });
+  };
+
+  const fetchListFinishingRead = async () => {
+    const get = await firestore()
+      .collection(firebaseNode.finishedInReading)
+      .doc(email)
+      .get();
+    const list: any = get?.data() ? get?.data()?.book : [];
+    setListBookFinishingRead(list);
+  };
+
+  useEffect(() => {
+    fetchListFinishingRead();
+  }, []);
+
+  const onFinishedInReading = async () => {
+    let newData = [...new Set([...listBookFinishingRead, BOOK_ID])];
+
+    let type = "add";
+
+    if (listBookFinishingRead.includes(BOOK_ID)) {
+      newData = listBookFinishingRead.filter((book) => book !== BOOK_ID);
+      type = "reduce";
+    }
+
+    firestore()
+      .collection(firebaseNode.finishedInReading)
+      .doc(email)
+      .set(
+        {
+          book: newData,
+          total: newData.length
+        },
+        { merge: true }
+      )
+      .then(() => {
+        fetchListFinishingRead();
+        setSnackState(
+          ss.successState(
+            type === "add"
+              ? strings.addFinishingRead
+              : strings.cancleFinishingRead
+          )
+        );
       })
       .catch(() => {
         setSnackState(ss.failState(strings.markFailed));
@@ -395,6 +448,21 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
           </Button>
           <Button style={s.tipButton} onPress={onMark}>
             <TextItem type="r.20.nc.90">{strings.mark}</TextItem>
+          </Button>
+          <Button style={s.tipButton} onPress={onFinishedInReading}>
+            <TextItem
+              type={
+                listBookFinishingRead.includes(BOOK_ID)
+                  ? "b.18.nc.90"
+                  : "r.20.nc.90"
+              }
+              // type="b.18.nc.90"
+              style={listBookFinishingRead.includes(BOOK_ID) && s.textBtnHapus}
+            >
+              {listBookFinishingRead.includes(BOOK_ID)
+                ? strings.cancleDoneRead
+                : strings.doneRead}
+            </TextItem>
           </Button>
         </View>
       </Animated.View>

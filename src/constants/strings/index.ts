@@ -111,6 +111,9 @@ export const strings = {
   lagi_bokek: "Lagi bokek",
 
   mark: "Tandai",
+  doneRead: "Selesai Baca",
+  cancleDoneRead: "Tidak Jadi Selesai",
+
   marked: "Berhasil ditandai",
   markFailed: "Gagal ditandai",
   mostRead: "Paling banyak dibaca",
@@ -248,4 +251,6 @@ export const strings = {
 
   kilas: "kilas",
   kembaliKeHome: "Kembali ke halaman beranda",
+  cancleFinishingRead: "berhasil manghapus dari daftar buku selesai di baca",
+  addFinishingRead: "berhasil di masukan ke daftar buku selesai di baca"
 };

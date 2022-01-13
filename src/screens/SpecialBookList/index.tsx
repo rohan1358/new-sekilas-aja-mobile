@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
 import {
   fetchBookByFavorit,
+  fetchDoneReading,
   fetchMostBooks,
   fetchRecommendedBooks,
   fetchReleasedBooks,
@@ -36,6 +37,11 @@ const dataSelector = (
       return { title: strings.mostRead, api: fetchTrendBooks };
     case "myFavorite":
       return { title: strings.myFavorite, api: () => fetchBookByFavorit(id) };
+    case "doneReading":
+      return {
+        title: strings.finishedBooks,
+        api: () => fetchDoneReading(id)
+      };
 
     default:
       return { title: "", api: fetchRecommendedBooks };

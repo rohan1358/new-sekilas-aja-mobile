@@ -70,6 +70,9 @@ const styles = ({
       color: primaryColor.main,
       fontWeight: "700",
       marginLeft: 10
+    },
+    textBtnHapus: {
+      color: "#CB3168"
     }
   });
 

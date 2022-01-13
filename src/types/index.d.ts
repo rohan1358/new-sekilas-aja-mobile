@@ -6,7 +6,8 @@ type SpecialCategoryProps =
   | "newRelease"
   | "mostRead"
   | "trending"
-  | "myFavorite";
+  | "myFavorite"
+  | "doneReading";
 
 type MainBottomTabParamList = {
   Home: undefined;
