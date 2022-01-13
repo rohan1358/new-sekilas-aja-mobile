@@ -1,5 +1,5 @@
 import { Gap } from "@atom";
-import { spacing } from "@constants";
+import { primaryColor, spacing } from "@constants";
 import { Chips } from "@molecule";
 import { categories } from "../../../../assets/dummy";
 import React from "react";
@@ -31,7 +31,7 @@ const CategoryChips = ({
           onPress={onPress}
         />
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator color={primaryColor.main} />
       )}
       <Gap horizontal={index === BOUNDARY - 1 ? spacing.sl : spacing.xs} />
     </View>

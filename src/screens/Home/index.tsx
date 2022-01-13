@@ -161,7 +161,7 @@ const Home = () => {
               margin: "20%"
             }}
           >
-            <ActivityIndicator />
+            <ActivityIndicator color={primaryColor.main} />
           </View>
         )}
 
@@ -332,7 +332,7 @@ const Home = () => {
                   isAvailable={checkData(lastReading?.book)}
                 />
               ) : (
-                <ActivityIndicator />
+                <ActivityIndicator color={primaryColor.main} />
               )}
             </View>
 
@@ -506,7 +506,7 @@ const Home = () => {
                           isAvailable={checkData(lastReading?.book)}
                         />
                       ) : (
-                        <ActivityIndicator />
+                        <ActivityIndicator color={primaryColor.main} />
                       )}
                     </View>
                     <View style={styles.adjuster}>
