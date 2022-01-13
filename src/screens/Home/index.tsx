@@ -25,7 +25,7 @@ import {
   spacing as sp,
   strings
 } from "@constants";
-import { logger, useMounted } from "@helpers";
+import { logger, useMounted, widthPercent } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -391,60 +391,66 @@ const Home = () => {
                       showsHorizontalScrollIndicator={false}
                     >
                       <View>
-                        <View style={styles.row}>
-                          {checkData(listCategory) &&
-                            listCategory
-                              .slice(0, listCategory.length / 2 + 1)
-                              .map((item: any, index: any) => {
-                                const onPress = (id: string) =>
-                                  navigation.navigate("Category", {
-                                    type: "category",
-                                    title: item,
-                                    payload: id
-                                  });
-                                return (
-                                  <CategoryChips
-                                    onPress={onPress}
-                                    index={index}
-                                    item={{
-                                      id: item,
-                                      label: item,
-                                      Icon: newCategories(item)
-                                    }}
-                                    key={index}
-                                  />
-                                );
-                              })}
-                        </View>
-                        <Gap vertical={sp.sm} />
-                        <View style={styles.row}>
-                          {listCategory &&
-                            listCategory
-                              .slice(
-                                listCategory.length / 2 + 1,
-                                listCategory.length
-                              )
-                              .map((item: any, index: any) => {
-                                const onPress = (id: string) =>
-                                  navigation.navigate("Category", {
-                                    type: "category",
-                                    title: item,
-                                    payload: id
-                                  });
-                                return (
-                                  <CategoryChips
-                                    onPress={onPress}
-                                    index={index}
-                                    item={{
-                                      id: item,
-                                      label: item,
-                                      Icon: newCategories(item)
-                                    }}
-                                    key={index}
-                                  />
-                                );
-                              })}
-                        </View>
+                        <SkeletonContent
+                          layout={skeleton.componentCategory}
+                          isLoading={!isFocused}
+                          containerStyle={styles.skeleton}
+                        >
+                          <View style={styles.row}>
+                            {checkData(listCategory) &&
+                              listCategory
+                                .slice(0, listCategory.length / 2 + 1)
+                                .map((item: any, index: any) => {
+                                  const onPress = (id: string) =>
+                                    navigation.navigate("Category", {
+                                      type: "category",
+                                      title: item,
+                                      payload: id
+                                    });
+                                  return (
+                                    <CategoryChips
+                                      onPress={onPress}
+                                      index={index}
+                                      item={{
+                                        id: item,
+                                        label: item,
+                                        Icon: newCategories(item)
+                                      }}
+                                      key={index}
+                                    />
+                                  );
+                                })}
+                          </View>
+                          <Gap vertical={sp.sm} />
+                          <View style={styles.row}>
+                            {listCategory &&
+                              listCategory
+                                .slice(
+                                  listCategory.length / 2 + 1,
+                                  listCategory.length
+                                )
+                                .map((item: any, index: any) => {
+                                  const onPress = (id: string) =>
+                                    navigation.navigate("Category", {
+                                      type: "category",
+                                      title: item,
+                                      payload: id
+                                    });
+                                  return (
+                                    <CategoryChips
+                                      onPress={onPress}
+                                      index={index}
+                                      item={{
+                                        id: item,
+                                        label: item,
+                                        Icon: newCategories(item)
+                                      }}
+                                      key={index}
+                                    />
+                                  );
+                                })}
+                          </View>
+                        </SkeletonContent>
                       </View>
                     </ScrollView>
                   </>
