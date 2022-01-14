@@ -360,19 +360,25 @@ const Home = () => {
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap> */}
                   {/* <Gap vertical={sp.sm} /> */}
-                  {checkData(carousel) && (
-                    <FlatList
-                      contentContainerStyle={
-                        styles.newCollectionContentContainerStyle
-                      }
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                      data={carousel || []}
-                      renderItem={bannerRenderItem}
-                      keyExtractor={idKeyExtractor}
-                      listKey={"bannerlist"}
-                    />
-                  )}
+                  <SkeletonContent
+                    layout={skeleton.componentBanner}
+                    isLoading={!isFocused}
+                    containerStyle={styles.skeleton}
+                  >
+                    {checkData(carousel) && (
+                      <FlatList
+                        contentContainerStyle={
+                          styles.newCollectionContentContainerStyle
+                        }
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={carousel || []}
+                        renderItem={bannerRenderItem}
+                        keyExtractor={idKeyExtractor}
+                        listKey={"bannerlist"}
+                      />
+                    )}
+                  </SkeletonContent>
 
                   <Gap vertical={sp.m} />
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
@@ -479,8 +485,12 @@ const Home = () => {
                     </Button>
                   </View>
                   <Gap vertical={sp.sm} />
-                  <Gap horizontal={HORIZONTAL_GAP}>
-                    {!loading && checkData(bookRecomended) && (
+                  <SkeletonContent
+                    layout={skeleton.componentRecomended}
+                    isLoading={!isFocused}
+                    containerStyle={styles.skeleton}
+                  >
+                    <Gap horizontal={HORIZONTAL_GAP}>
                       <FlatList
                         data={bookRecomended}
                         keyExtractor={idKeyExtractor}
@@ -489,8 +499,9 @@ const Home = () => {
                         columnWrapperStyle={styles.columnWrapperStyle}
                         listKey={"recommendedbooklist"}
                       />
-                    )}
-                  </Gap>
+                    </Gap>
+                  </SkeletonContent>
+
                   <Gap vertical={sp.sl} />
                   <View style={styles.clickTitle}>
                     <TextItem type="b.24.nc.90" style={styles.longTitle}>
@@ -504,18 +515,24 @@ const Home = () => {
                     </Button>
                   </View>
                   <Gap vertical={sp.sm} />
-                  <Gap horizontal={HORIZONTAL_GAP}>
-                    {!loading && checkData(mostReadBook) && (
-                      <FlatList
-                        data={mostReadBook}
-                        keyExtractor={idKeyExtractor}
-                        numColumns={2}
-                        renderItem={booksRenderItem}
-                        columnWrapperStyle={styles.columnWrapperStyle}
-                        listKey="mostreadbooklist"
-                      />
-                    )}
-                  </Gap>
+                  <SkeletonContent
+                    layout={skeleton.componentMostRead}
+                    isLoading={!isFocused}
+                    containerStyle={styles.skeleton}
+                  >
+                    <Gap horizontal={HORIZONTAL_GAP}>
+                      {!loading && checkData(mostReadBook) && (
+                        <FlatList
+                          data={mostReadBook}
+                          keyExtractor={idKeyExtractor}
+                          numColumns={2}
+                          renderItem={booksRenderItem}
+                          columnWrapperStyle={styles.columnWrapperStyle}
+                          listKey="mostreadbooklist"
+                        />
+                      )}
+                    </Gap>
+                  </SkeletonContent>
                 </View>
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>

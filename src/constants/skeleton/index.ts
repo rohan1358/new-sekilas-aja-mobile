@@ -4,7 +4,11 @@ import { mainHome } from "./home";
 import { mainReading } from "./reading";
 import { mainSearch } from "./search";
 import { mainTableContent } from "./tableContent";
-import { componentCategory } from "./component";
+import {
+  componentCategory,
+  componentRecomended,
+  componentBanner
+} from "./component";
 export const skeleton = {
   mainCategory,
   mainExplore,
@@ -12,5 +16,8 @@ export const skeleton = {
   mainReading,
   mainSearch,
   mainTableContent,
-  componentCategory
+  componentCategory,
+  componentRecomended,
+  componentBanner,
+  componentMostRead: componentRecomended
 };

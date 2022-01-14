@@ -17,4 +17,4 @@ const componentCategory: any = [
     marginBottom: sp.sm
   }
 ];
-export { componentCategory };
+export default componentCategory;
