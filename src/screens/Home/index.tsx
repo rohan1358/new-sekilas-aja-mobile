@@ -56,6 +56,7 @@ import { store, persistor, mostBookStorage } from "../../redux/store";
 import { getLastReading } from "../../services/trackReading";
 import { checkData } from "../../utils";
 import { useCallback } from "react";
+import firestore from "@react-native-firebase/firestore";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -131,6 +132,7 @@ const Home = () => {
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
       <ImageBanner
+        data={item}
         placeholder={item.coverImageLink}
         source={item.coverImageLink}
       />
@@ -149,6 +151,7 @@ const Home = () => {
             cover={item?.book_cover}
             //@ts-ignore
             onPress={(id) => {
+              // console.log("id", id);
               navigation.navigate("BookDetail", { id });
             }}
             //@ts-ignore
