@@ -15,7 +15,7 @@ const fetchBookContent = ({ bookTitle }: { bookTitle: string }) => {
           data: null,
           isSuccess: true,
           error: null,
-          message: "Book content successfuly fetched.",
+          message: "Book content successfuly fetched."
         });
       }
       const pages = raw.docs.map((value) => {
@@ -28,7 +28,7 @@ const fetchBookContent = ({ bookTitle }: { bookTitle: string }) => {
               ? "Ringkasan Akhir"
               : item?.title,
           kilas: item?.kilas,
-          details: item?.details,
+          details: item?.details
         };
       });
 
@@ -36,14 +36,14 @@ const fetchBookContent = ({ bookTitle }: { bookTitle: string }) => {
         data: { numberOfPage: raw.docs.length, pageContent: pages },
         isSuccess: true,
         error: null,
-        message: "Book content successfuly fetched.",
+        message: "Book content successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch book content failed.",
+        message: "Fetch book content failed."
       });
     }
   });
@@ -63,7 +63,7 @@ const fetchBookTableOfContent = ({ bookTitle }: { bookTitle: string }) => {
           data: null,
           isSuccess: true,
           error: null,
-          message: "Book table of content successfuly fetched.",
+          message: "Book table of content successfuly fetched."
         });
       }
 
@@ -76,7 +76,7 @@ const fetchBookTableOfContent = ({ bookTitle }: { bookTitle: string }) => {
             id === "ringkasan" && !item?.title
               ? "Ringkasan Akhir"
               : item?.title,
-          kilas: item?.kilas,
+          kilas: item?.kilas
         };
       });
 
@@ -84,17 +84,43 @@ const fetchBookTableOfContent = ({ bookTitle }: { bookTitle: string }) => {
         data,
         isSuccess: true,
         error: null,
-        message: "Book table of content successfuly fetched.",
+        message: "Book table of content successfuly fetched."
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch book table of content failed.",
+        message: "Fetch book table of content failed."
       });
     }
   });
 };
 
-export { fetchBookContent, fetchBookTableOfContent };
+const fetchCarousel = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const get = await firestore().collection("carouselBanner").get();
+      const result = await Promise.all(
+        get.docs.map((data) => {
+          return data.data();
+        })
+      );
+      resolve({
+        data: result,
+        status: "success",
+        isSUccess: true,
+        isFailed: false
+      });
+    } catch {
+      reject({
+        data: false,
+        status: "failed",
+        isSUccess: false,
+        isFailed: true
+      });
+    }
+  });
+};
+
+export { fetchBookContent, fetchBookTableOfContent, fetchCarousel };

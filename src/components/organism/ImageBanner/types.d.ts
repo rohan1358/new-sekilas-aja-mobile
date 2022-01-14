@@ -1,3 +1,4 @@
 interface ImageBannerProps {
-  placeholder: number;
+  placeholder: any;
+  source: any;
 }

@@ -38,6 +38,7 @@ import {
   fetchRecommendedBooks,
   modifyToken
 } from "@services";
+import { fetchCarousel } from "../../services/bookContent";
 import { newCategories } from "../../../assets/dummy";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
@@ -78,6 +79,7 @@ const Home = () => {
   const [modalAllPlan, setModalAllPlan] = useState(true);
   const [lastReading, setLastReading] = useState({ book: false });
   const [loading, setLoading] = useState(false);
+  const [carousel, setCarousel] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -111,15 +113,6 @@ const Home = () => {
     }
   }, [isFocused]);
 
-  // useEffect(() => {
-
-  //   const [newLastRead] =
-  //       await Promise.all([
-  //         getLastReading(email)
-  //       ]);
-
-  // }, []);
-
   const fetchCategory = async () => {
     try {
       const list = await fetchListCategory();
@@ -129,9 +122,18 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    fetchCarousel().then((res: any) => {
+      setCarousel(res.data);
+    });
+  }, []);
+
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
-      <ImageBanner placeholder={item.placeholder} />
+      <ImageBanner
+        placeholder={item.coverImageLink}
+        source={item.coverImageLink}
+      />
       <Gap horizontal={sp.m} />
     </View>
   );
@@ -273,7 +275,11 @@ const Home = () => {
     }
   };
 
-  const idKeyExtractor = ({ id }: { id: string | number }) => `${id}`;
+  const idKeyExtractor = ({
+    coverImageLink
+  }: {
+    coverImageLink: string | number;
+  }) => `${Math.random()}`;
 
   const onBellPress = () => navigation.navigate("Notification");
 
@@ -351,17 +357,20 @@ const Home = () => {
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap> */}
                   {/* <Gap vertical={sp.sm} /> */}
-                  <FlatList
-                    contentContainerStyle={
-                      styles.newCollectionContentContainerStyle
-                    }
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={dummyBanner}
-                    renderItem={bannerRenderItem}
-                    keyExtractor={idKeyExtractor}
-                    listKey={"bannerlist"}
-                  />
+                  {checkData(carousel) && (
+                    <FlatList
+                      contentContainerStyle={
+                        styles.newCollectionContentContainerStyle
+                      }
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      data={carousel || []}
+                      renderItem={bannerRenderItem}
+                      keyExtractor={idKeyExtractor}
+                      listKey={"bannerlist"}
+                    />
+                  )}
+
                   <Gap vertical={sp.m} />
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>

@@ -3,10 +3,10 @@ import { View } from "react-native";
 import { Amage } from "../../atom";
 import styles from "./styles";
 
-const ImageBanner = ({ placeholder }: ImageBannerProps) => {
+const ImageBanner = ({ source }: ImageBannerProps) => {
   return (
     <View style={styles.container}>
-      <Amage style={styles.image} placeholder={placeholder} />
+      <Amage style={styles.image} source={source} />
     </View>
   );
 };
