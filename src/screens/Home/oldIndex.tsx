@@ -140,6 +140,29 @@ const Home = () => {
     </View>
   );
 
+  const booksRenderItem = ({ item }: { item: CompactBooksProps }) => {
+    return (
+      <View>
+        <BookTile
+          title={item?.book_title}
+          author={`${item?.author}`}
+          duration={item?.read_time}
+          cover={item?.book_cover}
+          //@ts-ignore
+          onPress={(id) => {
+            // console.log("id", id);
+            navigation.navigate("BookDetail", { id });
+          }}
+          //@ts-ignore
+          navSubscrive={() => navigation.navigate("Subscribe")}
+          isVideoAvailable={item?.isVideoAvailable}
+        />
+
+        <Gap vertical={sp.sl} />
+      </View>
+    );
+  };
+
   const BooksRenderItem = ({ item }: { item: CompactBooksProps }) => {
     return (
       <View>
@@ -163,35 +186,35 @@ const Home = () => {
     );
   };
 
-  // const dummyMiniCollectionKey = (item: any, index: number) =>
-  //   !item ? `${item}${index}` : `${item[0].id}`;
+  const dummyMiniCollectionKey = (item: any, index: number) =>
+    !item ? `${item}${index}` : `${item[0].id}`;
 
-  // const dummyMiniCollectionRender = ({
-  //   item,
-  //   index
-  // }: {
-  //   item: any;
-  //   index: number;
-  // }) => {
-  //   if (!item) return null;
+  const dummyMiniCollectionRender = ({
+    item,
+    index
+  }: {
+    item: any;
+    index: number;
+  }) => {
+    if (!item) return null;
 
-  //   return (
-  //     <View>
-  //       {item.map((value: any) => (
-  //         <View key={`${value.id}`}>
-  //           <MiniCollectionTile
-  //             key={`${value.id}${index}`}
-  //             title={value.title}
-  //             subtitle={value.category}
-  //             bookCount={value.count}
-  //             placeholder={value.placeholder}
-  //           />
-  //           <Gap vertical={sp.sm} />
-  //         </View>
-  //       ))}
-  //     </View>
-  //   );
-  // };
+    return (
+      <View>
+        {item.map((value: any) => (
+          <View key={`${value.id}`}>
+            <MiniCollectionTile
+              key={`${value.id}${index}`}
+              title={value.title}
+              subtitle={value.category}
+              bookCount={value.count}
+              placeholder={value.placeholder}
+            />
+            <Gap vertical={sp.sm} />
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   const handleSub = (data: ProfileProps) => {
     if (data?.is_subscribed) {
@@ -477,64 +500,64 @@ const Home = () => {
                     containerStyle={styles.skeleton}
                   >
                     <Gap horizontal={HORIZONTAL_GAP}>
-                      <View
+                      {/* <View
                         style={{
                           flexDirection: "row",
                           flexWrap: "wrap",
                           justifyContent: "space-between"
                         }}
                       >
-                        {Array.isArray(bookRecomended) &&
-                          bookRecomended.map((item: any) => {
-                            return (
-                              <React.Fragment key={Math.random()}>
-                                <BooksRenderItem item={item} />
-                              </React.Fragment>
-                            );
-                          })}
-                      </View>
+                        {bookRecomended.map((item: any) => {
+                          return (
+                            <React.Fragment key={Math.random()}>
+                              <BooksRenderItem item={item} />
+                            </React.Fragment>
+                          );
+                        })}
+                      </View> */}
+
+                      <FlatList
+                        data={bookRecomended}
+                        keyExtractor={idKeyExtractor}
+                        numColumns={2}
+                        renderItem={booksRenderItem}
+                        columnWrapperStyle={styles.columnWrapperStyle}
+                        listKey={"recommendedbooklist"}
+                      />
                     </Gap>
                   </SkeletonContent>
-                  {/* most read */}
-                  <>
-                    <Gap vertical={sp.sl} />
-                    <View style={styles.clickTitle}>
-                      <TextItem type="b.24.nc.90" style={styles.longTitle}>
-                        {strings.mostRead}
+
+                  <Gap vertical={sp.sl} />
+                  <View style={styles.clickTitle}>
+                    <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                      {strings.mostRead}
+                    </TextItem>
+                    <Gap horizontal={20} />
+                    <Button onPress={onMostReadPress}>
+                      <TextItem type="b.14.nc.90" style={styles.underline}>
+                        {strings.seeAll}
                       </TextItem>
-                      <Gap horizontal={20} />
-                      <Button onPress={onMostReadPress}>
-                        <TextItem type="b.14.nc.90" style={styles.underline}>
-                          {strings.seeAll}
-                        </TextItem>
-                      </Button>
-                    </View>
-                    <Gap vertical={sp.sm} />
-                    <SkeletonContent
-                      layout={skeleton.componentMostRead}
-                      isLoading={!isFocused}
-                      containerStyle={styles.skeleton}
-                    >
-                      <Gap horizontal={HORIZONTAL_GAP}>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between"
-                          }}
-                        >
-                          {Array.isArray(mostReadBook) &&
-                            mostReadBook.map((item: any) => {
-                              return (
-                                <React.Fragment key={Math.random()}>
-                                  <BooksRenderItem item={item} />
-                                </React.Fragment>
-                              );
-                            })}
-                        </View>
-                      </Gap>
-                    </SkeletonContent>
-                  </>
+                    </Button>
+                  </View>
+                  <Gap vertical={sp.sm} />
+                  <SkeletonContent
+                    layout={skeleton.componentMostRead}
+                    isLoading={!isFocused}
+                    containerStyle={styles.skeleton}
+                  >
+                    <Gap horizontal={HORIZONTAL_GAP}>
+                      {!loading && checkData(mostReadBook) && (
+                        <FlatList
+                          data={mostReadBook}
+                          keyExtractor={idKeyExtractor}
+                          numColumns={2}
+                          renderItem={booksRenderItem}
+                          columnWrapperStyle={styles.columnWrapperStyle}
+                          listKey="mostreadbooklist"
+                        />
+                      )}
+                    </Gap>
+                  </SkeletonContent>
                 </View>
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>
