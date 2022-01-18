@@ -19,9 +19,11 @@ import SignUp from "./SignUp";
 import SpecialBookList from "./SpecialBookList";
 import Subscribe from "./Subscribe";
 import Watching from "./Watching";
+import ContentNotification from "./ContentNotification";
 import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
 
 export {
+  ContentNotification,
   About,
   AccountSettings,
   BookDetail,

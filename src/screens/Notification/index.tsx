@@ -57,9 +57,10 @@ export default function Notification({ navigation }: any) {
                     key={index}
                     item={item}
                     type="inbox"
-                    onPress={(data: any) =>
-                      handleOpenNotif(data, firebaseNode.notifInbox)
-                    }
+                    onPress={(data: any) => {
+                      handleOpenNotif(data, firebaseNode.notifInbox);
+                      navigation.navigate("ContentNotification", item);
+                    }}
                   />
                 ))
               ) : (
@@ -100,9 +101,10 @@ export default function Notification({ navigation }: any) {
             {Array.isArray(listNotifPromo) ? (
               listNotifPromo.map((item: object, index: number) => (
                 <Card
-                  onPress={(data: any) =>
-                    handleOpenNotif(data, firebaseNode.notifPromo)
-                  }
+                  onPress={(data: any) => {
+                    handleOpenNotif(data, firebaseNode.notifInbox);
+                    navigation.navigate("ContentNotification", item);
+                  }}
                   key={index}
                   item={item}
                   type="promo"

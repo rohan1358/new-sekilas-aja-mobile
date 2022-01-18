@@ -1,19 +1,22 @@
 import {
   FETCH_NOTIF_PROMO,
   LOAD_FETCH_NOTIF,
-  FETCH_NOTIF_INBOX
+  FETCH_NOTIF_INBOX,
+  FETCH_CONTENT_NOTIF
 } from "../actionTypes/notif";
 
 interface GeneralReducerIfc {
   listNotifPromo: any;
   loading: any;
   listNotifInbox: any;
+  contentNotif: any;
 }
 
 const initialState: GeneralReducerIfc = {
   listNotifPromo: [],
   listNotifInbox: [],
-  loading: true
+  loading: true,
+  contentNotif: {}
 };
 
 const generalReducer = (
@@ -35,6 +38,11 @@ const generalReducer = (
       return {
         ...state,
         loading: action?.payload
+      };
+    case FETCH_CONTENT_NOTIF:
+      return {
+        ...state,
+        contentNotif: action?.payload
       };
 
     default:
