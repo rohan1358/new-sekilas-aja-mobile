@@ -57,6 +57,7 @@ import { getLastReading } from "../../services/trackReading";
 import { checkData } from "../../utils";
 import { useCallback } from "react";
 import firestore from "@react-native-firebase/firestore";
+import { fetchNotifInbox, fetchNotifPromo } from "../../services/notification";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -81,6 +82,11 @@ const Home = () => {
   const [lastReading, setLastReading] = useState({ book: false });
   const [loading, setLoading] = useState(false);
   const [carousel, setCarousel] = useState(false);
+
+  useEffect(() => {
+    fetchNotifPromo();
+    fetchNotifInbox();
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {

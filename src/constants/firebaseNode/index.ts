@@ -11,5 +11,7 @@ export const firebaseNode = {
   favorite: "favorite",
 
   comment: "comment",
-  finishedInReading: "finishedInReading"
+  finishedInReading: "finishedInReading",
+  notifPromo: "promoNotifications",
+  notifInbox: "mainNotifications"
 };

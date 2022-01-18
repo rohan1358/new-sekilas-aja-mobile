@@ -83,6 +83,7 @@ import BookmarkDetail from "./bookmark-solid.svg";
 import SubscribeCard from "./SubscribeCard.svg";
 import Minimize from "./minimize.svg";
 import Maximize from "./maximize.svg";
+import NotifyActive from "./dot_notif.svg";
 
 export {
   Alert,
@@ -168,5 +169,6 @@ export {
   Minimize,
   Maximize,
   SkipBackFullScreen,
-  SkipForwardFullScreen
+  SkipForwardFullScreen,
+  NotifyActive
 };
