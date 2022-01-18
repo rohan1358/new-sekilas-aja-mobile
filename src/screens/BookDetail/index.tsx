@@ -200,10 +200,10 @@ export default function BookDetail({ navigation, route }: any) {
     };
   });
 
-  const navigationTopBar = (type = "", link = "") => {
+  const navigationTopBar = (type = "", link = "", page = 0) => {
     switch (type) {
       case "reading":
-        navigation.navigate("Reading", { id: book.id, page: 0, book });
+        navigation.navigate("Reading", { id: book.id, page: page || 0, book });
         break;
       case "listening":
         navigation.navigate(pages.Listening, {
@@ -265,7 +265,6 @@ export default function BookDetail({ navigation, route }: any) {
           {lockReadingListenViewBook ? (
             <>
               <Animated.View style={[styles.SelectBarUp, stylez]}>
-                {}
                 <Button
                   onPress={() => navigationTopBar("reading")}
                   style={styles.btnBar}
@@ -469,7 +468,15 @@ export default function BookDetail({ navigation, route }: any) {
                   </TextItem>
                   <View style={styles.boxListDaftar}>
                     {daftarIsi.map(({ title }, index) => (
-                      <Button key={index} style={styles.listDaftar}>
+                      <Button
+                        onPress={() => {
+                          !lockReadingListenViewBook
+                            ? setModalAllPlan(!modalAllPlan)
+                            : navigationTopBar("reading", "", index + 1);
+                        }}
+                        key={index}
+                        style={styles.listDaftar}
+                      >
                         <TextItem style={styles.textDfatar}>
                           Kilas {index + 1}: {title || ""}
                         </TextItem>
@@ -582,9 +589,9 @@ export default function BookDetail({ navigation, route }: any) {
                   {strings.buku_serupa}
                 </TextItem>
                 <Button>
-                  <TextItem style={styles.textLihatSemua}>
+                  {/* <TextItem style={styles.textLihatSemua}>
                     {strings.lihat_semua}
-                  </TextItem>
+                  </TextItem> */}
                 </Button>
               </View>
               <View style={styles.boxListBook}>
