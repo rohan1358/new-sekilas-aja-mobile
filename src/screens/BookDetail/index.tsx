@@ -472,7 +472,7 @@ export default function BookDetail({ navigation, route }: any) {
                         onPress={() => {
                           !lockReadingListenViewBook
                             ? setModalAllPlan(!modalAllPlan)
-                            : navigationTopBar("reading", "", index + 1);
+                            : navigationTopBar("reading", "", index);
                         }}
                         key={index}
                         style={styles.listDaftar}

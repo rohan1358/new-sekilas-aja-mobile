@@ -102,7 +102,7 @@ export default function Notification({ navigation }: any) {
               listNotifPromo.map((item: object, index: number) => (
                 <Card
                   onPress={(data: any) => {
-                    handleOpenNotif(data, firebaseNode.notifInbox);
+                    handleOpenNotif(data, firebaseNode.notifPromo);
                     navigation.navigate("ContentNotification", item);
                   }}
                   key={index}

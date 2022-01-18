@@ -8,30 +8,36 @@ const styles = StyleSheet.create({
   riwayatEmpty: {
     alignItems: "center",
     width: widthPercent(100),
-    height: heightPercent(60),
+    height: heightPercent(60)
   },
 
   imageEmpty: {
     width: "100%",
-    height: "100%",
+    height: "100%"
   },
 
   boxEmpty: {
-    alignItems: "center",
+    alignItems: "center"
   },
 
   notifEmpty: {
     fontSize: 32,
     fontWeight: "900",
-    color: neutralColor[90],
+    color: neutralColor[90]
   },
 
   tidak_ada_notif: {
     fontSize: 16,
     fontWeight: "500",
     color: neutralColor[60],
-    marginTop: 8,
+    marginTop: 8
   },
+  image: {
+    width: 400,
+    height: 200
+    // height: "100%"
+    // resizeMode: "cover"
+  }
 });
 
 export default styles;

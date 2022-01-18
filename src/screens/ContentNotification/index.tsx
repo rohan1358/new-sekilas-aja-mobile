@@ -52,6 +52,8 @@ export default function Notification({ navigation, route }: any) {
 
   const { title, content } = route.params;
 
+  console.log("params", route.params);
+
   return (
     <Base
       barColor={primaryColor.main}
@@ -68,12 +70,25 @@ export default function Notification({ navigation, route }: any) {
           style={{
             justifyContent: "center",
             flex: 1,
-            alignItems: "center"
+            alignItems: "center",
+            marginHorizontal: 5
           }}
         >
+          <Image style={styles.image} source={Notif2} />
           <TextItem
+            type="b.20.nc.90"
             style={{
               fontSize: 25,
+              textAlign: "center"
+            }}
+          >
+            {title}
+          </TextItem>
+
+          <TextItem
+            type="b.20.nc.90"
+            style={{
+              fontSize: 20,
               textAlign: "center"
             }}
           >
