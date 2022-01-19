@@ -59,7 +59,10 @@ export default function Notification({ navigation }: any) {
                     type="inbox"
                     onPress={(data: any) => {
                       handleOpenNotif(data, firebaseNode.notifInbox);
-                      navigation.navigate("ContentNotification", item);
+                      navigation.navigate("ContentNotification", {
+                        header: "Inbox",
+                        ...item
+                      });
                     }}
                   />
                 ))
@@ -103,7 +106,10 @@ export default function Notification({ navigation }: any) {
                 <Card
                   onPress={(data: any) => {
                     handleOpenNotif(data, firebaseNode.notifPromo);
-                    navigation.navigate("ContentNotification", item);
+                    navigation.navigate("ContentNotification", {
+                      ...item,
+                      header: "Promo"
+                    });
                   }}
                   key={index}
                   item={item}

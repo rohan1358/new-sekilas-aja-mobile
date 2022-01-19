@@ -27,7 +27,9 @@ export default function Card({ item, onPress }: any) {
             </View>
           )}
           <TextItem style={styles.title_active}>{title}</TextItem>
-          <TextItem style={styles.text_active}>{text || content}</TextItem>
+          <TextItem style={styles.text_active} numberOfLines={2}>
+            {text || content}
+          </TextItem>
           <TextItem style={styles.time_active}>
             {checkData(timestamp) && formatDate(timestamp.toDate())}
           </TextItem>
@@ -43,7 +45,9 @@ export default function Card({ item, onPress }: any) {
             </View>
           )}
           <TextItem style={styles.title}>{title}</TextItem>
-          <TextItem style={styles.text}>{text || content}</TextItem>
+          <TextItem style={styles.text} numberOfLines={2}>
+            {text || content}
+          </TextItem>
           <TextItem style={styles.time}>
             {checkData(timestamp) && formatDate(timestamp.toDate())}
           </TextItem>

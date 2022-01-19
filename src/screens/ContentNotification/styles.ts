@@ -1,4 +1,4 @@
-import { neutralColor } from "@constants";
+import { neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
 import { heightPercent, widthPercent } from "../../helpers";
 
@@ -33,10 +33,18 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   image: {
-    width: 400,
-    height: 200
+    width: 390,
+    height: 195,
+    alignSelf: "center"
     // height: "100%"
-    // resizeMode: "cover"
+  },
+  btnSubs: {
+    height: 64,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    marginTop: 20,
+    backgroundColor: "#434A6B"
   }
 });
 

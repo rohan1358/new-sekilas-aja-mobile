@@ -36,6 +36,8 @@ import { useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { Button } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { formatDate } from "../../utils";
+import ModalSubscribe from "./../../components/organism/ModalSubscribe/index";
 
 export default function Notification({ navigation, route }: any) {
   const {
@@ -45,14 +47,24 @@ export default function Notification({ navigation, route }: any) {
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleOpenNotif = (data: any, type: any) => {
     notifHasOpen(data.id, data.users, email, type);
   };
 
-  const { title, content } = route.params;
+  const { title, content, button, header, timestamp } = route.params;
 
-  console.log("params", route.params);
+  const { text, show, type, navigate } = button || {};
+
+  const changeActionButton = () => {
+    if (type === "modal") {
+      setModalVisible(true);
+    } else if (type === "navigate") {
+      const { to, param } = navigate;
+      navigation.navigate(to, param);
+    }
+  };
 
   return (
     <Base
@@ -65,48 +77,48 @@ export default function Notification({ navigation, route }: any) {
         isLoading={isLoading}
         layout={skeleton.mainHome}
       >
-        <HeaderNotification navigation={navigation} title={title} />
+        <HeaderNotification navigation={navigation} title={header} />
         <View
           style={{
-            justifyContent: "center",
             flex: 1,
-            alignItems: "center",
-            marginHorizontal: 5
+            marginTop: 10
           }}
         >
-          <Image style={styles.image} source={Notif2} />
-          <TextItem
-            type="b.20.nc.90"
+          <View
             style={{
-              fontSize: 25,
-              textAlign: "center"
+              width: "90%",
+              alignSelf: "center"
             }}
           >
-            {title}
-          </TextItem>
+            <Image style={styles.image} source={Notif2} />
+            <TextItem type="i.15.nc.90" style={{ marginTop: 20 }}>
+              {formatDate(timestamp.toDate(), "d-m-y")}
+            </TextItem>
 
-          <TextItem
-            type="b.20.nc.90"
-            style={{
-              fontSize: 20,
-              textAlign: "center"
-            }}
-          >
-            {content}
-          </TextItem>
-          <TouchableOpacity
-            style={{
-              backgroundColor: primaryColor.main,
-              paddingVertical: 10,
-              borderRadius: 10,
-              marginVertical: 10,
-              paddingHorizontal: 20
-            }}
-          >
-            <TextItem type="b.20.nc.90">Perpanjang Berlangganan</TextItem>
-          </TouchableOpacity>
+            <TextItem type="b.32.nc.90">{title}</TextItem>
+            <TextItem type="r.20.nc.90" style={{ marginTop: 8 }}>
+              {content}
+            </TextItem>
+            {show && (
+              <TouchableOpacity
+                onPress={() => changeActionButton()}
+                style={styles.btnSubs}
+              >
+                <TextItem
+                  type="b.24.nc.90"
+                  style={{ color: "#FBCF32", fontWeight: "bold" }}
+                >
+                  {text}
+                </TextItem>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </SkeletonContent>
+      <ModalSubscribe
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </Base>
   );
 }

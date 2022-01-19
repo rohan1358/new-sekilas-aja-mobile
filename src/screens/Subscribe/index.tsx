@@ -17,14 +17,14 @@ export default function Subscribe({ navigation }: SubscribeProps) {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: 0,
+      x: 0
     });
   };
   const handleNext = () => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(100),
+      x: widthPercent(100)
     });
   };
 
@@ -58,7 +58,7 @@ export default function Subscribe({ navigation }: SubscribeProps) {
         <View style={[styles.contentCard, statusBest && styles.backBlack]}>
           <TextItem
             style={[styles.hemat, statusBest && styles.colorPink]}
-          >{`${strings.hemat} ${strings.rp} 249.000`}</TextItem>
+          >{`${strings.hemat} ${strings.rp} ${item.hemat}`}</TextItem>
           <TextItem style={[styles.price, statusBest && styles.colorPrimary]}>
             <TextItem
               style={styles.textBold}
@@ -87,7 +87,7 @@ export default function Subscribe({ navigation }: SubscribeProps) {
         <View
           style={[
             styles.contentCard,
-            statusNormal ? styles.backBlack : styles.backWhite,
+            statusNormal ? styles.backBlack : styles.backWhite
           ]}
         >
           <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>
