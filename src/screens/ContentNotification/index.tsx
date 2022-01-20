@@ -26,11 +26,11 @@ import {
   strings
 } from "@constants";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import { Card } from "../../components/organism/PageNotification";
-import { NotifEmptyPng, PromoEmptyPng } from "@assets";
 import { Notif1, Notif2 } from "../../../assets/images";
-import { notifHasOpen } from "../../services/notification";
+import {
+  getCoverNotification,
+  notifHasOpen
+} from "../../services/notification";
 import { store } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { ReduxState } from "@rux";
@@ -48,6 +48,7 @@ export default function Notification({ navigation, route }: any) {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [coverNotif, setCoverNotif] = useState(false);
 
   const handleOpenNotif = (data: any, type: any) => {
     notifHasOpen(data.id, data.users, email, type);
@@ -55,7 +56,7 @@ export default function Notification({ navigation, route }: any) {
 
   const { title, content, button, header, timestamp } = route.params;
 
-  const { text, show, type, navigate } = button || {};
+  const { text, show, type, navigate, coverLink } = button || {};
 
   const changeActionButton = () => {
     if (type === "modal") {
@@ -65,6 +66,19 @@ export default function Notification({ navigation, route }: any) {
       navigation.navigate(to, param);
     }
   };
+
+  useEffect(() => {
+    getCoverNotification(coverLink)
+      .then((res: any) => {
+        if (res.data) {
+          setCoverNotif(res.data);
+        }
+      })
+      .catch((err) => {
+        setCoverNotif(Notif2);
+      });
+    // getImg()
+  }, []);
 
   return (
     <Base
@@ -90,7 +104,16 @@ export default function Notification({ navigation, route }: any) {
               alignSelf: "center"
             }}
           >
-            <Image style={styles.image} source={Notif2} />
+            {coverNotif && (
+              <Image
+                style={styles.image}
+                source={
+                  typeof coverNotif === "string"
+                    ? { uri: coverNotif }
+                    : coverNotif
+                }
+              />
+            )}
             <TextItem type="i.15.nc.90" style={{ marginTop: 20 }}>
               {formatDate(timestamp.toDate(), "d-m-y")}
             </TextItem>

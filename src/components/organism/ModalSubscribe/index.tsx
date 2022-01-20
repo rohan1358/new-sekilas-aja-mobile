@@ -174,7 +174,13 @@ export default function ModalSubscribe({
         >
           <View style={styles.content}>
             <View style={styles.boxExit}>
-              <Button onPress={() => exitPage()} style={styles.btn}>
+              <Button
+                onPress={() => {
+                  console.log("clicked");
+                  // exitPage()
+                }}
+                style={styles.btn}
+              >
                 <Exit />
               </Button>
             </View>

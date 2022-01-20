@@ -20,7 +20,8 @@ import {
   SpecialBookList,
   Subscribe,
   Watching,
-  ContentNotification
+  ContentNotification,
+  Explore
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -60,6 +61,10 @@ const MainRoute = () => {
         component={!isFirstTime ? Home : MainBottomRoute}
         // component={Home}
       />
+      {/* <Stack.Screen
+        name={"Explore"}
+        component={!isFirstTime ? Explore : MainBottomRoute}
+      /> */}
       <Stack.Screen name={"SignIn"} component={SignIn} />
 
       {profile && (

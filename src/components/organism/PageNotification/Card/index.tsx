@@ -23,7 +23,9 @@ export default function Card({ item, onPress }: any) {
           setCoverNotif(res.data);
         }
       })
-      .catch((err) => [setCoverNotif(Notif2)]);
+      .catch((err) => {
+        setCoverNotif(Notif2);
+      });
     // getImg()
   }, []);
 
