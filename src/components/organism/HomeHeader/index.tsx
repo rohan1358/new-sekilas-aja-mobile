@@ -1,11 +1,13 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { Amage, Button, Gap, TextItem } from "../../atom";
-import { Bell, UserPlaceholder } from "../../../../assets";
+import { Bell, NotifyActive, UserPlaceholder } from "../../../../assets";
 import { neutralColor, spacing as sp, strings } from "../../../constants";
 import styles from "./styles";
 import { useIsFocused } from "@react-navigation/native";
 import { primaryColor } from "@constants";
+import { useSelector } from "react-redux";
+import { ReduxState } from "@rux";
 
 const HomeHeader = ({
   name = "",
@@ -14,6 +16,20 @@ const HomeHeader = ({
   onPressProfile
 }: HomeHeaderProps) => {
   const isFocus = useIsFocused();
+
+  const {
+    notifRedux: { listNotifInbox, listNotifPromo },
+    sessionReducer: { email }
+  } = useSelector((state: ReduxState) => state);
+
+  const checkingNotif = () => {
+    let all = [...listNotifInbox, ...listNotifPromo];
+
+    const checked = all.find((data) => {
+      return !data.users.includes(email);
+    });
+    return checked;
+  };
 
   return (
     <View style={styles.container}>
@@ -57,6 +73,12 @@ const HomeHeader = ({
             }}
           >
             <Bell stroke={neutralColor[90]} />
+            {checkingNotif() && (
+              <NotifyActive
+                style={{ position: "absolute", bottom: 10, right: 10 }}
+                color={"green"}
+              />
+            )}
           </Button>
         </>
       ) : (

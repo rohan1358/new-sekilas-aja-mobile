@@ -13,7 +13,6 @@ const ImageBanner = ({ source, data }: ImageBannerProps) => {
       <TouchableOpacity
         onPress={() => {
           move.navigate("BookDetail", { id: data?.bookTitle });
-          // console.log({ id: data });
         }}
       >
         <Amage style={styles.image} source={source} />

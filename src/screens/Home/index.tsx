@@ -57,6 +57,11 @@ import { getLastReading } from "../../services/trackReading";
 import { checkData } from "../../utils";
 import { useCallback } from "react";
 import firestore from "@react-native-firebase/firestore";
+import {
+  fetchNotifInbox,
+  fetchNotifPrivate,
+  fetchNotifPromo
+} from "../../services/notification";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -81,6 +86,13 @@ const Home = () => {
   const [lastReading, setLastReading] = useState({ book: false });
   const [loading, setLoading] = useState(false);
   const [carousel, setCarousel] = useState(false);
+
+  useEffect(() => {
+    console.log("end_date", profile.end_date);
+    fetchNotifPromo();
+    fetchNotifInbox();
+    fetchNotifPrivate();
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -150,7 +162,6 @@ const Home = () => {
           cover={item?.book_cover}
           //@ts-ignore
           onPress={(id) => {
-            // console.log("id", id);
             navigation.navigate("BookDetail", { id });
           }}
           //@ts-ignore

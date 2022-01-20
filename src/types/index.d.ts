@@ -16,6 +16,7 @@ type MainBottomTabParamList = {
 };
 
 type RootStackParamList = {
+  ContentNotification: undefined;
   About: undefined;
   AccountSettings: undefined;
 
