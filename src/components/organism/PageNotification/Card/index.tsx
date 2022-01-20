@@ -36,9 +36,9 @@ export default function Card({ item, onPress }: any) {
           onPress={() => onPress && onPress(item)}
           style={styles.container_active}
         >
-          {coverNotif && (
+          {coverLink && (
             <View style={styles.boxImage}>
-              <Image style={styles.image} source={{ uri: coverNotif }} />
+              <Image style={styles.image} source={{ uri: coverLink }} />
             </View>
           )}
           <TextItem style={styles.title_active}>{title}</TextItem>
@@ -54,9 +54,9 @@ export default function Card({ item, onPress }: any) {
           onPress={() => onPress && onPress(item)}
           style={styles.container}
         >
-          {coverNotif && (
+          {coverLink && (
             <View style={[styles.boxImage, styles.boxImageAnActive]}>
-              <Image style={styles.image} source={{ uri: coverNotif }} />
+              <Image style={styles.image} source={{ uri: coverLink }} />
             </View>
           )}
           <TextItem style={styles.title}>{title}</TextItem>

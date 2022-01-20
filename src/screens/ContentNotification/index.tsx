@@ -104,15 +104,8 @@ export default function Notification({ navigation, route }: any) {
               alignSelf: "center"
             }}
           >
-            {coverNotif && typeof coverNotif === "string" && (
-              <Image
-                style={styles.image}
-                source={
-                  typeof coverNotif === "string"
-                    ? { uri: coverNotif }
-                    : coverNotif
-                }
-              />
+            {coverLink && (
+              <Image style={styles.image} source={{ uri: coverLink }} />
             )}
             <TextItem type="i.15.nc.90" style={{ marginTop: 20 }}>
               {formatDate(timestamp.toDate(), "d-m-y")}
