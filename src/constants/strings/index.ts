@@ -12,7 +12,8 @@ export const strings = {
   ambil_langsung: "Ambil langsung",
   audio_Account: "Pengaturan Audio",
   akses_online: "Akses secara offline.",
-  akses_penuh: "Akses penuh untuk semua ringkasan buku, tanpa batas!",
+  akses_penuh: "20+ rangkuman BUKU BARU per BULAN!",
+  addFinishingRead: "berhasil di masukan ke daftar buku selesai di baca",
 
   baca: "Baca",
   bahasa: "Pilihan Bahasa",
@@ -40,6 +41,7 @@ export const strings = {
   camera_unavailable: "Kamera tidak tersedia di perangkat",
   continueReading: "Lanjutkan membaca",
   cacel: "Cancel",
+  cancleFinishingRead: "berhasil manghapus dari daftar buku selesai di baca",
 
   daftar_isi: "Daftar Isi",
   data_kosong: "Data kosong",
@@ -49,8 +51,7 @@ export const strings = {
   dontHaveAcc: "Belum punya akun?",
   downloadedBooks: "Buku yang diunduh",
   download_Account: "Pengaturan Download",
-  dapatkan_ringkasan:
-    "Dapatkan semua ringkasan buku dengan upgrade ke premium sekarang!",
+  dapatkan_ringkasan: "Dapatkan semua akses sekarang!",
   dua_belas_bula: "12 Bulan",
   didepan: " bulan di depan.",
 
@@ -88,7 +89,8 @@ export const strings = {
     "Sepertinya kilas buku ini masih kosong, kamu bisa coba lirik buku lain dulu.",
   kirim: "Kirim",
   komentar: "Komentar",
-  tidak_ada_komentar: "tidak ada komentar",
+  kilas: "kilas",
+  kembaliKeHome: "Kembali ke halaman beranda",
   kualitas: "Kualitas Audio",
   kualitas_video: "Kualitas Video",
   kualitas_download: "Kualitas Download",
@@ -96,7 +98,7 @@ export const strings = {
   kecepatan_video: "Kecepatan Video",
   kecepatan_audio: "Kecepatan Audio",
   keuntungan: "Keuntungan yang didapat dengan upgrade ke premium adalah:",
-  kilas_buku: "Dapatkan 100++ rangkuman buku terbaik dunia",
+  kilas_buku: "100+ rangkuman buku terbaik DUNIA!",
 
   lalu: " lalu",
   lastReadClue: "Eksplor kilas buku terpopuler",
@@ -122,8 +124,7 @@ export const strings = {
   masa_Account: "Masa Berlaku Premium",
   mode_offline: "Mode Offline",
   myFavorite: "Bukuku",
-  membuka_semua:
-    "Membuka semua format ringkasan buku, mulai dari: Audio & Video.",
+  membuka_semua: "Selesaikan 1 buku hanya dalam 15 MENIT",
 
   name: "Nama",
   numberPhone: "Nomor Hp",
@@ -229,6 +230,7 @@ export const strings = {
   text_promo: "Kamu akan diberitahu setiap ada promo diskon atau voucher.",
   tonton: "Tonton",
   tentang_buku: "Tentang Buku",
+  tidak_ada_komentar: "tidak ada komentar",
 
   ulasan: "Ulasan",
   ulasan_dari: "Ulasan dari ",
@@ -249,8 +251,10 @@ export const strings = {
 
   zona: "Zona",
 
-  kilas: "kilas",
-  kembaliKeHome: "Kembali ke halaman beranda",
-  cancleFinishingRead: "berhasil manghapus dari daftar buku selesai di baca",
-  addFinishingRead: "berhasil di masukan ke daftar buku selesai di baca"
+  bentuk_tersedia: "Buku tersedia dalam bentuk VIDEO, AUDIO, dan TEXT",
+  belajar_live: "Belajar secara live dengan mentor",
+  webinar_gratis: "Webinar GRATIS SETIAP MINGGU!",
+  rekaman_webinar: "Tersedia Rekaman video webinar sebelumnya",
+  artikel_pembelajaran: "50+ Artikel pembelajaran",
+  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif",
 };
