@@ -17,7 +17,7 @@ export default function ModalSubscribe({
   ...props
 }: ModalSubscribeProps) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
   } = useSelector((state: ReduxState) => state);
 
   const refScroll = useRef();
@@ -32,14 +32,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
   const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to)
+      x: widthPercent(to),
     });
   };
 
@@ -188,26 +188,68 @@ export default function ModalSubscribe({
               <View style={styles.boxWhite}>
                 {/* <View style={styles.list}>
                 <Check color={neutralColor[70]} />
-                <TextItem type="r.16.nc.70" style={styles.textList}>
+                <TextItem type="r.14.nc.70" style={styles.textList}>
                   {strings.akses_online}
                 </TextItem>
               </View> */}
                 <View style={styles.list}>
                   <Check color={neutralColor[70]} />
-                  <TextItem type="r.16.nc.70" style={styles.textList}>
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
                     {strings.kilas_buku}
                   </TextItem>
                 </View>
                 <View style={styles.list}>
                   <Check color={neutralColor[70]} />
-                  <TextItem type="r.16.nc.70" style={styles.textList}>
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
                     {strings.akses_penuh}
                   </TextItem>
                 </View>
                 <View style={styles.list}>
                   <Check color={neutralColor[70]} />
-                  <TextItem type="r.16.nc.70" style={styles.textList}>
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
                     {strings.membuka_semua}
+                  </TextItem>
+                </View>
+
+                <View style={styles.list}>
+                  <Check color={neutralColor[70]} />
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
+                    {strings.bentuk_tersedia}
+                  </TextItem>
+                </View>
+
+                <View style={styles.list}>
+                  <Check color={neutralColor[70]} />
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
+                    {strings.belajar_live}
+                  </TextItem>
+                </View>
+
+                <View style={styles.list}>
+                  <Check color={neutralColor[70]} />
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
+                    {strings.webinar_gratis}
+                  </TextItem>
+                </View>
+
+                <View style={styles.list}>
+                  <Check color={neutralColor[70]} />
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
+                    {strings.rekaman_webinar}
+                  </TextItem>
+                </View>
+
+                <View style={styles.list}>
+                  <Check color={neutralColor[70]} />
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
+                    {strings.artikel_pembelajaran}
+                  </TextItem>
+                </View>
+
+                <View style={styles.list}>
+                  <Check color={neutralColor[70]} />
+                  <TextItem type="r.14.nc.70" style={styles.textList}>
+                    {strings.tergabung_komunitas}
                   </TextItem>
                 </View>
               </View>
