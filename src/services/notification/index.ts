@@ -4,6 +4,7 @@ import {
   handleLoadFetchNotif
 } from "@actions";
 import firestore from "@react-native-firebase/firestore";
+import { formatDate } from "../../utils/index";
 import { store } from "../../redux/store";
 
 export const fetchNotifPromo = () => {
@@ -97,6 +98,36 @@ export const fetchNotifInbox = () => {
         isSuccess: false,
         isFailed: true
       });
+    }
+  });
+};
+
+export const fetchNotifPrivate = () => {
+  new Promise(async (resolve, reject) => {
+    try {
+      const { email } = store.getState().sessionReducer;
+      const { profile } = store.getState().editProfile;
+      const { end_date, is_subscribed } = profile;
+      console.log(
+        "email",
+        email,
+        "profile",
+        is_subscribed,
+        "profile",
+        profile,
+        "end_date",
+        end_date
+      );
+
+      const new_end_date = formatDate(end_date.toDate(), "");
+      console.log("new_end_date", new_end_date);
+      const listMyNotif = await firestore()
+        .collection("automatedNotification")
+        .doc(store.getState().sessionReducer.email)
+        .get();
+      let data = listMyNotif.data();
+    } catch (err) {
+      console.log("err", err);
     }
   });
 };
