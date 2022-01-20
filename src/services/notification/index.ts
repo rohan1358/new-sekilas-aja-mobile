@@ -6,6 +6,7 @@ import {
 import firestore from "@react-native-firebase/firestore";
 import { formatDate } from "../../utils/index";
 import { store } from "../../redux/store";
+import storage from "@react-native-firebase/storage";
 
 export const fetchNotifPromo = () => {
   return new Promise((resolve, reject) => {
@@ -133,6 +134,28 @@ export const createNotifPromo = (data: any) => {
         });
     } catch {
       reject({ status: "failed", isSuccess: false, isFailed: true });
+    }
+  });
+};
+
+//Method to get book cover image from firebase storage
+export const getCoverNotification = async (referenceName: string) => {
+  return new Promise(async (resolve, reject) => {
+    // var refName = "Book_Cover_Images/" + referenceName + " Cover.png";
+    var refName = `notification/${referenceName}`;
+    var imgRef = storage().ref().child(refName);
+
+    try {
+      var url = await imgRef.getDownloadURL();
+      resolve({
+        data: url,
+        status: "success"
+      });
+    } catch (err: any) {
+      reject({
+        data: false,
+        status: "success"
+      });
     }
   });
 };

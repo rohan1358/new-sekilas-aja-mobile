@@ -1,18 +1,31 @@
-import { Notif2 } from "@assets";
 import { Button, TextItem } from "@components";
 import { ReduxState } from "@rux";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import { useSelector } from "react-redux";
 import { checkData, formatDate } from "../../../../utils";
 import styles from "./styles";
+import { getCoverNotification } from "./../../../../services/notification/index";
 
 export default function Card({ item, onPress }: any) {
   const {
     sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
-  const { users, text, content, title, timestamp } = item;
+  const [coverNotif, setCoverNotif] = useState(false);
+
+  const { users, text, content, title, timestamp, coverLink } = item;
+
+  useEffect(() => {
+    getCoverNotification(coverLink)
+      .then((res: any) => {
+        if (res.data) {
+          setCoverNotif(res.data);
+        }
+      })
+      .catch((err) => [setCoverNotif(Notif2)]);
+    // getImg()
+  }, []);
 
   return (
     <>
@@ -21,9 +34,9 @@ export default function Card({ item, onPress }: any) {
           onPress={() => onPress && onPress(item)}
           style={styles.container_active}
         >
-          {Notif2 && (
+          {coverNotif && (
             <View style={styles.boxImage}>
-              <Image style={styles.image} source={Notif2} />
+              <Image style={styles.image} source={{ uri: coverNotif }} />
             </View>
           )}
           <TextItem style={styles.title_active}>{title}</TextItem>
@@ -39,9 +52,9 @@ export default function Card({ item, onPress }: any) {
           onPress={() => onPress && onPress(item)}
           style={styles.container}
         >
-          {Notif2 && (
+          {coverNotif && (
             <View style={[styles.boxImage, styles.boxImageAnActive]}>
-              <Image style={styles.image} source={Notif2} />
+              <Image style={styles.image} source={{ uri: coverNotif }} />
             </View>
           )}
           <TextItem style={styles.title}>{title}</TextItem>
