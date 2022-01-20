@@ -54,9 +54,9 @@ export default function Notification({ navigation, route }: any) {
     notifHasOpen(data.id, data.users, email, type);
   };
 
-  const { title, content, button, header, timestamp } = route.params;
+  const { title, content, button, header, timestamp, coverLink } = route.params;
 
-  const { text, show, type, navigate, coverLink } = button || {};
+  const { text, show, type, navigate } = button || {};
 
   const changeActionButton = () => {
     if (type === "modal") {
@@ -104,7 +104,7 @@ export default function Notification({ navigation, route }: any) {
               alignSelf: "center"
             }}
           >
-            {coverNotif && (
+            {coverNotif && typeof coverNotif === "string" && (
               <Image
                 style={styles.image}
                 source={
