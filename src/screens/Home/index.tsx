@@ -88,7 +88,6 @@ const Home = () => {
   const [carousel, setCarousel] = useState(false);
 
   useEffect(() => {
-    console.log("end_date", profile.end_date);
     fetchNotifPromo();
     fetchNotifInbox();
     fetchNotifPrivate();

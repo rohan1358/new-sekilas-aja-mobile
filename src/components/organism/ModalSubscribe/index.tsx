@@ -6,7 +6,6 @@ import { Modal, ScrollView, View } from "react-native";
 import { widthPercent } from "../../../helpers";
 import { Button, TextItem } from "../../atom";
 import Payment from "../ChildModalSubs/Payment";
-import paketList from "./dummy";
 import styles from "./styles";
 import firestore from "@react-native-firebase/firestore";
 import { useSelector } from "react-redux";
@@ -18,12 +17,14 @@ export default function ModalSubscribe({
   ...props
 }: ModalSubscribeProps) {
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const refScroll = useRef();
 
   const [statusBest, setBest] = useState(true);
+  const [paketList, setPaketList] = useState(false);
+
   const [statusNormal, setNormal] = useState(false);
   const [btnBack, setBtnBack] = useState(false);
 
@@ -31,14 +32,14 @@ export default function ModalSubscribe({
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to),
+      x: widthPercent(to)
     });
   };
   const handleNext = (to: any) => {
     refScroll.current?.scrollTo({
       animatde: true,
       y: 0,
-      x: widthPercent(to),
+      x: widthPercent(to)
     });
   };
 
@@ -60,6 +61,13 @@ export default function ModalSubscribe({
 
   useEffect(() => {
     const fetchProfileRealtime = async () => {
+      const fetchPricing = await firestore().collection("pricing").get();
+      const arrPromise = fetchPricing.docChanges().map((data) => {
+        return { ...data.doc.data() };
+      });
+
+      setPaketList(arrPromise);
+
       try {
         await firestore()
           .collection(firebaseNode.users)
@@ -94,7 +102,7 @@ export default function ModalSubscribe({
         </View>
         <View style={[styles.contentCard, styles.boxBest]}>
           <TextItem type="b.18.nc.90">
-            Paket {item.mount + " " + strings.bulan}
+            Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
             <TextItem style={styles.textBold}>{`${
@@ -106,7 +114,7 @@ export default function ModalSubscribe({
             strings.rp
           }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
-            {strings.pembayaran_langsung + item.mount + strings.didepan}
+            {strings.pembayaran_langsung + item.month + strings.didepan}
           </TextItem>
         </View>
         <View style={[styles.chevronRight, styles.bgYellow]}>
@@ -127,7 +135,7 @@ export default function ModalSubscribe({
         ></View> */}
         <View style={[styles.contentCard]}>
           <TextItem type="b.18.nc.90" style={styles.colorBlack}>
-            Paket {item.mount + " " + strings.bulan}
+            Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
             <TextItem style={styles.textBold}>{`${
@@ -136,7 +144,7 @@ export default function ModalSubscribe({
             {`/${strings.bulan}`}
           </TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
-            {strings.pembayaran_langsung + item.mount + strings.didepan}
+            {strings.pembayaran_langsung + item.month + strings.didepan}
           </TextItem>
         </View>
         <View style={styles.chevronRight}>
@@ -223,13 +231,14 @@ export default function ModalSubscribe({
                 {strings.pilihan_paket}
               </TextItem>
               <View style={styles.boxListCard}>
-                {paketList.map((item, index) =>
-                  item.type == "best" ? (
-                    <CardBest item={item} key={index} />
-                  ) : (
-                    <CardNormal item={item} key={index} />
-                  )
-                )}
+                {Array.isArray(paketList) &&
+                  paketList.map((item, index) =>
+                    item.type == "best" ? (
+                      <CardBest item={item} key={index} />
+                    ) : (
+                      <CardNormal item={item} key={index} />
+                    )
+                  )}
               </View>
               <View>
                 {/* <Button onPress={() => handleNext(200)} style={styles.btnPilih}>

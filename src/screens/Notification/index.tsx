@@ -51,7 +51,7 @@ export default function Notification({ navigation }: any) {
         {!loading && (
           <>
             <View>
-              {Array.isArray(listNotifInbox) ? (
+              {Array.isArray(listNotifInbox) && listNotifInbox.length > 0 ? (
                 listNotifInbox.map((item: any, index: any) => (
                   <Card
                     key={index}
@@ -101,7 +101,7 @@ export default function Notification({ navigation }: any) {
           <></>
         ) : (
           <>
-            {Array.isArray(listNotifPromo) ? (
+            {Array.isArray(listNotifPromo) && listNotifPromo.length > 0 ? (
               listNotifPromo.map((item: object, index: number) => (
                 <Card
                   onPress={(data: any) => {

@@ -150,7 +150,6 @@ const Home = () => {
           cover={item?.book_cover}
           //@ts-ignore
           onPress={(id) => {
-            // console.log("id", id);
             navigation.navigate("BookDetail", { id });
           }}
           //@ts-ignore
@@ -173,7 +172,6 @@ const Home = () => {
           cover={item?.book_cover}
           //@ts-ignore
           onPress={(id) => {
-            // console.log("id", id);
             navigation.navigate("BookDetail", { id });
           }}
           //@ts-ignore

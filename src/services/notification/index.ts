@@ -108,27 +108,14 @@ export const fetchNotifPrivate = () => {
       const { email } = store.getState().sessionReducer;
       const { profile } = store.getState().editProfile;
       const { end_date, is_subscribed } = profile;
-      console.log(
-        "email",
-        email,
-        "profile",
-        is_subscribed,
-        "profile",
-        profile,
-        "end_date",
-        end_date
-      );
 
       const new_end_date = formatDate(end_date.toDate(), "");
-      console.log("new_end_date", new_end_date);
       const listMyNotif = await firestore()
         .collection("automatedNotification")
         .doc(store.getState().sessionReducer.email)
         .get();
       let data = listMyNotif.data();
-    } catch (err) {
-      console.log("err", err);
-    }
+    } catch (err) {}
   });
 };
 
