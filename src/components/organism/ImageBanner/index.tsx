@@ -8,11 +8,19 @@ import { useNavigation } from "@react-navigation/native";
 const ImageBanner = ({ source, data }: ImageBannerProps) => {
   const move = useNavigation();
 
+  const handleNavigation = () => {
+    if (data?.type === "book") {
+      move.navigate("BookDetail", { id: data?.bookTitle });
+    } else if (data?.type === "navigate") {
+      move.navigate(data?.navigate.to, data?.navigate.param);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          move.navigate("BookDetail", { id: data?.bookTitle });
+          handleNavigation();
         }}
       >
         <Amage style={styles.image} source={source} />

@@ -8,6 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { primaryColor } from "@constants";
 import { useSelector } from "react-redux";
 import { ReduxState } from "@rux";
+import messaging from "@react-native-firebase/messaging";
 
 const HomeHeader = ({
   name = "",
@@ -19,7 +20,8 @@ const HomeHeader = ({
 
   const {
     notifRedux: { listNotifInbox, listNotifPromo },
-    sessionReducer: { email }
+    sessionReducer: { email, isLogin },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const checkingNotif = () => {
@@ -29,6 +31,48 @@ const HomeHeader = ({
       return !data.users.includes(email);
     });
     return checked;
+  };
+
+  const pushNotification = () => {
+    console.log("profile", profile.FcmToken);
+    const message = {
+      data: {
+        content: "New updates are available!"
+      },
+      condition:
+        "'weather' in topics && ('news' in topics || 'traffic' in topics)"
+    };
+
+    fetch(
+      "https://fcm.googleapis.com/v1/projects/sekilasaja-999fd/messages:send",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer AIzaSyDBJWkmZN2Lg3Y1nyT1rTSy0A6ae71GcBk"
+        },
+        body: JSON.stringify({
+          message: {
+            token:
+              "fXgVqXNTTxW_SiERmwYwa7:APA91bEnSyGAwk9X3R1FuYxtL8qiyjaTNXFFZCXelVgQeofMGMVA_GAYhmoPbHphQlnXMsktr4mhpWXi_Rnpuw6457m8WjwyUfeHHeRYMDmuDsm6Vy598uiRjp0OmHZc10kaY5wCFvZH",
+            data: {},
+            notification: {
+              body: "This is an FCM notification message!",
+              title: "FCM Message"
+            }
+          }
+        })
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   return (
@@ -69,6 +113,7 @@ const HomeHeader = ({
           <Button
             style={styles.iconContainer}
             onPress={() => {
+              // pushNotification();
               name && onBellPress();
             }}
           >
