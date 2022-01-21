@@ -13,13 +13,13 @@ const setTrackingLastReadLinten = (email: any, data: any) => {
 const getLastReading = async (email: string) => {
   return new Promise<FetchResponseLastRead>(async (resolve, reject) => {
     try {
-      const lastRead = await firestore()
+      const lastRead: any = await firestore()
         .collection("lastReadBook")
         .doc(email)
         .get();
 
       resolve({
-        data: lastRead.data().book,
+        data: lastRead?.data().book,
         message: "success",
         isSuccess: true,
         error: false

@@ -127,20 +127,21 @@ const Reading = () => {
   const getDetailBook = async () => {
     try {
       const [detailBook] = await Promise.all([fetchDetailBooks(BOOK_ID)]);
-      const book_cover = await getBookCoverImageURL(
-        detailBook?.data.book_title
-      ).then((res) => {
-        // parseInt(route.params?.page) || 0
-        setTrackingLastReadLinten(email, {
-          book: {
-            book: detailBook?.data.book_title,
-            book_cover,
-            kilas: parseInt(route?.params?.page) || 0
-          }
-        });
-        setDetailBook({ ...detailBook.data, book_cover });
-      });
-    } catch {}
+      await getBookCoverImageURL(detailBook?.data.book_title).then(
+        (book_cover) => {
+          // parseInt(route.params?.page) || 0
+          setTrackingLastReadLinten(email, {
+            book: {
+              book: detailBook?.data?.book_title,
+              book_cover,
+              kilas: parseInt(route?.params?.page) || 0
+            }
+          });
+
+          setDetailBook({ ...detailBook.data, book_cover });
+        }
+      );
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -357,7 +358,6 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
           book: checkData(BOOK) ? BOOK : detailBook
         });
         break;
-
       default:
         break;
     }
