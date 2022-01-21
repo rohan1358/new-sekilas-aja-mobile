@@ -129,16 +129,17 @@ const Reading = () => {
       const [detailBook] = await Promise.all([fetchDetailBooks(BOOK_ID)]);
       const book_cover = await getBookCoverImageURL(
         detailBook?.data.book_title
-      );
-      // parseInt(route.params?.page) || 0
-      setTrackingLastReadLinten(email, {
-        book: {
-          book: detailBook?.data.book_title,
-          book_cover,
-          kilas: parseInt(route.params?.page) || 0
-        }
+      ).then((res) => {
+        // parseInt(route.params?.page) || 0
+        setTrackingLastReadLinten(email, {
+          book: {
+            book: detailBook?.data.book_title,
+            book_cover,
+            kilas: parseInt(route?.params?.page) || 0
+          }
+        });
+        setDetailBook({ ...detailBook.data, book_cover });
       });
-      setDetailBook({ ...detailBook.data, book_cover });
     } catch {}
   };
 

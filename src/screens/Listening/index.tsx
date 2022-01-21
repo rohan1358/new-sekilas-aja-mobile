@@ -80,7 +80,6 @@ export default function Listening({ navigation, route }: any) {
   const [authorTrack, setAuthor] = useState();
   const [bab, setBab] = useState(0);
   const [listBab, setListbab] = useState(false);
-  const [dataUser, setDataUser] = useState<ProfileProps>();
 
   const setupPlayer = async () => {
     const listKilas = await getKilas(book?.book_title);
@@ -172,6 +171,7 @@ export default function Listening({ navigation, route }: any) {
 
   useEffect(() => {
     setValue(progress.position);
+    console.log("resolve", progress.position);
   }, [progress.position]);
 
   useEffect(() => {
@@ -191,7 +191,6 @@ export default function Listening({ navigation, route }: any) {
       const [profileData] = await Promise.all([fetchProfile(email)]);
 
       if (profileData.isSuccess) {
-        setDataUser(profileData.data);
       } else {
         throw new Error("Fail on fetching profile data");
       }
@@ -236,8 +235,9 @@ export default function Listening({ navigation, route }: any) {
   const [newCover, setNewCover] = useState<any>("");
 
   const newGetCover = async () => {
-    const getCover = await getBookCoverImageURL(book?.book_title);
-    setNewCover(getCover);
+    getBookCoverImageURL(book?.book_title).then((res) => {
+      setNewCover(res);
+    });
   };
   return (
     <Base

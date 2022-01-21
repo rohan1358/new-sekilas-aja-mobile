@@ -33,8 +33,9 @@ const BookTile = ({
   const [newCover, setNewCover] = useState<any>("");
 
   const newGetCover = async () => {
-    const getCover = await getBookCoverImageURL(title);
-    setNewCover(getCover);
+    getBookCoverImageURL(title).then((res) => {
+      setNewCover(res);
+    });
   };
 
   useEffect(() => {

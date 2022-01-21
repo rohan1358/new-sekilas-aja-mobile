@@ -233,8 +233,9 @@ export default function BookDetail({ navigation, route }: any) {
   };
 
   const newGetCover = async (param: any) => {
-    const getCover = await getBookCoverImageURL(param?.book_title);
-    setNewCover(getCover);
+    getBookCoverImageURL(param?.book_title).then((res) => {
+      setNewCover(res);
+    });
   };
 
   const lockReadingListenViewBook =
@@ -480,7 +481,14 @@ export default function BookDetail({ navigation, route }: any) {
                         <TextItem style={styles.textDfatar}>
                           Kilas {index + 1}: {title || ""}
                         </TextItem>
-                        <ChevronRight color={neutralColor[50]} />
+                        <ChevronRight
+                          style={{
+                            position: "absolute",
+                            right: 2,
+                            marginVertical: "40%"
+                          }}
+                          color={neutralColor[50]}
+                        />
                       </Button>
                     ))}
                   </View>

@@ -309,19 +309,21 @@ const fetchListCategory = async () =>
   ).data();
 
 //Method to get book cover image from firebase storage
-const getBookCoverImageURL = async (referenceName: string) => {
-  // var refName = "Book_Cover_Images/" + referenceName + " Cover.png";
-  var refName = "Book_Cover_Images_JPG/" + referenceName + " Cover.jpg";
-  var imgRef = storage().ref().child(refName);
+const getBookCoverImageURL = (referenceName: string) => {
+  return new Promise(async (resolve, reject) => {
+    // var refName = "Book_Cover_Images/" + referenceName + " Cover.png";
+    var refName = "Book_Cover_Images_JPG/" + referenceName + " Cover.jpg";
+    var imgRef = storage().ref().child(refName);
 
-  try {
-    var url = await imgRef.getDownloadURL();
-    if (url) {
-      return url;
+    try {
+      var url = await imgRef.getDownloadURL();
+      if (url) {
+        resolve(url);
+      }
+    } catch (err: any) {
+      resolve("");
     }
-  } catch (err: any) {
-    return "";
-  }
+  });
 };
 
 export {
