@@ -130,13 +130,13 @@ const Reading = () => {
       await getBookCoverImageURL(detailBook?.data.book_title).then(
         (book_cover) => {
           // parseInt(route.params?.page) || 0
-          setTrackingLastReadLinten(email, {
-            book: {
-              book: detailBook?.data?.book_title,
-              book_cover,
-              kilas: parseInt(route?.params?.page) || 0
-            }
-          });
+          // setTrackingLastReadLinten(email, {
+          //   book: {
+          //     book: detailBook?.data?.book_title,
+          //     book_cover,
+          //     kilas: parseInt(route?.params?.page) || 0
+          //   }
+          // });
 
           setDetailBook({ ...detailBook.data, book_cover });
         }
@@ -185,23 +185,38 @@ const Reading = () => {
   const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
 
   const onMark = () => {
-    firestore()
-      .collection(firebaseNode.lastReadBook)
-      .doc(email)
-      .update({
-        "book.book": BOOK_ID,
-        "book.kilas": currentPage + 1
-      })
-      .then(() => {
+    console.log("currentPage", currentPage);
+    setTrackingLastReadLinten(email, {
+      book: {
+        book: detailBook?.book_title,
+        book_cover: detailBook?.book_cover,
+        kilas: currentPage + 1
+      }
+    })
+      .then((res) => {
         setSnackState(ss.successState(strings.marked));
-      })
-      .catch(() => {
-        setSnackState(ss.failState(strings.markFailed));
-      })
-      .finally(() => {
         onTap();
         overlayRef.current?.close();
+      })
+      .catch((err) => {
+        setSnackState(ss.failState(strings.markFailed));
       });
+
+    // firestore()
+    //   .collection(firebaseNode.lastReadBook)
+    //   .doc(email)
+    //   .update({
+    //     "book.book": BOOK_ID,
+    //     "book.kilas": currentPage + 1
+    //   })
+    //   .then(() => {
+
+    //   })
+    //   .catch(() => {
+    //   })
+    //   .finally(() => {
+
+    //   });
   };
 
   const fetchListFinishingRead = async () => {
@@ -261,27 +276,11 @@ const Reading = () => {
     setCurrentPage((current) =>
       current < (content?.numberOfPage || 0) - 1 ? current + 1 : current
     );
-
-    setTrackingLastReadLinten(email, {
-      book: {
-        book: detailBook?.book_title,
-        book_cover: detailBook?.book_cover,
-        kilas: currentPage + 1
-      }
-    });
   };
 
   const onPrevPress = async () => {
     scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
     setCurrentPage((current) => (current > 0 ? current - 1 : current));
-
-    setTrackingLastReadLinten(email, {
-      book: {
-        book: detailBook?.book_title,
-        book_cover: detailBook?.book_cover,
-        kilas: currentPage - 1
-      }
-    });
   };
 
   const onTap = () => {

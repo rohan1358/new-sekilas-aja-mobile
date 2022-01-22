@@ -8,7 +8,22 @@ interface FetchResponseLastRead {
 }
 
 const setTrackingLastReadLinten = (email: any, data: any) => {
-  firestore().collection("lastReadBook").doc(email).set(data, { merge: true });
+  return new Promise((resolve, reject) => {
+    try {
+      firestore()
+        .collection("lastReadBook")
+        .doc(email)
+        .set(data, { merge: true })
+        .then((res) => {
+          resolve(true);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    } catch {
+      reject(false);
+    }
+  });
 };
 const getLastReading = async (email: string) => {
   return new Promise<FetchResponseLastRead>(async (resolve, reject) => {
