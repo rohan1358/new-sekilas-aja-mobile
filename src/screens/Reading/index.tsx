@@ -185,6 +185,7 @@ const Reading = () => {
   const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
 
   const onMark = () => {
+    console.log("currentPage", currentPage);
     setTrackingLastReadLinten(email, {
       book: {
         book: detailBook?.book_title,

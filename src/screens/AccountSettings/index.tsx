@@ -3,7 +3,7 @@ import {
   Button,
   DummyFlatList,
   ModalSubscribe,
-  TextItem,
+  TextItem
 } from "../../components";
 import {
   neutralColor,
@@ -11,7 +11,7 @@ import {
   primaryColor,
   skeleton,
   snackState as ss,
-  strings,
+  strings
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Switch, Text, View } from "react-native";
@@ -30,7 +30,7 @@ import {
   Exit,
   IconFb,
   IconIg,
-  IconTw,
+  IconTw
 } from "@assets";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { CommonActions } from "@react-navigation/routers";
@@ -39,7 +39,7 @@ import { formatDate } from "../../../src/utils";
 
 export default function AccountSettings({ navigation }: any) {
   const {
-    sessionReducer: { email },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useRef<boolean>();
@@ -62,7 +62,7 @@ export default function AccountSettings({ navigation }: any) {
   const [textAlert, setTextAlert] = useState({
     text: "",
     action: "",
-    button: "",
+    button: ""
   });
 
   const [openAudio, setOpenAudio] = useState(false);
@@ -74,12 +74,12 @@ export default function AccountSettings({ navigation }: any) {
   const [itemsAudio, setItemsAudio] = useState([
     { label: "Tinggi", value: "tinggi" },
     { label: "Sedang", value: "sedang" },
-    { label: "Rendah", value: "rendah" },
+    { label: "Rendah", value: "rendah" }
   ]);
   const [itemsVideo, setItemsVideo] = useState([
     { label: "Tinggi", value: "tinggi" },
     { label: "Sedang", value: "sedang" },
-    { label: "Rendah", value: "rendah" },
+    { label: "Rendah", value: "rendah" }
   ]);
 
   const getDataAccount = async () => {
@@ -88,6 +88,7 @@ export default function AccountSettings({ navigation }: any) {
       const [profileData] = await Promise.all([fetchProfile(email)]);
       if (profileData.isSuccess) {
         setProfile(profileData.data);
+        dispatch(setProfileRedux(profileData.data));
       } else {
         throw new Error("Fail on fetching profile data");
       }
@@ -115,14 +116,14 @@ export default function AccountSettings({ navigation }: any) {
     dataAlert = {
       text: "",
       action: "",
-      button: "",
+      button: ""
     }
   ) => {
     setModalAlert(!modalAlert);
     setTextAlert({
       text: dataAlert.text,
       action: dataAlert.action,
-      button: dataAlert.button,
+      button: dataAlert.button
     });
   };
 
@@ -149,7 +150,7 @@ export default function AccountSettings({ navigation }: any) {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: pages.SignIn }],
+        routes: [{ name: pages.SignIn }]
       })
     );
   };
@@ -502,7 +503,7 @@ export default function AccountSettings({ navigation }: any) {
                 handleModalAlert({
                   text: strings.yakin_keluar,
                   action: strings.cacel,
-                  button: strings.btn_keluar,
+                  button: strings.btn_keluar
                 });
                 setKeyAlert("logout");
               }}
