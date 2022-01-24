@@ -1,8 +1,10 @@
 package com.sekilasaja;
 
 import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 
+// testing android 8
 import org.devio.rn.splashscreen.SplashScreen; // here 
 
 // orientate 
@@ -10,6 +12,14 @@ import android.content.Intent; // <--- import
 import android.content.res.Configuration; // <--- import 
 
 public class MainActivity extends ReactActivity {
+
+  // start function splash screen
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    SplashScreen.show(this); // here
+    super.onCreate(savedInstanceState);
+  }
+  // end function splash screen
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
@@ -24,12 +34,6 @@ public class MainActivity extends ReactActivity {
    * used to schedule
    * rendering of the component.
    */
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    SplashScreen.show(this); // here
-    // SplashScreen.show(this, R.style.SplashScreenTheme);
-    super.onCreate(null);
-  }
 
   @Override
   protected String getMainComponentName() {

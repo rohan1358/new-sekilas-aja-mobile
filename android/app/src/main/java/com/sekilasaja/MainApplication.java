@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -12,9 +12,11 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+// testing android 8
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
 
+// testing android 8
 import org.wonday.orientation.OrientationActivityLifecycle;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -40,6 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
       return "index";
     }
 
+    // testing android 8
     @Override
     protected JSIModulePackage getJSIModulePackage() {
       return new ReanimatedJSIModulePackage(); // <- add
@@ -53,7 +56,9 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
+    // testing android 8
     registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
+
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());

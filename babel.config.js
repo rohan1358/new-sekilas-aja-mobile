@@ -2,8 +2,8 @@ module.exports = {
   presets: ["module:metro-react-native-babel-preset"],
   env: {
     production: {
-      plugins: ["react-native-paper/babel"],
-    },
+      plugins: ["react-native-paper/babel"]
+    }
   },
   plugins: [
     [
@@ -20,10 +20,10 @@ module.exports = {
           "@molecule": "./src/components/molecule/index.ts",
           "@organism": "./src/components/organism/index.ts",
           "@services": "./src/services/index.ts",
-          "@rux": "./src/redux/reducers/index.ts",
-        },
-      },
+          "@rux": "./src/redux/reducers/index.ts"
+        }
+      }
     ],
-    "react-native-reanimated/plugin", // reanimated should be last
-  ],
+    "react-native-reanimated/plugin" // reanimated should be last
+  ]
 };
