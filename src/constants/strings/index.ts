@@ -143,10 +143,10 @@ export const strings = {
   notification: "Notifikasi",
   notif_empty: "Notifikasi kosong!",
 
-  onBoard_1: "Males baca buku? Baca SekilasAja!",
-  onBoard_2: "Membaca adalah habit orang sukses!",
-  onBoard_3: "Udah nyerah sebelum membaca.",
-  onBoard_4: "Belajar dimanapun dan kapanpun!",
+  onBoard_1: "Aplikasi RANGKUMAN BUKU Terbaik Dunia!",
+  onBoard_2: "MEMBACA adalah kebiasaan orang sukses!",
+  onBoard_3: "Solusi untuk kamu yang MALAS BACA!",
+  onBoard_4: "Saatnya INVESTASI ILMU kepada dirimu!",
   other: "kesalahan lain",
 
   passwordCantBeEmpty: "Password tidak boleh kosong",
@@ -190,13 +190,13 @@ export const strings = {
   seeAll: "Lihat Semua >",
   share: "Bagikan",
   sub_onBoard_1:
-    "Solusi buat kamu yang malas baca buku, tapi kepo pengen tau isinya.",
-
-  sub_onBoard_2: "Banyak orang sukses menyisihkan waktuuntuk membaca buku. ",
+    "Dapatkan 100+ RANGKUMAN BUKU terbaik dunia dalam versi VIDEO, AUDIO, dan TEXT.",
+  sub_onBoard_2:
+    "CEO TERSUKSES di dunia, rata-rata membaca kurang lebih 60 BUKU dalam setahun.",
   sub_onBoard_3:
-    "Banyak orang udah males duluan kalo liat buku yang panjang...",
+    "Belajar rangkuman buku bisnis, investasi, kesehatan, dan pengembangan diri terbaik dunia hanya dalam 15 MENIT.",
   sub_onBoard_4:
-    "Kamu dapat belajar dan membaca segala hal dalam satu aplikasi!",
+    "Jadilah VERSI TERBAIK dirimu dengan belajar DI MANA PUN & KAPAN PUN",
   segera: "SEGERA!",
   success: "SUCCESS",
 
