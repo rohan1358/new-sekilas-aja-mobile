@@ -17,7 +17,11 @@ const styles = ({ tileHeight }: { tileHeight: number }) =>
       backgroundColor: neutralColor[10],
       top: -24 - tileHeight / 2,
       borderRadius: 12,
-      elevation: 3,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 3
     },
 
     imageContainer: { width: 40, height: 60 },
