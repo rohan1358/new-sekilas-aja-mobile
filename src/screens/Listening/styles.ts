@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: primaryColor.main,
     flex: 1,
-    paddingHorizontal: 25
+    paddingHorizontal: 25,
+    paddingVertical: 25
   },
   boxImage: {
     height: heightPercent(25),
@@ -93,7 +94,8 @@ const styles = StyleSheet.create({
 
   boxFooter: {
     alignItems: "center",
-    marginTop: heightPercent(0)
+    marginTop: heightPercent(0),
+    marginBottom: 5
   },
 
   speedText: {

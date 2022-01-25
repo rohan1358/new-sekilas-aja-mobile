@@ -172,135 +172,140 @@ export default function ModalSubscribe({
           pagingEnabled
           scrollEnabled={false}
         >
-          <View style={styles.content}>
-            <View style={styles.boxExit}>
-              <Button
-                onPress={() => {
-                  console.log("clicked");
-                  exitPage();
-                }}
-                style={styles.btn}
-              >
-                <Exit />
-              </Button>
-            </View>
-            <View style={styles.boxContent}>
-              <TextItem type="b.32.nc.90">
-                {strings.dapatkan_ringkasan}
-              </TextItem>
-              <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
-                {strings.keuntungan}
-              </TextItem>
-              <View style={styles.boxWhite}>
-                {/* <View style={styles.list}>
+          <ScrollView>
+            <View style={styles.content}>
+              <View style={styles.boxExit}>
+                <Button
+                  onPress={() => {
+                    exitPage();
+                  }}
+                  style={styles.btn}
+                >
+                  <Exit />
+                </Button>
+              </View>
+              <View style={styles.boxContent}>
+                <TextItem type="b.32.nc.90">
+                  {strings.dapatkan_ringkasan}
+                </TextItem>
+                <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
+                  {strings.keuntungan}
+                </TextItem>
+                <View style={styles.boxWhite}>
+                  {/* <View style={styles.list}>
                 <Check color={neutralColor[70]} />
                 <TextItem type="r.14.nc.70" style={styles.textList}>
                   {strings.akses_online}
                 </TextItem>
               </View> */}
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.kilas_buku}
-                  </TextItem>
-                </View>
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.akses_penuh}
-                  </TextItem>
-                </View>
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.membuka_semua}
-                  </TextItem>
-                </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.kilas_buku}
+                    </TextItem>
+                  </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.akses_penuh}
+                    </TextItem>
+                  </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.membuka_semua}
+                    </TextItem>
+                  </View>
 
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.bentuk_tersedia}
-                  </TextItem>
-                </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.bentuk_tersedia}
+                    </TextItem>
+                  </View>
 
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.belajar_live}
-                  </TextItem>
-                </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.belajar_live}
+                    </TextItem>
+                  </View>
 
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.webinar_gratis}
-                  </TextItem>
-                </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.webinar_gratis}
+                    </TextItem>
+                  </View>
 
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.rekaman_webinar}
-                  </TextItem>
-                </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.rekaman_webinar}
+                    </TextItem>
+                  </View>
 
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.artikel_pembelajaran}
-                  </TextItem>
-                </View>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.artikel_pembelajaran}
+                    </TextItem>
+                  </View>
 
-                <View style={styles.list}>
-                  <Check color={neutralColor[70]} />
-                  <TextItem type="r.14.nc.70" style={styles.textList}>
-                    {strings.tergabung_komunitas}
-                  </TextItem>
+                  <View style={styles.list}>
+                    <Check color={neutralColor[70]} />
+                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                      {strings.tergabung_komunitas}
+                    </TextItem>
+                  </View>
                 </View>
+                <Button onPress={() => handleNext(100)} style={styles.btnPilih}>
+                  <TextItem type="b.24.pc.main">{strings.pilih_paket}</TextItem>
+                </Button>
               </View>
-              <Button onPress={() => handleNext(100)} style={styles.btnPilih}>
-                <TextItem type="b.24.pc.main">{strings.pilih_paket}</TextItem>
-              </Button>
             </View>
-          </View>
+          </ScrollView>
 
-          <View style={styles.content}>
-            <View style={styles.boxBack}>
-              <Button onPress={() => handlePrev(0)} style={styles.btn}>
-                <ArrowLeft color={neutralColor[90]} width={30} height={25} />
-              </Button>
-            </View>
-            <View style={[styles.boxContent, styles.flex1]}>
-              <TextItem type="b.32.nc.90">
-                {strings.pilih_paket_premium}
-              </TextItem>
-              <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
-                {strings.pilihan_paket}
-              </TextItem>
-              <View style={styles.boxListCard}>
-                {Array.isArray(paketList) &&
-                  paketList.map((item, index) =>
-                    item.type == "best" ? (
-                      <CardBest item={item} key={index} />
-                    ) : (
-                      <CardNormal item={item} key={index} />
-                    )
-                  )}
+          <ScrollView>
+            <View style={styles.content}>
+              <View style={styles.boxBack}>
+                <Button onPress={() => handlePrev(0)} style={styles.btn}>
+                  <ArrowLeft color={neutralColor[90]} width={30} height={25} />
+                </Button>
               </View>
-              <View>
-                {/* <Button onPress={() => handleNext(200)} style={styles.btnPilih}>
+              <View style={[styles.boxContent, styles.flex1]}>
+                <TextItem type="b.32.nc.90">
+                  {strings.pilih_paket_premium}
+                </TextItem>
+                <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
+                  {strings.pilihan_paket}
+                </TextItem>
+                <View style={styles.boxListCard}>
+                  {Array.isArray(paketList) &&
+                    paketList.map((item, index) =>
+                      item.type == "best" ? (
+                        <CardBest item={item} key={index} />
+                      ) : (
+                        <CardNormal item={item} key={index} />
+                      )
+                    )}
+                </View>
+                <View>
+                  {/* <Button onPress={() => handleNext(200)} style={styles.btnPilih}>
                 <TextItem type="b.24.pc.main">
                   {strings.langganan_sekaarang}
                 </TextItem>
               </Button> */}
 
-                <Button onPress={() => exitPage()} style={styles.btnPilih}>
-                  <TextItem type="b.24.pc.main">{strings.lagi_bokek}</TextItem>
-                </Button>
+                  <Button onPress={() => exitPage()} style={styles.btnPilih}>
+                    <TextItem type="b.24.pc.main">
+                      {strings.lagi_bokek}
+                    </TextItem>
+                  </Button>
+                </View>
               </View>
             </View>
-          </View>
+          </ScrollView>
 
           <Payment
             baseUrl={

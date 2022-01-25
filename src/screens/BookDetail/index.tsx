@@ -22,7 +22,8 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   TextInput,
-  View
+  View,
+  Text
 } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
 import Animated, {
@@ -324,19 +325,17 @@ export default function BookDetail({ navigation, route }: any) {
             scrollEventThrottle={16}
           >
             <View style={styles.layer}>
-              <View style={styles.head}>
-                <View style={styles.boxImage}>
-                  <Amage
-                    style={styles.image}
-                    source={
-                      checkData(book?.book_cover) ? book?.book_cover : newCover
-                    }
-                    resizeMode="contain"
-                  />
-                </View>
-              </View>
+              <View style={styles.head}></View>
             </View>
-
+            <View style={styles.boxImage}>
+              <Amage
+                style={styles.image}
+                source={
+                  checkData(book?.book_cover) ? book?.book_cover : newCover
+                }
+                resizeMode="contain"
+              />
+            </View>
             <View style={[styles.boxSelect]}>
               {lockReadingListenViewBook ? (
                 <View style={styles.SelectBar}>

@@ -6,8 +6,10 @@ const styles = StyleSheet.create({
   skeleton: { flex: 1 },
 
   layer: {
-    height: heightPercent(28)
+    height: heightPercent(28),
     // borderWidth: 1,
+    position: "absolute",
+    width: "100%"
   },
 
   head: {
@@ -22,7 +24,9 @@ const styles = StyleSheet.create({
   boxImage: {
     width: 147,
     height: 221,
-    elevation: 100
+    // elevation: 100,
+    // position: "absolute",
+    alignSelf: "center"
   },
 
   image: {

@@ -1,22 +1,26 @@
 import { TextItem } from "../../atom";
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, View, ScrollView, Dimensions } from "react-native";
 import styles from "./styles";
+import { heightPercent } from "@helpers";
 
 export default function PagesOnboarding({ image, title, subTitle }: any) {
+  let height = Dimensions.get("screen").height;
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.boxImage}>
-        <Image source={image} style={styles.image} />
+    <ScrollView>
+      <View style={[styles.pageContainer]}>
+        <View style={styles.boxImage}>
+          <Image source={image} style={styles.image} />
+        </View>
+        <View style={height > 550 && styles.boxtitle}>
+          <TextItem type="b.28.nc.90" style={styles.title}>
+            {title}
+          </TextItem>
+          <TextItem type="r.17.nc.70" style={styles.sub_title}>
+            {subTitle}
+          </TextItem>
+        </View>
       </View>
-      <View style={styles.boxtitle}>
-        <TextItem type="b.28.nc.90" style={styles.title}>
-          {title}
-        </TextItem>
-        <TextItem type="r.17.nc.70" style={styles.sub_title}>
-          {subTitle}
-        </TextItem>
-      </View>
-    </View>
+    </ScrollView>
   );
 }

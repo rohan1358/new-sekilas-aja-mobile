@@ -9,6 +9,7 @@ interface FetchResponseLastRead {
 
 const setTrackingLastReadLinten = (email: any, data: any) => {
   return new Promise((resolve, reject) => {
+    // testing
     try {
       firestore()
         .collection("lastReadBook")
@@ -27,6 +28,7 @@ const setTrackingLastReadLinten = (email: any, data: any) => {
 };
 const getLastReading = async (email: string) => {
   return new Promise<FetchResponseLastRead>(async (resolve, reject) => {
+    // testing
     try {
       const lastRead: any = await firestore()
         .collection("lastReadBook")

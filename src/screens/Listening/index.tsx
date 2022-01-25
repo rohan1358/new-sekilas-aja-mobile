@@ -171,7 +171,6 @@ export default function Listening({ navigation, route }: any) {
 
   useEffect(() => {
     setValue(progress.position);
-    console.log("resolve", progress.position);
   }, [progress.position]);
 
   useEffect(() => {
@@ -245,28 +244,34 @@ export default function Listening({ navigation, route }: any) {
       snackState={snackState}
       setSnackState={setSnackState}
     >
-      <HeaderListening
-        navigation={navigation}
-        onShare={() => onShare()}
-        title={listBab ? listBab[bab]?.title : "bab"}
-      />
-      <View style={styles.content}>
-        <View style={styles.boxImage}>
-          <Amage resizeMode="contain" source={book?.book_cover || newCover} />
-        </View>
-        <View style={styles.containerTitle}>
-          <LinearGradient
-            colors={[
-              primaryColor.main,
-              "rgba(251, 207, 50, 0.5)",
-              "transparent"
-            ]}
-            useAngle={true}
-            angle={45}
-            angleCenter={{ x: 0.5, y: 0.5 }}
-            style={styles.gradientLeft}
-          />
-          {/* <TextTicker
+      <View style={{ flex: 1, height: "100%" }}>
+        <HeaderListening
+          navigation={navigation}
+          onShare={() => onShare()}
+          title={listBab ? listBab[bab]?.title : "bab"}
+        />
+
+        <ScrollView>
+          <View style={styles.content}>
+            <View style={styles.boxImage}>
+              <Amage
+                resizeMode="contain"
+                source={book?.book_cover || newCover}
+              />
+            </View>
+            <View style={styles.containerTitle}>
+              <LinearGradient
+                colors={[
+                  primaryColor.main,
+                  "rgba(251, 207, 50, 0.5)",
+                  "transparent"
+                ]}
+                useAngle={true}
+                angle={45}
+                angleCenter={{ x: 0.5, y: 0.5 }}
+                style={styles.gradientLeft}
+              />
+              {/* <TextTicker
             duration={6000}
             loop
             animationType='scroll'
@@ -274,126 +279,131 @@ export default function Listening({ navigation, route }: any) {
             marqueeDelay={1}
             useNativeDriver={true}
           > */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <TextItem style={[styles.text, styles.title]}>
-              {titleTrack}
-            </TextItem>
-          </ScrollView>
-          {/* </TextTicker> */}
-          <LinearGradient
-            colors={[
-              "transparent",
-              "rgba(251, 207, 50, 0.5)",
-              primaryColor.main
-            ]}
-            useAngle={true}
-            angle={45}
-            angleCenter={{ x: 0.5, y: 0.5 }}
-            style={styles.gradientRight}
-          />
-        </View>
-        <TextItem style={[styles.text]}>{authorTrack}</TextItem>
-        <View>
-          <Slider
-            value={valueProgress}
-            containerStyle={styles.SliderContainer}
-            minimumValue={0}
-            maximumValue={progress.duration}
-            minimumTrackTintColor={neutralColor[90]}
-            maximumTrackTintColor={"#D1D7E1"}
-            thumbTintColor={colors.white}
-            trackStyle={styles.trackSliderStyle}
-            onSlidingComplete={(value) => {
-              handleSleder(Number(value));
-            }}
-          />
-          <View style={styles.boxTextTime}>
-            <TextItem type={"r.14.nc.90"}>
-              {new Date(progress.position * 1000).toISOString().substr(14, 5)}
-            </TextItem>
-            <TextItem type={"r.14.nc.90"}>
-              {new Date((progress.duration - progress.position) * 1000)
-                .toISOString()
-                .substr(14, 5)}
-            </TextItem>
-          </View>
-        </View>
-        <View style={styles.boxAction}>
-          <Button onPress={() => handlePrev()}>
-            <RotateCcw height={25} color={neutralColor[90]} />
-          </Button>
-          <Button
-            onPress={async () => {
-              await TrackPlayer.skipToPrevious();
-              handlePrevBab();
-            }}
-          >
-            <SkipBack color={neutralColor[90]} />
-          </Button>
-          <Button
-            onPress={() => togglePlayback(playbackState)}
-            style={styles.play}
-          >
-            {playbackState === State.Playing ? (
-              <Pause color={primaryColor.main} />
-            ) : (
-              <Play color={primaryColor.main} style={styles.iconPlay} />
-            )}
-          </Button>
-          <Button
-            onPress={async () => {
-              await TrackPlayer.skipToNext();
-              handleNextBab();
-            }}
-          >
-            <SkipForward color={neutralColor[90]} />
-          </Button>
-          <Button onPress={() => handleNext()}>
-            <RotateCw height={25} color={neutralColor[90]} />
-          </Button>
-        </View>
-        <View style={styles.boxFooter}>
-          <Button onPress={() => refRBSheet.current.open()}>
-            <TextItem type={"b.14.nc.90"} style={styles.speedText}>
-              {strings.kecepatan + speed.toString() + strings.x}
-            </TextItem>
-          </Button>
-          <View style={styles.SelectBar}>
-            <Button
-              onPress={() => navigationTopBar("reading")}
-              style={styles.btnBar}
-            >
-              <File />
-              <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
-            </Button>
-            {book.video_link !== "" && (
-              <Button
-                onPress={() => navigationTopBar("watching")}
-                style={styles.btnBar}
-              >
-                <Video />
-                <TextItem style={styles.titleSelect}>{strings.tonton}</TextItem>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <TextItem style={[styles.text, styles.title]}>
+                  {titleTrack}
+                </TextItem>
+              </ScrollView>
+              {/* </TextTicker> */}
+              <LinearGradient
+                colors={[
+                  "transparent",
+                  "rgba(251, 207, 50, 0.5)",
+                  primaryColor.main
+                ]}
+                useAngle={true}
+                angle={45}
+                angleCenter={{ x: 0.5, y: 0.5 }}
+                style={styles.gradientRight}
+              />
+            </View>
+            <TextItem style={[styles.text]}>{authorTrack}</TextItem>
+            <View>
+              <Slider
+                value={valueProgress}
+                containerStyle={styles.SliderContainer}
+                minimumValue={0}
+                maximumValue={progress.duration}
+                minimumTrackTintColor={neutralColor[90]}
+                maximumTrackTintColor={"#D1D7E1"}
+                thumbTintColor={colors.white}
+                trackStyle={styles.trackSliderStyle}
+                onSlidingComplete={(value) => {
+                  handleSleder(Number(value));
+                }}
+              />
+              <View style={styles.boxTextTime}>
+                <TextItem type={"r.14.nc.90"}>
+                  {new Date(progress.position * 1000)
+                    .toISOString()
+                    .substr(14, 5)}
+                </TextItem>
+                <TextItem type={"r.14.nc.90"}>
+                  {new Date((progress.duration - progress.position) * 1000)
+                    .toISOString()
+                    .substr(14, 5)}
+                </TextItem>
+              </View>
+            </View>
+            <View style={styles.boxAction}>
+              <Button onPress={() => handlePrev()}>
+                <RotateCcw height={25} color={neutralColor[90]} />
               </Button>
-            )}
+              <Button
+                onPress={async () => {
+                  await TrackPlayer.skipToPrevious();
+                  handlePrevBab();
+                }}
+              >
+                <SkipBack color={neutralColor[90]} />
+              </Button>
+              <Button
+                onPress={() => togglePlayback(playbackState)}
+                style={styles.play}
+              >
+                {playbackState === State.Playing ? (
+                  <Pause color={primaryColor.main} />
+                ) : (
+                  <Play color={primaryColor.main} style={styles.iconPlay} />
+                )}
+              </Button>
+              <Button
+                onPress={async () => {
+                  await TrackPlayer.skipToNext();
+                  handleNextBab();
+                }}
+              >
+                <SkipForward color={neutralColor[90]} />
+              </Button>
+              <Button onPress={() => handleNext()}>
+                <RotateCw height={25} color={neutralColor[90]} />
+              </Button>
+            </View>
+            <View style={styles.boxFooter}>
+              <Button onPress={() => refRBSheet.current.open()}>
+                <TextItem type={"b.14.nc.90"} style={styles.speedText}>
+                  {strings.kecepatan + speed.toString() + strings.x}
+                </TextItem>
+              </Button>
+              <View style={styles.SelectBar}>
+                <Button
+                  onPress={() => navigationTopBar("reading")}
+                  style={styles.btnBar}
+                >
+                  <File />
+                  <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
+                </Button>
+                {book.video_link !== "" && (
+                  <Button
+                    onPress={() => navigationTopBar("watching")}
+                    style={styles.btnBar}
+                  >
+                    <Video />
+                    <TextItem style={styles.titleSelect}>
+                      {strings.tonton}
+                    </TextItem>
+                  </Button>
+                )}
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={false}
-        closeOnPressMask={true}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "rgba(0,0,0,0.3)"
-          },
-          container: {
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24
-          }
-        }}
-        height={heightPercent(42)}
-      >
-        <View>
+        </ScrollView>
+
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={false}
+          closeOnPressMask={true}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "rgba(0,0,0,0.3)"
+            },
+            container: {
+              borderTopLeftRadius: 24,
+              borderTopRightRadius: 24
+            }
+          }}
+          height={heightPercent(42)}
+        >
           <View style={styles.boxTitleSheet}>
             <TextItem style={styles.titleSheet}>
               {strings.kecepatan_audio}
@@ -420,8 +430,8 @@ export default function Listening({ navigation, route }: any) {
               ))}
             </View>
           </DummyFlatList>
-        </View>
-      </RBSheet>
+        </RBSheet>
+      </View>
     </Base>
   );
 }

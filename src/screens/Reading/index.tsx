@@ -53,6 +53,7 @@ const WIDTH = widthPercent(100);
 const ACTION_HIDE = -128;
 
 const Reading = () => {
+  const [toggleTolltip, setToggleTolltip] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, "Reading">>();
 
@@ -108,7 +109,8 @@ const Reading = () => {
     <ReadingHeader
       title={BOOK_ID || "Book Content"}
       backPress={() => navigation.goBack()}
-      dotPress={() => {
+      dotPress={async () => {
+        await setToggleTolltip(true);
         actionPosition.value = withTiming(ACTION_HIDE);
         tipPosition.value = withTiming(64);
         overlayRef.current?.open();
@@ -184,8 +186,14 @@ const Reading = () => {
 
   const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
 
+  const closeTolltip = async () => {
+    await overlayRef.current?.close();
+    setTimeout(() => {
+      setToggleTolltip(false);
+    }, 500);
+  };
+
   const onMark = () => {
-    console.log("currentPage", currentPage);
     setTrackingLastReadLinten(email, {
       book: {
         book: detailBook?.book_title,
@@ -196,7 +204,7 @@ const Reading = () => {
       .then((res) => {
         setSnackState(ss.successState(strings.marked));
         onTap();
-        overlayRef.current?.close();
+        closeTolltip();
       })
       .catch((err) => {
         setSnackState(ss.failState(strings.markFailed));
@@ -267,7 +275,7 @@ const Reading = () => {
       })
       .finally(() => {
         onTap();
-        overlayRef.current?.close();
+        closeTolltip();
       });
   };
 
@@ -286,6 +294,7 @@ const Reading = () => {
   const onTap = () => {
     closeActions();
     closeTip();
+    closeTolltip();
   };
 
   const renderItem = ({ item }: { item: string }) => (
@@ -305,27 +314,27 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           onTap();
-          overlayRef.current?.close();
+          closeTolltip();
         } else {
           onTap();
-          overlayRef.current?.close();
+          closeTolltip();
         }
       } else if (result.action === Share.dismissedAction) {
         onTap();
-        overlayRef.current?.close();
+        closeTolltip();
       }
       onTap();
-      overlayRef.current?.close();
+      closeTolltip();
     } catch (error) {
       onTap();
-      overlayRef.current?.close();
+      closeTolltip();
       //@ts-ignore
       logger("Reading, onShare", error?.message);
     }
   };
 
   const tableContentPress = () => {
-    overlayRef.current?.close();
+    closeTolltip();
     onTap();
     navigation.navigate("BookTableContent", {
       id: BOOK_ID,
@@ -365,108 +374,114 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
   const s = styles({ isOnFirstPage, isOnLastPage });
 
   return (
-    <Base {...{ headerState, snackState, setSnackState }}>
-      <SkeletonContent
-        isLoading={isLoading}
-        layout={skeleton.mainReading}
-        containerStyle={s.skeleton}
-      >
-        <DuoRender isRenderMain={!!content} falseComponent={falseComponent}>
-          <DummyFlatList
-            contentContainerStyle={s.contentContainerStyle}
-            ref={scrollRef}
-          >
-            <Gap vertical={sp.sl} />
-            <PageController
-              {...{
-                isOnFirstPage,
-                isOnLastPage,
-                label,
-                onNextPress,
-                onPrevPress
-              }}
-            />
-            <Gap vertical={36} />
-            <TextItem type="b.32.nc.100">{currentTitle}</TextItem>
-            <Gap vertical={sp.sl} />
-            <FlatList
-              data={content?.pageContent[currentPage]?.details}
-              keyExtractor={keyExtractor}
-              renderItem={renderItem}
-            />
-            <Gap vertical={sp.sl} />
-            <PageController
-              {...{
-                isOnFirstPage,
-                isOnLastPage,
-                label,
-                onNextPress,
-                onPrevPress
-              }}
-            />
-            <Gap vertical={sp.xl * 3} />
-          </DummyFlatList>
-        </DuoRender>
-      </SkeletonContent>
-      <Animated.View style={[s.actionWrapper, actionStyle]}>
-        <LinearGradient
-          colors={["#fff1", "#fff8", "#fff"]}
-          style={s.linearGradient}
-        ></LinearGradient>
-        <View style={s.actions}>
-          <Button
-            style={s.button}
-            onPress={() => navigationTopBar("listening")}
-          >
-            <Headphones stroke={primaryColor.main} />
-            <Gap horizontal={sp.xs} />
-            <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
-          </Button>
-          {(checkData(BOOK?.video_link) ||
-            checkData(detailBook?.video_link)) && (
+    <>
+      <Base {...{ headerState, snackState, setSnackState }}>
+        <SkeletonContent
+          isLoading={isLoading}
+          layout={skeleton.mainReading}
+          containerStyle={s.skeleton}
+        >
+          <DuoRender isRenderMain={!!content} falseComponent={falseComponent}>
+            <DummyFlatList
+              contentContainerStyle={s.contentContainerStyle}
+              ref={scrollRef}
+            >
+              <Gap vertical={sp.sl} />
+              <PageController
+                {...{
+                  isOnFirstPage,
+                  isOnLastPage,
+                  label,
+                  onNextPress,
+                  onPrevPress
+                }}
+              />
+              <Gap vertical={36} />
+              <TextItem type="b.32.nc.100">{currentTitle}</TextItem>
+              <Gap vertical={sp.sl} />
+              <FlatList
+                data={content?.pageContent[currentPage]?.details}
+                keyExtractor={keyExtractor}
+                renderItem={renderItem}
+              />
+              <Gap vertical={sp.sl} />
+              <PageController
+                {...{
+                  isOnFirstPage,
+                  isOnLastPage,
+                  label,
+                  onNextPress,
+                  onPrevPress
+                }}
+              />
+              <Gap vertical={sp.xl * 3} />
+            </DummyFlatList>
+          </DuoRender>
+        </SkeletonContent>
+        <Animated.View style={[s.actionWrapper, actionStyle]}>
+          <LinearGradient
+            colors={["#fff1", "#fff8", "#fff"]}
+            style={s.linearGradient}
+          ></LinearGradient>
+          <View style={s.actions}>
             <Button
-              onPress={() => navigationTopBar("watching")}
               style={s.button}
+              onPress={() => navigationTopBar("listening")}
             >
-              <Video stroke={primaryColor.main} />
+              <Headphones stroke={primaryColor.main} />
               <Gap horizontal={sp.xs} />
-              <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
+              <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
             </Button>
-          )}
-        </View>
-        <Gap vertical={sp.sl} />
-      </Animated.View>
-      <AnimatedOverlay ref={overlayRef} onTap={onTap} />
-      <Animated.View style={[s.tipContainer, tipStyle]}>
-        <View style={s.tip} />
-        <View style={s.tipContent}>
-          <Button style={s.tipButton} onPress={onShare}>
-            <TextItem type="r.20.nc.90">{strings.share}</TextItem>
-          </Button>
-          <Button style={s.tipButton} onPress={tableContentPress}>
-            <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
-          </Button>
-          <Button style={s.tipButton} onPress={onMark}>
-            <TextItem type="r.20.nc.90">{strings.mark}</TextItem>
-          </Button>
-          <Button style={s.tipButton} onPress={onFinishedInReading}>
-            <TextItem
-              type={
-                listBookFinishingRead.includes(BOOK_ID)
-                  ? "b.18.nc.90"
-                  : "r.20.nc.90"
-              }
-              // type="b.18.nc.90"
-              style={listBookFinishingRead.includes(BOOK_ID) && s.textBtnHapus}
-            >
-              {listBookFinishingRead.includes(BOOK_ID)
-                ? strings.cancleDoneRead
-                : strings.doneRead}
-            </TextItem>
-          </Button>
-        </View>
-      </Animated.View>
-    </Base>
+            {(checkData(BOOK?.video_link) ||
+              checkData(detailBook?.video_link)) && (
+              <Button
+                onPress={() => navigationTopBar("watching")}
+                style={s.button}
+              >
+                <Video stroke={primaryColor.main} />
+                <Gap horizontal={sp.xs} />
+                <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
+              </Button>
+            )}
+          </View>
+          <Gap vertical={sp.sl} />
+        </Animated.View>
+        <AnimatedOverlay ref={overlayRef} onTap={onTap} />
+        {toggleTolltip && (
+          <Animated.View style={[s.tipContainer, tipStyle]}>
+            <View style={s.tip} />
+            <View style={s.tipContent}>
+              <Button style={s.tipButton} onPress={onShare}>
+                <TextItem type="r.20.nc.90">{strings.share}</TextItem>
+              </Button>
+              <Button style={s.tipButton} onPress={tableContentPress}>
+                <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
+              </Button>
+              <Button style={s.tipButton} onPress={onMark}>
+                <TextItem type="r.20.nc.90">{strings.mark}</TextItem>
+              </Button>
+              <Button style={s.tipButton} onPress={onFinishedInReading}>
+                <TextItem
+                  type={
+                    listBookFinishingRead.includes(BOOK_ID)
+                      ? "b.18.nc.90"
+                      : "r.20.nc.90"
+                  }
+                  // type="b.18.nc.90"
+                  style={
+                    listBookFinishingRead.includes(BOOK_ID) && s.textBtnHapus
+                  }
+                >
+                  {listBookFinishingRead.includes(BOOK_ID)
+                    ? strings.cancleDoneRead
+                    : strings.doneRead}
+                </TextItem>
+              </Button>
+            </View>
+          </Animated.View>
+        )}
+      </Base>
+    </>
   );
 };
 
