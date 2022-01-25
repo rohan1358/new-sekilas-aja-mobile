@@ -240,6 +240,7 @@ export default function Listening({ navigation, route }: any) {
   };
   return (
     <Base
+      fullScreen={true}
       barColor={primaryColor.main}
       snackState={snackState}
       setSnackState={setSnackState}

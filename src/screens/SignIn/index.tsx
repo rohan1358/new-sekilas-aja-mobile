@@ -166,6 +166,7 @@ const SignIn = ({ navigation }: any) => {
         <TextItem type="b.20.nc.90">{strings.enterPassword}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
+          autoCapitalize="none"
           placeholder={strings.passwordPlaceholder}
           onChangeText={setPassword}
           Icon={
