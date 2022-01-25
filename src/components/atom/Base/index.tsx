@@ -6,6 +6,7 @@ import Header from "../Header";
 import styles from "./styles";
 import { Snackbar } from "react-native-paper";
 import { BaseProps } from "./types";
+import { Platform } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 const Base = ({
@@ -36,7 +37,18 @@ const Base = ({
         </SafeAreaProvider>
       ) : (
         <GestureHandlerRootView style={s.container}>
-          <StatusBar backgroundColor={barColor} barStyle={barStyle} />
+          {Platform.OS === 'ios' ? (
+            <SafeAreaView 
+              edges={['top']}
+              style={{
+                backgroundColor: barColor
+              }}
+            >
+              <StatusBar backgroundColor={barColor} barStyle={barStyle} />
+            </SafeAreaView>
+          ) : (
+            <StatusBar backgroundColor={barColor} barStyle={barStyle} />
+          )}
           <Header headerState={headerState} />
           {children}
           <Snackbar
