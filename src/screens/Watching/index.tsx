@@ -7,7 +7,13 @@ import {
   TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Share, View, Dimensions, Platform } from "react-native";
+import {
+  ActivityIndicator,
+  Share,
+  View,
+  Dimensions,
+  Platform
+} from "react-native";
 import Orientation, {
   PORTRAIT,
   OrientationLocker,
@@ -191,15 +197,18 @@ export default function Watching({ navigation, route }: any) {
   const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
 
   const handleOrientation = async (orientation: any) => {
-    if(Platform.OS === 'ios'){
-      if(orientation.includes("FACE-UP")){
+    if (Platform.OS === "ios") {
+      if (orientation.includes("FACE-UP")) {
         return;
       }
     }
-    await setOrientation(orientation);
-    setTimeout(() => {
-      setIndicator(false);
-    }, 10000);
+
+    if (orientation !== newOrientation) {
+      await setOrientation(orientation);
+      setTimeout(() => {
+        setIndicator(false);
+      }, 10000);
+    }
   };
 
   const toggleIndicator = async () => {
@@ -267,9 +276,11 @@ export default function Watching({ navigation, route }: any) {
             source={videoBigbany}
             onLoadStart={onLoadStart}
             onLoad={onLoad}
-            fullscreenOrientation={'landscape'}
+            fullscreenOrientation={"landscape"}
             style={
-              Platform.OS === 'ios' && newOrientation.includes(LANDSCAPE) ? styles.backgroundVideoIos : styles.backgroundVideo
+              Platform.OS === "ios" && newOrientation.includes(LANDSCAPE)
+                ? styles.backgroundVideoIos
+                : styles.backgroundVideo
             }
             paused={play}
             onProgress={onProgress}
@@ -394,10 +405,7 @@ export default function Watching({ navigation, route }: any) {
                     {_convertDuration(duration - currentTime)}
                   </TextItem>
                   <Button onPress={() => handleOrientation(LANDSCAPE)}>
-                    <Maximize
-                      height={25}
-                      color={neutralColor[90]}
-                    />
+                    <Maximize height={25} color={neutralColor[90]} />
                   </Button>
                   {/* <TextItem type={"r.14.nc.90"}>
                     <Maximize
