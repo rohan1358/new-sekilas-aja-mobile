@@ -7,11 +7,13 @@ import {
   TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Share, View, Dimensions } from "react-native";
-import {
+import { ActivityIndicator, Share, View, Dimensions, Platform } from "react-native";
+import Orientation, {
   PORTRAIT,
   OrientationLocker,
-  LANDSCAPE
+  LANDSCAPE,
+  LANDSCAPE_LEFT,
+  LANDSCAPE_RIGHT
 } from "react-native-orientation-locker";
 import styles from "./styles";
 import {
@@ -189,6 +191,11 @@ export default function Watching({ navigation, route }: any) {
   const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
 
   const handleOrientation = async (orientation: any) => {
+    if(Platform.OS === 'ios'){
+      if(orientation.includes("FACE-UP")){
+        return;
+      }
+    }
     await setOrientation(orientation);
     setTimeout(() => {
       setIndicator(false);
@@ -260,7 +267,10 @@ export default function Watching({ navigation, route }: any) {
             source={videoBigbany}
             onLoadStart={onLoadStart}
             onLoad={onLoad}
-            style={styles.backgroundVideo}
+            fullscreenOrientation={'landscape'}
+            style={
+              Platform.OS === 'ios' && newOrientation.includes(LANDSCAPE) ? styles.backgroundVideoIos : styles.backgroundVideo
+            }
             paused={play}
             onProgress={onProgress}
             resizeMode={
@@ -325,13 +335,21 @@ export default function Watching({ navigation, route }: any) {
                       {_convertDuration(currentTime)}/
                       {_convertDuration(duration - currentTime)}
                     </TextItem>
-                    <TextItem type={"r.14.nc.10"}>
+                    <Button onPress={() => handleOrientation(PORTRAIT)}>
                       <Minimize
-                        onPress={() => handleOrientation(PORTRAIT)}
+                        width={25}
                         height={25}
                         color={neutralColor[10]}
                       />
-                    </TextItem>
+                    </Button>
+                    {/* <TextItem type={"r.14.nc.10"}>
+                      <Minimize
+                        onPress={() => handleOrientation(PORTRAIT)}
+                        width={25}
+                        height={25}
+                        color={neutralColor[10]}
+                      />
+                    </TextItem> */}
                   </View>
                   <Slider
                     value={currentTime}
@@ -375,13 +393,19 @@ export default function Watching({ navigation, route }: any) {
                     {_convertDuration(currentTime)}/
                     {_convertDuration(duration - currentTime)}
                   </TextItem>
-                  <TextItem type={"r.14.nc.90"}>
+                  <Button onPress={() => handleOrientation(LANDSCAPE)}>
+                    <Maximize
+                      height={25}
+                      color={neutralColor[90]}
+                    />
+                  </Button>
+                  {/* <TextItem type={"r.14.nc.90"}>
                     <Maximize
                       onPress={() => handleOrientation(LANDSCAPE)}
                       height={25}
                       color={neutralColor[90]}
                     />
-                  </TextItem>
+                  </TextItem> */}
                 </View>
               </View>
               <View style={styles.boxAction}>

@@ -23,7 +23,16 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
+    right: 0,
+  },
+
+  backgroundVideoIos:{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    paddingTop: 390
   },
 
   loadVideo: {

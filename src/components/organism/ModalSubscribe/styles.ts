@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-end"
   },
 
+  boxExitIos: {
+    alignItems: "flex-end",
+    paddingTop: 30
+  },
+
   boxBack: {
     alignItems: "flex-start"
   },

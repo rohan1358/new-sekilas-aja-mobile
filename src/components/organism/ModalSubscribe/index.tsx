@@ -10,6 +10,7 @@ import styles from "./styles";
 import firestore from "@react-native-firebase/firestore";
 import { useSelector } from "react-redux";
 import { ReduxState } from "@rux";
+import { Platform } from "react-native";
 
 export default function ModalSubscribe({
   modalVisible,
@@ -174,7 +175,7 @@ export default function ModalSubscribe({
         >
           <ScrollView>
             <View style={styles.content}>
-              <View style={styles.boxExit}>
+              <View style={ Platform.OS === 'ios' ? (styles.boxExitIos) : (styles.boxExit) }>
                 <Button
                   onPress={() => {
                     exitPage();

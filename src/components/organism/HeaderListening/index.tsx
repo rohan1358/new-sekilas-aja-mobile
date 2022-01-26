@@ -1,7 +1,7 @@
 import { ArrowLeft, ShareIcon } from "@assets";
 import { neutralColor, primaryColor } from "@constants";
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Platform } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Button, TextItem } from "../../atom";
 import styles from "./styles";
@@ -16,13 +16,17 @@ export default function HeaderListening({
       <Button onPress={() => navigation.goBack()} style={styles.btn}>
         <ArrowLeft color={neutralColor[90]} />
       </Button>
-      <LinearGradient
-        colors={[primaryColor.main, "rgba(251, 207, 50, 0.5)", "transparent"]}
-        useAngle={true}
-        angle={45}
-        angleCenter={{ x: 0.5, y: 0.5 }}
-        style={styles.gradientLeft}
-      />
+      {Platform.OS === 'ios' ? (
+        <></>
+      ) : (
+        <LinearGradient
+          colors={[primaryColor.main, "rgba(251, 207, 50, 0.5)", "transparent"]}
+          useAngle={true}
+          angle={45}
+          angleCenter={{ x: 0.5, y: 0.5 }}
+          style={styles.gradientLeft}
+        />
+      )}
       <View style={styles.boxTitle}>
         {/* <TextTicker
                     duration={3000}
@@ -36,13 +40,17 @@ export default function HeaderListening({
         </ScrollView>
         {/* </TextTicker> */}
       </View>
-      <LinearGradient
-        colors={["transparent", "rgba(251, 207, 50, 0.5)", primaryColor.main]}
-        useAngle={true}
-        angle={45}
-        angleCenter={{ x: 0.5, y: 0.5 }}
-        style={styles.gradientRight}
-      />
+      {Platform.OS === 'ios' ? (
+        <></>
+      ) : (
+        <LinearGradient
+          colors={["transparent", "rgba(251, 207, 50, 0.5)", primaryColor.main]}
+          useAngle={true}
+          angle={45}
+          angleCenter={{ x: 0.5, y: 0.5 }}
+          style={styles.gradientRight}
+        />
+      )}
       <Button onPress={() => onShare && onShare()} style={styles.btn}>
         <ShareIcon color={neutralColor[90]} />
       </Button>

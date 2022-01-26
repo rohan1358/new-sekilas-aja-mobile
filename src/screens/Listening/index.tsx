@@ -7,7 +7,7 @@ import {
   TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
-import { Share, Text, View } from "react-native";
+import { Share, Platform, Text, View } from "react-native";
 import styles from "./styles";
 import {
   colors,
@@ -261,17 +261,22 @@ export default function Listening({ navigation, route }: any) {
               />
             </View>
             <View style={styles.containerTitle}>
-              <LinearGradient
-                colors={[
-                  primaryColor.main,
-                  "rgba(251, 207, 50, 0.5)",
-                  "transparent"
-                ]}
-                useAngle={true}
-                angle={45}
-                angleCenter={{ x: 0.5, y: 0.5 }}
-                style={styles.gradientLeft}
-              />
+              {Platform.OS === 'ios' ? (
+                <></>
+              ) : (
+                <LinearGradient
+                  colors={[
+                    primaryColor.main,
+                    "rgba(251, 207, 50, 0.5)",
+                    "transparent"
+                  ]}
+                  useAngle={true}
+                  angle={45}
+                  angleCenter={{ x: 0.5, y: 0.5 }}
+                  style={styles.gradientLeft}
+                />
+              )}
+              
               {/* <TextTicker
             duration={6000}
             loop
@@ -286,17 +291,21 @@ export default function Listening({ navigation, route }: any) {
                 </TextItem>
               </ScrollView>
               {/* </TextTicker> */}
-              <LinearGradient
-                colors={[
-                  "transparent",
-                  "rgba(251, 207, 50, 0.5)",
-                  primaryColor.main
-                ]}
-                useAngle={true}
-                angle={45}
-                angleCenter={{ x: 0.5, y: 0.5 }}
-                style={styles.gradientRight}
-              />
+              {Platform.OS === 'ios' ? (
+                <></>
+              ) : (
+                <LinearGradient
+                  colors={[
+                    "transparent",
+                    "rgba(251, 207, 50, 0.5)",
+                    primaryColor.main
+                  ]}
+                  useAngle={true}
+                  angle={45}
+                  angleCenter={{ x: 0.5, y: 0.5 }}
+                  style={styles.gradientRight}
+                />
+              )}
             </View>
             <TextItem style={[styles.text]}>{authorTrack}</TextItem>
             <View>
