@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-start"
   },
 
+  boxBackIos: {
+    alignItems: "flex-start",
+    paddingTop: 30
+  },
+
   btn: {
     marginHorizontal: 27,
     marginVertical: 19,

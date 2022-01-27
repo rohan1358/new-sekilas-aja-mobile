@@ -26,6 +26,7 @@ import { SignUpProps } from "./types";
 import { useDispatch } from "react-redux";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { fetchProfile } from "@services";
+import { Platform } from "react-native";
 
 const { textFieldState } = dv;
 
@@ -38,7 +39,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const [isSecureRePassword, setIsSecureRepassword] = useState<boolean>(true);
   const [name, setName] = useState<string>();
   const [lastName, setLastName] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -237,6 +238,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
                   console.log(response);
                 });
 
+                console.log("REACHED HERE");
                 navigation.replace(pages.Home);
                 dispatch(loggingIn({ isLogin: true, email }));
                 const profile = await fetchProfile(email);
@@ -319,15 +321,16 @@ const SignUp = ({ navigation }: SignUpProps) => {
         />
         <Gap vertical={sp.sm} /> */}
 
-        <TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem>
-        <Gap vertical={sp.xs} />
-        <TextField
-          placeholder={strings.namePlaceholder}
-          onChangeText={setPhoneNumber}
-          autoCapitalize="words"
-          keyboardType="name-phone-pad"
-          {...phoneNumberCheck}
-        />
+        {Platform.OS === 'ios' ? (
+          <></>
+        ) : (
+          <><TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem><Gap vertical={sp.xs} /><TextField
+              placeholder={strings.phoneNumberPlaceholder}
+              onChangeText={setPhoneNumber}
+              autoCapitalize="words"
+              keyboardType="name-phone-pad"
+              {...phoneNumberCheck} /></>
+        )}
 
         <Gap vertical={sp.sm} />
         <View style={styles.centering}>

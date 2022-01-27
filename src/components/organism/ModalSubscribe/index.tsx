@@ -269,7 +269,7 @@ export default function ModalSubscribe({
 
           <ScrollView>
             <View style={styles.content}>
-              <View style={styles.boxBack}>
+              <View style={Platform.OS === 'ios' ? (styles.boxBackIos) : (styles.boxBack)}>
                 <Button onPress={() => handlePrev(0)} style={styles.btn}>
                   <ArrowLeft color={neutralColor[90]} width={30} height={25} />
                 </Button>
