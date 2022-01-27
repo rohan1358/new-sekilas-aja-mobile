@@ -76,7 +76,12 @@ export default function ModalSubscribe({
           .onSnapshot((res: any) => {
             if (res.docs[0]) {
               const result = res.docs[0].data();
-              if (result.last_position_web_view === "/payment-success-mobile") {
+              if (
+                result.last_position_web_view ===
+                  "/payment-success-mobile-three" ||
+                result.last_position_web_view ===
+                  "/payment-success-mobile-twelve"
+              ) {
                 setBtnBack(true);
               } else {
                 setBtnBack(false);
@@ -175,7 +180,11 @@ export default function ModalSubscribe({
         >
           <ScrollView>
             <View style={styles.content}>
-              <View style={ Platform.OS === 'ios' ? (styles.boxExitIos) : (styles.boxExit) }>
+              <View
+                style={
+                  Platform.OS === "ios" ? styles.boxExitIos : styles.boxExit
+                }
+              >
                 <Button
                   onPress={() => {
                     exitPage();
@@ -269,7 +278,11 @@ export default function ModalSubscribe({
 
           <ScrollView>
             <View style={styles.content}>
-              <View style={Platform.OS === 'ios' ? (styles.boxBackIos) : (styles.boxBack)}>
+              <View
+                style={
+                  Platform.OS === "ios" ? styles.boxBackIos : styles.boxBack
+                }
+              >
                 <Button onPress={() => handlePrev(0)} style={styles.btn}>
                   <ArrowLeft color={neutralColor[90]} width={30} height={25} />
                 </Button>
