@@ -7,7 +7,7 @@ import {
   TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
-import { Share, Platform, Text, View } from "react-native";
+import { Share, Platform, Text, View, Dimensions } from "react-native";
 import styles from "./styles";
 import {
   colors,
@@ -240,6 +240,8 @@ export default function Listening({ navigation, route }: any) {
       setNewCover(res);
     });
   };
+
+  const widthScreen = Dimensions.get("screen").width;
   return (
     <Base
       fullScreen={true}
@@ -266,17 +268,19 @@ export default function Listening({ navigation, route }: any) {
               {Platform.OS === "ios" ? (
                 <></>
               ) : (
-                <LinearGradient
-                  colors={[
-                    primaryColor.main,
-                    "rgba(251, 207, 50, 0.5)",
-                    "transparent"
-                  ]}
-                  useAngle={true}
-                  angle={45}
-                  angleCenter={{ x: 0.5, y: 0.5 }}
-                  style={styles.gradientLeft}
-                />
+                widthScreen > 350 && (
+                  <LinearGradient
+                    colors={[
+                      primaryColor.main,
+                      "rgba(251, 207, 50, 0.5)",
+                      "transparent"
+                    ]}
+                    useAngle={true}
+                    angle={45}
+                    angleCenter={{ x: 0.5, y: 0.5 }}
+                    style={styles.gradientLeft}
+                  />
+                )
               )}
 
               {/* <TextTicker
@@ -292,23 +296,27 @@ export default function Listening({ navigation, route }: any) {
                   {titleTrack}
                 </TextItem>
               </ScrollView>
+
               {/* </TextTicker> */}
               {Platform.OS === "ios" ? (
                 <></>
               ) : (
-                <LinearGradient
-                  colors={[
-                    "transparent",
-                    "rgba(251, 207, 50, 0.5)",
-                    primaryColor.main
-                  ]}
-                  useAngle={true}
-                  angle={45}
-                  angleCenter={{ x: 0.5, y: 0.5 }}
-                  style={styles.gradientRight}
-                />
+                widthScreen > 350 && (
+                  <LinearGradient
+                    colors={[
+                      "transparent",
+                      "rgba(251, 207, 50, 0.5)",
+                      primaryColor.main
+                    ]}
+                    useAngle={true}
+                    angle={45}
+                    angleCenter={{ x: 0.5, y: 0.5 }}
+                    style={styles.gradientRight}
+                  />
+                )
               )}
             </View>
+
             <TextItem style={[styles.text]}>{authorTrack}</TextItem>
             <View>
               <Slider
