@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    paddingTop: 415
+    height: widthPercent(100)
   },
 
   loadVideo: {
