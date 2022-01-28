@@ -4,8 +4,8 @@ import { heightPercent, widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: "white",
-    // backgroundColor: primaryColor.main,
+    // backgroundColor: "white",
+    backgroundColor: primaryColor.main,
     flex: 1,
     paddingHorizontal: 25
   },
