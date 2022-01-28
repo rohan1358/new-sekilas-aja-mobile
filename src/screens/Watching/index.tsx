@@ -234,8 +234,7 @@ export default function Watching({ navigation, route }: any) {
         />
       )}
       <Base
-        barColor={"white"}
-        // barColor={primaryColor.main}
+        barColor={primaryColor.main}
         snackState={snackState}
         setSnackState={setSnackState}
         fullScreen={newOrientation.includes(LANDSCAPE)}
