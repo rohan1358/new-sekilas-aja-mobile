@@ -151,6 +151,9 @@ const styles = StyleSheet.create({
     borderBottomColor: neutralColor[50],
     paddingVertical: 8,
     paddingHorizontal: 24
+  },
+  skeleton: {
+    flex: 1
   }
 });
 

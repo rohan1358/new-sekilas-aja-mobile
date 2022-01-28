@@ -14,6 +14,7 @@ import {
   neutralColor,
   pages,
   primaryColor,
+  skeleton,
   snackState as ss,
   strings
 } from "@constants";
@@ -51,6 +52,7 @@ import {
 } from "../../services/index";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -261,7 +263,7 @@ export default function Listening({ navigation, route }: any) {
               />
             </View>
             <View style={styles.containerTitle}>
-              {Platform.OS === 'ios' ? (
+              {Platform.OS === "ios" ? (
                 <></>
               ) : (
                 <LinearGradient
@@ -276,7 +278,7 @@ export default function Listening({ navigation, route }: any) {
                   style={styles.gradientLeft}
                 />
               )}
-              
+
               {/* <TextTicker
             duration={6000}
             loop
@@ -291,7 +293,7 @@ export default function Listening({ navigation, route }: any) {
                 </TextItem>
               </ScrollView>
               {/* </TextTicker> */}
-              {Platform.OS === 'ios' ? (
+              {Platform.OS === "ios" ? (
                 <></>
               ) : (
                 <LinearGradient
@@ -322,18 +324,24 @@ export default function Listening({ navigation, route }: any) {
                   handleSleder(Number(value));
                 }}
               />
-              <View style={styles.boxTextTime}>
-                <TextItem type={"r.14.nc.90"}>
-                  {new Date(progress.position * 1000)
-                    .toISOString()
-                    .substr(14, 5)}
-                </TextItem>
-                <TextItem type={"r.14.nc.90"}>
-                  {new Date((progress.duration - progress.position) * 1000)
-                    .toISOString()
-                    .substr(14, 5)}
-                </TextItem>
-              </View>
+              <SkeletonContent
+                containerStyle={styles.skeleton}
+                isLoading={progress.duration <= 0}
+                layout={skeleton.listening.timing}
+              >
+                <View style={styles.boxTextTime}>
+                  <TextItem type={"r.14.nc.90"}>
+                    {new Date(progress.position * 1000)
+                      .toISOString()
+                      .substr(14, 5)}
+                  </TextItem>
+                  <TextItem type={"r.14.nc.90"}>
+                    {new Date((progress.duration - progress.position) * 1000)
+                      .toISOString()
+                      .substr(14, 5)}
+                  </TextItem>
+                </View>
+              </SkeletonContent>
             </View>
             <View style={styles.boxAction}>
               <Button onPress={() => handlePrev()}>

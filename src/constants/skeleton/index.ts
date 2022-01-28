@@ -9,6 +9,7 @@ import {
   componentRecomended,
   componentBanner
 } from "./component";
+import { timer } from "./listening/timer";
 export const skeleton = {
   mainCategory,
   mainExplore,
@@ -19,5 +20,8 @@ export const skeleton = {
   componentCategory,
   componentRecomended,
   componentBanner,
-  componentMostRead: componentRecomended
+  componentMostRead: componentRecomended,
+  listening: {
+    timing: timer
+  }
 };

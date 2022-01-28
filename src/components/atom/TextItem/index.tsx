@@ -5,7 +5,7 @@ import {
   dangerColor,
   fontFamily as ff,
   neutralColor,
-  primaryColor,
+  primaryColor
 } from "../../../constants";
 import { TextItemProps } from "./types";
 
