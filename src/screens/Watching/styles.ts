@@ -4,7 +4,8 @@ import { heightPercent, widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: primaryColor.main,
+    backgroundColor: "white",
+    // backgroundColor: primaryColor.main,
     flex: 1,
     paddingHorizontal: 25
   },
@@ -23,10 +24,10 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   },
 
-  backgroundVideoIos:{
+  backgroundVideoIos: {
     position: "absolute",
     top: 0,
     left: 0,

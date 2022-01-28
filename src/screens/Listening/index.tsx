@@ -241,11 +241,12 @@ export default function Listening({ navigation, route }: any) {
     });
   };
 
-  const widthScreen = Dimensions.get("screen").width;
+  const dimensionWidth = Dimensions.get("screen").width;
   return (
     <Base
       fullScreen={true}
-      barColor={primaryColor.main}
+      barColor={"white"}
+      // barColor={primaryColor.main}
       snackState={snackState}
       setSnackState={setSnackState}
     >
@@ -268,7 +269,7 @@ export default function Listening({ navigation, route }: any) {
               {Platform.OS === "ios" ? (
                 <></>
               ) : (
-                widthScreen > 350 && (
+                dimensionWidth > 320 && (
                   <LinearGradient
                     colors={[
                       primaryColor.main,
@@ -301,7 +302,7 @@ export default function Listening({ navigation, route }: any) {
               {Platform.OS === "ios" ? (
                 <></>
               ) : (
-                widthScreen > 350 && (
+                dimensionWidth > 320 && (
                   <LinearGradient
                     colors={[
                       "transparent",

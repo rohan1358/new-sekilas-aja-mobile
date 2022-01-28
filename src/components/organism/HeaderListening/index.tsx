@@ -22,7 +22,7 @@ export default function HeaderListening({
         {Platform.OS === "ios" ? (
           <></>
         ) : (
-          dimensionWidth > 350 && (
+          dimensionWidth > 320 && (
             <LinearGradient
               colors={[
                 primaryColor.main,
@@ -52,7 +52,7 @@ export default function HeaderListening({
         {Platform.OS === "ios" ? (
           <></>
         ) : (
-          dimensionWidth > 350 && (
+          dimensionWidth > 320 && (
             <LinearGradient
               colors={[
                 "transparent",
