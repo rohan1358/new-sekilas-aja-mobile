@@ -238,7 +238,6 @@ const SignUp = ({ navigation }: SignUpProps) => {
                   console.log(response);
                 });
 
-                console.log("REACHED HERE");
                 navigation.replace(pages.Home);
                 dispatch(loggingIn({ isLogin: true, email }));
                 const profile = await fetchProfile(email);

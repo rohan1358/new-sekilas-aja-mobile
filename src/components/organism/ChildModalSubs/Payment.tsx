@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform} from "react-native";
 import { Button, TextItem } from "../../atom";
 import { ArrowLeft } from "@assets";
 import styles from "../ModalSubscribe/styles";
-import { neutralColor, strings } from "@constants";
+import { neutralColor, strings, primaryColor } from "@constants";
 import WebView from "react-native-webview";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 const Payment = ({
   handlePrev,
@@ -15,11 +16,26 @@ const Payment = ({
 }: OnPayment) => {
   return (
     <View style={styles.content}>
-      <View style={styles.boxBack}>
-        <Button onPress={() => handlePrev(100)} style={styles.btn}>
-          <ArrowLeft color={neutralColor[90]} width={30} height={25} />
-        </Button>
-      </View>
+      {Platform.OS === 'ios' ? (
+        <SafeAreaView 
+          edges={['top']}
+          style={{
+            backgroundColor: primaryColor.main
+          }}
+        >
+          <View style={styles.boxBack}>
+            <Button onPress={() => handlePrev(100)} style={styles.btn}>
+              <ArrowLeft color={neutralColor[90]} width={30} height={25} />
+            </Button>
+          </View>  
+        </SafeAreaView>
+      ) : (
+        <View style={styles.boxBack}>
+          <Button onPress={() => handlePrev(100)} style={styles.btn}>
+            <ArrowLeft color={neutralColor[90]} width={30} height={25} />
+          </Button>
+        </View>
+      )}
       <View style={styles.webView}>
         <WebView
           source={{
