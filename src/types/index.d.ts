@@ -21,6 +21,7 @@ type RootStackParamList = {
   ContentNotification: undefined;
   About: undefined;
   AccountSettings: undefined;
+  RewatchWebinar: undefined;
 
   BookDetail: { id: string };
   BookTableContent: {

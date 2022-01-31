@@ -34,7 +34,6 @@ const HomeHeader = ({
   };
 
   const pushNotification = () => {
-    console.log("profile", profile.FcmToken);
     const message = {
       data: {
         content: "New updates are available!"
@@ -67,12 +66,8 @@ const HomeHeader = ({
       .then((res) => {
         return res.json();
       })
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   return (

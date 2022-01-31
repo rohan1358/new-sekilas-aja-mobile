@@ -2,7 +2,7 @@ import {
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux,
+  setProfileRedux
 } from "@actions";
 import {
   Base,
@@ -17,7 +17,7 @@ import {
   OngoingTile,
   TextItem,
   ImageBannerWebinar,
-  WebinarSearch,
+  WebinarSearch
 } from "@components";
 import {
   pages,
@@ -25,11 +25,15 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
 import {
@@ -38,10 +42,10 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken,
+  modifyToken
 } from "@services";
 import { fetchCarousel } from "../../services/bookContent";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
@@ -56,9 +60,11 @@ import { checkData } from "../../utils";
 import {
   fetchNotifInbox,
   fetchNotifPrivate,
-  fetchNotifPromo,
+  fetchNotifPromo
 } from "../../services/notification";
 import { getAllMentoring } from "../../services/mentoring";
+
+let mounted = false;
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -70,7 +76,7 @@ const Home = () => {
   const {
     sessionReducer: { email },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
-    editProfile: { profile },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -86,9 +92,20 @@ const Home = () => {
 
   const [listMentoring, setListMentoring] = useState(false);
 
-  useEffect(() => {
-    fetchListMentoring();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      if (!mounted) {
+        fetchListMentoring();
+        mounted = true;
+      }
+      return () => {
+        setListMentoring(false);
+        setIsRefreshing(false);
+        setIsLoading(false);
+        mounted = false;
+      };
+    }, [mounted])
+  );
 
   const fetchListMentoring = () => {
     getAllMentoring()
@@ -116,7 +133,7 @@ const Home = () => {
   );
 
   const idKeyExtractor = ({
-    coverImageLink,
+    coverImageLink
   }: {
     coverImageLink: string | number;
   }) => `${Math.random()}`;

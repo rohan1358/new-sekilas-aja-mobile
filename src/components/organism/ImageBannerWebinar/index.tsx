@@ -11,13 +11,15 @@ const ImageBanner = ({
   source,
   data,
   openModal,
-  dataUser,
+  dataUser
 }: ImageBannerProps) => {
   const move = useNavigation();
 
   const handleNavigation = () => {
     if (!dataUser.is_subscribed) {
       openModal();
+    } else if (data.id_video) {
+      move.navigate("RewatchWebinar", { ...data });
     } else if (data?.joinLink) {
       Linking.openURL(data?.joinLink)
         .then((res) => {})
@@ -50,10 +52,10 @@ const ImageBanner = ({
           {
             // position: "absolute",
             margin: 10,
-            height: "100%",
+            height: "100%"
             // width: "80%",
             // height: "80%",
-          },
+          }
         ]}
       >
         {/* <View

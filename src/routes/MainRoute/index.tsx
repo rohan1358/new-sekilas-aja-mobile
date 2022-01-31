@@ -23,7 +23,8 @@ import {
   Watching,
   ContentNotification,
   Explore,
-  Mentoring
+  Mentoring,
+  RewatchWebinar
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -55,13 +56,7 @@ const MainRoute = () => {
 
   return (
     <>
-      <OrientationLocker
-        orientation={PORTRAIT}
-        onChange={(orientation) => console.log("onChange", orientation)}
-        onDeviceChange={(orientation) =>
-          console.log("onDeviceChange", orientation)
-        }
-      />
+      <OrientationLocker orientation={PORTRAIT} />
       <Stack.Navigator
         initialRouteName={"MainBottomRoute"}
         screenOptions={{ headerShown: false, animation: "fade" }}
@@ -69,6 +64,12 @@ const MainRoute = () => {
         <Stack.Screen
           name={"Home"}
           component={!isFirstTime ? Home : MainBottomRoute}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"RewatchWebinar"}
+          component={RewatchWebinar}
           // component={Home}
         />
 
