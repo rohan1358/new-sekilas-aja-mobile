@@ -4,7 +4,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Amage, Button, Gap, TextItem } from "../../atom";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import { primaryColor } from "@constants";
+import { neutralColor, primaryColor } from "@constants";
+import { Calendar } from "@assets";
 
 const ImageBanner = ({
   source,
@@ -35,7 +36,7 @@ const ImageBanner = ({
   };
   return (
     <View>
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <TouchableOpacity>
           <View>
             <Amage style={styles.image} source={source} />
@@ -44,12 +45,16 @@ const ImageBanner = ({
       </View>
 
       <View
-        style={{
-          // position: "absolute",
-          margin: 10
-          // width: "80%",
-          // height: "80%"
-        }}
+        style={[
+          styles.container,
+          {
+            // position: "absolute",
+            margin: 10,
+            height: "100%"
+            // width: "80%",
+            // height: "80%",
+          }
+        ]}
       >
         {/* <View
               style={{
@@ -66,6 +71,45 @@ const ImageBanner = ({
           {data?.title || "Belajar Investasi Crypto untuk pemula"}
         </TextItem>
         <TextItem type="b.15.nc.70">{data.name}</TextItem>
+        <TextItem type="b.15.nc.70">{data?.job || "job"}</TextItem>
+
+        <Gap vertical={10} />
+        <View>
+          <TextItem type="b.15.nc.70">
+            {data?.description || "description"}
+          </TextItem>
+        </View>
+
+        <Gap vertical={20} />
+
+        <View
+          style={{
+            borderWidth: 1,
+            borderRadius: 10,
+            // alignItems: "center",
+            alignSelf: "center",
+            padding: 20,
+            justifyContent: "center",
+            alignContent: "center"
+            // alignItems: "center"
+          }}
+        >
+          <TextItem type="b.20.nc.90" style={{}}>
+            {/* <Calendar color={neutralColor[90]} /> */}
+
+            <TextItem
+              style={{
+                margin: 5
+              }}
+            >
+              {data?.date}
+            </TextItem>
+          </TextItem>
+          <Gap vertical={10} />
+
+          <TextItem type="b.20.nc.90">{data?.time}</TextItem>
+          {/* {TextItem} */}
+        </View>
         <Gap vertical={20} />
 
         <Button

@@ -7,13 +7,7 @@ import {
   TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Share,
-  View,
-  Dimensions,
-  Platform
-} from "react-native";
+import { ActivityIndicator, Share, View, Platform } from "react-native";
 import Orientation, {
   PORTRAIT,
   OrientationLocker,

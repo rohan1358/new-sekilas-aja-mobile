@@ -85,8 +85,10 @@ import Minimize from "./minimize.svg";
 import Maximize from "./maximize.svg";
 import NotifyActive from "./dot_notif.svg";
 import Mentor from "./Mentor.svg";
+import Calendar from "./calendar.svg";
 
 export {
+  Calendar,
   Alert,
   AlertModal,
   ArrowLeft,

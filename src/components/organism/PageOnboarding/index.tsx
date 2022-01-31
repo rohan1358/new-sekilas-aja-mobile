@@ -16,9 +16,11 @@ export default function PagesOnboarding({ image, title, subTitle }: any) {
           <TextItem type="b.26.nc.90" style={styles.title}>
             {title}
           </TextItem>
-          <TextItem type="r.16.nc.70" style={styles.sub_title}>
-            {subTitle}
-          </TextItem>
+          {height > 800 && (
+            <TextItem type="r.16.nc.70" style={styles.sub_title}>
+              {subTitle}
+            </TextItem>
+          )}
         </View>
       </View>
     </ScrollView>
