@@ -5,7 +5,7 @@ import { Amage } from "../../atom";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 
-const ImageBanner = ({ source, data }: ImageBannerProps) => {
+const ImageBannerWebinar = ({ source, data }: ImageBannerProps) => {
   const move = useNavigation();
 
   const handleNavigation = () => {
@@ -29,4 +29,4 @@ const ImageBanner = ({ source, data }: ImageBannerProps) => {
   );
 };
 
-export default ImageBanner;
+export default ImageBannerWebinar;

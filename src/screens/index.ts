@@ -5,6 +5,7 @@ import BookTableContent from "./BookTableContent";
 import Category from "./Category";
 import Explore from "./Explore";
 import Home from "./Home";
+import Mentoring from "./Mentoring";
 import Library from "./Library";
 import Listening from "./Listening";
 import Notification from "./Notification";
@@ -45,5 +46,6 @@ export {
   SpecialBookList,
   Subscribe,
   Watching,
-  ModalSubscribe
+  ModalSubscribe,
+  Mentoring
 };

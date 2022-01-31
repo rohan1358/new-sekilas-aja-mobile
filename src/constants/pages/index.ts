@@ -29,5 +29,6 @@ export const pages = {
   SignUp: "SignUp",
   Subscribe: "Subscribe",
 
-  Watching: "Watching"
+  Watching: "Watching",
+  Mentoring: "Mentoring"
 };

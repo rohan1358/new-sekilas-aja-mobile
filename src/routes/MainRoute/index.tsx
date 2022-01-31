@@ -22,7 +22,8 @@ import {
   Subscribe,
   Watching,
   ContentNotification,
-  Explore
+  Explore,
+  Mentoring
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -68,6 +69,12 @@ const MainRoute = () => {
         <Stack.Screen
           name={"Home"}
           component={!isFirstTime ? Home : MainBottomRoute}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"Mentoring"}
+          component={Mentoring}
           // component={Home}
         />
         {/* <Stack.Screen

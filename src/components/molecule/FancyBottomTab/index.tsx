@@ -5,6 +5,7 @@ import {
   GridFilled,
   Home,
   HomeFilled,
+  Mentor,
   SubscribeCard
 } from "@assets";
 import {
@@ -52,6 +53,8 @@ const recentLabel = (
 
     case pages.Library:
       return strings.library;
+    case pages.Mentoring:
+      return strings.Mentoring;
 
     default:
       return strings.home;
@@ -103,6 +106,16 @@ const Icon = ({
         />
       ) : (
         <BookOpen stroke={inactiveColor} />
+      );
+    case pages.Mentoring:
+      return isFocused ? (
+        <Mentor
+          fill={activeColor}
+          width={ACTIVE_ICON_SIZE}
+          height={ACTIVE_ICON_SIZE}
+        />
+      ) : (
+        <Mentor stroke={inactiveColor} />
       );
 
     default:

@@ -2,6 +2,7 @@ import AboutHeader from "./AboutHeader";
 import BookTile from "./BookTile";
 import EmptyPlaceholder from "./EmptyPlaceholder";
 import ExploreSearch from "./ExploreSearch";
+import WebinarSearch from "./WebinarSearch";
 import HeaderBookDetail from "./HeaderBookDetail";
 import HeaderNotification from "./HeaderNotification";
 import HomeHeader from "./HomeHeader";
@@ -15,10 +16,12 @@ import PagesOnboarding from "./PageOnboarding";
 import ProfileHeader from "./ProfileHeader";
 import ReadingHeader from "./ReadingHeader";
 import SearchHeader from "./SearchHeader";
+import ImageBannerWebinar from "./ImageBannerWebinar";
 
 export { default as DuoRender } from "./DuoRender";
 
 export {
+  WebinarSearch,
   AboutHeader,
   BookTile,
   EmptyPlaceholder,
@@ -36,4 +39,5 @@ export {
   ProfileHeader,
   ReadingHeader,
   SearchHeader,
+  ImageBannerWebinar
 };

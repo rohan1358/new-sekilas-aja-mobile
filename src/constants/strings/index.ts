@@ -1,5 +1,9 @@
 export const strings = {
   agreeByCreate: "Dengan membuat akun baru saya menyetujui",
+  Mentoring: "Mentoring",
+  groupMentoring: "Group Mentoring",
+  webinarTertarik: "Webinar yang mungkin kamu tertarik!",
+  webBinarMingguIni: "Webinar minggu ini!",
   alamat: "Alamat Email",
   alert_action: "Batal Langganan",
   alert_action_hapus: "Hapus",
@@ -256,5 +260,5 @@ export const strings = {
   webinar_gratis: "Webinar GRATIS SETIAP MINGGU!",
   rekaman_webinar: "Tersedia Rekaman video webinar sebelumnya",
   artikel_pembelajaran: "50+ Artikel pembelajaran",
-  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif",
+  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif"
 };

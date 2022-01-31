@@ -84,6 +84,7 @@ import SubscribeCard from "./SubscribeCard.svg";
 import Minimize from "./minimize.svg";
 import Maximize from "./maximize.svg";
 import NotifyActive from "./dot_notif.svg";
+import Mentor from "./Mentor.svg";
 
 export {
   Alert,
@@ -170,5 +171,6 @@ export {
   Maximize,
   SkipBackFullScreen,
   SkipForwardFullScreen,
-  NotifyActive
+  NotifyActive,
+  Mentor
 };

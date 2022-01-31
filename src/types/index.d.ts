@@ -17,6 +17,7 @@ type MainBottomTabParamList = {
 
 type RootStackParamList = {
   Explore: undefined;
+  Mentoring: undefined;
   ContentNotification: undefined;
   About: undefined;
   AccountSettings: undefined;
