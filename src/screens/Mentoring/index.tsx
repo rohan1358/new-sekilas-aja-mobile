@@ -2,7 +2,7 @@ import {
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux
+  setProfileRedux,
 } from "@actions";
 import {
   Base,
@@ -17,7 +17,7 @@ import {
   OngoingTile,
   TextItem,
   ImageBannerWebinar,
-  WebinarSearch
+  WebinarSearch,
 } from "@components";
 import {
   pages,
@@ -25,7 +25,7 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
@@ -38,7 +38,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken
+  modifyToken,
 } from "@services";
 import { fetchCarousel } from "../../services/bookContent";
 import React, { useEffect, useState } from "react";
@@ -56,7 +56,7 @@ import { checkData } from "../../utils";
 import {
   fetchNotifInbox,
   fetchNotifPrivate,
-  fetchNotifPromo
+  fetchNotifPromo,
 } from "../../services/notification";
 import { getAllMentoring } from "../../services/mentoring";
 
@@ -70,7 +70,7 @@ const Home = () => {
   const {
     sessionReducer: { email },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
-    editProfile: { profile }
+    editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -116,7 +116,7 @@ const Home = () => {
   );
 
   const idKeyExtractor = ({
-    coverImageLink
+    coverImageLink,
   }: {
     coverImageLink: string | number;
   }) => `${Math.random()}`;
@@ -185,11 +185,11 @@ const Home = () => {
                     isLoading={!isFocused}
                     containerStyle={styles.skeleton}
                   >
-                    <Gap horizontal={HORIZONTAL_GAP}>
+                    {/* <Gap horizontal={HORIZONTAL_GAP}>
                       <TextItem type="b.24.nc.90">
                         {strings.webBinarMingguIni}
                       </TextItem>
-                    </Gap>
+                    </Gap> */}
                     <Gap vertical={sp.s} />
 
                     {checkData(listMentoring) && (

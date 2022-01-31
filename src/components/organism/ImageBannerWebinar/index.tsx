@@ -11,7 +11,7 @@ const ImageBanner = ({
   source,
   data,
   openModal,
-  dataUser
+  dataUser,
 }: ImageBannerProps) => {
   const move = useNavigation();
 
@@ -28,7 +28,7 @@ const ImageBanner = ({
   };
 
   const newTxtButton = () => {
-    if (dataUser.is_subscribed && data?.videoLink) {
+    if (data?.videoLink) {
       return "Tonton Ulang Webinar";
     } else {
       return "Daftar Webinar";
@@ -50,10 +50,10 @@ const ImageBanner = ({
           {
             // position: "absolute",
             margin: 10,
-            height: "100%"
+            height: "100%",
             // width: "80%",
             // height: "80%",
-          }
+          },
         ]}
       >
         {/* <View
@@ -70,45 +70,24 @@ const ImageBanner = ({
         <TextItem type="b.20.nc.90">
           {data?.title || "Belajar Investasi Crypto untuk pemula"}
         </TextItem>
-        <TextItem type="b.15.nc.70">{data.name}</TextItem>
-        <TextItem type="b.15.nc.70">{data?.job || "job"}</TextItem>
+        <TextItem type="r.15.nc.90">{data.name}</TextItem>
+        <TextItem type="i.15.nc.70">{data?.job || "job"}</TextItem>
 
         <Gap vertical={10} />
         <View>
-          <TextItem type="b.15.nc.70">
+          <TextItem type="r.15.nc.90">
             {data?.description || "description"}
           </TextItem>
         </View>
 
         <Gap vertical={20} />
 
-        <View
-          style={{
-            borderWidth: 1,
-            borderRadius: 10,
-            // alignItems: "center",
-            alignSelf: "center",
-            padding: 20,
-            justifyContent: "center",
-            alignContent: "center"
-            // alignItems: "center"
-          }}
-        >
-          <TextItem type="b.20.nc.90" style={{}}>
-            {/* <Calendar color={neutralColor[90]} /> */}
+        <View>
+          <TextItem type="b.15.nc.90">📅 {data?.date}</TextItem>
 
-            <TextItem
-              style={{
-                margin: 5
-              }}
-            >
-              {data?.date}
-            </TextItem>
-          </TextItem>
           <Gap vertical={10} />
 
-          <TextItem type="b.20.nc.90">{data?.time}</TextItem>
-          {/* {TextItem} */}
+          <TextItem type="b.15.nc.90">🕑 {data?.time}</TextItem>
         </View>
         <Gap vertical={20} />
 
