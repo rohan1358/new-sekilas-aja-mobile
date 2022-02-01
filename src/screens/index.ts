@@ -22,9 +22,13 @@ import Subscribe from "./Subscribe";
 import Watching from "./Watching";
 import RewatchWebinar from "./RewatchWebinar";
 import ContentNotification from "./ContentNotification";
+import Blog from "./Blog";
+import ReadingBlog from "./ReadBlog";
 import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
 
 export {
+  ReadingBlog,
+  Blog,
   RewatchWebinar,
   ContentNotification,
   About,

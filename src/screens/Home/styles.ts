@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { primaryColor, spacing as sp } from "../../constants";
+import { neutralColor, primaryColor, spacing as sp } from "../../constants";
 import { widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
@@ -30,7 +30,29 @@ const styles = StyleSheet.create({
   skeleton: { flex: 1 },
 
   underline: { textDecorationLine: "underline" },
-  row: { flexDirection: "row" }
+  row: { flexDirection: "row" },
+  btnNewMenu: {
+    borderWidth: 2,
+    margin: 5,
+    padding: 10,
+    borderRadius: 15,
+    flexDirection: "row",
+    maxWidth: "45%",
+    alignSelf: "center",
+    borderColor: neutralColor[50]
+  },
+  iconNewMenu: {
+    // borderWidth: 1,
+    borderRadius: 50,
+    padding: 10,
+    backgroundColor: "#ECF1F7"
+  },
+  containerNewMenu: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: widthPercent(100)
+  },
+  textNewMenu: { marginLeft: 10 }
 });
 
 export default styles;

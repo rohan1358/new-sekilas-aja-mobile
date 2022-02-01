@@ -18,6 +18,7 @@ import {
   TextItem
 } from "@components";
 import {
+  neutralColor,
   pages,
   primaryColor,
   skeleton,
@@ -41,7 +42,12 @@ import {
 import { fetchCarousel } from "../../services/bookContent";
 import { newCategories } from "../../../assets/dummy";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,6 +68,8 @@ import {
   fetchNotifPrivate,
   fetchNotifPromo
 } from "../../services/notification";
+
+import { BookOpen, Mentor } from "@assets";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -139,6 +147,8 @@ const Home = () => {
       setCarousel(res.data);
     });
   }, []);
+
+  const { width } = Dimensions.get("screen");
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
@@ -316,6 +326,23 @@ const Home = () => {
     }
   };
 
+  let open = true;
+
+  let childMenu = [
+    {
+      label: "mentoring",
+      text: <>Group{"\n"}Mentoring</>,
+      icon: Mentor,
+      route: "Mentoring"
+    },
+    {
+      label: "blog",
+      text: <>SekilasAja{"\n"}Blog</>,
+      icon: BookOpen,
+      route: "Blog"
+    }
+  ];
+
   return (
     <>
       {profileStore && (
@@ -351,30 +378,33 @@ const Home = () => {
                     <ActivityIndicator color={primaryColor.main} />
                   )}
                 </View>
+
                 <View style={styles.adjuster}>
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
               <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
             </Gap> */}
                   {/* <Gap vertical={sp.sm} /> */}
-                  <SkeletonContent
-                    layout={skeleton.componentBanner}
-                    isLoading={!isFocused}
-                    containerStyle={styles.skeleton}
-                  >
-                    {checkData(carousel) && (
-                      <FlatList
-                        contentContainerStyle={
-                          styles.newCollectionContentContainerStyle
-                        }
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        data={carousel || []}
-                        renderItem={bannerRenderItem}
-                        keyExtractor={idKeyExtractor}
-                        listKey={"bannerlist"}
-                      />
-                    )}
-                  </SkeletonContent>
+                  {open && (
+                    <SkeletonContent
+                      layout={skeleton.componentBanner}
+                      isLoading={!isFocused}
+                      containerStyle={styles.skeleton}
+                    >
+                      {checkData(carousel) && (
+                        <FlatList
+                          contentContainerStyle={
+                            styles.newCollectionContentContainerStyle
+                          }
+                          horizontal
+                          showsHorizontalScrollIndicator={false}
+                          data={carousel || []}
+                          renderItem={bannerRenderItem}
+                          keyExtractor={idKeyExtractor}
+                          listKey={"bannerlist"}
+                        />
+                      )}
+                    </SkeletonContent>
+                  )}
 
                   <Gap vertical={sp.m} />
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
@@ -393,158 +423,200 @@ const Home = () => {
               keyExtractor={dummyMiniCollectionKey}
               listKey={"kilaslist"}
             /> */}
-                  <>
-                    <Gap horizontal={HORIZONTAL_GAP}>
-                      <TextItem type="b.24.nc.90">
-                        {strings.bookCategory}
+                  <Gap vertical={sp.m} />
+                  <View style={styles.containerNewMenu}>
+                    {childMenu.map((Cb) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate(Cb?.route || "Home");
+                          }}
+                          style={styles.btnNewMenu}
+                        >
+                          <View style={styles.iconNewMenu}>
+                            <Cb.icon
+                              width={30}
+                              height={30}
+                              stroke={"#5F647E"}
+                            />
+                          </View>
+                          <TextItem
+                            type="b.15.nc.80"
+                            style={styles.textNewMenu}
+                          >
+                            {Cb.text}
+                          </TextItem>
+                        </TouchableOpacity>
+                      );
+                    })}
+
+                    {/* <TouchableOpacity>
+                      <TextItem>
+                        {" "}
+                        <BookOpen stroke={neutralColor[50]} /> SekilasAja Blog
                       </TextItem>
-                    </Gap>
-                    <Gap vertical={sp.sm} />
-                    <ScrollView
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                    >
-                      <View>
+                    </TouchableOpacity> */}
+                  </View>
+                  <Gap vertical={sp.m} />
+                  {open && (
+                    <>
+                      <>
+                        <Gap horizontal={HORIZONTAL_GAP}>
+                          <TextItem type="b.24.nc.90">
+                            {strings.bookCategory}
+                          </TextItem>
+                        </Gap>
+                        <Gap vertical={sp.sm} />
+                        <ScrollView
+                          horizontal
+                          showsHorizontalScrollIndicator={false}
+                        >
+                          <View>
+                            <SkeletonContent
+                              layout={skeleton.componentCategory}
+                              isLoading={!isFocused}
+                              containerStyle={styles.skeleton}
+                            >
+                              <View style={styles.row}>
+                                {checkData(listCategory) &&
+                                  listCategory
+                                    .slice(0, listCategory.length / 2 + 1)
+                                    .map((item: any, index: any) => {
+                                      const onPress = (id: string) =>
+                                        navigation.navigate("Category", {
+                                          type: "category",
+                                          title: item,
+                                          payload: id
+                                        });
+                                      return (
+                                        <CategoryChips
+                                          onPress={onPress}
+                                          index={index}
+                                          item={{
+                                            id: item,
+                                            label: item,
+                                            Icon: newCategories(item)
+                                          }}
+                                          key={index}
+                                        />
+                                      );
+                                    })}
+                              </View>
+                              <Gap vertical={sp.sm} />
+                              <View style={styles.row}>
+                                {listCategory &&
+                                  listCategory
+                                    .slice(
+                                      listCategory.length / 2 + 1,
+                                      listCategory.length
+                                    )
+                                    .map((item: any, index: any) => {
+                                      const onPress = (id: string) =>
+                                        navigation.navigate("Category", {
+                                          type: "category",
+                                          title: item,
+                                          payload: id
+                                        });
+                                      return (
+                                        <CategoryChips
+                                          onPress={onPress}
+                                          index={index}
+                                          item={{
+                                            id: item,
+                                            label: item,
+                                            Icon: newCategories(item)
+                                          }}
+                                          key={index}
+                                        />
+                                      );
+                                    })}
+                              </View>
+                            </SkeletonContent>
+                          </View>
+                        </ScrollView>
+                      </>
+                      <Gap vertical={sp.sl} />
+                      <View style={styles.clickTitle}>
+                        <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                          {strings.recommendedBook}
+                        </TextItem>
+                        <Gap horizontal={20} />
+                        <Button onPress={onPressRecommend}>
+                          <TextItem type="b.14.nc.90" style={styles.underline}>
+                            {strings.seeAll}
+                          </TextItem>
+                        </Button>
+                      </View>
+                      <Gap vertical={sp.sm} />
+                      <SkeletonContent
+                        layout={skeleton.componentRecomended}
+                        isLoading={!isFocused}
+                        containerStyle={styles.skeleton}
+                      >
+                        <Gap horizontal={HORIZONTAL_GAP}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              flexWrap: "wrap",
+                              justifyContent: "space-between"
+                            }}
+                          >
+                            {Array.isArray(bookRecomended) &&
+                              bookRecomended.map((item: any) => {
+                                return (
+                                  <React.Fragment key={Math.random()}>
+                                    <BooksRenderItem item={item} />
+                                  </React.Fragment>
+                                );
+                              })}
+                          </View>
+                        </Gap>
+                      </SkeletonContent>
+                      {/* most read */}
+                      <>
+                        <Gap vertical={sp.sl} />
+                        <View style={styles.clickTitle}>
+                          <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                            {strings.mostRead}
+                          </TextItem>
+                          <Gap horizontal={20} />
+                          <Button onPress={onMostReadPress}>
+                            <TextItem
+                              type="b.14.nc.90"
+                              style={styles.underline}
+                            >
+                              {strings.seeAll}
+                            </TextItem>
+                          </Button>
+                        </View>
+                        <Gap vertical={sp.sm} />
                         <SkeletonContent
-                          layout={skeleton.componentCategory}
+                          layout={skeleton.componentMostRead}
                           isLoading={!isFocused}
                           containerStyle={styles.skeleton}
                         >
-                          <View style={styles.row}>
-                            {checkData(listCategory) &&
-                              listCategory
-                                .slice(0, listCategory.length / 2 + 1)
-                                .map((item: any, index: any) => {
-                                  const onPress = (id: string) =>
-                                    navigation.navigate("Category", {
-                                      type: "category",
-                                      title: item,
-                                      payload: id
-                                    });
+                          <Gap horizontal={HORIZONTAL_GAP}>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                flexWrap: "wrap",
+                                justifyContent: "space-between"
+                              }}
+                            >
+                              {Array.isArray(mostReadBook) &&
+                                mostReadBook.map((item: any) => {
                                   return (
-                                    <CategoryChips
-                                      onPress={onPress}
-                                      index={index}
-                                      item={{
-                                        id: item,
-                                        label: item,
-                                        Icon: newCategories(item)
-                                      }}
-                                      key={index}
-                                    />
+                                    <React.Fragment key={Math.random()}>
+                                      <BooksRenderItem item={item} />
+                                    </React.Fragment>
                                   );
                                 })}
-                          </View>
-                          <Gap vertical={sp.sm} />
-                          <View style={styles.row}>
-                            {listCategory &&
-                              listCategory
-                                .slice(
-                                  listCategory.length / 2 + 1,
-                                  listCategory.length
-                                )
-                                .map((item: any, index: any) => {
-                                  const onPress = (id: string) =>
-                                    navigation.navigate("Category", {
-                                      type: "category",
-                                      title: item,
-                                      payload: id
-                                    });
-                                  return (
-                                    <CategoryChips
-                                      onPress={onPress}
-                                      index={index}
-                                      item={{
-                                        id: item,
-                                        label: item,
-                                        Icon: newCategories(item)
-                                      }}
-                                      key={index}
-                                    />
-                                  );
-                                })}
-                          </View>
+                            </View>
+                          </Gap>
                         </SkeletonContent>
-                      </View>
-                    </ScrollView>
-                  </>
-                  <Gap vertical={sp.sl} />
-                  <View style={styles.clickTitle}>
-                    <TextItem type="b.24.nc.90" style={styles.longTitle}>
-                      {strings.recommendedBook}
-                    </TextItem>
-                    <Gap horizontal={20} />
-                    <Button onPress={onPressRecommend}>
-                      <TextItem type="b.14.nc.90" style={styles.underline}>
-                        {strings.seeAll}
-                      </TextItem>
-                    </Button>
-                  </View>
-                  <Gap vertical={sp.sm} />
-                  <SkeletonContent
-                    layout={skeleton.componentRecomended}
-                    isLoading={!isFocused}
-                    containerStyle={styles.skeleton}
-                  >
-                    <Gap horizontal={HORIZONTAL_GAP}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          flexWrap: "wrap",
-                          justifyContent: "space-between"
-                        }}
-                      >
-                        {Array.isArray(bookRecomended) &&
-                          bookRecomended.map((item: any) => {
-                            return (
-                              <React.Fragment key={Math.random()}>
-                                <BooksRenderItem item={item} />
-                              </React.Fragment>
-                            );
-                          })}
-                      </View>
-                    </Gap>
-                  </SkeletonContent>
-                  {/* most read */}
-                  <>
-                    <Gap vertical={sp.sl} />
-                    <View style={styles.clickTitle}>
-                      <TextItem type="b.24.nc.90" style={styles.longTitle}>
-                        {strings.mostRead}
-                      </TextItem>
-                      <Gap horizontal={20} />
-                      <Button onPress={onMostReadPress}>
-                        <TextItem type="b.14.nc.90" style={styles.underline}>
-                          {strings.seeAll}
-                        </TextItem>
-                      </Button>
-                    </View>
-                    <Gap vertical={sp.sm} />
-                    <SkeletonContent
-                      layout={skeleton.componentMostRead}
-                      isLoading={!isFocused}
-                      containerStyle={styles.skeleton}
-                    >
-                      <Gap horizontal={HORIZONTAL_GAP}>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between"
-                          }}
-                        >
-                          {Array.isArray(mostReadBook) &&
-                            mostReadBook.map((item: any) => {
-                              return (
-                                <React.Fragment key={Math.random()}>
-                                  <BooksRenderItem item={item} />
-                                </React.Fragment>
-                              );
-                            })}
-                        </View>
-                      </Gap>
-                    </SkeletonContent>
-                  </>
+                      </>
+                    </>
+                  )}
                 </View>
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>

@@ -24,7 +24,9 @@ import {
   ContentNotification,
   Explore,
   Mentoring,
-  RewatchWebinar
+  RewatchWebinar,
+  Blog,
+  ReadingBlog
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -42,18 +44,6 @@ const MainRoute = () => {
     }
   }, []);
 
-  const config = {
-    animation: "",
-    config: {
-      stiffness: 1000,
-      damping: 500,
-      mass: 3,
-      overshootClamping: true,
-      restDisplacementThreshold: 0.01,
-      restSpeedThreshold: 0.01
-    }
-  };
-
   return (
     <>
       <OrientationLocker orientation={PORTRAIT} />
@@ -64,6 +54,18 @@ const MainRoute = () => {
         <Stack.Screen
           name={"Home"}
           component={!isFirstTime ? Home : MainBottomRoute}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"Blog"}
+          component={Blog}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"ReadBlog"}
+          component={ReadingBlog}
           // component={Home}
         />
 
