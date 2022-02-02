@@ -5,7 +5,7 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import client from "../../services/blog/client";
@@ -66,7 +66,7 @@ const Blog = () => {
   );
 
   const idKeyExtractor = ({
-    coverImageLink
+    coverImageLink,
   }: {
     coverImageLink: string | number;
   }) => `${Math.random()}`;
@@ -119,6 +119,7 @@ const Blog = () => {
             listKey={"bannerlist"}
           />
         )}
+
         {Array.isArray(dataBlog) &&
           newData("list").map((data) => {
             return (
@@ -135,10 +136,13 @@ const Blog = () => {
                     />
                   </View>
                   <View style={styles.containerDesk}>
-                    <TextItem type="b.15.nc.80">{data.title}</TextItem>
-                    <Text style={{ position: "absolute", bottom: 0 }}>
+                    <TextItem type="b.15.nc.90">{data.title}</TextItem>
+                    <TextItem
+                      type="i.12.nc.90"
+                      style={{ position: "absolute", bottom: 0 }}
+                    >
                       {moment(data.releaseDate).format("LL")}
-                    </Text>
+                    </TextItem>
                   </View>
                 </View>
               </TouchableOpacity>
