@@ -280,8 +280,9 @@ const Home = () => {
         setIsLoading(false);
       }
     } else {
-      setIsLoading(false);
       const newLastRead = await getLastReading(email);
+      setIsLoading(false);
+
       if (newLastRead.isSuccess) {
         setLastReading(newLastRead.data);
       }
@@ -367,7 +368,7 @@ const Home = () => {
           >
             <SkeletonContent
               containerStyle={styles.skeleton}
-              isLoading={!isFocused}
+              isLoading={isLoading || !isFocused}
               layout={skeleton.mainHome}
             >
               <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>

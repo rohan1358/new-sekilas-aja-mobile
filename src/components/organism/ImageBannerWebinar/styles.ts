@@ -3,14 +3,14 @@ import { StyleSheet } from "react-native";
 import { widthPercent } from "../../../helpers";
 
 const BANNER_WIDTH = widthPercent(74.18);
-const BANNER_HEIGHT = (widthPercent(84.18) * 4) / 9;
+const BANNER_HEIGHT = (widthPercent(84.18) * 4) / 9 + 20;
 
 const styles = StyleSheet.create({
   container: {
     width: BANNER_WIDTH,
-    height: BANNER_HEIGHT,
+    height: BANNER_WIDTH / 1.5,
     borderRadius: 16,
-    overflow: "hidden",
+    overflow: "hidden"
   },
   btnBar: {
     height: 40,
@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 5,
     // width: "1%",
-    bottom: 0,
+    bottom: 0
     // position: "absolute"
   },
 
-  image: { borderRadius: 16 },
+  image: { borderRadius: 16 }
 });
 
 export default styles;
