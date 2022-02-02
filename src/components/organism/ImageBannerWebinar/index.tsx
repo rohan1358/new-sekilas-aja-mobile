@@ -24,7 +24,7 @@ const ImageBanner = ({
       Linking.openURL(data?.joinLink)
         .then((res) => {})
         .catch((err) => {
-          console.log("whatsapp tidak terinstall!");
+          // console.log("whatsapp tidak terinstall!");
         });
     }
   };

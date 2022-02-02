@@ -2,7 +2,7 @@ import { neutralColor } from "@constants";
 import { StyleSheet } from "react-native";
 import { widthPercent } from "../../../helpers";
 
-const BANNER_WIDTH = widthPercent(84.18);
+const BANNER_WIDTH = widthPercent(74.18);
 const BANNER_HEIGHT = (widthPercent(84.18) * 4) / 9;
 
 const styles = StyleSheet.create({

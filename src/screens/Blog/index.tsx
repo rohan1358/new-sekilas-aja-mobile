@@ -9,17 +9,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import client from "../../services/blog/client";
-import { Gap, TextItem } from "@atom";
+import { Button, Gap, TextItem } from "@atom";
 import styles from "./styles";
-import { spacing } from "@constants";
+import { neutralColor, spacing } from "@constants";
 import ImageBannerBlog from "../../components/organism/ImageBannerBlog";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
+import { ArrowLeft } from "@assets";
 
 const Blog = () => {
   const [dataBlog, setDataBlog] = useState(false);
 
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   useEffect(() => {
     client
@@ -97,8 +98,19 @@ const Blog = () => {
     <View style={{ flex: 1 }}>
       <View style={styles.headerContainer}>
         <Gap vertical={spacing.sm} />
+
         <View style={styles.headerTitle}>
-          <TextItem type="b.24.nc.90">{"SekilasAja Blog"}</TextItem>
+          <Button onPress={() => goBack()}>
+            <ArrowLeft color={neutralColor[90]} />
+          </Button>
+          <TextItem
+            style={{
+              marginLeft: 5
+            }}
+            type="b.24.nc.90"
+          >
+            {"SekilasAja Blog"}
+          </TextItem>
           {/* <Button style={styles.icon}>
             <Search stroke={neutralColor[90]} />
           </Button> */}

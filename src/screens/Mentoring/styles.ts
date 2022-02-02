@@ -1,8 +1,10 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { primaryColor, spacing as sp } from "../../constants";
 import { widthPercent } from "../../helpers";
 const HEADER_RADIUS = 24;
 const ICON_SIZE = 48;
+
+const { width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   adjuster: { top: -sp.s },

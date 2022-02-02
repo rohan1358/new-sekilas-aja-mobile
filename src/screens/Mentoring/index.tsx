@@ -115,7 +115,7 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err.message);
+        // console.log('please check your connection')
       });
   };
 

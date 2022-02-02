@@ -28,7 +28,11 @@ import {
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
 import {
@@ -219,6 +223,15 @@ const Home = () => {
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      setLoading(false);
+      return () => {
+        setLoading(true);
+      };
+    }, [])
+  );
+
   const getHomeData = async (isRefresh: any) => {
     setIsLoading(true);
 
@@ -354,7 +367,7 @@ const Home = () => {
           >
             <SkeletonContent
               containerStyle={styles.skeleton}
-              isLoading={isLoading}
+              isLoading={!isFocused}
               layout={skeleton.mainHome}
             >
               <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
