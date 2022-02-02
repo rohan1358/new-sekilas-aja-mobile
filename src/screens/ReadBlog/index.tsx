@@ -19,14 +19,14 @@ export default function Index() {
           <Button onPress={() => goBack()}>
             <ArrowLeft color={neutralColor[90]} />
           </Button>
-          <TextItem
+          {/* <TextItem
             style={{
-              marginLeft: 5
+              marginLeft: 5,
             }}
             type="b.24.nc.90"
           >
-            {"Baca SekilasAja Blog"}
-          </TextItem>
+            {"Artikel Pembelajaran"}
+          </TextItem> */}
           {/* <Button style={styles.icon}>
             <Search stroke={neutralColor[90]} />
           </Button> */}

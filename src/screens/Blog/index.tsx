@@ -105,11 +105,11 @@ const Blog = () => {
           </Button>
           <TextItem
             style={{
-              marginLeft: 5
+              marginLeft: 5,
             }}
             type="b.24.nc.90"
           >
-            {"SekilasAja Blog"}
+            {"Artikel Pembelajaran"}
           </TextItem>
           {/* <Button style={styles.icon}>
             <Search stroke={neutralColor[90]} />

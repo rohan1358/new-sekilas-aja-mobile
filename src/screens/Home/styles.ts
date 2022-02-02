@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: sp.sl,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   columnWrapperStyle: { justifyContent: "space-between" },
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: primaryColor.main,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
-    top: -sp.m
+    top: -sp.m,
   },
 
   longTitle: { flex: 1.25 },
@@ -39,20 +39,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     maxWidth: "45%",
     alignSelf: "center",
-    borderColor: neutralColor[50]
+    borderColor: neutralColor[50],
   },
   iconNewMenu: {
-    // borderWidth: 1,
+    alignItems: "center",
     borderRadius: 50,
     padding: 10,
-    backgroundColor: "#ECF1F7"
+    backgroundColor: "#ECF1F7",
   },
   containerNewMenu: {
     flexDirection: "row",
     justifyContent: "center",
-    width: widthPercent(100)
+    width: widthPercent(100),
   },
-  textNewMenu: { marginLeft: 10 }
+  textNewMenu: { marginLeft: 10 },
 });
 
 export default styles;
