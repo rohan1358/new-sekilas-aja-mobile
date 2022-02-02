@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: sp.sl,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
+
   columnWrapperStyle: { justifyContent: "space-between" },
 
   dummyHeader: {
@@ -23,29 +24,35 @@ const styles = StyleSheet.create({
     backgroundColor: primaryColor.main,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
-    top: -sp.m
+    top: -sp.m,
   },
 
   longTitle: { flex: 1.25 },
 
   newCollectionContainer: { flexDirection: "row" },
-  newCollectionContentContainerStyle: { paddingLeft: sp.sl },
+
+  newCollectionContentContainerStyle: {
+    paddingLeft: sp.m,
+  },
 
   skeleton: { flex: 1 },
 
   underline: { textDecorationLine: "underline" },
+
   row: { flexDirection: "row" },
+
   headerContainer: {
     paddingHorizontal: sp.sl,
     backgroundColor: primaryColor.main,
     borderBottomLeftRadius: HEADER_RADIUS,
-    borderBottomRightRadius: HEADER_RADIUS
+    borderBottomRightRadius: HEADER_RADIUS,
   },
+
   headerTitle: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
 });
 
 export default styles;
