@@ -2,7 +2,7 @@ import {
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux
+  setProfileRedux,
 } from "@actions";
 import {
   Base,
@@ -17,7 +17,7 @@ import {
   OngoingTile,
   TextItem,
   ImageBannerWebinar,
-  WebinarSearch
+  WebinarSearch,
 } from "@components";
 import {
   pages,
@@ -25,14 +25,14 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import {
   useFocusEffect,
   useIsFocused,
-  useNavigation
+  useNavigation,
 } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
@@ -42,7 +42,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken
+  modifyToken,
 } from "@services";
 import { fetchCarousel } from "../../services/bookContent";
 import React, { useCallback, useEffect, useState } from "react";
@@ -60,7 +60,7 @@ import { checkData } from "../../utils";
 import {
   fetchNotifInbox,
   fetchNotifPrivate,
-  fetchNotifPromo
+  fetchNotifPromo,
 } from "../../services/notification";
 import { getAllMentoring } from "../../services/mentoring";
 
@@ -76,7 +76,7 @@ const Home = () => {
   const {
     sessionReducer: { email },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
-    editProfile: { profile }
+    editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -133,7 +133,7 @@ const Home = () => {
   );
 
   const idKeyExtractor = ({
-    coverImageLink
+    coverImageLink,
   }: {
     coverImageLink: string | number;
   }) => `${Math.random()}`;
@@ -158,21 +158,23 @@ const Home = () => {
             snackState={snackState}
             setSnackState={setSnackState}
           >
-            <View style={styles.headerContainer}>
-              <Gap vertical={sp.sm} />
-              <View style={styles.headerTitle}>
-                <TextItem type="b.24.nc.90">{strings.groupMentoring}</TextItem>
-                {/* <Button style={styles.icon}>
-            <Search stroke={neutralColor[90]} />
-          </Button> */}
-              </View>
-              <Gap vertical={sp.sm} />
-            </View>
             <SkeletonContent
               containerStyle={styles.skeleton}
               isLoading={isLoading}
               layout={skeleton.mainHome}
             >
+              <View style={styles.headerContainer}>
+                <Gap vertical={sp.sm} />
+                <View style={styles.headerTitle}>
+                  <TextItem type="b.24.nc.90">
+                    {strings.groupMentoring}
+                  </TextItem>
+                  {/* <Button style={styles.icon}>
+            <Search stroke={neutralColor[90]} />
+          </Button> */}
+                </View>
+                <Gap vertical={sp.sm} />
+              </View>
               <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
                 <Gap vertical={sp.l} />
 
