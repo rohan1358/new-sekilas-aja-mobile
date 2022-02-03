@@ -449,13 +449,14 @@ const Home = () => {
                         >
                           <View style={styles.iconNewMenu}>
                             <Cb.icon
-                              width={30}
-                              height={30}
+                              width={width <= 320 ? 30 / 2 : 30}
+                              height={width <= 320 ? 30 / 2 : 30}
                               stroke={"#5F647E"}
                             />
                           </View>
                           <TextItem
-                            type="b.15.nc.80"
+                            numberOfLines={2}
+                            type={`b.${width <= 320 ? 15 / 1.2 : 15}.nc.80`}
                             style={styles.textNewMenu}
                           >
                             {Cb.text}

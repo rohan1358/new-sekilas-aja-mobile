@@ -227,7 +227,7 @@ const FancyBottomTab = ({
                     {isFocused && (
                       <>
                         <Gap vertical={sp.xxs} />
-                        <TextItem type="b.10.pc.main">
+                        <TextItem numberOfLines={1} type="b.10.pc.main">
                           {recentLabel(label)}
                         </TextItem>
                       </>

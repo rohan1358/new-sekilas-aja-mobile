@@ -1,6 +1,16 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { neutralColor, primaryColor, spacing as sp } from "../../constants";
 import { widthPercent } from "../../helpers";
+
+const { width } = Dimensions.get("screen");
+
+const is3Inch = (num: any) => {
+  if (width > 320) {
+    return num;
+  } else {
+    return num / 2;
+  }
+};
 
 const styles = StyleSheet.create({
   adjuster: { top: -sp.m },
@@ -32,10 +42,10 @@ const styles = StyleSheet.create({
   underline: { textDecorationLine: "underline" },
   row: { flexDirection: "row" },
   btnNewMenu: {
-    borderWidth: 2,
-    margin: 5,
-    padding: 10,
-    borderRadius: 15,
+    borderWidth: is3Inch(2),
+    margin: is3Inch(5),
+    padding: is3Inch(10),
+    borderRadius: is3Inch(15),
     flexDirection: "row",
     maxWidth: "45%",
     alignSelf: "center",

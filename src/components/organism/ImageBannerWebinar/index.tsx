@@ -11,7 +11,7 @@ const ImageBanner = ({
   source,
   data,
   openModal,
-  dataUser,
+  dataUser
 }: ImageBannerProps) => {
   const move = useNavigation();
 
@@ -39,7 +39,11 @@ const ImageBanner = ({
   return (
     <View>
       <View style={[styles.container]}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation();
+          }}
+        >
           <View style={styles.imgContainer}>
             <Amage style={styles.image} source={source} />
           </View>
@@ -52,10 +56,10 @@ const ImageBanner = ({
           {
             // position: "absolute",
             margin: 10,
-            height: "100%",
+            height: "100%"
             // width: "80%",
             // height: "80%",
-          },
+          }
         ]}
       >
         {/* <View

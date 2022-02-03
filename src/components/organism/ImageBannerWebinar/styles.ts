@@ -19,8 +19,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     marginBottom: 5,
-    // width: "1%",
-    bottom: 0
+    width: "95%"
+    // bottom: 0
+    // alignSelf: "center",
+    // marginLeft: -10
+
     // position: "absolute"
   },
 
