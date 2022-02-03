@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    width: "100%",
-    marginTop: 5
+    width: "95%",
+    marginTop: 5,
     // marginBottom: 0
     // bottom: 0
-    // alignSelf: "center"
+    alignSelf: "center"
     // marginLeft: -10
 
     // position: "absolute"
