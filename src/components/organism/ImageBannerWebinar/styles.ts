@@ -13,15 +13,17 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
   btnBar: {
+    // position: "absolute",
     height: 40,
     backgroundColor: neutralColor[90],
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    marginBottom: 5,
-    width: "95%"
+    width: "100%",
+    marginTop: 5
+    // marginBottom: 0
     // bottom: 0
-    // alignSelf: "center",
+    // alignSelf: "center"
     // marginLeft: -10
 
     // position: "absolute"

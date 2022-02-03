@@ -351,7 +351,7 @@ const Home = () => {
     },
     {
       label: "blog",
-      text: <>SekilasAja{"\n"}Blog</>,
+      text: <>Artikel{"\n"}Pembelajaran</>,
       icon: BookOpen,
       route: "Blog"
     }
@@ -456,7 +456,7 @@ const Home = () => {
                           </View>
                           <TextItem
                             numberOfLines={2}
-                            type={`b.${width <= 320 ? 15 / 1.2 : 15}.nc.80`}
+                            type={`b.${width <= 320 ? 13 / 1.2 : 13}.nc.80`}
                             style={styles.textNewMenu}
                           >
                             {Cb.text}

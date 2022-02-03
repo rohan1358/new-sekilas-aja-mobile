@@ -55,8 +55,11 @@ const ImageBanner = ({
           styles.container,
           {
             // position: "absolute",
-            margin: 10,
+            marginVertical: 10,
+            // flex: 1
             height: "100%"
+            // backgroundColor: "lightblue"
+            // flex: 1
             // width: "80%",
             // height: "80%",
           }
@@ -82,7 +85,7 @@ const ImageBanner = ({
         <Gap vertical={10} />
         <View>
           <TextItem type="r.15.nc.90">
-            {data?.description || "description"}
+            {data?.description || "description"}{" "}
           </TextItem>
         </View>
 
@@ -95,8 +98,6 @@ const ImageBanner = ({
 
           <TextItem type="b.15.nc.90">🕑 {data?.time}</TextItem>
         </View>
-        <Gap vertical={20} />
-
         <Button
           onPress={() => {
             handleNavigation();
@@ -105,6 +106,8 @@ const ImageBanner = ({
         >
           <TextItem type="b.15.pc.main">{newTxtButton()}</TextItem>
         </Button>
+
+        <Gap vertical={20} />
       </View>
     </View>
   );
