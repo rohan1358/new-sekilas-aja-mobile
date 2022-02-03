@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     width: BANNER_WIDTH,
     height: BANNER_WIDTH / 1.5,
     borderRadius: 16,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   btnBar: {
     // position: "absolute",
@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     // marginBottom: 0
     // bottom: 0
-    alignSelf: "center"
+    // alignSelf: "center"
     // marginLeft: -10
 
     // position: "absolute"
   },
 
-  image: { borderRadius: 16 }
+  image: { borderRadius: 16 },
 });
 
 export default styles;

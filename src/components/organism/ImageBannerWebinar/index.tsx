@@ -11,7 +11,7 @@ const ImageBanner = ({
   source,
   data,
   openModal,
-  dataUser
+  dataUser,
 }: ImageBannerProps) => {
   const move = useNavigation();
 
@@ -57,12 +57,12 @@ const ImageBanner = ({
             // position: "absolute",
             marginVertical: 10,
             // flex: 1
-            height: "100%"
+            height: "100%",
             // backgroundColor: "lightblue"
             // flex: 1
             // width: "80%",
             // height: "80%",
-          }
+          },
         ]}
       >
         {/* <View
@@ -98,6 +98,9 @@ const ImageBanner = ({
 
           <TextItem type="b.15.nc.90">🕑 {data?.time}</TextItem>
         </View>
+
+        <Gap vertical={10} />
+
         <Button
           onPress={() => {
             handleNavigation();

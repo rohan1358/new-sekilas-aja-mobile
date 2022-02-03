@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
   row: { flexDirection: "row" },
   btnNewMenu: {
     borderWidth: is3Inch(2),
-    margin: is3Inch(5),
+    margin: is3Inch(1),
     padding: is3Inch(10),
     borderRadius: is3Inch(15),
     flexDirection: "row",
-    maxWidth: "45%",
     alignSelf: "center",
+    alignItems: "center",
     borderColor: neutralColor[50],
   },
   iconNewMenu: {
@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
   },
   containerNewMenu: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     width: widthPercent(100),
   },
-  textNewMenu: { marginLeft: 10 },
+  textNewMenu: { marginLeft: 5 },
 });
 
 export default styles;
