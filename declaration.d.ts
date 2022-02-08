@@ -5,6 +5,8 @@ declare module "*.svg" {
   export default content;
 }
 
+declare module "base-64";
+
 declare module "*.png" {
   const value: any;
   export = value;

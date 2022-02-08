@@ -2,6 +2,8 @@ import { createNativeStackNavigator as createStackNavigator } from "@react-navig
 import { ReduxState } from "@rux";
 import React, { useState } from "react";
 import { OrientationLocker, PORTRAIT } from "react-native-orientation-locker";
+import { encode } from "base-64";
+
 import { useSelector } from "react-redux";
 import {
   About,
@@ -30,6 +32,9 @@ import {
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
+import firestore from "@react-native-firebase/firestore";
+import { updateUser } from "@services";
+import { firebaseTrackPayment, getInvoices } from "../../services/payment";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -37,11 +42,53 @@ const MainRoute = () => {
   const {
     editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
+
   const [isFirstTime, setFirstTime] = useState(false);
+
   React.useEffect(() => {
     if (!isFirstTime) {
       setFirstTime(true);
     }
+  }, []);
+
+  React.useEffect(() => {
+    // console.log("profile", profile.id);
+    firestore()
+      .collection("users")
+      .doc(profile.id)
+      .onSnapshot((res: any) => {
+        if (res.data().id_incoive) {
+          // get invoices
+          const start_date = new Date();
+
+          let end_date = new Date();
+          getInvoices(res.data().id_incoive).then((res: any) => {
+            const { email, phoneNumber } = profile;
+            if (res.status !== "PENDING") {
+              if (res.description == "Subscription 12 Bulan") {
+                end_date.setMonth(end_date.getMonth() + 12);
+              } else if (res.description == "Subscription 3 Bulan") {
+                end_date.setMonth(end_date.getMonth() + 3);
+              } else if (res.description == "Subscription 1 Bulan") {
+                end_date.setMonth(end_date.getMonth() + 1);
+              }
+              firebaseTrackPayment({
+                email,
+                date: new Date(),
+                phoneNumber: phoneNumber,
+                item: res.description
+                // kode_promo: ZONK10
+              });
+              updateUser(email, {
+                is_subscribed: true,
+                end_date: end_date,
+                start_date: start_date,
+                id_incoive: ""
+              }).then((res) => {});
+            }
+          });
+        }
+      });
   }, []);
 
   return (

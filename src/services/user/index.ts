@@ -1,6 +1,7 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
 import { logger } from "../../helpers";
+import { firebaseTrackPayment, getInvoices } from "../payment";
 
 const fetchProfile = (email: string) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
@@ -9,7 +10,9 @@ const fetchProfile = (email: string) => {
         .collection(firebaseNode.users)
         .where("email", "==", email)
         .get();
+
       const newData = raw.docs[0].data();
+
       const id = raw.docs[0].id;
       const { is_subscribed } = newData;
       const rawData = {
@@ -26,12 +29,74 @@ const fetchProfile = (email: string) => {
       }
 
       const user = { ...rawData, id };
-      resolve({
-        data: user,
-        isSuccess: true,
-        error: null,
-        message: "Profile successfuly fetched."
-      });
+
+      if (newData.id_incoive) {
+        // get invoices
+        const start_date = new Date();
+
+        let end_date = new Date();
+        getInvoices(newData.id_incoive).then((res: any) => {
+          const { email, phoneNumber } = newData;
+          if (res.status !== "PENDING") {
+            if (res.description == "Subscription 12 Bulan") {
+              end_date.setMonth(end_date.getMonth() + 12);
+            } else if (res.description == "Subscription 3 Bulan") {
+              end_date.setMonth(end_date.getMonth() + 3);
+            } else if (res.description == "Subscription 1 Bulan") {
+              end_date.setMonth(end_date.getMonth() + 1);
+            }
+            firebaseTrackPayment({
+              email,
+              date: new Date(),
+              phoneNumber: phoneNumber,
+              item: res.description
+              // kode_promo: ZONK10
+            });
+            updateUser(email, {
+              is_subscribed: true,
+              end_date: end_date,
+              start_date: start_date,
+              id_incoive: ""
+            })
+              .then((res) => {
+                resolve({
+                  data: {
+                    ...user,
+                    is_subscribed: true,
+                    end_date: end_date,
+                    start_date: start_date,
+                    id_incoive: ""
+                  },
+                  isSuccess: true,
+                  error: null,
+                  message: "Profile successfuly fetched."
+                });
+              })
+              .catch((err) => {
+                resolve({
+                  data: { ...user },
+                  isSuccess: true,
+                  error: null,
+                  message: "Profile successfuly fetched."
+                });
+              });
+          } else {
+            resolve({
+              data: { ...user },
+              isSuccess: true,
+              error: null,
+              message: "Profile successfuly fetched."
+            });
+          }
+        });
+      } else {
+        resolve({
+          data: { ...user },
+          isSuccess: true,
+          error: null,
+          message: "Profile successfuly fetched."
+        });
+      }
     } catch (error) {
       reject({
         data: null,
@@ -84,6 +149,36 @@ const modifyToken = ({
         isSuccess: false,
         error,
         message: "Token update failed."
+      });
+    }
+  });
+};
+
+export const updateUser = (email: any, data: any) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      firestore()
+        .collection("users")
+        .where("email", "==", email)
+        .get()
+        .then((resGetuser) => {
+          firestore()
+            .collection("users")
+            .doc(resGetuser.docs[0].id)
+            .update(data)
+            .then((res) => {
+              resolve({
+                status: "success",
+                isSuccess: true,
+                isFailed: false
+              });
+            });
+        });
+    } catch {
+      reject({
+        status: "failed",
+        isSuccess: false,
+        isFailed: true
       });
     }
   });

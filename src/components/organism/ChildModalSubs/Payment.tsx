@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Platform} from "react-native";
+import { View, Text, Platform } from "react-native";
 import { Button, TextItem } from "../../atom";
 import { ArrowLeft } from "@assets";
 import styles from "../ModalSubscribe/styles";
@@ -16,9 +16,9 @@ const Payment = ({
 }: OnPayment) => {
   return (
     <View style={styles.content}>
-      {Platform.OS === 'ios' ? (
-        <SafeAreaView 
-          edges={['top']}
+      {Platform.OS === "ios" ? (
+        <SafeAreaView
+          edges={["top"]}
           style={{
             backgroundColor: primaryColor.main
           }}
@@ -27,7 +27,7 @@ const Payment = ({
             <Button onPress={() => handlePrev(100)} style={styles.btn}>
               <ArrowLeft color={neutralColor[90]} width={30} height={25} />
             </Button>
-          </View>  
+          </View>
         </SafeAreaView>
       ) : (
         <View style={styles.boxBack}>
@@ -39,6 +39,7 @@ const Payment = ({
       <View style={styles.webView}>
         <WebView
           source={{
+            // uri: `http://192.168.43.140:3000${baseUrl}${email}`
             uri: `https://sekilasaja.com${baseUrl}${email}`
           }}
         />
