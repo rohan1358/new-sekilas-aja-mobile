@@ -6,14 +6,14 @@ import {
   Home,
   HomeFilled,
   Mentor,
-  SubscribeCard
+  SubscribeCard,
 } from "@assets";
 import {
   neutralColor,
   pages,
   primaryColor,
   spacing as sp,
-  strings
+  strings,
 } from "@constants";
 import { ModalSubscribe } from "@organism";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
@@ -25,10 +25,10 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 import { useSelector } from "react-redux";
-import { Gap, TextItem } from "../../atom";
+import { Button, Gap, TextItem } from "../../atom";
 import styles from "./styles";
 
 const activeColor = primaryColor.main;
@@ -63,7 +63,7 @@ const recentLabel = (
 
 const Icon = ({
   label,
-  isFocused
+  isFocused,
 }: {
   label:
     | string
@@ -129,19 +129,41 @@ const TAB_BOTTOM_GAP = sp.m;
 const FancyBottomTab = ({
   state,
   descriptors,
-  navigation
+  navigation,
 }: BottomTabBarProps) => {
   const navPosition = useSharedValue(TAB_BOTTOM_GAP);
 
   const containerStyle = useAnimatedStyle(() => ({
-    bottom: navPosition.value
+    bottom: navPosition.value,
   }));
 
   const {
-    editProfile: { profile }
+    editProfile: { profile },
+    general: { isBottomTabHidden },
   } = useSelector((state: ReduxState) => state);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [toggleTab, setToggleTab] = useState(false);
+
+  useEffect(() => {
+    detectKeyboard();
+  }, []);
+
+  useEffect(() => {
+    setToggleTab((current) => !current);
+  }, [isBottomTabHidden]);
+
+  useEffect(() => {
+    detectBottomTab();
+  }, [toggleTab]);
+
+  const detectBottomTab = () => {
+    if (toggleTab) {
+      navPosition.value = withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2);
+      return;
+    }
+    navPosition.value = withTiming(TAB_BOTTOM_GAP);
+  };
 
   const detectKeyboard = () => {
     Keyboard.addListener(
@@ -158,17 +180,22 @@ const FancyBottomTab = ({
     );
   };
 
-  useEffect(() => {
-    detectKeyboard();
-  }, []);
-
-  const onPress = () => {};
-
   return (
     <>
       <View style={styles.container}>
         <Animated.View style={[styles.innerContainer, containerStyle]}>
           <View style={styles.overlay} />
+
+          {/* <Button
+  onPress={() => setToggleTab((current) => !current)}
+  style={{
+    position: "absolute",
+    top: -100,
+    width: 240,
+    height: 240,
+    backgroundColor: "green",
+  }}
+/> */}
           <View style={styles.tabsContainer}>
             {state.routes.map((route, index) => {
               const { options } = descriptors[route.key];
@@ -185,7 +212,7 @@ const FancyBottomTab = ({
                 const event = navigation.emit({
                   type: "tabPress",
                   target: route.key,
-                  canPreventDefault: true
+                  canPreventDefault: true,
                 });
 
                 if (!isFocused && !event.defaultPrevented) {
@@ -198,7 +225,7 @@ const FancyBottomTab = ({
               const onLongPress = () => {
                 navigation.emit({
                   type: "tabLongPress",
-                  target: route.key
+                  target: route.key,
                 });
               };
 
@@ -217,8 +244,8 @@ const FancyBottomTab = ({
                     style={[
                       styles.tab,
                       {
-                        top: isFocused ? sp.xxs / 2 : 0
-                      }
+                        top: isFocused ? sp.xxs / 2 : 0,
+                      },
                     ]}
                   >
                     <View style={styles.iconContainer}>
@@ -246,8 +273,8 @@ const FancyBottomTab = ({
                   style={[
                     styles.tab,
                     {
-                      top: modalVisible ? sp.xxs / 2 : 0
-                    }
+                      top: modalVisible ? sp.xxs / 2 : 0,
+                    },
                   ]}
                 >
                   <View style={styles.iconContainer}>

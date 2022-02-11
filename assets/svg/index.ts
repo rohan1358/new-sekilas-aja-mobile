@@ -87,6 +87,10 @@ import NotifyActive from "./dot_notif.svg";
 import Mentor from "./Mentor.svg";
 import Calendar from "./calendar.svg";
 
+const svg = { Cross, CloseX };
+
+export default svg;
+
 export {
   Calendar,
   Alert,
@@ -174,5 +178,5 @@ export {
   SkipBackFullScreen,
   SkipForwardFullScreen,
   NotifyActive,
-  Mentor
+  Mentor,
 };

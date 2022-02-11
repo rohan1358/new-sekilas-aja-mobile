@@ -1,4 +1,4 @@
-import { SAVE, CLEAR } from "../actionTypes";
+import { SAVE, CLEAR, TOGGLE_BOTTOM_TAB } from "../actionTypes";
 
 const addSearchHistory = (payload: string) => ({
   type: SAVE,
@@ -9,4 +9,9 @@ const clearSearchHistory = () => ({
   type: CLEAR,
 });
 
-export { addSearchHistory, clearSearchHistory };
+const toggleBottomTab = (payload?: boolean) => ({
+  type: TOGGLE_BOTTOM_TAB,
+  payload,
+});
+
+export { addSearchHistory, clearSearchHistory, toggleBottomTab };

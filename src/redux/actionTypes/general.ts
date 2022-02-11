@@ -1,4 +1,6 @@
 const SAVE = "SAVE";
 const CLEAR = "CLEAR";
 
-export { SAVE, CLEAR };
+const TOGGLE_BOTTOM_TAB = "TOGGLE_BOTTOM_TAB";
+
+export { SAVE, CLEAR, TOGGLE_BOTTOM_TAB };

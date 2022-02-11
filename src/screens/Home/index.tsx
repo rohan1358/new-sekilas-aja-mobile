@@ -3,7 +3,9 @@ import {
   setListCategory,
   setMostReadBook,
   setProfileRedux,
+  toggleBottomTab,
 } from "@actions";
+import Assets, { BookOpen, Mentor } from "@assets";
 import {
   Base,
   BookTile,
@@ -12,21 +14,33 @@ import {
   Gap,
   HomeHeader,
   ImageBanner,
-  MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
   TextItem,
+  Amage,
+  ShortsTile,
 } from "@components";
 import {
+  colors,
+  dangerColor,
+  fontFamily,
   neutralColor,
-  pages,
   primaryColor,
   skeleton,
   snackState as ss,
+  spacer,
   spacing as sp,
   strings,
 } from "@constants";
-import { logger, useMounted, widthPercent } from "@helpers";
+import {
+  heightDp,
+  logger,
+  useMounted,
+  widthDp,
+  widthPercent,
+  winHeightPercent,
+  winWidthPercent,
+} from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import {
   useFocusEffect,
@@ -43,37 +57,34 @@ import {
   fetchRecommendedBooks,
   modifyToken,
 } from "@services";
-import { fetchCarousel } from "../../services/bookContent";
-import { newCategories } from "../../../assets/dummy";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
   TouchableOpacity,
   View,
+  FlatList,
+  Text,
 } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
+import { newCategories } from "../../../assets/dummy";
 import CategoryChips from "../../../src/components/organism/CategoryChips";
 import { RootStackParamList } from "../../../src/types";
 import { SnackStateProps } from "../../components/atom/Base/types";
-import { dummyBanner } from "./dummy";
-import { dummyMiniCollectionData, pageParser } from "./helper";
-import styles from "./styles";
-import { HORIZONTAL_GAP } from "./values";
-import { store, persistor, mostBookStorage } from "../../redux/store";
-import { getLastReading } from "../../services/trackReading";
-import { checkData } from "../../utils";
-import { useCallback } from "react";
-import firestore from "@react-native-firebase/firestore";
+import { store } from "../../redux/store";
+import { fetchCarousel } from "../../services/bookContent";
 import {
   fetchNotifInbox,
   fetchNotifPrivate,
   fetchNotifPromo,
 } from "../../services/notification";
-
-import { BookOpen, Mentor } from "@assets";
+import { getLastReading } from "../../services/trackReading";
+import { checkData } from "../../utils";
+import { pageParser } from "./helper";
+import styles from "./styles";
+import { HORIZONTAL_GAP } from "./values";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -88,7 +99,7 @@ const Home = () => {
     editProfile: { profile },
   } = useSelector((state: ReduxState) => state);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [profiles, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
@@ -100,29 +111,27 @@ const Home = () => {
   const [carousel, setCarousel] = useState(false);
 
   useEffect(() => {
-    fetchNotifPromo();
-    fetchNotifInbox();
-    fetchNotifPrivate();
+    // fetchNotifPromo();
+    // fetchNotifInbox();
+    // fetchNotifPrivate();
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-    if (profileStore && profileStore.is_subscribed) {
-      setModalAllPlan(false);
-    }
-
-    if (!profiles?.id) return;
-    messaging()
-      .getToken()
-      .then((FcmToken) => {
-        return modifyToken({ FcmToken, id: profiles?.id });
-      });
-
-    return messaging().onTokenRefresh((FcmToken) => {
-      modifyToken({ FcmToken, id: profiles?.id });
-    });
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 5000);
+    // if (profileStore && profileStore.is_subscribed) {
+    //   setModalAllPlan(false);
+    // }
+    // if (!profiles?.id) return;
+    // messaging()
+    //   .getToken()
+    //   .then((FcmToken) => {
+    //     return modifyToken({ FcmToken, id: profiles?.id });
+    //   });
+    // return messaging().onTokenRefresh((FcmToken) => {
+    //   modifyToken({ FcmToken, id: profiles?.id });
+    // });
   }, [profiles]);
 
   // useEffect(() => {
@@ -130,12 +139,18 @@ const Home = () => {
   // }, []);
 
   useEffect(() => {
-    if (isFocused) {
-      getReadingBook();
-      getHomeData(false);
-      fetchCategory();
-    }
+    // if (isFocused) {
+    //   getReadingBook();
+    //   getHomeData(false);
+    //   fetchCategory();
+    // }
   }, [isFocused]);
+
+  useEffect(() => {
+    // fetchCarousel().then((res: any) => {
+    //   setCarousel(res.data);
+    // });
+  }, []);
 
   const fetchCategory = async () => {
     try {
@@ -145,12 +160,6 @@ const Home = () => {
       dispatch(setListCategory(false));
     }
   };
-
-  useEffect(() => {
-    fetchCarousel().then((res: any) => {
-      setCarousel(res.data);
-    });
-  }, []);
 
   const { width } = Dimensions.get("screen");
 
@@ -362,7 +371,8 @@ const Home = () => {
       {profileStore && (
         <>
           <Base
-            barColor={primaryColor.main}
+            barColor={dangerColor.hover}
+            // barColor={primaryColor.main}
             snackState={snackState}
             setSnackState={setSnackState}
           >
@@ -472,7 +482,19 @@ const Home = () => {
                       </TextItem>
                     </TouchableOpacity> */}
                   </View>
+                  <Gap vertical={spacer.sl} />
+                  <Gap horizontal={HORIZONTAL_GAP}>
+                    <TextItem type="b.24.nc.90">{"Sekilas Shorts"}</TextItem>
+                  </Gap>
                   <Gap vertical={sp.m} />
+                  <FlatList
+                    data={[1, 2, 3, 4]}
+                    renderItem={({ _, index }) => <ShortsTile index={index} />}
+                    keyExtractor={(id) => `${id}`}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                  />
+                  <Gap vertical={sp.sl} />
                   {open && (
                     <>
                       <>
@@ -640,6 +662,135 @@ const Home = () => {
               modalVisible={modalAllPlan}
               setModalVisible={setModalAllPlan}
             />
+            <View
+              style={{
+                width: winWidthPercent(100),
+                height: winHeightPercent(100),
+                backgroundColor: dangerColor.hover,
+                position: "absolute",
+                zIndex: 1000,
+                paddingHorizontal: sp.sl,
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <Gap vertical={spacer.sm} />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    style={{
+                      width: widthDp(40),
+                      aspectRatio: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Assets.svg.CloseX stroke={neutralColor["10"]} />
+                  </Button>
+                  <Gap horizontal={spacer.sm} />
+                  <TextItem type="b.20.nc.10" numberOfLines={1}>
+                    {"The Pyschology of Money"}
+                  </TextItem>
+                </View>
+                <Gap vertical={spacer.sm} />
+                <View style={{ flexDirection: "row" }}>
+                  {[1, 2, 3, 4].map((item, index) => (
+                    <Fragment key={`${item}`}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: widthDp(
+                              (344 - 4 * ([1, 2, 3, 4].length - 1)) /
+                                [1, 2, 3, 4].length
+                            ),
+                            height: spacer.xxs,
+                            borderRadius: 100,
+                            backgroundColor: neutralColor.darkFocus,
+                            overflow: "hidden",
+                          }}
+                        >
+                          <View
+                            style={{
+                              width: widthDp(
+                                (344 - 4 * ([1, 2, 3, 4].length - 1)) /
+                                  [1, 2, 3, 4].length
+                              ),
+                              height: spacer.xxs,
+                              borderRadius: 100,
+                              position: "absolute",
+                              backgroundColor: neutralColor["10"],
+                              left: -widthDp(
+                                (344 - 4 * ([1, 2, 3, 4].length - 1)) /
+                                  [1, 2, 3, 4].length
+                              ),
+                            }}
+                          />
+                        </View>
+                        <Gap horizontal={spacer.xxs} />
+                      </View>
+                    </Fragment>
+                  ))}
+                </View>
+                <Gap vertical={spacer.sl} />
+              </View>
+              <View style={{ paddingVertical: spacer.m }}>
+                <Text
+                  style={{
+                    fontFamily: fontFamily.bold,
+                    fontSize: widthDp(winHeightPercent(100) < 823 ? 24 : 32),
+                    color: neutralColor["10"],
+                    lineHeight: widthDp(
+                      (winHeightPercent(100) < 823 ? 24 : 32) * 1.2
+                    ),
+                    letterSpacing: widthDp(
+                      (winHeightPercent(100) < 823 ? 24 : 32) * -0.022
+                    ),
+                  }}
+                >
+                  Saya sering menulis bahwa keuangan pribadi adalah pribadi.
+                </Text>
+                <Gap vertical={spacer.sl} />
+                <TextItem type="b.32.nc.10">
+                  Yang saya maksud dengan itu adalah bahwa apa yang mungkin
+                  menjadi keputusan keuangan yang baik bagi saya mungkin bukan
+                  keputusan keuangan yang baik bagi Anda.
+                </TextItem>
+              </View>
+              <View
+                style={{
+                  backgroundColor: "yellow",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <View
+                  style={{
+                    width: winWidthPercent(40),
+                    height: 80,
+                    backgroundColor: "green",
+                  }}
+                ></View>
+                <View
+                  style={{
+                    width: "100%",
+                    height: heightDp(102) - spacer.m,
+                    backgroundColor: "#ff000020",
+                  }}
+                />
+                <Gap vertical={spacer.m} />
+              </View>
+              {/* <Button
+                style={{ width: 240, height: 240, backgroundColor: "red" }}
+                onPress={() => dispatch(toggleBottomTab())}
+              ></Button> */}
+            </View>
           </Base>
         </>
       )}

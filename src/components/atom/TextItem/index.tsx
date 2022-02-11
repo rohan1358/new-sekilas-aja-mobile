@@ -1,3 +1,4 @@
+import { widthDp } from "@helpers";
 import React, { PropsWithChildren } from "react";
 import { Text } from "react-native";
 import {
@@ -5,7 +6,7 @@ import {
   dangerColor,
   fontFamily as ff,
   neutralColor,
-  primaryColor
+  primaryColor,
 } from "../../../constants";
 import { TextItemProps } from "./types";
 
@@ -65,7 +66,7 @@ const styleGenerator = (code: string) => {
   const color = colorFinder(colorScheme)[colorCode];
   //@ts-ignore
   const fontFamily = ff[familyFinder(fontCode)];
-  const fontSize = parseInt(size);
+  const fontSize = widthDp(parseInt(size));
   const textTransform = transformFinder(transform);
   return { fontFamily, fontSize, color, textTransform };
 };

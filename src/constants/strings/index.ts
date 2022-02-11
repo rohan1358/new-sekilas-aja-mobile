@@ -192,6 +192,7 @@ export const strings = {
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
   seeAll: "Lihat Semua >",
+  sekilasShorts: "Sekilas Shorts",
   share: "Bagikan",
   sub_onBoard_1:
     "Dapatkan 100+ RANGKUMAN BUKU terbaik dunia dalam versi VIDEO, AUDIO, dan TEXT.",
@@ -260,5 +261,5 @@ export const strings = {
   webinar_gratis: "Webinar GRATIS SETIAP MINGGU!",
   rekaman_webinar: "Tersedia Rekaman video webinar sebelumnya",
   artikel_pembelajaran: "50+ Artikel pembelajaran",
-  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif"
+  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif",
 };

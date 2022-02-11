@@ -1,5 +1,6 @@
 const dangerColor = {
   main: "#CB3168",
+  hover: "#B22457",
 };
 
 const neutralColor = {
@@ -13,6 +14,8 @@ const neutralColor = {
   80: "#5F647E",
   90: "#464D6F",
   100: "#1E264E",
+
+  darkFocus: "#1E264E20",
 };
 
 const primaryColor = {
@@ -27,6 +30,8 @@ const colors = {
   white: "#FFFFFF",
   white1: "#BBC0CE",
   lightYellow: "#FDD95E",
+  yellow1: "#FCD033",
+  yellow2: "#FBD448",
 };
 
 export { dangerColor, neutralColor, primaryColor, successColor, colors };
