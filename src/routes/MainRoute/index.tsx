@@ -28,7 +28,8 @@ import {
   Mentoring,
   RewatchWebinar,
   Blog,
-  ReadingBlog
+  ReadingBlog,
+  Challenge
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -64,7 +65,7 @@ const MainRoute = () => {
           let end_date = new Date();
           getInvoices(res.data().id_incoive).then((res: any) => {
             const { email, phoneNumber } = profile;
-            if (res.status !== "PENDING") {
+            if (res.status !== "PENDING" && res.isSuccess) {
               if (res.description == "Subscription 12 Bulan") {
                 end_date.setMonth(end_date.getMonth() + 12);
               } else if (res.description == "Subscription 3 Bulan") {
@@ -101,6 +102,12 @@ const MainRoute = () => {
         <Stack.Screen
           name={"Home"}
           component={!isFirstTime ? Home : MainBottomRoute}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"Challenge"}
+          component={Challenge}
           // component={Home}
         />
 

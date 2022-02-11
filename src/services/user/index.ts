@@ -12,7 +12,6 @@ const fetchProfile = (email: string) => {
         .get();
 
       const newData = raw.docs[0].data();
-
       const id = raw.docs[0].id;
       const { is_subscribed } = newData;
       const rawData = {
@@ -22,22 +21,17 @@ const fetchProfile = (email: string) => {
             ? false
             : is_subscribed
       };
-      if (raw.docs[0].data()) {
-        if (newData.end_date.toDate() < new Date() && is_subscribed) {
-          firestore().collection(firebaseNode.users).doc(id).update(rawData);
-        }
-      }
 
       const user = { ...rawData, id };
 
       if (newData.id_incoive) {
         // get invoices
         const start_date = new Date();
-
         let end_date = new Date();
+
         getInvoices(newData.id_incoive).then((res: any) => {
           const { email, phoneNumber } = newData;
-          if (res.status !== "PENDING") {
+          if (["SETTLED"].includes(res.status) && res.isSuccess) {
             if (res.description == "Subscription 12 Bulan") {
               end_date.setMonth(end_date.getMonth() + 12);
             } else if (res.description == "Subscription 3 Bulan") {
@@ -48,10 +42,11 @@ const fetchProfile = (email: string) => {
             firebaseTrackPayment({
               email,
               date: new Date(),
-              phoneNumber: phoneNumber,
-              item: res.description
+              phoneNumber: phoneNumber || "",
+              item: res.description || ""
               // kode_promo: ZONK10
             });
+
             updateUser(email, {
               is_subscribed: true,
               end_date: end_date,
@@ -90,6 +85,11 @@ const fetchProfile = (email: string) => {
           }
         });
       } else {
+        if (raw.docs[0].data()) {
+          if (newData.end_date.toDate() < new Date() && is_subscribed) {
+            firestore().collection(firebaseNode.users).doc(id).update(rawData);
+          }
+        }
         resolve({
           data: { ...user },
           isSuccess: true,

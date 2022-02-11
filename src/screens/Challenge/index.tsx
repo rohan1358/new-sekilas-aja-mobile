@@ -1,0 +1,81 @@
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import React, { useCallback, useState } from "react";
+import ImageBannerChallenge from "../../components/organism/ImageBannerChallenge";
+import { Button, Gap, TextItem } from "@atom";
+import { neutralColor, spacing } from "@constants";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { ArrowLeft } from "@assets";
+
+import styles from "./styles";
+import { getChallenge } from "@services";
+import { useSelector } from "react-redux";
+import { ReduxState } from "@rux";
+
+const Challenge = () => {
+  const { navigate, goBack } = useNavigation();
+
+  const {
+    sessionReducer: { email }
+  } = useSelector((state: ReduxState) => state);
+
+  const [listChallenge, setListChallenge] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      getChallenge(email).then((res: any) => {
+        console.log("res.data", res.data);
+        setListChallenge(res.data);
+      });
+    }, [])
+  );
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.headerContainer}>
+        <Gap vertical={spacing.sm} />
+
+        <View style={styles.headerTitle}>
+          <Button onPress={() => goBack()}>
+            <ArrowLeft color={neutralColor[90]} />
+          </Button>
+          <TextItem
+            style={{
+              marginLeft: 5
+            }}
+            type="b.24.nc.90"
+          >
+            {"Challenge"}
+          </TextItem>
+          {/* <Button style={styles.icon}>
+            <Search stroke={neutralColor[90]} />
+          </Button> */}
+        </View>
+        <Gap vertical={spacing.sm} />
+      </View>
+      <Gap vertical={5} />
+
+      <View
+        style={{
+          alignContent: "center",
+          alignItems: "center",
+          flex: 1
+        }}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {Array.isArray(listChallenge) &&
+            listChallenge.map((data) => {
+              return (
+                <>
+                  <ImageBannerChallenge data={data} source={data.cover} />
+                  <Gap vertical={10} />
+                </>
+              );
+            })}
+        </ScrollView>
+        {/* <ImageBannerChallenge /> */}
+      </View>
+    </View>
+  );
+};
+
+export default Challenge;

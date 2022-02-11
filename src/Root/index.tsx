@@ -6,7 +6,7 @@ import { AuthRoute, MainRoute } from "../routes";
 
 const Root = () => {
   const {
-    sessionReducer: { isLogin },
+    sessionReducer: { isLogin }
   } = useSelector((state: ReduxState) => state);
   return (
     <NavigationContainer>

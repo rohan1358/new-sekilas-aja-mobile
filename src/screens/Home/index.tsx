@@ -2,7 +2,7 @@ import {
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux,
+  setProfileRedux
 } from "@actions";
 import {
   Base,
@@ -15,7 +15,7 @@ import {
   MiniCollectionTile,
   ModalSubscribe,
   OngoingTile,
-  TextItem,
+  TextItem
 } from "@components";
 import {
   neutralColor,
@@ -24,14 +24,14 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import {
   useFocusEffect,
   useIsFocused,
-  useNavigation,
+  useNavigation
 } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
@@ -41,7 +41,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
-  modifyToken,
+  modifyToken
 } from "@services";
 import { fetchCarousel } from "../../services/bookContent";
 import { newCategories } from "../../../assets/dummy";
@@ -50,7 +50,7 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
@@ -70,7 +70,7 @@ import firestore from "@react-native-firebase/firestore";
 import {
   fetchNotifInbox,
   fetchNotifPrivate,
-  fetchNotifPromo,
+  fetchNotifPromo
 } from "../../services/notification";
 
 import { BookOpen, Mentor } from "@assets";
@@ -85,7 +85,7 @@ const Home = () => {
   const {
     sessionReducer: { email },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
-    editProfile: { profile },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -243,7 +243,7 @@ const Home = () => {
           fetchProfile(email),
           // fetchReadingBook(email),
           fetchRecommendedBooks(),
-          fetchMostBooks(),
+          fetchMostBooks()
         ]);
         if (!isMounted) return;
         if (profileData.isSuccess) {
@@ -301,7 +301,7 @@ const Home = () => {
   };
 
   const idKeyExtractor = ({
-    coverImageLink,
+    coverImageLink
   }: {
     coverImageLink: string | number;
   }) => `${Math.random()}`;
@@ -312,7 +312,7 @@ const Home = () => {
     !!lastReading?.book
       ? navigation.navigate("Reading", {
           id: lastReading?.book || "",
-          page: pageParser(lastReading?.kilas),
+          page: pageParser(lastReading?.kilas)
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
   };
@@ -321,12 +321,12 @@ const Home = () => {
 
   const onPressRecommend = () =>
     navigation.navigate("SpecialBookList", {
-      type: "recommendation",
+      type: "recommendation"
     });
 
   const onMostReadPress = () =>
     navigation.navigate("SpecialBookList", {
-      type: "mostRead",
+      type: "mostRead"
     });
 
   const onRefresh = async () => {
@@ -347,14 +347,29 @@ const Home = () => {
       label: "mentoring",
       text: <>Group{"\n"}Mentoring</>,
       icon: Mentor,
-      route: "Mentoring",
+      route: "Mentoring"
     },
     {
       label: "blog",
       text: <>Artikel{"\n"}Pembelajaran</>,
       icon: BookOpen,
-      route: "Blog",
+      route: "Blog"
+    }
+  ];
+
+  let childMenuChallengeGroupDiscuss = [
+    {
+      label: "Challenge",
+      text: <>Challenge</>,
+      icon: Mentor,
+      route: "Challenge"
     },
+    {
+      label: "Group Discuss",
+      text: <>Grup Diskusi</>,
+      icon: BookOpen,
+      route: "Blog"
+    }
   ];
 
   return (
@@ -437,6 +452,7 @@ const Home = () => {
               keyExtractor={dummyMiniCollectionKey}
               listKey={"kilaslist"}
             /> */}
+
                   <Gap vertical={sp.m} />
                   <View style={styles.clickTitle}>
                     {childMenu.map((Cb) => {
@@ -473,6 +489,34 @@ const Home = () => {
                     </TouchableOpacity> */}
                   </View>
                   <Gap vertical={sp.m} />
+                  <View style={styles.clickTitle}>
+                    {childMenuChallengeGroupDiscuss.map((Cb) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate(Cb?.route || "Home");
+                          }}
+                          style={styles.btnNewMenu}
+                        >
+                          <View style={styles.iconNewMenu}>
+                            <Cb.icon
+                              width={width <= 320 ? 30 / 1.5 : 30}
+                              height={width <= 320 ? 30 / 1.5 : 30}
+                              stroke={"#5F647E"}
+                            />
+                          </View>
+                          <TextItem
+                            numberOfLines={2}
+                            type={`b.${width <= 320 ? 13 / 1.1 : 13}.nc.80`}
+                            style={styles.textNewMenu}
+                          >
+                            {Cb.text}
+                          </TextItem>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                  <Gap vertical={sp.m} />
                   {open && (
                     <>
                       <>
@@ -501,7 +545,7 @@ const Home = () => {
                                         navigation.navigate("Category", {
                                           type: "category",
                                           title: item,
-                                          payload: id,
+                                          payload: id
                                         });
                                       return (
                                         <CategoryChips
@@ -510,7 +554,7 @@ const Home = () => {
                                           item={{
                                             id: item,
                                             label: item,
-                                            Icon: newCategories(item),
+                                            Icon: newCategories(item)
                                           }}
                                           key={index}
                                         />
@@ -530,7 +574,7 @@ const Home = () => {
                                         navigation.navigate("Category", {
                                           type: "category",
                                           title: item,
-                                          payload: id,
+                                          payload: id
                                         });
                                       return (
                                         <CategoryChips
@@ -539,7 +583,7 @@ const Home = () => {
                                           item={{
                                             id: item,
                                             label: item,
-                                            Icon: newCategories(item),
+                                            Icon: newCategories(item)
                                           }}
                                           key={index}
                                         />
@@ -573,7 +617,7 @@ const Home = () => {
                             style={{
                               flexDirection: "row",
                               flexWrap: "wrap",
-                              justifyContent: "space-between",
+                              justifyContent: "space-between"
                             }}
                           >
                             {Array.isArray(bookRecomended) &&
@@ -615,7 +659,7 @@ const Home = () => {
                               style={{
                                 flexDirection: "row",
                                 flexWrap: "wrap",
-                                justifyContent: "space-between",
+                                justifyContent: "space-between"
                               }}
                             >
                               {Array.isArray(mostReadBook) &&

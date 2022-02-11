@@ -10,7 +10,7 @@ const ImageBannerBlog = ({
   source,
   data,
   openModal,
-  dataUser,
+  dataUser
 }: ImageBannerProps) => {
   const { navigate } = useNavigation();
 

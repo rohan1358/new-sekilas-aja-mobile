@@ -24,6 +24,7 @@ import RewatchWebinar from "./RewatchWebinar";
 import ContentNotification from "./ContentNotification";
 import Blog from "./Blog";
 import ReadingBlog from "./ReadBlog";
+import Challenge from "./Challenge";
 import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
 
 export {
@@ -53,5 +54,6 @@ export {
   Subscribe,
   Watching,
   ModalSubscribe,
-  Mentoring
+  Mentoring,
+  Challenge
 };
