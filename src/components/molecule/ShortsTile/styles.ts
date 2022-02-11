@@ -1,4 +1,4 @@
-import { colors, spacer } from "@constants";
+import { colors, neutralColor, spacer } from "@constants";
 import { widthDp } from "@helpers";
 import { StyleSheet } from "react-native";
 
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  title: { textAlign: "center" },
+  title: { textAlign: "center", color: neutralColor["90"] },
 
   wrapper: { flexDirection: "row" },
 });

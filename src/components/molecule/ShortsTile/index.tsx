@@ -1,4 +1,4 @@
-import { Amage, Button, Gap, TextItem } from "@atom";
+import { AdaptiveText, Amage, Button, Gap, TextItem } from "@atom";
 import { spacer } from "@constants";
 import React from "react";
 import { View } from "react-native";
@@ -15,9 +15,13 @@ const ShortsTile = ({ index }: ShortsTileProps) => {
       <Button style={styles.container}>
         <View style={styles.circle} />
         <View style={styles.smallCircle}>
-          <TextItem type="b.16.nc.90" style={styles.title} numberOfLines={2}>
+          <AdaptiveText
+            type="textBase/black"
+            style={styles.title}
+            numberOfLines={2}
+          >
             The Psychology of Money
-          </TextItem>
+          </AdaptiveText>
           <Gap vertical={spacer.xs} />
           <Amage style={styles.image} />
         </View>

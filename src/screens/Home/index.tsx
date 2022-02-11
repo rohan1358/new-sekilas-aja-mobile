@@ -19,6 +19,7 @@ import {
   TextItem,
   Amage,
   ShortsTile,
+  AdaptiveText,
 } from "@components";
 import {
   colors,
@@ -371,8 +372,7 @@ const Home = () => {
       {profileStore && (
         <>
           <Base
-            barColor={dangerColor.hover}
-            // barColor={primaryColor.main}
+            barColor={primaryColor.main}
             snackState={snackState}
             setSnackState={setSnackState}
           >
@@ -484,7 +484,14 @@ const Home = () => {
                   </View>
                   <Gap vertical={spacer.sl} />
                   <Gap horizontal={HORIZONTAL_GAP}>
-                    <TextItem type="b.24.nc.90">{"Sekilas Shorts"}</TextItem>
+                    <AdaptiveText
+                      type="text3xl/black"
+                      style={{
+                        color: neutralColor["90"],
+                      }}
+                    >
+                      {"Sekilas Shorts"}
+                    </AdaptiveText>
                   </Gap>
                   <Gap vertical={sp.m} />
                   <FlatList
@@ -662,166 +669,6 @@ const Home = () => {
               modalVisible={modalAllPlan}
               setModalVisible={setModalAllPlan}
             />
-            <View
-              style={{
-                width: winWidthPercent(100),
-                height: winHeightPercent(100),
-                backgroundColor: dangerColor.hover,
-                position: "absolute",
-                zIndex: 1000,
-                paddingHorizontal: sp.sl,
-                justifyContent: "space-between",
-              }}
-            >
-              <View>
-                <Gap vertical={spacer.sm} />
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    style={{
-                      width: widthDp(40),
-                      aspectRatio: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    onPress={() => dispatch(toggleBottomTab())}
-                  >
-                    <Assets.svg.CloseX stroke={neutralColor["10"]} />
-                  </Button>
-                  <Gap horizontal={spacer.sm} />
-                  <TextItem type="b.20.nc.10" numberOfLines={1}>
-                    {"The Pyschology of Money"}
-                  </TextItem>
-                </View>
-                <Gap vertical={spacer.sm} />
-                <View style={{ flexDirection: "row" }}>
-                  {[1, 2, 3, 4].map((item, index) => (
-                    <Fragment key={`${item}`}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                        }}
-                      >
-                        <View
-                          style={{
-                            width: widthDp(
-                              (344 - 4 * ([1, 2, 3, 4].length - 1)) /
-                                [1, 2, 3, 4].length
-                            ),
-                            height: spacer.xxs,
-                            borderRadius: 100,
-                            backgroundColor: neutralColor.darkFocus,
-                            overflow: "hidden",
-                          }}
-                        >
-                          <View
-                            style={{
-                              width: widthDp(
-                                (344 - 4 * ([1, 2, 3, 4].length - 1)) /
-                                  [1, 2, 3, 4].length
-                              ),
-                              height: spacer.xxs,
-                              borderRadius: 100,
-                              position: "absolute",
-                              backgroundColor: neutralColor["10"],
-                              left: -widthDp(
-                                (344 - 4 * ([1, 2, 3, 4].length - 1)) /
-                                  [1, 2, 3, 4].length
-                              ),
-                            }}
-                          />
-                        </View>
-                        <Gap horizontal={spacer.xxs} />
-                      </View>
-                    </Fragment>
-                  ))}
-                </View>
-                <Gap vertical={spacer.xs} />
-              </View>
-              <View style={{ paddingVertical: spacer.m }}>
-                <Text
-                  style={{
-                    fontFamily: fontFamily.bold,
-                    fontSize: widthDp(winHeightPercent(100) < 823 ? 24 : 32),
-                    color: neutralColor["10"],
-                    lineHeight: widthDp(
-                      (winHeightPercent(100) < 823 ? 24 : 32) * 1.2
-                    ),
-                    letterSpacing: widthDp(
-                      (winHeightPercent(100) < 823 ? 24 : 32) * -0.022
-                    ),
-                  }}
-                >
-                  Saya sering menulis bahwa keuangan pribadi adalah pribadi.
-                </Text>
-                <Gap vertical={spacer.sl} />
-                <TextItem type="b.32.nc.10">
-                  Yang saya maksud dengan itu adalah bahwa apa yang mungkin
-                  menjadi keputusan keuangan yang baik bagi saya mungkin bukan
-                  keputusan keuangan yang baik bagi Anda.
-                </TextItem>
-              </View>
-              <View
-                style={{
-                  justifyContent: "flex-end",
-                }}
-              >
-                <View style={{ flexDirection: "row" }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      backgroundColor: neutralColor.darkFocus,
-                      paddingVertical: spacer.xxs,
-                      paddingHorizontal: spacer.xs,
-                      borderRadius: spacer.xs,
-                    }}
-                  >
-                    <TextItem type="b.16.nc.10">Bagikan</TextItem>
-                    <Gap horizontal={spacer.xxs} />
-                    <Assets.svg.ShareIcon
-                      stroke={neutralColor["10"]}
-                      width={16}
-                      height={16}
-                    />
-                  </View>
-                  <Gap horizontal={spacer.xs} />
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      backgroundColor: neutralColor.darkFocus,
-                      paddingVertical: spacer.xxs,
-                      paddingHorizontal: spacer.xs,
-                      borderRadius: spacer.xs,
-                    }}
-                  >
-                    <TextItem type="b.16.nc.10">Simpan</TextItem>
-                    <Gap horizontal={spacer.xxs} />
-                    <Assets.svg.Bookmark
-                      stroke={neutralColor["10"]}
-                      width={16}
-                      height={16}
-                    />
-                  </View>
-                </View>
-                <View
-                  style={{
-                    width: "100%",
-                    height: heightDp(102) - spacer.m,
-                  }}
-                />
-                <Gap vertical={spacer.m} />
-              </View>
-              {/* <Button
-                style={{ width: 240, height: 240, backgroundColor: "red" }}
-                onPress={() => dispatch(toggleBottomTab())}
-              ></Button> */}
-            </View>
           </Base>
         </>
       )}
