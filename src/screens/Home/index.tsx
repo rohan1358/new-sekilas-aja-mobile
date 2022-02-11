@@ -488,7 +488,7 @@ const Home = () => {
                       </TextItem>
                     </TouchableOpacity> */}
                   </View>
-                  <Gap vertical={sp.m} />
+                  {/* <Gap vertical={sp.m} />
                   <View style={styles.clickTitle}>
                     {childMenuChallengeGroupDiscuss.map((Cb) => {
                       return (
@@ -515,7 +515,7 @@ const Home = () => {
                         </TouchableOpacity>
                       );
                     })}
-                  </View>
+                  </View> */}
                   <Gap vertical={sp.m} />
                   {open && (
                     <>
