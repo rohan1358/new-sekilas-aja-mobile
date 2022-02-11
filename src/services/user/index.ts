@@ -30,7 +30,7 @@ const fetchProfile = (email: string) => {
         let end_date = new Date();
 
         getInvoices(newData.id_incoive).then((res: any) => {
-          const { email, phoneNumber } = newData;
+          const { email, phoneNumber, promo_code_invoice } = newData;
           if (["SETTLED"].includes(res.status) && res.isSuccess) {
             if (res.description == "Subscription 12 Bulan") {
               end_date.setMonth(end_date.getMonth() + 12);
@@ -43,8 +43,8 @@ const fetchProfile = (email: string) => {
               email,
               date: new Date(),
               phoneNumber: phoneNumber || "",
-              item: res.description || ""
-              // kode_promo: ZONK10
+              item: res.description || "",
+              kode_promo: promo_code_invoice
             });
 
             updateUser(email, {

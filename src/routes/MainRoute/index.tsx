@@ -64,7 +64,7 @@ const MainRoute = () => {
 
           let end_date = new Date();
           getInvoices(res.data().id_incoive).then((res: any) => {
-            const { email, phoneNumber } = profile;
+            const { email, phoneNumber, promo_code_invoice } = profile;
             if (res.status !== "PENDING" && res.isSuccess) {
               if (res.description == "Subscription 12 Bulan") {
                 end_date.setMonth(end_date.getMonth() + 12);
@@ -77,8 +77,8 @@ const MainRoute = () => {
                 email,
                 date: new Date(),
                 phoneNumber: phoneNumber,
-                item: res.description
-                // kode_promo: ZONK10
+                item: res.description,
+                kode_promo: promo_code_invoice
               });
               updateUser(email, {
                 is_subscribed: true,

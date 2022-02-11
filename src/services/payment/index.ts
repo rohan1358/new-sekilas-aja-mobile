@@ -12,6 +12,7 @@ export const firebaseTrackPayment = (data: any) => {
       },
       { merge: true }
     );
+  firestore().collection("payments").add(data);
 };
 export const getInvoices = (id: any) => {
   const key_testing =
