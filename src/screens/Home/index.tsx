@@ -688,6 +688,7 @@ const Home = () => {
                       justifyContent: "center",
                       alignItems: "center",
                     }}
+                    onPress={() => dispatch(toggleBottomTab())}
                   >
                     <Assets.svg.CloseX stroke={neutralColor["10"]} />
                   </Button>
@@ -739,7 +740,7 @@ const Home = () => {
                     </Fragment>
                   ))}
                 </View>
-                <Gap vertical={spacer.sl} />
+                <Gap vertical={spacer.xs} />
               </View>
               <View style={{ paddingVertical: spacer.m }}>
                 <Text
@@ -766,22 +767,52 @@ const Home = () => {
               </View>
               <View
                 style={{
-                  backgroundColor: "yellow",
                   justifyContent: "flex-end",
                 }}
               >
-                <View
-                  style={{
-                    width: winWidthPercent(40),
-                    height: 80,
-                    backgroundColor: "green",
-                  }}
-                ></View>
+                <View style={{ flexDirection: "row" }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      backgroundColor: neutralColor.darkFocus,
+                      paddingVertical: spacer.xxs,
+                      paddingHorizontal: spacer.xs,
+                      borderRadius: spacer.xs,
+                    }}
+                  >
+                    <TextItem type="b.16.nc.10">Bagikan</TextItem>
+                    <Gap horizontal={spacer.xxs} />
+                    <Assets.svg.ShareIcon
+                      stroke={neutralColor["10"]}
+                      width={16}
+                      height={16}
+                    />
+                  </View>
+                  <Gap horizontal={spacer.xs} />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      backgroundColor: neutralColor.darkFocus,
+                      paddingVertical: spacer.xxs,
+                      paddingHorizontal: spacer.xs,
+                      borderRadius: spacer.xs,
+                    }}
+                  >
+                    <TextItem type="b.16.nc.10">Simpan</TextItem>
+                    <Gap horizontal={spacer.xxs} />
+                    <Assets.svg.Bookmark
+                      stroke={neutralColor["10"]}
+                      width={16}
+                      height={16}
+                    />
+                  </View>
+                </View>
                 <View
                   style={{
                     width: "100%",
                     height: heightDp(102) - spacer.m,
-                    backgroundColor: "#ff000020",
                   }}
                 />
                 <Gap vertical={spacer.m} />

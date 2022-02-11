@@ -87,7 +87,7 @@ import NotifyActive from "./dot_notif.svg";
 import Mentor from "./Mentor.svg";
 import Calendar from "./calendar.svg";
 
-const svg = { Cross, CloseX };
+const svg = { Cross, CloseX, ShareIcon, Bookmark };
 
 export default svg;
 
