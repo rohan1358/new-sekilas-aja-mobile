@@ -2,41 +2,42 @@ import Assets from "@assets";
 import { Button, Gap, TextItem } from "@atom";
 import { dangerColor, neutralColor, spacer } from "@constants";
 import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
-import React, { Fragment } from "react";
+import React, { forwardRef, Fragment, useImperativeHandle } from "react";
 import { Text, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { useDispatch } from "react-redux";
 import { toggleBottomTab } from "../../../redux/actions";
+import styles from "./style";
 
-const StoryShort = () => {
+const closePosition = winHeightPercent(100);
+const openPosition = 0;
+
+const StoryShort = forwardRef<any, any>((props, ref) => {
   const dispatch = useDispatch();
+  const position = useSharedValue(closePosition);
+  const containerStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: position.value }],
+  }));
+
+  useImperativeHandle(ref, () => ({
+    close: () => (position.value = withTiming(closePosition)),
+    open: () => (position.value = withTiming(openPosition)),
+  }));
   return (
-    <View
-      style={{
-        width: winWidthPercent(100),
-        height: winHeightPercent(100),
-        backgroundColor: dangerColor.hover,
-        position: "absolute",
-        zIndex: 1000,
-        paddingHorizontal: spacer.sl,
-        justifyContent: "space-between",
-      }}
-    >
+    <Animated.View style={[styles.container, containerStyle]}>
       <View>
         <Gap vertical={spacer.sm} />
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.header}>
           <Button
-            style={{
-              width: widthDp(40),
-              aspectRatio: 1,
-              justifyContent: "center",
-              alignItems: "center",
+            style={styles.iconButton}
+            onPress={() => {
+              position.value = withTiming(closePosition);
+              dispatch(toggleBottomTab(false));
             }}
-            onPress={() => dispatch(toggleBottomTab())}
           >
             <Assets.svg.CloseX stroke={neutralColor["10"]} />
           </Button>
@@ -167,8 +168,8 @@ const StoryShort = () => {
             style={{ width: 240, height: 240, backgroundColor: "red" }}
             onPress={() => dispatch(toggleBottomTab())}
           ></Button> */}
-    </View>
+    </Animated.View>
   );
-};
+});
 
 export default StoryShort;

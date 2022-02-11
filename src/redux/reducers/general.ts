@@ -27,9 +27,7 @@ const generalReducer = (
     case TOGGLE_BOTTOM_TAB:
       return {
         ...state,
-        isBottomTabHidden: !action.payload
-          ? !state.isBottomTabHidden
-          : action.payload,
+        isBottomTabHidden: action.payload || !state.isBottomTabHidden,
       };
 
     default:

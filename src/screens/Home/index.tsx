@@ -20,6 +20,7 @@ import {
   Amage,
   ShortsTile,
   AdaptiveText,
+  StoryShort,
 } from "@components";
 import {
   colors,
@@ -58,7 +59,13 @@ import {
   fetchRecommendedBooks,
   modifyToken,
 } from "@services";
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -93,6 +100,8 @@ const Home = () => {
   const isFocused = useIsFocused();
   const isMounted = useMounted();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const storyRef = useRef<any>();
 
   const {
     sessionReducer: { email },
@@ -367,6 +376,11 @@ const Home = () => {
     },
   ];
 
+  const storyPress = () => {
+    dispatch(toggleBottomTab(true));
+    storyRef.current?.open();
+  };
+
   return (
     <>
       {profileStore && (
@@ -486,9 +500,7 @@ const Home = () => {
                   <Gap horizontal={HORIZONTAL_GAP}>
                     <AdaptiveText
                       type="text3xl/black"
-                      style={{
-                        color: neutralColor["90"],
-                      }}
+                      textColor={neutralColor["90"]}
                     >
                       {"Sekilas Shorts"}
                     </AdaptiveText>
@@ -496,7 +508,9 @@ const Home = () => {
                   <Gap vertical={sp.m} />
                   <FlatList
                     data={[1, 2, 3, 4]}
-                    renderItem={({ _, index }) => <ShortsTile index={index} />}
+                    renderItem={({ _, index }) => (
+                      <ShortsTile index={index} onPress={storyPress} />
+                    )}
                     keyExtractor={(id) => `${id}`}
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -669,6 +683,7 @@ const Home = () => {
               modalVisible={modalAllPlan}
               setModalVisible={setModalAllPlan}
             />
+            <StoryShort ref={storyRef} />
           </Base>
         </>
       )}

@@ -6,13 +6,14 @@ import styles from "./styles";
 
 interface ShortsTileProps {
   index?: number;
+  onPress(): void;
 }
 
-const ShortsTile = ({ index }: ShortsTileProps) => {
+const ShortsTile = ({ index, onPress }: ShortsTileProps) => {
   return (
     <View style={styles.wrapper}>
       {index === 0 && <Gap horizontal={spacer.m} />}
-      <Button style={styles.container}>
+      <Button style={styles.container} onPress={onPress}>
         <View style={styles.circle} />
         <View style={styles.smallCircle}>
           <AdaptiveText

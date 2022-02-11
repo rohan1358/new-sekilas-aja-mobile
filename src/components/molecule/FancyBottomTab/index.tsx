@@ -150,7 +150,7 @@ const FancyBottomTab = ({
   }, []);
 
   useEffect(() => {
-    setToggleTab((current) => !current);
+    setToggleTab(isBottomTabHidden);
   }, [isBottomTabHidden]);
 
   useEffect(() => {

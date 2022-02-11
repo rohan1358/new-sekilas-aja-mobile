@@ -19,6 +19,7 @@ import SearchHeader from "./SearchHeader";
 import ImageBannerWebinar from "./ImageBannerWebinar";
 
 export { default as DuoRender } from "./DuoRender";
+export { default as StoryShort } from "./StoryShort";
 
 export {
   WebinarSearch,
@@ -39,5 +40,5 @@ export {
   ProfileHeader,
   ReadingHeader,
   SearchHeader,
-  ImageBannerWebinar
+  ImageBannerWebinar,
 };
