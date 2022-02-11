@@ -23,7 +23,6 @@ const Challenge = () => {
   useFocusEffect(
     useCallback(() => {
       getChallenge(email).then((res: any) => {
-        console.log("res.data", res.data);
         setListChallenge(res.data);
       });
     }, [])

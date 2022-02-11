@@ -77,19 +77,16 @@ export default function ModalSubscribe({
             if (res.docs[0]) {
               const result = res.docs[0].data();
               if (
-                result.last_position_web_view ===
-                  "/payment-success-mobile-three" ||
-                result.last_position_web_view ===
+                [
+                  "/payment-success-mobile-three",
                   "/payment-success-mobile-twelve"
+                ].includes(result.last_position_web_view)
               ) {
                 setBtnBack(true);
               } else {
                 setBtnBack(false);
               }
             }
-
-            //if(result.)
-            //if(res.docs[0].data())
           });
       } catch {
         return {};

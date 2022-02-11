@@ -27,6 +27,7 @@ import { useDispatch } from "react-redux";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { fetchProfile } from "@services";
 import { Platform } from "react-native";
+import { validateEmail } from "../../utils";
 
 const { textFieldState } = dv;
 
@@ -58,7 +59,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
     if (email === undefined) {
       return { state: textFieldState.none };
     }
-    if (email.match(dv.regexEmail)) {
+    if (validateEmail(email)) {
       return {
         message: "",
         state: textFieldState.success,
@@ -219,9 +220,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
                     no_hp: phoneNumber,
                     kirim_email_list_id: "190689"
                   })
-                }).then(function (response) {
-                  console.log(response);
-                });
+                }).then(function (response) {});
 
                 //Make API request to create new subscriber for All in KIRIM.EMAIL
                 fetch("https://sekilasaja.com/kirim-email-create-subscriber", {
@@ -234,9 +233,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
                     no_hp: phoneNumber,
                     kirim_email_list_id: "190688"
                   })
-                }).then(function (response) {
-                  console.log(response);
-                });
+                }).then(function (response) {});
 
                 navigation.replace(pages.Home);
                 dispatch(loggingIn({ isLogin: true, email }));
@@ -260,6 +257,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
 
   return (
     <Base {...{ snackState, setSnackState }}>
+      <Gap vertical={sp.l} />
+
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
@@ -320,15 +319,20 @@ const SignUp = ({ navigation }: SignUpProps) => {
         />
         <Gap vertical={sp.sm} /> */}
 
-        {Platform.OS === 'ios' ? (
+        {Platform.OS === "ios" ? (
           <></>
         ) : (
-          <><TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem><Gap vertical={sp.xs} /><TextField
+          <>
+            <TextItem type="b.20.nc.90.c">{strings.numberPhone}</TextItem>
+            <Gap vertical={sp.xs} />
+            <TextField
               placeholder={strings.phoneNumberPlaceholder}
               onChangeText={setPhoneNumber}
               autoCapitalize="words"
-              keyboardType="name-phone-pad"
-              {...phoneNumberCheck} /></>
+              keyboardType="number-pad"
+              {...phoneNumberCheck}
+            />
+          </>
         )}
 
         <Gap vertical={sp.sm} />

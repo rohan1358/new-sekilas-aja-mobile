@@ -170,25 +170,32 @@ export default function RewatchWebinar({ navigation, route }: any) {
   const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
 
   const handleOrientation = async (orientation: any) => {
-    if (Platform.OS === "ios") {
-      if (orientation.includes("FACE-UP")) {
-        return;
+    if (orientation !== "UNKNOWN") {
+      if (Platform.OS === "ios") {
+        if (orientation.includes("FACE-UP")) {
+          return;
+        }
       }
-    }
 
-    if (orientation !== newOrientation) {
-      await setOrientation(orientation);
-      setTimeout(() => {
-        setIndicator(false);
-      }, 10000);
+      if (orientation !== newOrientation) {
+        await setOrientation(orientation);
+
+        if (indicator) {
+          setTimeout(() => {
+            setIndicator(false);
+          }, 10000);
+        }
+      }
     }
   };
 
   const toggleIndicator = async () => {
     await setIndicator(!indicator);
-    setTimeout(() => {
-      setIndicator(false);
-    }, 5000);
+    if (indicator) {
+      setTimeout(() => {
+        setIndicator(false);
+      }, 5000);
+    }
   };
 
   return (
@@ -196,13 +203,11 @@ export default function RewatchWebinar({ navigation, route }: any) {
       {newOrientation.includes(PORTRAIT) ? (
         <OrientationLocker
           orientation={PORTRAIT}
-          onChange={handleOrientation}
           onDeviceChange={handleOrientation}
         />
       ) : (
         <OrientationLocker
           orientation={LANDSCAPE}
-          onChange={handleOrientation}
           onDeviceChange={handleOrientation}
         />
       )}

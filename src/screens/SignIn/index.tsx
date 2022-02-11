@@ -5,6 +5,7 @@ import React, { useMemo, useRef, useState } from "react";
 import { Keyboard, Linking, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
+import { validateEmail } from "../../utils";
 import { Alert, Check, Eye, EyeOff } from "../../../assets";
 import {
   Base,
@@ -58,7 +59,7 @@ const SignIn = ({ navigation }: any) => {
     if (email === undefined) {
       return { state: textFieldState.none };
     }
-    if (email.match(dv.regexEmail)) {
+    if (validateEmail(email)) {
       return {
         message: "",
         state: textFieldState.success,
@@ -76,6 +77,37 @@ const SignIn = ({ navigation }: any) => {
       state: textFieldState.warn
     };
   }, [email, isEmailNotFound]);
+
+  const passwordCheck = useMemo(() => {
+    if (currentPassword.current !== password) {
+      setIsPasswordWrong(false);
+    }
+    if (isPasswordWrong) {
+      return {
+        message: "",
+        state: textFieldState.warn
+      };
+    }
+    if (password === undefined) {
+      return { state: textFieldState.none };
+    }
+    if (password?.length >= 6) {
+      return {
+        message: "",
+        state: textFieldState.success
+      };
+    }
+    if (password.length === 0) {
+      return {
+        message: strings.passwordCantBeEmpty,
+        state: textFieldState.warn
+      };
+    }
+    return {
+      message: strings.passwordMinChar,
+      state: textFieldState.warn
+    };
+  }, [password, isPasswordWrong]);
 
   const LoginPress = () => {
     if (isLoading) {
@@ -110,37 +142,6 @@ const SignIn = ({ navigation }: any) => {
       })
       .finally(() => setIsLoading(false));
   };
-
-  const passwordCheck = useMemo(() => {
-    if (currentPassword.current !== password) {
-      setIsPasswordWrong(false);
-    }
-    if (isPasswordWrong) {
-      return {
-        message: "",
-        state: textFieldState.warn
-      };
-    }
-    if (password === undefined) {
-      return { state: textFieldState.none };
-    }
-    if (password?.length >= 6) {
-      return {
-        message: "",
-        state: textFieldState.success
-      };
-    }
-    if (password.length === 0) {
-      return {
-        message: strings.passwordCantBeEmpty,
-        state: textFieldState.warn
-      };
-    }
-    return {
-      message: strings.passwordMinChar,
-      state: textFieldState.warn
-    };
-  }, [password, isPasswordWrong]);
 
   return (
     <Base {...{ snackState, setSnackState }}>

@@ -26,5 +26,14 @@ const checkData = (param: any) => {
   }
 };
 
+const validateEmail = (emailAdress: any) => {
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (emailAdress.match(regexEmail)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const openRate = false;
-export { padTo2Digits, formatDate, openRate, checkData };
+export { padTo2Digits, formatDate, openRate, checkData, validateEmail };

@@ -36,15 +36,15 @@ const getLastReading = async (email: string) => {
         .get();
 
       resolve({
-        data: lastRead?.data().book,
+        data: lastRead?.data() ? lastRead?.data().book : {},
         message: "success",
         isSuccess: true,
         error: false
       });
-    } catch {
+    } catch (err) {
       reject({
         data: false,
-        message: "success",
+        message: "failed get last read book",
         isSuccess: false,
         error: true
       });

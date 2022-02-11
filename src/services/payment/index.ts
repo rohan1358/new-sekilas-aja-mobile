@@ -1,7 +1,6 @@
 import firestore from "@react-native-firebase/firestore";
 import { encode } from "base-64";
 export const firebaseTrackPayment = (data: any) => {
-  console.log("data", data);
   firestore()
     .collection("dashboard")
     .doc("track_record")

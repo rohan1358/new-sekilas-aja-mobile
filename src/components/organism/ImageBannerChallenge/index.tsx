@@ -41,8 +41,6 @@ const ImageBannerChallenge = ({
     <>
       <Button
         onPress={() => {
-          console.log("testing");
-
           // handleNavigation();
         }}
       >
