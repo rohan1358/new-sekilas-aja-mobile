@@ -6,6 +6,13 @@ import { firebaseTrackPayment, getInvoices } from "../payment";
 const fetchProfile = (email: string) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
+      // const raw = uid
+      //   ? await firestore().collection("users").doc(uid).get()
+      //   : await firestore()
+      //   .collection(firebaseNode.users)
+      //   .where("email", "==", email)
+      //   .get();
+
       const raw = await firestore()
         .collection(firebaseNode.users)
         .where("email", "==", email)
@@ -29,21 +36,29 @@ const fetchProfile = (email: string) => {
         const start_date = new Date();
         let end_date = new Date();
 
+        const { promo_code_invoice, promo_codes_used }: any = user;
+
+        const userPromoCodes = promo_code_invoice
+          ? [...promo_codes_used, promo_code_invoice]
+          : promo_codes_used;
+
         getInvoices(newData.id_incoive).then((res: any) => {
+          const { data, isSuccess } = res;
+
           const { email, phoneNumber, promo_code_invoice } = newData;
-          if (["SETTLED"].includes(res.status) && res.isSuccess) {
-            if (res.description == "Subscription 12 Bulan") {
+          if (["SETTLED"].includes(data.status) && isSuccess) {
+            if (data.description == "Subscription 12 Bulan") {
               end_date.setMonth(end_date.getMonth() + 12);
-            } else if (res.description == "Subscription 3 Bulan") {
+            } else if (data.description == "Subscription 3 Bulan") {
               end_date.setMonth(end_date.getMonth() + 3);
-            } else if (res.description == "Subscription 1 Bulan") {
+            } else if (data.description == "Subscription 1 Bulan") {
               end_date.setMonth(end_date.getMonth() + 1);
             }
             firebaseTrackPayment({
               email,
               date: new Date(),
               phoneNumber: phoneNumber || "",
-              item: res.description || "",
+              item: data.description || "",
               kode_promo: promo_code_invoice
             });
 
@@ -51,7 +66,9 @@ const fetchProfile = (email: string) => {
               is_subscribed: true,
               end_date: end_date,
               start_date: start_date,
-              id_incoive: ""
+              id_incoive: "",
+              promo_codes_used: userPromoCodes,
+              promo_code_invoice: ""
             })
               .then((res) => {
                 resolve({

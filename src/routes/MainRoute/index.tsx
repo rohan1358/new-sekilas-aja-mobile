@@ -58,33 +58,44 @@ const MainRoute = () => {
       .collection("users")
       .doc(profile.id)
       .onSnapshot((res: any) => {
+        const { email, phoneNumber, promo_code_invoice, promo_codes_used } =
+          res.data();
+
         if (res.data().id_incoive) {
           // get invoices
           const start_date = new Date();
 
           let end_date = new Date();
+
+          const userPromoCodes = promo_code_invoice
+            ? [...promo_codes_used, promo_code_invoice]
+            : promo_codes_used;
+
           getInvoices(res.data().id_incoive).then((res: any) => {
-            const { email, phoneNumber, promo_code_invoice } = profile;
-            if (res.status !== "PENDING" && res.isSuccess) {
-              if (res.description == "Subscription 12 Bulan") {
+            console.log("res", res);
+            const { data, isSuccess } = res;
+            if (data.status !== "PENDING" && isSuccess) {
+              if (data.description == "Subscription 12 Bulan") {
                 end_date.setMonth(end_date.getMonth() + 12);
-              } else if (res.description == "Subscription 3 Bulan") {
+              } else if (data.description == "Subscription 3 Bulan") {
                 end_date.setMonth(end_date.getMonth() + 3);
-              } else if (res.description == "Subscription 1 Bulan") {
+              } else if (data.description == "Subscription 1 Bulan") {
                 end_date.setMonth(end_date.getMonth() + 1);
               }
               firebaseTrackPayment({
                 email,
                 date: new Date(),
                 phoneNumber: phoneNumber,
-                item: res.description,
+                item: data.description,
                 kode_promo: promo_code_invoice
               });
               updateUser(email, {
                 is_subscribed: true,
                 end_date: end_date,
                 start_date: start_date,
-                id_incoive: ""
+                id_incoive: "",
+                promo_codes_used: userPromoCodes,
+                promo_code_invoice: ""
               }).then((res) => {});
             }
           });

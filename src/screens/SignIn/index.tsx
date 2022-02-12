@@ -122,9 +122,15 @@ const SignIn = ({ navigation }: any) => {
     currentEmail.current = email;
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(async () => {
-        navigation.replace(pages.Home);
+      .then(async (res) => {
+        // const email = "DanielWijaya85@gmail.com";
+
+        console.log("res", res.user.email);
+
         const profile = await fetchProfile(email);
+
+        navigation.replace(pages.Home);
+
         dispatch(setProfileRedux(profile.data));
 
         dispatch(loggingIn({ isLogin: true, email }));
