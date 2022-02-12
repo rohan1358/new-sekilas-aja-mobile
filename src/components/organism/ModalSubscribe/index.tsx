@@ -63,7 +63,7 @@ export default function ModalSubscribe({
   useEffect(() => {
     const fetchProfileRealtime = async () => {
       const fetchPricing = await firestore().collection("pricing").get();
-      const arrPromise = fetchPricing.docChanges().map((data) => {
+      const arrPromise: any = fetchPricing.docChanges().map((data) => {
         return { ...data.doc.data() };
       });
 

@@ -83,7 +83,7 @@ const Home = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {
-    sessionReducer: { email },
+    sessionReducer: { email, isLogin },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
     editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
@@ -240,7 +240,7 @@ const Home = () => {
         // newLastRead
         // readingData
         const [profileData, recomData, mostBookData] = await Promise.all([
-          fetchProfile(email),
+          fetchProfile(email, profile.id),
           // fetchReadingBook(email),
           fetchRecommendedBooks(),
           fetchMostBooks()

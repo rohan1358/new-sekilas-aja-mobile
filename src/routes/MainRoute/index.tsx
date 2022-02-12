@@ -36,6 +36,7 @@ import MainBottomRoute from "../MainBottomRoute";
 import firestore from "@react-native-firebase/firestore";
 import { updateUser } from "@services";
 import { firebaseTrackPayment, getInvoices } from "../../services/payment";
+import { firebaseNode } from "@constants";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -55,7 +56,7 @@ const MainRoute = () => {
   React.useEffect(() => {
     // console.log("profile", profile.id);
     firestore()
-      .collection("users")
+      .collection(firebaseNode.users)
       .doc(profile.id)
       .onSnapshot((res: any) => {
         const { email, phoneNumber, promo_code_invoice, promo_codes_used } =
@@ -72,7 +73,6 @@ const MainRoute = () => {
             : promo_codes_used;
 
           getInvoices(res.data().id_incoive).then((res: any) => {
-            console.log("res", res);
             const { data, isSuccess } = res;
             if (data.status !== "PENDING" && isSuccess) {
               if (data.description == "Subscription 12 Bulan") {

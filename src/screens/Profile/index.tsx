@@ -3,7 +3,7 @@ import {
   Button,
   DummyFlatList,
   ProfileHeader,
-  TextItem,
+  TextItem
 } from "../../components";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
@@ -13,7 +13,7 @@ import {
   primaryColor,
   skeleton,
   snackState as ss,
-  strings,
+  strings
 } from "@constants";
 import styles from "./styles";
 import { AlertModal, ChevronRight, EditGray } from "@assets";
@@ -33,7 +33,7 @@ export default function Profile({ navigation }: any) {
   const refRBSheet = useRef();
 
   const {
-    editProfile: { profile },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
@@ -41,7 +41,7 @@ export default function Profile({ navigation }: any) {
   const [textAlert, setTextAlert] = useState({
     text: "",
     action: "",
-    button: "",
+    button: ""
   });
 
   const [imageUrl, setImageUrl] = useState("");
@@ -51,7 +51,7 @@ export default function Profile({ navigation }: any) {
     // logger(image)
     user
       ?.updateProfile({
-        photoURL: "image",
+        photoURL: "image"
       })
       .then(() => {
         setSnackState(ss.successState(strings.success));
@@ -75,7 +75,7 @@ export default function Profile({ navigation }: any) {
           saveToPhotos: true,
           maxHeight: 500,
           maxWidth: 500,
-          includeBase64: true,
+          includeBase64: true
         },
         (callback) => {
           if (callback.errorCode === "camera_unavailable") {
@@ -91,7 +91,7 @@ export default function Profile({ navigation }: any) {
             logger("camera cancel");
           } else {
             const base64 = {
-              uri: "data:image/jpeg;base64," + callback.assets[0].base64,
+              uri: "data:image/jpeg;base64," + callback.assets[0].base64
             };
             handleUpdateImage(base64.uri);
           }
@@ -104,7 +104,7 @@ export default function Profile({ navigation }: any) {
           quality: 1,
           maxHeight: 500,
           maxWidth: 500,
-          includeBase64: true,
+          includeBase64: true
         },
         (callback) => {
           if (callback.errorCode === "camera_unavailable") {
@@ -120,7 +120,7 @@ export default function Profile({ navigation }: any) {
             logger("camera cancel");
           } else {
             const base64 = {
-              uri: "data:image/jpeg;base64," + callback.assets[0].base64,
+              uri: "data:image/jpeg;base64," + callback.assets[0].base64
             };
             handleUpdateImage(base64.uri);
           }
@@ -140,7 +140,7 @@ export default function Profile({ navigation }: any) {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: pages.SignIn }],
+        routes: [{ name: pages.SignIn }]
       })
     );
   };
@@ -164,7 +164,7 @@ export default function Profile({ navigation }: any) {
               navToEditProfile({
                 type: "nama",
                 title: "Ubah Nama",
-                valueParams: profile?.firstName,
+                valueParams: profile?.firstName
               })
             }
             style={styles.boxItem}
@@ -176,8 +176,8 @@ export default function Profile({ navigation }: any) {
             />
             <EditGray />
           </Button>
-          <TextItem style={styles.title}>{strings.alamat}</TextItem>
-          <Button
+          {/* <TextItem style={styles.title}>{strings.alamat}</TextItem> */}
+          {/* <Button
             onPress={() =>
               navToEditProfile({
                 type: "email",
@@ -194,7 +194,7 @@ export default function Profile({ navigation }: any) {
               keyboardType="email-address"
             />
             <EditGray />
-          </Button>
+          </Button> */}
           <TextItem style={styles.title}>{strings.password}</TextItem>
           <Button
             onPress={() =>
@@ -231,12 +231,12 @@ export default function Profile({ navigation }: any) {
         closeOnPressMask={true}
         customStyles={{
           wrapper: {
-            backgroundColor: "rgba(0,0,0,0.3)",
+            backgroundColor: "rgba(0,0,0,0.3)"
           },
           container: {
             borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          },
+            borderTopRightRadius: 24
+          }
         }}
         height={165}
       >

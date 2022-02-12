@@ -69,7 +69,8 @@ TrackPlayer.updateOptions({
 export default function Listening({ navigation, route }: any) {
   const { book } = route.params;
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
   const playbackState = usePlaybackState();
   const progress = useProgress();
@@ -189,7 +190,9 @@ export default function Listening({ navigation, route }: any) {
 
   const getHomeData = async () => {
     try {
-      const [profileData] = await Promise.all([fetchProfile(email)]);
+      const [profileData] = await Promise.all([
+        fetchProfile(email, profile.id)
+      ]);
 
       if (profileData.isSuccess) {
       } else {

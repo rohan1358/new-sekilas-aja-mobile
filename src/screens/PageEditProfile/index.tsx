@@ -23,7 +23,8 @@ import {
   pages,
   defaultValue as dv,
   successColor,
-  primaryColor
+  primaryColor,
+  firebaseNode
 } from "../../constants";
 import { Check, Exit, Eye, EyeOff } from "@assets";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +41,8 @@ const { textFieldState } = dv;
 
 export default function PageEditProfile({ route, navigation }: any) {
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const dispatch = useDispatch();
@@ -60,7 +62,9 @@ export default function PageEditProfile({ route, navigation }: any) {
 
   const getProfileData = async () => {
     try {
-      const [profileData] = await Promise.all([fetchProfile(email)]);
+      const [profileData] = await Promise.all([
+        fetchProfile(email, profile.id)
+      ]);
       if (profileData.isSuccess) {
         dispatch(setProfileRedux(profileData.data));
       } else {
@@ -217,7 +221,7 @@ export default function PageEditProfile({ route, navigation }: any) {
             })
             .then(() => {
               firestore()
-                .collection("users")
+                .collection(firebaseNode.users)
                 .doc(uid)
                 .update({
                   firstName: value,
@@ -244,7 +248,7 @@ export default function PageEditProfile({ route, navigation }: any) {
                 ?.updateEmail(value)
                 .then(() => {
                   firestore()
-                    .collection("users")
+                    .collection(firebaseNode.users)
                     .doc(uid)
                     .update({
                       email: value,
@@ -253,7 +257,7 @@ export default function PageEditProfile({ route, navigation }: any) {
                     .then(async () => {
                       try {
                         const [profileData] = await Promise.all([
-                          fetchProfile(value)
+                          fetchProfile(value, profile.id)
                         ]);
                         if (profileData.isSuccess) {
                           dispatch(setProfileRedux(profileData.data));

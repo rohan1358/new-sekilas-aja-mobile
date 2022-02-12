@@ -125,9 +125,7 @@ const SignIn = ({ navigation }: any) => {
       .then(async (res) => {
         // const email = "DanielWijaya85@gmail.com";
 
-        console.log("res", res.user.email);
-
-        const profile = await fetchProfile(email);
+        const profile = await fetchProfile(email, res.user.uid);
 
         navigation.replace(pages.Home);
 

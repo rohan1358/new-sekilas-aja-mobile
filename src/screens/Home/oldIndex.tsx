@@ -228,7 +228,7 @@ const Home = () => {
         // newLastRead
         // readingData
         const [profileData, recomData, mostBookData] = await Promise.all([
-          fetchProfile(email),
+          fetchProfile(email, profile.id),
           // fetchReadingBook(email),
           fetchRecommendedBooks(),
           fetchMostBooks()

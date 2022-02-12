@@ -14,6 +14,7 @@ import {
 } from "../../components";
 import {
   defaultValue as dv,
+  firebaseNode,
   neutralColor,
   pages,
   snackState as ss,
@@ -174,10 +175,10 @@ const SignUp = ({ navigation }: SignUpProps) => {
     Keyboard.dismiss();
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then((resCreate) => {
         firestore()
-          .collection("users")
-          .doc(res.user.uid)
+          .collection(firebaseNode.users)
+          .doc(resCreate.user.uid)
           .set({
             firstName: name,
             email,
@@ -237,7 +238,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
 
                 navigation.replace(pages.Home);
                 dispatch(loggingIn({ isLogin: true, email }));
-                const profile = await fetchProfile(email);
+                const profile = await fetchProfile(email, resCreate.user.uid);
                 dispatch(setProfileRedux(profile.data));
               });
           })

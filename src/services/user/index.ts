@@ -3,7 +3,7 @@ import firestore from "@react-native-firebase/firestore";
 import { logger } from "../../helpers";
 import { firebaseTrackPayment, getInvoices } from "../payment";
 
-const fetchProfile = (email: string) => {
+const fetchProfile = (email: string, uid?: any) => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
       // const raw = uid
@@ -15,12 +15,14 @@ const fetchProfile = (email: string) => {
 
       const raw = await firestore()
         .collection(firebaseNode.users)
-        .where("email", "==", email)
+        .doc(uid)
         .get();
 
-      const newData = raw.docs[0].data();
-      const id = raw.docs[0].id;
-      const { is_subscribed } = newData;
+      // console.log("raw", raw.data());
+
+      const newData: any = raw.data();
+      const id = raw.id;
+      const { is_subscribed }: any = newData;
       const rawData = {
         ...newData,
         is_subscribed:
@@ -102,7 +104,7 @@ const fetchProfile = (email: string) => {
           }
         });
       } else {
-        if (raw.docs[0].data()) {
+        if (raw.data()) {
           if (newData.end_date.toDate() < new Date() && is_subscribed) {
             firestore().collection(firebaseNode.users).doc(id).update(rawData);
           }
@@ -175,12 +177,12 @@ export const updateUser = (email: any, data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       firestore()
-        .collection("users")
+        .collection(firebaseNode.users)
         .where("email", "==", email)
         .get()
         .then((resGetuser) => {
           firestore()
-            .collection("users")
+            .collection(firebaseNode.users)
             .doc(resGetuser.docs[0].id)
             .update(data)
             .then((res) => {
