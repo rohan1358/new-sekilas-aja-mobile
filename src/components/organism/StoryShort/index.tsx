@@ -5,10 +5,12 @@ import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
 import React, { forwardRef, Fragment, useImperativeHandle } from "react";
 import { Text, View } from "react-native";
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { withPause } from "react-native-redash";
 import { useDispatch } from "react-redux";
 import { toggleBottomTab } from "../../../redux/actions";
 import styles from "./style";
@@ -17,16 +19,25 @@ const closePosition = winHeightPercent(100);
 const openPosition = 0;
 
 const StoryShort = forwardRef<any, any>((props, ref) => {
+  const data = [1];
+  const BAR_SIZE = (344 - 4 * (data.length - 1)) / data.length;
   const dispatch = useDispatch();
   const position = useSharedValue(closePosition);
+  const barPosition = useSharedValue(-BAR_SIZE);
+  const paused = useSharedValue(false);
   const containerStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: position.value }],
+  }));
+
+  const barStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: barPosition.value }],
   }));
 
   useImperativeHandle(ref, () => ({
     close: () => (position.value = withTiming(closePosition)),
     open: () => (position.value = withTiming(openPosition)),
   }));
+
   return (
     <Animated.View style={[styles.container, containerStyle]}>
       <View>
@@ -35,8 +46,22 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
           <Button
             style={styles.iconButton}
             onPress={() => {
-              position.value = withTiming(closePosition);
-              dispatch(toggleBottomTab(false));
+              if (barPosition.value === 0) {
+                barPosition.value = withTiming(-BAR_SIZE, {
+                  easing: Easing.linear,
+                  duration: 1000,
+                });
+              } else {
+                barPosition.value = withPause(
+                  withTiming(0, {
+                    easing: Easing.linear,
+                    duration: 15 * 1000,
+                  }),
+                  paused
+                );
+              }
+              // position.value = withTiming(closePosition);
+              // dispatch(toggleBottomTab(false));
             }}
           >
             <Assets.svg.CloseX stroke={neutralColor["10"]} />
@@ -47,8 +72,22 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
           </TextItem>
         </View>
         <Gap vertical={spacer.sm} />
+        <Button
+          style={styles.iconButton}
+          onPress={() => {
+            if (paused.value) {
+              paused.value = false;
+            } else {
+              paused.value = true;
+            }
+            // position.value = withTiming(closePosition);
+            // dispatch(toggleBottomTab(false));
+          }}
+        >
+          <Assets.svg.CloseX stroke={neutralColor["10"]} />
+        </Button>
         <View style={{ flexDirection: "row" }}>
-          {[1, 2, 3, 4].map((item, index) => (
+          {data.map((item, index) => (
             <Fragment key={`${item}`}>
               <View
                 style={{
@@ -57,31 +96,24 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
               >
                 <View
                   style={{
-                    width: widthDp(
-                      (344 - 4 * ([1, 2, 3, 4].length - 1)) /
-                        [1, 2, 3, 4].length
-                    ),
+                    width: widthDp(BAR_SIZE),
                     height: spacer.xxs,
                     borderRadius: 100,
                     backgroundColor: neutralColor.darkFocus,
                     overflow: "hidden",
                   }}
                 >
-                  <View
-                    style={{
-                      width: widthDp(
-                        (344 - 4 * ([1, 2, 3, 4].length - 1)) /
-                          [1, 2, 3, 4].length
-                      ),
-                      height: spacer.xxs,
-                      borderRadius: 100,
-                      position: "absolute",
-                      backgroundColor: neutralColor["10"],
-                      left: -widthDp(
-                        (344 - 4 * ([1, 2, 3, 4].length - 1)) /
-                          [1, 2, 3, 4].length
-                      ),
-                    }}
+                  <Animated.View
+                    style={[
+                      barStyle,
+                      {
+                        width: widthDp(BAR_SIZE),
+                        height: spacer.xxs,
+                        borderRadius: 100,
+                        position: "absolute",
+                        backgroundColor: neutralColor["10"],
+                      },
+                    ]}
                   />
                 </View>
                 <Gap horizontal={spacer.xxs} />
