@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 
 const { width: winWidth, height: winHeight } = Dimensions.get("window");
-const { width, height } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("window");
 
 // BASELINE: {"height": 866.8571428571429, "width": 411.42857142857144}
 const baseWidth = 411.42857142857144;
@@ -28,5 +28,5 @@ export {
   widthAdapt,
   heightAdapt,
   winWidthPercent,
-  winHeightPercent,
+  winHeightPercent
 };

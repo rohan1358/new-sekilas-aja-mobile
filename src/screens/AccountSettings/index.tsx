@@ -48,7 +48,7 @@ export default function AccountSettings({ navigation }: any) {
   const dispatch = useDispatch();
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalAlert, setModalAlert] = useState<boolean>(false);
   const [profiles, setProfile] = useState<ProfileProps>(profileRedux);
@@ -104,10 +104,12 @@ export default function AccountSettings({ navigation }: any) {
   };
   useEffect(() => {
     isMounted.current = true;
+
     getDataAccount();
 
     return () => {
       isMounted.current = false;
+      setIsLoading(true);
     };
   }, []);
 
@@ -221,12 +223,13 @@ export default function AccountSettings({ navigation }: any) {
                   <TextItem style={styles.titleList}>
                     {strings.masa_Account}
                   </TextItem>
-
-                  <TextItem style={styles.textLevelNonSubs}>
-                    {/* {formatDate(new Date(), "d-m-y")} */}
-                    {checkData(profile?.end_date) &&
-                      formatDate(profile?.end_date.toDate(), "d-m-y")}
-                  </TextItem>
+                  {!isLoading && profile?.end_date && (
+                    <TextItem style={styles.textLevelNonSubs}>
+                      {/* {formatDate(new Date())} */}
+                      {checkData(profile?.end_date) &&
+                        formatDate(profile?.end_date.toDate(), "d-m-y")}
+                    </TextItem>
+                  )}
                 </View>
               )}
               {/* <Button

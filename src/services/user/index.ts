@@ -48,7 +48,7 @@ const fetchProfile = (email: string, uid?: any) => {
           const { data, isSuccess } = res;
 
           const { email, phoneNumber, promo_code_invoice } = newData;
-          if (["SETTLED"].includes(data.status) && isSuccess) {
+          if (["SETTLED", "PAID"].includes(data.status) && isSuccess) {
             if (data.description == "Subscription 12 Bulan") {
               end_date.setMonth(end_date.getMonth() + 12);
             } else if (data.description == "Subscription 3 Bulan") {

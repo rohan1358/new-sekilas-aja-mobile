@@ -472,7 +472,7 @@ const Home = () => {
                           </View>
                           <TextItem
                             numberOfLines={2}
-                            type={`b.${width <= 320 ? 13 / 1.1 : 13}.nc.80`}
+                            type={`b.${13}.nc.80`}
                             style={styles.textNewMenu}
                           >
                             {Cb.text}

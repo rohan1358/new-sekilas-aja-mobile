@@ -1,5 +1,23 @@
+import { PixelRatio } from "react-native";
+
+const pixelRatio = PixelRatio.get();
+
 const padTo2Digits = (num: number) => {
   return num.toString().padStart(2, "0");
+};
+
+const adjust = (size?: any) => {
+  if (size > 5) {
+    if (pixelRatio <= 1.5) {
+      return size - 4;
+    } else if (pixelRatio <= 2) {
+      return size - 2;
+    } else {
+      return size;
+    }
+  } else {
+    return size;
+  }
 };
 
 const formatDate = (date: Date, format: any) => {
@@ -36,4 +54,4 @@ const validateEmail = (emailAdress: any) => {
 };
 
 const openRate = false;
-export { padTo2Digits, formatDate, openRate, checkData, validateEmail };
+export { padTo2Digits, formatDate, openRate, checkData, validateEmail, adjust };

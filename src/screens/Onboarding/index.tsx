@@ -17,18 +17,18 @@ const dataPage = [
         terbaik dunia dalam versi{" "}
         <TextItem type="b.16.nc.90">VIDEO, AUDIO, & TEKS.</TextItem>
       </>
-    ),
+    )
   },
   {
     image: Hero2,
-    title: <>MEMBACA adalah kebiasaan orang sukses!</>,
+    title: <>MEMBACA adalah {"\n"} habit orang sukses!</>,
     subTitle: (
       <>
         <TextItem type="b.16.nc.90">CEO TERSUKSES</TextItem> di dunia, rata-rata
         membaca kurang lebih <TextItem type="b.16.nc.90">60 BUKU</TextItem>{" "}
         dalam setahun.
       </>
-    ),
+    )
   },
   {
     image: Hero3,
@@ -39,7 +39,7 @@ const dataPage = [
         diri terbaik dunia hanya dalam{" "}
         <TextItem type="b.16.nc.90">15 MENIT.</TextItem>
       </>
-    ),
+    )
   },
   {
     image: Hero4,
@@ -50,8 +50,8 @@ const dataPage = [
         dengan belajar{" "}
         <TextItem type="b.16.nc.90">DI MANA PUN & KAPAN PUN</TextItem>
       </>
-    ),
-  },
+    )
+  }
 ];
 
 const { width } = Dimensions.get("screen");
@@ -74,8 +74,7 @@ export default function Onboarding({ navigation }: any) {
       scrollRef.current?.scrollTo({
         animatde: true,
         y: 0,
-        x:
-          currentIndex + 1 === dataPage.length ? 0 : width * (currentIndex + 1),
+        x: currentIndex + 1 === dataPage.length ? 0 : width * (currentIndex + 1)
       });
     }
   };
@@ -107,19 +106,20 @@ export default function Onboarding({ navigation }: any) {
             );
           })}
         </ScrollView>
-        <View style={styles.boxCircle}>
-          {dataPage.map((_, index) => {
-            return (
-              <View
-                key={index}
-                style={
-                  currentIndex == index ? styles.circleActive : styles.circle
-                }
-              />
-            );
-          })}
-        </View>
+
         <View style={styles.boxBtn}>
+          <View style={styles.boxCircle}>
+            {dataPage.map((_, index) => {
+              return (
+                <View
+                  key={index}
+                  style={
+                    currentIndex == index ? styles.circleActive : styles.circle
+                  }
+                />
+              );
+            })}
+          </View>
           {currentIndex == 0 ? (
             <Button onPress={() => handleNext()} style={styles.button}>
               <TextItem type="b.20" style={styles.textBtn}>

@@ -1,28 +1,29 @@
 import { StyleSheet } from "react-native";
+import { adjust } from "../../utils";
 import {
   primaryColor,
   spacing as sp,
   colors,
-  neutralColor,
+  neutralColor
 } from "../../constants";
 import { heightPercent, widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    flex: 1,
+    flex: 1
   },
 
   content: {
-    height: heightPercent(90),
+    height: heightPercent(100)
   },
 
   boxCircle: {
-    // marginTop: 20,
+    marginBottom: adjust(20),
     // paddingHorizontal: widthPercent(30),
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "center"
   },
 
   circle: {
@@ -30,50 +31,53 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: neutralColor[30],
     borderRadius: 100,
-    marginHorizontal: 5,
+    marginHorizontal: 5
   },
 
   circleActive: {
-    width: 15,
-    height: 8,
+    width: adjust(15),
+    height: adjust(8),
     backgroundColor: primaryColor.main,
     borderRadius: 100,
-    marginHorizontal: 5,
+    marginHorizontal: 5
   },
 
   boxBtn: {
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: adjust(30),
+    position: "absolute",
+    bottom: 0,
+    width: widthPercent(100)
   },
 
   button: {
     backgroundColor: neutralColor[80],
     width: "80%",
-    height: 64,
+    height: adjust(64),
     borderRadius: 16,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
 
   textBtn: {
-    color: primaryColor.main,
+    color: primaryColor.main
   },
 
   boxBtnAction: {
     flexDirection: "row",
     width: widthPercent(100),
-    paddingHorizontal: 25,
+    paddingHorizontal: adjust(25)
   },
 
   buttonLewati: {
-    height: 64,
+    height: adjust(64),
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
+    flex: 1
   },
 
   textBtnLewati: {
-    color: neutralColor[80],
+    color: neutralColor[80]
   },
 
   buttonLanjut: {
@@ -82,13 +86,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: neutralColor[80],
-    borderRadius: 16,
-    flexDirection: "row",
+    borderRadius: adjust(16),
+    flexDirection: "row"
   },
 
   iconArrow: {
-    marginLeft: 8,
-  },
+    marginLeft: 8
+  }
 });
 
 export default styles;

@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   bottomCta: {
     flexDirection: "row",
     alignItems: "flex-end",
-    justifyContent: "center",
+    justifyContent: "center"
   },
 
   centerEnd: { flexDirection: "row", alignItems: "flex-end" },
@@ -13,9 +13,12 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingHorizontal: sp.sl,
     paddingBottom: sp.l,
+    alignContent: "center",
+    justifyContent: "center",
+    flex: 1
   },
 
-  underlineText: { textAlign: "center", textDecorationLine: "underline" },
+  underlineText: { textAlign: "center", textDecorationLine: "underline" }
 });
 
 export default styles;

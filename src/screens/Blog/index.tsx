@@ -5,7 +5,7 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import client from "../../services/blog/client";
@@ -67,7 +67,7 @@ const Blog = () => {
   );
 
   const idKeyExtractor = ({
-    coverImageLink,
+    coverImageLink
   }: {
     coverImageLink: string | number;
   }) => `${Math.random()}`;
@@ -105,7 +105,7 @@ const Blog = () => {
           </Button>
           <TextItem
             style={{
-              marginLeft: 5,
+              marginLeft: 5
             }}
             type="b.24.nc.90"
           >

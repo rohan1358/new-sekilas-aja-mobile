@@ -1,15 +1,17 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { adjust } from "../../utils";
 import { neutralColor, primaryColor, spacing as sp } from "../../constants";
 import { widthPercent } from "../../helpers";
 
 const { width } = Dimensions.get("screen");
 
 const is3Inch = (num: any) => {
-  if (width > 320) {
-    return num;
-  } else {
-    return num / 2;
-  }
+  return adjust(num);
+  // if (width > 320) {
+  //   return num;
+  // } else {
+  //   return num / 2;
+  // }
 };
 
 const styles = StyleSheet.create({
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: sp.sl,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
   columnWrapperStyle: { justifyContent: "space-between" },
 
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: primaryColor.main,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
-    top: -sp.m,
+    top: -sp.m
   },
 
   longTitle: { flex: 1.25 },
@@ -49,20 +51,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     alignItems: "center",
-    borderColor: neutralColor[50],
+    borderColor: neutralColor[50]
   },
   iconNewMenu: {
     alignItems: "center",
     borderRadius: 50,
     padding: 10,
-    backgroundColor: "#ECF1F7",
+    backgroundColor: "#ECF1F7"
   },
   containerNewMenu: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: widthPercent(100),
+    width: widthPercent(100)
   },
-  textNewMenu: { marginLeft: 5 },
+  textNewMenu: { marginLeft: 5 }
 });
 
 export default styles;

@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
-import { Text } from "react-native";
+import { Text, PixelRatio } from "react-native";
+import { adjust } from "../../../utils";
 import {
   colors,
   dangerColor,
@@ -61,11 +62,13 @@ const styleGenerator = (code: string) => {
   }
   const separated: Array<string> = code?.split(".");
   const [fontCode, size, colorScheme, colorCode, transform] = separated;
+
   //@ts-ignore
   const color = colorFinder(colorScheme)[colorCode];
   //@ts-ignore
   const fontFamily = ff[familyFinder(fontCode)];
-  const fontSize = parseInt(size);
+  const fontSize = parseInt(adjust(size));
+  // const fontSize = parseInt(pixelRatio > 2 ? size : size - 2);
   const textTransform = transformFinder(transform);
   return { fontFamily, fontSize, color, textTransform };
 };

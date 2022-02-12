@@ -3,7 +3,7 @@ import { dangerColor, successColor } from "../../../constants";
 
 const styles = ({
   snackType,
-  backgroundColor,
+  backgroundColor
 }: {
   snackType: "success" | "fail" | undefined;
   backgroundColor: string;
@@ -15,13 +15,13 @@ const styles = ({
       left: 0,
       right: 0,
       position: "absolute",
-      backgroundColor,
+      backgroundColor
     },
 
     snack: {
       backgroundColor:
-        snackType === "success" ? successColor.main : dangerColor.main,
-    },
+        snackType === "success" ? successColor.main : dangerColor.main
+    }
   });
 
 export default styles;

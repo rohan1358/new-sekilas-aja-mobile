@@ -1,7 +1,7 @@
 interface ImageBannerProps {
-  placeholder: any;
-  source: any;
-  data: object;
-  openModal: any;
-  dataUser: any;
+  placeholder?: any;
+  source?: any;
+  data?: object;
+  openModal?: any;
+  dataUser?: any;
 }
