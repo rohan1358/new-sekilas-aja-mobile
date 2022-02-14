@@ -18,8 +18,6 @@ const fetchProfile = (email: string, uid?: any) => {
         .doc(uid)
         .get();
 
-      // console.log("raw", raw.data());
-
       const newData: any = raw.data();
       const id = raw.id;
       const { is_subscribed }: any = newData;

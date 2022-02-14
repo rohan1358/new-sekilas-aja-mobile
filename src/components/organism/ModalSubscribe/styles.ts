@@ -1,5 +1,6 @@
 import { colors, neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
+import { adjust } from "../../../utils";
 import { widthPercent } from "../../../helpers";
 
 const styles = StyleSheet.create({
@@ -27,9 +28,9 @@ const styles = StyleSheet.create({
   },
 
   btn: {
-    marginHorizontal: 27,
-    marginVertical: 19,
-    padding: 5
+    marginHorizontal: adjust(27),
+    marginVertical: adjust(19),
+    padding: adjust(5)
   },
 
   content: {

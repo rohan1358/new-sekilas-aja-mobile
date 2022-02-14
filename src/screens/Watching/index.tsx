@@ -60,6 +60,10 @@ export default function Watching({ navigation, route }: any) {
   const [videoBigbany, setVideoBigbany] = useState({
     uri: "https://api-files.sproutvideo.com/file/069dd8b0181fe6c08f/54cbce85df89c93d/240.mp4"
   });
+
+  const [indicator, setIndicator] = useState(true);
+
+  const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
   // const [videoUrl, setVideoUrl] = useState(videoNusa)
 
   const onLoadStart = () => {
@@ -70,7 +74,7 @@ export default function Watching({ navigation, route }: any) {
     setDuration(Math.round(data.duration));
     setIsLoading(false);
     if (videoPlayer.current) {
-      videoPlayer.current.seek(currentTime);
+      videoPlayer.current?.seek(currentTime);
     }
   };
 
@@ -186,22 +190,19 @@ export default function Watching({ navigation, route }: any) {
       .catch((err) => {});
   }, []);
 
-  const [indicator, setIndicator] = useState(true);
-
-  const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
-
   const handleOrientation = async (orientation: any) => {
-    if (Platform.OS === "ios") {
-      if (orientation.includes("FACE-UP")) {
-        return;
+    if (orientation !== "UNKNOWN") {
+      if (Platform.OS === "ios") {
+        if (orientation.includes("FACE-UP")) {
+          return;
+        }
       }
-    }
-
-    if (orientation !== newOrientation) {
-      await setOrientation(orientation);
-      setTimeout(() => {
-        setIndicator(false);
-      }, 10000);
+      if (orientation !== newOrientation) {
+        await setOrientation(orientation);
+        setTimeout(() => {
+          setIndicator(false);
+        }, 10000);
+      }
     }
   };
 
@@ -217,13 +218,13 @@ export default function Watching({ navigation, route }: any) {
       {newOrientation.includes(PORTRAIT) ? (
         <OrientationLocker
           orientation={PORTRAIT}
-          onChange={handleOrientation}
+          // onChange={handleOrientation}
           onDeviceChange={handleOrientation}
         />
       ) : (
         <OrientationLocker
           orientation={LANDSCAPE}
-          onChange={handleOrientation}
+          // onChange={handleOrientation}
           onDeviceChange={handleOrientation}
         />
       )}

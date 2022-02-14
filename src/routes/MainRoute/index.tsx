@@ -54,7 +54,6 @@ const MainRoute = () => {
   }, []);
 
   React.useEffect(() => {
-    // console.log("profile", profile.id);
     firestore()
       .collection(firebaseNode.users)
       .doc(profile.id)
