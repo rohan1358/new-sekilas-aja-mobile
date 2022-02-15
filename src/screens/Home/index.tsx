@@ -121,27 +121,27 @@ const Home = () => {
   const [carousel, setCarousel] = useState(false);
 
   useEffect(() => {
-    // fetchNotifPromo();
-    // fetchNotifInbox();
-    // fetchNotifPrivate();
+    fetchNotifPromo();
+    fetchNotifInbox();
+    fetchNotifPrivate();
   }, []);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 5000);
-    // if (profileStore && profileStore.is_subscribed) {
-    //   setModalAllPlan(false);
-    // }
-    // if (!profiles?.id) return;
-    // messaging()
-    //   .getToken()
-    //   .then((FcmToken) => {
-    //     return modifyToken({ FcmToken, id: profiles?.id });
-    //   });
-    // return messaging().onTokenRefresh((FcmToken) => {
-    //   modifyToken({ FcmToken, id: profiles?.id });
-    // });
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+    if (profileStore && profileStore.is_subscribed) {
+      setModalAllPlan(false);
+    }
+    if (!profiles?.id) return;
+    messaging()
+      .getToken()
+      .then((FcmToken) => {
+        return modifyToken({ FcmToken, id: profiles?.id });
+      });
+    return messaging().onTokenRefresh((FcmToken) => {
+      modifyToken({ FcmToken, id: profiles?.id });
+    });
   }, [profiles]);
 
   // useEffect(() => {
@@ -149,17 +149,17 @@ const Home = () => {
   // }, []);
 
   useEffect(() => {
-    // if (isFocused) {
-    //   getReadingBook();
-    //   getHomeData(false);
-    //   fetchCategory();
-    // }
+    if (isFocused) {
+      getReadingBook();
+      getHomeData(false);
+      fetchCategory();
+    }
   }, [isFocused]);
 
   useEffect(() => {
-    // fetchCarousel().then((res: any) => {
-    //   setCarousel(res.data);
-    // });
+    fetchCarousel().then((res: any) => {
+      setCarousel(res.data);
+    });
   }, []);
 
   const fetchCategory = async () => {
@@ -679,10 +679,10 @@ const Home = () => {
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>
             </SkeletonContent>
-            <ModalSubscribe
+            {/* <ModalSubscribe
               modalVisible={modalAllPlan}
               setModalVisible={setModalAllPlan}
-            />
+            /> */}
             <StoryShort ref={storyRef} />
           </Base>
         </>

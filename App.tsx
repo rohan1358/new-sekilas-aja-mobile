@@ -9,7 +9,11 @@ import { persistor, store } from "./src/redux/store";
 import { LogBox, Text } from "react-native";
 
 const App = () => {
-  LogBox.ignoreLogs(["Require cycle", "Consider refactoring to remove"]);
+  LogBox.ignoreLogs([
+    "Require cycle",
+    "Consider refactoring to remove",
+    "Seems like you're using an old API with gesture components",
+  ]);
 
   const [initializing, setInitializing] = useState(true);
 

@@ -1,9 +1,28 @@
 import Assets from "@assets";
 import { Button, Gap, TextItem } from "@atom";
 import { dangerColor, neutralColor, spacer } from "@constants";
-import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
-import React, { forwardRef, Fragment, useImperativeHandle } from "react";
+import {
+  heightDp,
+  heightInterpolate,
+  logger,
+  widthDp,
+  winHeightPercent,
+  winWidthPercent,
+} from "@helpers";
+import React, {
+  forwardRef,
+  Fragment,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { Text, View } from "react-native";
+import {
+  Gesture,
+  GestureDetector,
+  LongPressGestureHandler,
+  State,
+  TapGestureHandler,
+} from "react-native-gesture-handler";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -17,10 +36,14 @@ import styles from "./style";
 
 const closePosition = winHeightPercent(100);
 const openPosition = 0;
-
 const StoryShort = forwardRef<any, any>((props, ref) => {
-  const data = [1];
-  const BAR_SIZE = (344 - 4 * (data.length - 1)) / data.length;
+  const storyData = [
+    "Saya sering menulis bahwa keuangan pribadi adalah pribadi.",
+    "Saya sering membaca kamu adalah teman aku.",
+    "Kamu tidak tau apa yang aku pikirkan selama ini",
+    "Berharap takda satu orang pun yang tau",
+  ];
+  const BAR_SIZE = (344 - 4 * (storyData.length - 1)) / storyData.length;
   const dispatch = useDispatch();
   const position = useSharedValue(closePosition);
   const barPosition = useSharedValue(-BAR_SIZE);
@@ -28,6 +51,8 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
   const containerStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: position.value }],
   }));
+
+  const [storyIndex, setStoryIndex] = useState(0);
 
   const barStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: barPosition.value }],
@@ -37,6 +62,19 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
     close: () => (position.value = withTiming(closePosition)),
     open: () => (position.value = withTiming(openPosition)),
   }));
+
+  const gesture = Gesture.Tap().onStart((event) =>
+    logger(event.absoluteX, event.absoluteY)
+  );
+
+  /*
+   readonly UNDETERMINED: 0;
+    readonly FAILED: 1;
+    readonly BEGAN: 2;
+    readonly CANCELLED: 3;
+    readonly ACTIVE: 4;
+    readonly END: 5;
+  */
 
   return (
     <Animated.View style={[styles.container, containerStyle]}>
@@ -72,7 +110,7 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
           </TextItem>
         </View>
         <Gap vertical={spacer.sm} />
-        <Button
+        {/* <Button
           style={styles.iconButton}
           onPress={() => {
             if (paused.value) {
@@ -80,14 +118,12 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
             } else {
               paused.value = true;
             }
-            // position.value = withTiming(closePosition);
-            // dispatch(toggleBottomTab(false));
           }}
         >
           <Assets.svg.CloseX stroke={neutralColor["10"]} />
-        </Button>
+        </Button> */}
         <View style={{ flexDirection: "row" }}>
-          {data.map((item, index) => (
+          {storyData.map((item, index) => (
             <Fragment key={`${item}`}>
               <View
                 style={{
@@ -123,27 +159,54 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
         </View>
         <Gap vertical={spacer.xs} />
       </View>
-      <View style={{ paddingVertical: spacer.m }}>
-        <Text
+      <LongPressGestureHandler
+        onHandlerStateChange={({ nativeEvent }) => {
+          if (nativeEvent.state === State.FAILED) {
+            const tapPosition = nativeEvent.absoluteX;
+            const isLeft = tapPosition < winWidthPercent(40);
+            if (isLeft) {
+              if (storyIndex === 0) {
+                position.value = withTiming(closePosition);
+                return;
+              }
+              setStoryIndex((current) => current - 1);
+            } else {
+              if (storyIndex === storyData.length - 1) {
+                position.value = withTiming(closePosition);
+                return;
+              }
+              setStoryIndex((current) => current + 1);
+            }
+          }
+          if (nativeEvent.state === State.ACTIVE) {
+            logger("I'm being pressed for so long");
+          }
+        }}
+        minDurationMs={800}
+      >
+        <Animated.View
           style={{
-            fontFamily: "NotoSans-Black",
-            fontSize: widthDp(winHeightPercent(100) < 823 ? 24 : 32),
-            color: neutralColor["10"],
-            lineHeight: widthDp((winHeightPercent(100) < 823 ? 24 : 32) * 1.2),
-            letterSpacing: widthDp(
-              (winHeightPercent(100) < 823 ? 24 : 32) * -0.022
-            ),
+            paddingVertical: spacer.m,
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          Saya sering menulis bahwa keuangan pribadi adalah pribadi.
-        </Text>
-        <Gap vertical={spacer.sl} />
-        <TextItem type="b.32.nc.10">
-          Yang saya maksud dengan itu adalah bahwa apa yang mungkin menjadi
-          keputusan keuangan yang baik bagi saya mungkin bukan keputusan
-          keuangan yang baik bagi Anda.
-        </TextItem>
-      </View>
+          <Text
+            style={{
+              fontFamily: "NotoSans-Black",
+              fontSize: widthDp(heightInterpolate(32)),
+              color: neutralColor["10"],
+              lineHeight: widthDp(heightInterpolate(32)) * 1.2,
+              letterSpacing: widthDp(
+                (winHeightPercent(100) < 823 ? 24 : 32) * -0.022
+              ),
+            }}
+          >
+            {storyData[storyIndex]}
+          </Text>
+        </Animated.View>
+      </LongPressGestureHandler>
       <View
         style={{
           justifyContent: "flex-end",
@@ -196,10 +259,6 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
         />
         <Gap vertical={spacer.m} />
       </View>
-      {/* <Button
-            style={{ width: 240, height: 240, backgroundColor: "red" }}
-            onPress={() => dispatch(toggleBottomTab())}
-          ></Button> */}
     </Animated.View>
   );
 });

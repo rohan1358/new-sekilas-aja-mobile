@@ -23,6 +23,9 @@ const widthDp = (value: number) => winWidthPercent((value * 100) / baseWidth);
 const heightDp = (value: number) =>
   winHeightPercent((value * 100) / baseHeight);
 
+const heightInterpolate = (value: number) =>
+  PixelRatio.roundToNearestPixel((value * winHeight) / baseHeight);
+
 export {
   widthPercent,
   heightPercent,
@@ -30,4 +33,5 @@ export {
   heightDp,
   winWidthPercent,
   winHeightPercent,
+  heightInterpolate,
 };

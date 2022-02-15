@@ -185,17 +185,6 @@ const FancyBottomTab = ({
       <View style={styles.container}>
         <Animated.View style={[styles.innerContainer, containerStyle]}>
           <View style={styles.overlay} />
-
-          {/* <Button
-  onPress={() => setToggleTab((current) => !current)}
-  style={{
-    position: "absolute",
-    top: -100,
-    width: 240,
-    height: 240,
-    backgroundColor: "green",
-  }}
-/> */}
           <View style={styles.tabsContainer}>
             {state.routes.map((route, index) => {
               const { options } = descriptors[route.key];
