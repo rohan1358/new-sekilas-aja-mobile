@@ -104,7 +104,7 @@ const MainRoute = () => {
 
   return (
     <>
-      <OrientationLocker orientation={PORTRAIT} />
+      {/* <OrientationLocker orientation={PORTRAIT} /> */}
       <Stack.Navigator
         initialRouteName={"MainBottomRoute"}
         screenOptions={{ headerShown: false, animation: "fade" }}

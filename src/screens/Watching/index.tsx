@@ -11,9 +11,7 @@ import { ActivityIndicator, Share, View, Platform } from "react-native";
 import Orientation, {
   PORTRAIT,
   OrientationLocker,
-  LANDSCAPE,
-  LANDSCAPE_LEFT,
-  LANDSCAPE_RIGHT
+  LANDSCAPE
 } from "react-native-orientation-locker";
 import styles from "./styles";
 import {
@@ -75,6 +73,9 @@ export default function Watching({ navigation, route }: any) {
   const onLoad = (data: any) => {
     setDuration(Math.round(data.duration));
     setIsLoading(false);
+    setTimeout(() => {
+      Orientation.unlockAllOrientations();
+    }, 3000);
     if (videoPlayer.current) {
       videoPlayer.current?.seek(currentTime);
     }
@@ -203,7 +204,6 @@ export default function Watching({ navigation, route }: any) {
         }
       }
       if (orientation !== newOrientation) {
-        console.log("orientation", orientation);
         await setOrientation(orientation);
         setLoadRotate(false);
 
@@ -212,8 +212,6 @@ export default function Watching({ navigation, route }: any) {
         }, 10000);
       }
     } else {
-      console.log("orientation unknow", orientation);
-
       setLoadRotate(false);
     }
   };
@@ -225,19 +223,53 @@ export default function Watching({ navigation, route }: any) {
     }, 5000);
   };
 
+  const newHandleOrientation = async (event: any) => {
+    if (!isLoading && Platform.OS !== "ios") {
+      const layout = {
+        Width_Layout: event.nativeEvent.layout.width,
+        Height_Layout: event.nativeEvent.layout.height
+      };
+
+      if (layout.Width_Layout > layout.Height_Layout) {
+        await setOrientation(LANDSCAPE);
+      } else {
+        await setOrientation(PORTRAIT);
+      }
+    }
+  };
+
+  // Orientation.getAutoRotateState
+
   return (
-    <>
-      {newOrientation.includes(PORTRAIT) ? (
-        <OrientationLocker
-          orientation={PORTRAIT}
-          onDeviceChange={handleOrientation}
-        />
+    <View
+      style={{ flex: 1 }}
+      onLayout={(event) => {
+        newHandleOrientation(event);
+      }}
+    >
+      {Platform.OS === "ios" ? (
+        <>
+          {newOrientation.includes(PORTRAIT) ? (
+            <OrientationLocker
+              orientation={PORTRAIT}
+              onDeviceChange={handleOrientation}
+            />
+          ) : (
+            <OrientationLocker
+              orientation={LANDSCAPE}
+              onDeviceChange={handleOrientation}
+            />
+          )}
+        </>
       ) : (
-        <OrientationLocker
-          orientation={LANDSCAPE}
-          onDeviceChange={handleOrientation}
-        />
+        <>
+          <OrientationLocker
+            orientation={"UNLOCK"}
+            // onDeviceChange={handleOrientation}
+          />
+        </>
       )}
+
       {!loadRotate && (
         <>
           <Base
@@ -261,7 +293,7 @@ export default function Watching({ navigation, route }: any) {
                   : styles.boxImage
               }
             >
-              {!newOrientation.includes(LANDSCAPE) && (
+              {!newOrientation.includes(LANDSCAPE) ? (
                 <>
                   {isLoading && (
                     <View style={styles.loadVideo}>
@@ -273,6 +305,17 @@ export default function Watching({ navigation, route }: any) {
                   )}
                   {isBufferLoad && (
                     <View style={styles.loadVideoActive}>
+                      <ActivityIndicator
+                        size="large"
+                        color={primaryColor.main}
+                      />
+                    </View>
+                  )}
+                </>
+              ) : (
+                <>
+                  {isLoading && (
+                    <View style={styles.loadVideo}>
                       <ActivityIndicator
                         size="large"
                         color={primaryColor.main}
@@ -367,7 +410,12 @@ export default function Watching({ navigation, route }: any) {
                           {_convertDuration(currentTime)}/
                           {_convertDuration(duration - currentTime)}
                         </TextItem>
-                        <Button onPress={() => handleOrientation(PORTRAIT)}>
+                        <Button
+                          onPress={() => {
+                            handleOrientation(PORTRAIT);
+                            Orientation.lockToPortrait();
+                          }}
+                        >
                           <Minimize
                             width={25}
                             height={25}
@@ -425,7 +473,12 @@ export default function Watching({ navigation, route }: any) {
                         {_convertDuration(currentTime)}/
                         {_convertDuration(duration - currentTime)}
                       </TextItem>
-                      <Button onPress={() => handleOrientation(LANDSCAPE)}>
+                      <Button
+                        onPress={() => {
+                          handleOrientation(LANDSCAPE);
+                          Orientation.lockToLandscape();
+                        }}
+                      >
                         <Maximize height={25} color={neutralColor[90]} />
                       </Button>
                       {/* <TextItem type={"r.14.nc.90"}>
@@ -540,6 +593,6 @@ export default function Watching({ navigation, route }: any) {
           </Base>
         </>
       )}
-    </>
+    </View>
   );
 }

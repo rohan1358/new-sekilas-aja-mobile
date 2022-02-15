@@ -13,7 +13,8 @@ import Orientation, {
   OrientationLocker,
   LANDSCAPE,
   LANDSCAPE_LEFT,
-  LANDSCAPE_RIGHT
+  LANDSCAPE_RIGHT,
+  UNLOCK
 } from "react-native-orientation-locker";
 import styles from "./styles";
 import {
@@ -62,6 +63,8 @@ export default function RewatchWebinar({ navigation, route }: any) {
   });
   // const [videoUrl, setVideoUrl] = useState(videoNusa)
 
+  const [loadRotate, setLoadRotate] = useState(false);
+
   const onLoadStart = () => {
     setIsLoading(true);
   };
@@ -69,6 +72,20 @@ export default function RewatchWebinar({ navigation, route }: any) {
   const onLoad = (data: any) => {
     setDuration(Math.round(data.duration));
     setIsLoading(false);
+    Orientation.getDeviceOrientation(async (orientation) => {
+      if (orientation.includes(PORTRAIT) && newOrientation !== PORTRAIT) {
+        setLoadRotate(false);
+
+        await setOrientation(PORTRAIT);
+      } else if (
+        orientation.includes(LANDSCAPE) &&
+        newOrientation !== LANDSCAPE
+      ) {
+        setLoadRotate(false);
+
+        await setOrientation(LANDSCAPE);
+      }
+    });
     if (videoPlayer.current) {
       videoPlayer.current.seek(currentTime);
     }
@@ -167,24 +184,34 @@ export default function RewatchWebinar({ navigation, route }: any) {
 
   const [indicator, setIndicator] = useState(true);
 
-  const [newOrientation, setOrientation] = useState<string>("PORTRAIT");
+  const [newOrientation, setOrientation] = useState<string>(PORTRAIT);
 
   const handleOrientation = async (orientation: any) => {
-    if (orientation !== "UNKNOWN") {
-      if (Platform.OS === "ios") {
-        if (orientation.includes("FACE-UP")) {
-          return;
+    if (orientation !== "UNKNOWN" && !isLoading) {
+      if (!orientation.includes(newOrientation)) {
+        setLoadRotate(true);
+        if (Platform.OS === "ios") {
+          if (orientation.includes("FACE-UP")) {
+            setLoadRotate(false);
+            return;
+          }
         }
-      }
+        if (orientation.includes(PORTRAIT) && newOrientation !== PORTRAIT) {
+          setLoadRotate(false);
 
-      if (orientation !== newOrientation) {
-        await setOrientation(orientation);
+          await setOrientation(PORTRAIT);
+        } else if (
+          orientation.includes(LANDSCAPE) &&
+          newOrientation !== LANDSCAPE
+        ) {
+          setLoadRotate(false);
 
-        if (indicator) {
-          setTimeout(() => {
-            setIndicator(false);
-          }, 10000);
+          await setOrientation(LANDSCAPE);
         }
+
+        // setTimeout(() => {
+        //   setIndicator(false);
+        // }, 10000);
       }
     }
   };
@@ -198,141 +225,190 @@ export default function RewatchWebinar({ navigation, route }: any) {
     }
   };
 
+  const newHandleOrientation = async (event: any) => {
+    if (!isLoading && Platform.OS !== "ios") {
+      const layout = {
+        Width_Layout: event.nativeEvent.layout.width,
+        Height_Layout: event.nativeEvent.layout.height
+      };
+
+      if (layout.Width_Layout > layout.Height_Layout) {
+        if (newOrientation !== LANDSCAPE) {
+          await setOrientation(LANDSCAPE);
+        }
+      } else {
+        if (newOrientation !== PORTRAIT) {
+          await setOrientation(PORTRAIT);
+        }
+      }
+    }
+  };
+
+  const testingMode = false;
+
   return (
-    <>
-      {newOrientation.includes(PORTRAIT) ? (
-        <OrientationLocker
-          orientation={PORTRAIT}
-          onDeviceChange={handleOrientation}
-        />
-      ) : (
-        <OrientationLocker
-          orientation={LANDSCAPE}
-          onDeviceChange={handleOrientation}
-        />
-      )}
-      <Base
-        barColor={primaryColor.main}
-        snackState={snackState}
-        setSnackState={setSnackState}
-        fullScreen={newOrientation.includes(LANDSCAPE)}
-      >
-        {!newOrientation.includes(LANDSCAPE) && (
-          <HeaderListening
-            navigation={navigation}
-            onShare={() => onShare()}
-            title={title}
-          />
-        )}
+    <View
+      style={{ flex: 1 }}
+      onLayout={(event) => {
+        // newHandleOrientation(event);
+      }}
+    >
+      <OrientationLocker
+        orientation={newOrientation.includes(PORTRAIT) ? PORTRAIT : LANDSCAPE}
+        onDeviceChange={handleOrientation}
+      />
+      {!loadRotate && (
+        <>
+          <Base
+            barColor={primaryColor.main}
+            snackState={snackState}
+            setSnackState={setSnackState}
+            fullScreen={newOrientation.includes(LANDSCAPE)}
+          >
+            {!newOrientation.includes(LANDSCAPE) && (
+              <HeaderListening
+                navigation={navigation}
+                onShare={() => onShare()}
+                title={title}
+              />
+            )}
 
-        <View
-          style={
-            newOrientation.includes(LANDSCAPE) ? { flex: 1 } : styles.boxImage
-          }
-        >
-          {!newOrientation.includes(LANDSCAPE) && (
-            <>
-              {isLoading && (
-                <View style={styles.loadVideo}>
-                  <ActivityIndicator size="large" color={primaryColor.main} />
-                </View>
-              )}
-              {isBufferLoad && (
-                <View style={styles.loadVideoActive}>
-                  <ActivityIndicator size="large" color={primaryColor.main} />
-                </View>
-              )}
-            </>
-          )}
-
-          <Video
-            fullscreen={newOrientation.includes(LANDSCAPE)}
-            onTouchStart={(e) =>
-              newOrientation.includes(LANDSCAPE) && toggleIndicator()
-            }
-            ref={videoPlayer}
-            source={videoBigbany}
-            onLoadStart={onLoadStart}
-            onLoad={onLoad}
-            fullscreenOrientation={"landscape"}
-            style={
-              Platform.OS === "ios" && newOrientation.includes(LANDSCAPE)
-                ? styles.backgroundVideoIos
-                : styles.backgroundVideo
-            }
-            paused={play}
-            onProgress={onProgress}
-            resizeMode={
-              newOrientation.includes(LANDSCAPE) ? "contain" : "cover"
-            }
-            // resizeMode={"contain"}
-            rate={speed}
-          />
-          {newOrientation.includes(LANDSCAPE) && indicator && (
-            <>
-              <View
-                onTouchStart={(e) => toggleIndicator()}
-                style={{
-                  flex: 1,
-                  position: "absolute",
-                  //backgroundColor: "white",
-                  backgroundColor: "#3B3B3B",
-                  height: 1900,
-                  width: "100%",
-                  opacity: 0.5
-                }}
-              ></View>
-              <View
-                style={{
-                  bottom: 0,
-                  alignItems: "center",
-                  flex: 1,
-                  justifyContent: "center"
-                }}
-              >
-                <View
-                  style={[
-                    styles.boxAction,
-                    {
-                      width: "100%"
-                      // marginBottom: heightPercent(15)
-                    }
-                  ]}
-                >
-                  <Button onPress={() => handlePrev()}>
-                    <RotateCcw height={25} color={neutralColor[10]} />
-                  </Button>
-                  <Button>
-                    <SkipBackFullScreen color={neutralColor[10]} />
-                  </Button>
-                  <Button onPress={() => setPlay(!play)}>
-                    {play ? (
-                      <Play color={neutralColor[10]} style={styles.iconPlay} />
-                    ) : (
-                      <Pause color={neutralColor[10]} />
-                    )}
-                  </Button>
-                  <Button>
-                    <SkipForwardFullScreen color={neutralColor[10]} />
-                  </Button>
-                  <Button onPress={() => handleNext()}>
-                    <RotateCw height={25} color={neutralColor[10]} />
-                  </Button>
-                </View>
-                <View style={{ width: "90%", position: "absolute", bottom: 0 }}>
-                  <View style={styles.boxTextTime}>
-                    <TextItem type={"r.14.nc.10"}>
-                      {_convertDuration(currentTime)}/
-                      {_convertDuration(duration - currentTime)}
-                    </TextItem>
-                    <Button onPress={() => handleOrientation(PORTRAIT)}>
-                      <Minimize
-                        width={25}
-                        height={25}
-                        color={neutralColor[10]}
+            <View
+              style={
+                newOrientation.includes(LANDSCAPE)
+                  ? { flex: 1 }
+                  : styles.boxImage
+              }
+            >
+              {/* { */}
+              {!newOrientation.includes(LANDSCAPE) ? (
+                <>
+                  {isLoading && (
+                    <View style={styles.loadVideo}>
+                      <ActivityIndicator
+                        size="large"
+                        color={primaryColor.main}
                       />
-                    </Button>
-                    {/* <TextItem type={"r.14.nc.10"}>
+                    </View>
+                  )}
+                  {isBufferLoad && (
+                    <View style={styles.loadVideoActive}>
+                      <ActivityIndicator
+                        size="large"
+                        color={primaryColor.main}
+                      />
+                    </View>
+                  )}
+                </>
+              ) : (
+                <>
+                  {(isLoading || isBufferLoad) && (
+                    <View style={styles.loadVideo}>
+                      <ActivityIndicator
+                        size="large"
+                        color={primaryColor.main}
+                      />
+                    </View>
+                  )}
+                </>
+              )}
+
+              <Video
+                fullscreen={newOrientation.includes(LANDSCAPE)}
+                onTouchStart={(e) =>
+                  newOrientation.includes(LANDSCAPE) && toggleIndicator()
+                }
+                ref={videoPlayer}
+                source={videoBigbany}
+                onLoadStart={onLoadStart}
+                onLoad={onLoad}
+                fullscreenOrientation={"landscape"}
+                style={
+                  Platform.OS === "ios" && newOrientation.includes(LANDSCAPE)
+                    ? styles.backgroundVideoIos
+                    : styles.backgroundVideo
+                }
+                paused={play}
+                onProgress={onProgress}
+                resizeMode={
+                  newOrientation.includes(LANDSCAPE) ? "contain" : "cover"
+                }
+                rate={speed}
+              />
+              {newOrientation.includes(LANDSCAPE) && indicator && (
+                <>
+                  <View
+                    onTouchStart={(e) => toggleIndicator()}
+                    style={{
+                      flex: 1,
+                      position: "absolute",
+                      //backgroundColor: "white",
+                      backgroundColor: "#3B3B3B",
+                      height: 1900,
+                      width: "100%",
+                      opacity: 0.5
+                    }}
+                  ></View>
+                  <View
+                    style={{
+                      bottom: 0,
+                      alignItems: "center",
+                      flex: 1,
+                      justifyContent: "center"
+                    }}
+                  >
+                    <View
+                      style={[
+                        styles.boxAction,
+                        {
+                          width: "100%"
+                          // marginBottom: heightPercent(15)
+                        }
+                      ]}
+                    >
+                      <Button onPress={() => handlePrev()}>
+                        <RotateCcw height={25} color={neutralColor[10]} />
+                      </Button>
+                      <Button>
+                        <SkipBackFullScreen color={neutralColor[10]} />
+                      </Button>
+                      <Button onPress={() => setPlay(!play)}>
+                        {play ? (
+                          <Play
+                            color={neutralColor[10]}
+                            style={styles.iconPlay}
+                          />
+                        ) : (
+                          <Pause color={neutralColor[10]} />
+                        )}
+                      </Button>
+                      <Button>
+                        <SkipForwardFullScreen color={neutralColor[10]} />
+                      </Button>
+                      <Button onPress={() => handleNext()}>
+                        <RotateCw height={25} color={neutralColor[10]} />
+                      </Button>
+                    </View>
+                    <View
+                      style={{ width: "90%", position: "absolute", bottom: 0 }}
+                    >
+                      <View style={styles.boxTextTime}>
+                        <TextItem type={"r.14.nc.10"}>
+                          {_convertDuration(currentTime)}/
+                          {_convertDuration(duration - currentTime)}
+                        </TextItem>
+                        <Button
+                          onPress={() => {
+                            handleOrientation(PORTRAIT);
+                          }}
+                        >
+                          <Minimize
+                            width={25}
+                            height={25}
+                            color={neutralColor[10]}
+                          />
+                        </Button>
+                        {/* <TextItem type={"r.14.nc.10"}>
                       <Minimize
                         onPress={() => handleOrientation(PORTRAIT)}
                         width={25}
@@ -340,139 +416,148 @@ export default function RewatchWebinar({ navigation, route }: any) {
                         color={neutralColor[10]}
                       />
                     </TextItem> */}
+                      </View>
+                      <Slider
+                        value={currentTime}
+                        containerStyle={styles.SliderContainer}
+                        minimumValue={0}
+                        maximumValue={duration}
+                        minimumTrackTintColor={neutralColor[10]}
+                        maximumTrackTintColor={"#D1D7E1"}
+                        thumbTintColor={colors.white}
+                        trackStyle={styles.trackSliderStyle}
+                        onValueChange={(value) => {
+                          videoPlayer.current.seek(Number(value));
+                          setCurrentTime(Number(value));
+                        }}
+                      />
+                    </View>
                   </View>
-                  <Slider
-                    value={currentTime}
-                    containerStyle={styles.SliderContainer}
-                    minimumValue={0}
-                    maximumValue={duration}
-                    minimumTrackTintColor={neutralColor[10]}
-                    maximumTrackTintColor={"#D1D7E1"}
-                    thumbTintColor={colors.white}
-                    trackStyle={styles.trackSliderStyle}
-                    onValueChange={(value) => {
-                      videoPlayer.current.seek(Number(value));
-                      setCurrentTime(Number(value));
-                    }}
-                  />
-                </View>
-              </View>
-            </>
-          )}
-        </View>
-        {!newOrientation.includes(LANDSCAPE) && (
-          <>
-            <View style={styles.content}>
-              <View>
-                <Slider
-                  value={currentTime}
-                  containerStyle={styles.SliderContainer}
-                  minimumValue={0}
-                  maximumValue={duration}
-                  minimumTrackTintColor={neutralColor[90]}
-                  maximumTrackTintColor={"#D1D7E1"}
-                  thumbTintColor={colors.white}
-                  trackStyle={styles.trackSliderStyle}
-                  onValueChange={(value) => {
-                    videoPlayer.current.seek(Number(value));
-                    setCurrentTime(Number(value));
-                  }}
-                />
-                <View style={styles.boxTextTime}>
-                  <TextItem type={"r.14.nc.90"}>
-                    {_convertDuration(currentTime)}/
-                    {_convertDuration(duration - currentTime)}
-                  </TextItem>
-                  <Button onPress={() => handleOrientation(LANDSCAPE)}>
-                    <Maximize height={25} color={neutralColor[90]} />
-                  </Button>
-                  {/* <TextItem type={"r.14.nc.90"}>
+                </>
+              )}
+            </View>
+            {!newOrientation.includes(LANDSCAPE) && (
+              <>
+                <View style={styles.content}>
+                  <View>
+                    <Slider
+                      value={currentTime}
+                      containerStyle={styles.SliderContainer}
+                      minimumValue={0}
+                      maximumValue={duration}
+                      minimumTrackTintColor={neutralColor[90]}
+                      maximumTrackTintColor={"#D1D7E1"}
+                      thumbTintColor={colors.white}
+                      trackStyle={styles.trackSliderStyle}
+                      onValueChange={(value) => {
+                        videoPlayer.current.seek(Number(value));
+                        setCurrentTime(Number(value));
+                      }}
+                    />
+                    <View style={styles.boxTextTime}>
+                      <TextItem type={"r.14.nc.90"}>
+                        {_convertDuration(currentTime)}/
+                        {_convertDuration(duration - currentTime)}
+                      </TextItem>
+                      <Button
+                        onPress={() => {
+                          handleOrientation(LANDSCAPE);
+                        }}
+                      >
+                        <Maximize height={25} color={neutralColor[90]} />
+                      </Button>
+                      {/* <TextItem type={"r.14.nc.90"}>
                     <Maximize
                       onPress={() => handleOrientation(LANDSCAPE)}
                       height={25}
                       color={neutralColor[90]}
                     />
                   </TextItem> */}
-                </View>
-              </View>
-              <View style={styles.boxAction}>
-                <Button onPress={() => handlePrev()}>
-                  <RotateCcw height={25} color={neutralColor[90]} />
-                </Button>
-                <Button>
-                  <SkipBack color={neutralColor[90]} />
-                </Button>
-                <Button onPress={() => setPlay(!play)} style={styles.play}>
-                  {play ? (
-                    <Play color={primaryColor.main} style={styles.iconPlay} />
-                  ) : (
-                    <Pause color={primaryColor.main} />
-                  )}
-                </Button>
-                <Button>
-                  <SkipForward color={neutralColor[90]} />
-                </Button>
-                <Button onPress={() => handleNext()}>
-                  <RotateCw height={25} color={neutralColor[90]} />
-                </Button>
-              </View>
-              <View style={styles.boxFooter}>
-                <Button onPress={() => refRBSheet.current.open()}>
-                  <TextItem type={"b.14.nc.90"} style={styles.speedText}>
-                    {strings.kecepatan + speed.toString() + strings.x}
-                  </TextItem>
-                </Button>
-              </View>
-            </View>
-            <RBSheet
-              ref={refRBSheet}
-              closeOnDragDown={false}
-              closeOnPressMask={true}
-              customStyles={{
-                wrapper: {
-                  backgroundColor: "rgba(0,0,0,0.3)"
-                },
-                container: {
-                  borderTopLeftRadius: 24,
-                  borderTopRightRadius: 24
-                }
-              }}
-              height={heightPercent(42)}
-            >
-              <View>
-                <View style={styles.boxTitleSheet}>
-                  <TextItem style={styles.titleSheet}>
-                    {strings.kecepatan_video}
-                  </TextItem>
-                  <Button onPress={() => refRBSheet.current.close()}>
-                    <Exit color={neutralColor[90]} />
-                  </Button>
-                </View>
-                <DummyFlatList>
-                  <View style={styles.boxListSpeed}>
-                    {speedList.map((item, index) => (
-                      <Button
-                        onPress={() => {
-                          refRBSheet.current.close();
-                          setTimeout(() => {
-                            setSpeed(item);
-                          }, 1200);
-                        }}
-                        key={index}
-                        style={styles.listSpeed}
-                      >
-                        <TextItem type={"r.16.nc.90"}>
-                          {item + strings.x}
-                        </TextItem>
-                      </Button>
-                    ))}
+                    </View>
                   </View>
-                </DummyFlatList>
-              </View>
-            </RBSheet>
-          </>
-        )}
-      </Base>
-    </>
+                  <View style={styles.boxAction}>
+                    <Button onPress={() => handlePrev()}>
+                      <RotateCcw height={25} color={neutralColor[90]} />
+                    </Button>
+                    <Button>
+                      <SkipBack color={neutralColor[90]} />
+                    </Button>
+                    <Button onPress={() => setPlay(!play)} style={styles.play}>
+                      {play ? (
+                        <Play
+                          color={primaryColor.main}
+                          style={styles.iconPlay}
+                        />
+                      ) : (
+                        <Pause color={primaryColor.main} />
+                      )}
+                    </Button>
+                    <Button>
+                      <SkipForward color={neutralColor[90]} />
+                    </Button>
+                    <Button onPress={() => handleNext()}>
+                      <RotateCw height={25} color={neutralColor[90]} />
+                    </Button>
+                  </View>
+                  <View style={styles.boxFooter}>
+                    <Button onPress={() => refRBSheet.current.open()}>
+                      <TextItem type={"b.14.nc.90"} style={styles.speedText}>
+                        {strings.kecepatan + speed.toString() + strings.x}
+                      </TextItem>
+                    </Button>
+                  </View>
+                </View>
+                <RBSheet
+                  ref={refRBSheet}
+                  closeOnDragDown={false}
+                  closeOnPressMask={true}
+                  customStyles={{
+                    wrapper: {
+                      backgroundColor: "rgba(0,0,0,0.3)"
+                    },
+                    container: {
+                      borderTopLeftRadius: 24,
+                      borderTopRightRadius: 24
+                    }
+                  }}
+                  height={heightPercent(42)}
+                >
+                  <View>
+                    <View style={styles.boxTitleSheet}>
+                      <TextItem style={styles.titleSheet}>
+                        {strings.kecepatan_video}
+                      </TextItem>
+                      <Button onPress={() => refRBSheet.current.close()}>
+                        <Exit color={neutralColor[90]} />
+                      </Button>
+                    </View>
+                    <DummyFlatList>
+                      <View style={styles.boxListSpeed}>
+                        {speedList.map((item, index) => (
+                          <Button
+                            onPress={() => {
+                              refRBSheet.current.close();
+                              setTimeout(() => {
+                                setSpeed(item);
+                              }, 1200);
+                            }}
+                            key={index}
+                            style={styles.listSpeed}
+                          >
+                            <TextItem type={"r.16.nc.90"}>
+                              {item + strings.x}
+                            </TextItem>
+                          </Button>
+                        ))}
+                      </View>
+                    </DummyFlatList>
+                  </View>
+                </RBSheet>
+              </>
+            )}
+          </Base>
+        </>
+      )}
+    </View>
   );
 }
