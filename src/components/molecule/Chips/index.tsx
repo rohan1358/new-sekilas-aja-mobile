@@ -1,15 +1,16 @@
-import { neutralColor, primaryColor, spacing as sp } from '@constants';
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { neutralColor, primaryColor, spacing as sp } from "@constants";
+import React, { useEffect } from "react";
+import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSequence,
   withTiming
-} from 'react-native-reanimated';
-import { Button, Gap, TextItem } from '../../atom';
-import styles from './styles';
+} from "react-native-reanimated";
+import { checkData } from "../../../utils";
+import { Button, Gap, TextItem } from "../../atom";
+import styles from "./styles";
 
 const Chips = ({
   isSelected = false,
@@ -40,13 +41,15 @@ const Chips = ({
 
   return (
     <Button style={s.container} onPress={() => onPress(id)}>
-      <TextItem type={`r.16.${isSelected ? 'pc.main' : 'nc.70'}.c`}>
+      <TextItem type={`r.16.${isSelected ? "pc.main" : "nc.70"}.c`}>
         {label}
       </TextItem>
       <Gap horizontal={sp.xs} />
-      <Animated.View style={[s.icon, iconStyle]}>
-        <Icon stroke={isSelected ? primaryColor.main : neutralColor[70]} />
-      </Animated.View>
+      {checkData(Icon) && (
+        <Animated.View style={[s.icon, iconStyle]}>
+          <Icon stroke={isSelected ? primaryColor.main : neutralColor[70]} />
+        </Animated.View>
+      )}
     </Button>
   );
 };

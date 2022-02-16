@@ -130,6 +130,9 @@ const newCategories = (ctgr: string) => {
   if (ctgr == "Pengembangan Diri") return Fire;
   if (ctgr == "Biografi") return Crown;
   if (ctgr == "Kesehatan & Olahraga") return HeartRate;
+  else {
+    return "";
+  }
 };
 
 export { categories, newCategories };
