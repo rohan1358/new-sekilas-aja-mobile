@@ -29,7 +29,8 @@ import {
   RewatchWebinar,
   Blog,
   ReadingBlog,
-  Challenge
+  Challenge,
+  ListBookChallenge
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -118,6 +119,12 @@ const MainRoute = () => {
         <Stack.Screen
           name={"Challenge"}
           component={Challenge}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"ListBookChallenge"}
+          component={ListBookChallenge}
           // component={Home}
         />
 

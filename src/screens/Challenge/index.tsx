@@ -8,22 +8,24 @@ import { ArrowLeft } from "@assets";
 
 import styles from "./styles";
 import { getChallenge } from "@services";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
+import { setChallenge, setDoneReadChallenge } from "@actions";
 
 const Challenge = () => {
   const { navigate, goBack } = useNavigation();
 
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
+    editProfile: { profile },
+    challengeRedux
   } = useSelector((state: ReduxState) => state);
-
-  const [listChallenge, setListChallenge] = useState(false);
+  const dispatch = useDispatch();
 
   useFocusEffect(
     useCallback(() => {
-      getChallenge(email).then((res: any) => {
-        setListChallenge(res.data);
+      getChallenge(profile.id).then((res: any) => {
+        dispatch(setChallenge(res.data));
       });
     }, [])
   );
@@ -61,8 +63,8 @@ const Challenge = () => {
         }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {Array.isArray(listChallenge) &&
-            listChallenge.map((data) => {
+          {Array.isArray(challengeRedux.challenge) &&
+            challengeRedux.challenge.map((data) => {
               return (
                 <>
                   <ImageBannerChallenge data={data} source={data.cover} />

@@ -7,7 +7,8 @@ type SpecialCategoryProps =
   | "mostRead"
   | "trending"
   | "myFavorite"
-  | "doneReading";
+  | "doneReading"
+  | "bookChallenge";
 
 type MainBottomTabParamList = {
   Home: undefined;
@@ -18,6 +19,7 @@ type MainBottomTabParamList = {
 type RootStackParamList = {
   Explore: undefined;
   Challenge: undefined;
+  ListBookChallenge: undefined;
   Blog: undefined;
   ReadBlog: undefined;
   Mentoring: undefined;

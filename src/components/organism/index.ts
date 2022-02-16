@@ -17,6 +17,7 @@ import ProfileHeader from "./ProfileHeader";
 import ReadingHeader from "./ReadingHeader";
 import SearchHeader from "./SearchHeader";
 import ImageBannerWebinar from "./ImageBannerWebinar";
+import BookTileChallenge from "./BookTileChallenge";
 
 export { default as DuoRender } from "./DuoRender";
 
@@ -39,5 +40,6 @@ export {
   ProfileHeader,
   ReadingHeader,
   SearchHeader,
-  ImageBannerWebinar
+  ImageBannerWebinar,
+  BookTileChallenge
 };

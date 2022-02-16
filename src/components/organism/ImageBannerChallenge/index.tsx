@@ -13,6 +13,10 @@ interface ImageBannerProps {
   dataUser?: any;
 }
 
+interface paramsInterface {
+  type: string;
+}
+
 const ImageBannerChallenge = ({
   source,
   data,
@@ -21,27 +25,15 @@ const ImageBannerChallenge = ({
 }: ImageBannerProps) => {
   const move = useNavigation();
 
-  const handleNavigation = () => {
-    if (dataUser || data) {
-      if (!dataUser.is_subscribed) {
-        openModal();
-      } else if (data.id_video) {
-        move.navigate("RewatchWebinar", { ...data });
-      } else if (data?.joinLink) {
-        Linking.openURL(data?.joinLink)
-          .then((res) => {})
-          .catch((err) => {
-            // console.log("whatsapp tidak terinstall!");
-          });
-      }
-    }
-  };
-
   return (
     <>
       <Button
         onPress={() => {
-          // handleNavigation();
+          move.navigate("ListBookChallenge", {
+            title: data?.tittle,
+            book: data?.books,
+            challenge: data.id
+          });
         }}
       >
         <View style={[styles.container]}>

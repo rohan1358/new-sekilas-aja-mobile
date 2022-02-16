@@ -1,4 +1,5 @@
 import { mainCategory } from "./category";
+import { mainChallenge } from "./challenge";
 import { mainExplore } from "./explore";
 import { mainHome } from "./home";
 import { mainReading } from "./reading";
@@ -12,6 +13,7 @@ import {
 import { timer } from "./listening/timer";
 export const skeleton = {
   mainCategory,
+  mainChallenge,
   mainExplore,
   mainHome,
   mainReading,

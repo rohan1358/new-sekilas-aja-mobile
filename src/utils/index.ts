@@ -7,7 +7,7 @@ const padTo2Digits = (num: number) => {
 };
 
 const adjust = (size?: any) => {
-  if (size > 5) {
+  if (size >= 5) {
     if (pixelRatio <= 1.5) {
       return size - 4;
     } else if (pixelRatio <= 2) {

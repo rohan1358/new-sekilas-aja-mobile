@@ -26,6 +26,7 @@ import Blog from "./Blog";
 import ReadingBlog from "./ReadBlog";
 import Challenge from "./Challenge";
 import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
+import ListBookChallenge from "./BookListChallenge";
 
 export {
   ReadingBlog,
@@ -55,5 +56,6 @@ export {
   Watching,
   ModalSubscribe,
   Mentoring,
-  Challenge
+  Challenge,
+  ListBookChallenge
 };
