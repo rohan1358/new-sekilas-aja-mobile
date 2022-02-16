@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     borderRadius: adjust(10),
     margin: 2,
-    flex: 1
+    flex: 1,
+    padding: 10
   },
   btnRead: {
     backgroundColor: neutralColor[90]

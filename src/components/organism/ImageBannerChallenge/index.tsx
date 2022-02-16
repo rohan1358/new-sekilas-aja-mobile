@@ -36,6 +36,8 @@ const ImageBannerChallenge = ({
           });
         }}
       >
+        <Gap vertical={10} />
+
         <View style={[styles.container]}>
           <TouchableOpacity>
             <View>
@@ -62,9 +64,14 @@ const ImageBannerChallenge = ({
               {data?.descsription || "description "}{" "}
             </TextItem>
           </View>
-          <TextItem type="b.15.nc.90">
-            Progress {data?.progress.length} of {data?.books?.length}
-          </TextItem>
+
+          <Gap vertical={20} />
+
+          {data?.progress.length == data?.books?.length ? (<TextItem type="b.15.nc.90">✔️ Completed</TextItem>) : (
+            <TextItem type="b.15.nc.90">Progress {data?.progress.length} of {data?.books?.length}
+            </TextItem>)}
+
+          <Gap vertical={10} />
         </View>
       </Button>
     </>

@@ -316,9 +316,9 @@ const Home = () => {
   const onGoingPress = () => {
     !!lastReading?.book
       ? navigation.navigate("Reading", {
-          id: lastReading?.book || "",
-          page: pageParser(lastReading?.kilas)
-        })
+        id: lastReading?.book || "",
+        page: pageParser(lastReading?.kilas)
+      })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
   };
 
@@ -368,13 +368,13 @@ const Home = () => {
       text: <>Challenge</>,
       icon: Mentor,
       route: "Challenge"
+    },
+    {
+      label: "Group Discuss",
+      text: <>Grup Diskusi</>,
+      icon: BookOpen,
+      route: "Blog"
     }
-    // {
-    //   label: "Group Discuss",
-    //   text: <>Grup Diskusi</>,
-    //   icon: BookOpen,
-    //   route: "Blog"
-    // }
   ];
 
   return (

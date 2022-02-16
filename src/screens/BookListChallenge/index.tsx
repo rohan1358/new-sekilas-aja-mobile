@@ -109,7 +109,7 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
         .then((res) => {
           getProgressChallenge();
         })
-        .catch((err) => {});
+        .catch((err) => { });
     };
 
     return (
@@ -117,6 +117,7 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
         {loadData !== item?.book_title && (
           <View key={Math.random()}>
             <BookTileChallenge
+              index={item.index}
               title={item?.book_title}
               author={`${item?.author}`}
               duration={item?.read_time}
