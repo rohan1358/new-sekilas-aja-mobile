@@ -75,7 +75,18 @@ export default function Watching({ navigation, route }: any) {
     setIsLoading(false);
     setTimeout(() => {
       Orientation.unlockAllOrientations();
-    }, 3000);
+
+      Orientation.getDeviceOrientation((res) => {
+        if (res.includes(PORTRAIT) && !newOrientation.includes(PORTRAIT)) {
+          setOrientation(PORTRAIT);
+        } else if (
+          res.includes(LANDSCAPE) &&
+          !newOrientation.includes(LANDSCAPE)
+        ) {
+          setOrientation(LANDSCAPE);
+        }
+      });
+    }, 2000);
     if (videoPlayer.current) {
       videoPlayer.current?.seek(currentTime);
     }
