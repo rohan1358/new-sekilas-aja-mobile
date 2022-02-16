@@ -18,7 +18,8 @@ const BookTileChallenge = ({
   navSubscrive,
   isVideoAvailable,
   onPressDone,
-  progress
+  progress,
+  index
 }: BookTileProps) => {
   const {
     editProfile: { profile }
@@ -71,8 +72,9 @@ const BookTileChallenge = ({
       </Button>
       <View style={styles.detail}>
         <>
+          <TextItem type="b.14.nc.80" numberOfLines={1}>Day {index}</TextItem>
           <View style={styles.boxTitle}>
-            <TextItem type="b.18.nc.90" numberOfLines={1} style={styles.title}>
+            <TextItem type="b.14.nc.90" numberOfLines={2} style={styles.title}>
               {title}
             </TextItem>
             {lockReadingListenViewBook && (
@@ -84,7 +86,7 @@ const BookTileChallenge = ({
           <TextItem type="i.14.nc.80" numberOfLines={1}>{`${author}`}</TextItem>
         </>
         <Gap vertical={sp.sm} />
-        <View style={styles.seeds}>
+        {/* <View style={styles.seeds}>
           <Seed label={`${duration} min`} />
           <Gap horizontal={sp.xs} />
           {isVideoAvailable && (
@@ -94,22 +96,22 @@ const BookTileChallenge = ({
               textColor="pc.main"
             />
           )}
-        </View>
+        </View> */}
         <View style={styles.containerButton}>
           {checkData(checkBook) ? (
             <Button onPress={tilePress} style={[styles.btn, styles.btnDone]}>
-              <TextItem type="b.19.nc.90.c">Baca Ulang</TextItem>
+              <TextItem type="b.14.nc.90.c">Baca Ulang</TextItem>
             </Button>
           ) : (
             <>
               <Button onPress={tilePress} style={[styles.btn, styles.btnRead]}>
-                <TextItem type="b.19.pc.main">Baca</TextItem>
+                <TextItem type="b.14.pc.main">Baca</TextItem>
               </Button>
               <Button
                 onPress={btnDonePress}
                 style={[styles.btn, styles.btnDone]}
               >
-                <TextItem type="b.19.nc.90.c">Selesai</TextItem>
+                <TextItem type="b.14.nc.90.c">Selesai</TextItem>
               </Button>
             </>
           )}
