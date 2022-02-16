@@ -90,6 +90,7 @@ export default function BookDetail({ navigation, route }: any) {
   const [newCover, setNewCover] = useState<any>("");
 
   const setModalAllPlan = () => {
+    // done
     dispatch(handleOpenModalSubscribe());
   };
 

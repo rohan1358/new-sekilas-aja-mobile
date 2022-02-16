@@ -72,20 +72,9 @@ export default function RewatchWebinar({ navigation, route }: any) {
   const onLoad = (data: any) => {
     setDuration(Math.round(data.duration));
     setIsLoading(false);
-    Orientation.getDeviceOrientation(async (orientation) => {
-      if (orientation.includes(PORTRAIT) && newOrientation !== PORTRAIT) {
-        setLoadRotate(false);
-
-        await setOrientation(PORTRAIT);
-      } else if (
-        orientation.includes(LANDSCAPE) &&
-        newOrientation !== LANDSCAPE
-      ) {
-        setLoadRotate(false);
-
-        await setOrientation(LANDSCAPE);
-      }
-    });
+    setTimeout(() => {
+      Orientation.unlockAllOrientations();
+    }, 3000);
     if (videoPlayer.current) {
       videoPlayer.current.seek(currentTime);
     }
@@ -187,32 +176,25 @@ export default function RewatchWebinar({ navigation, route }: any) {
   const [newOrientation, setOrientation] = useState<string>(PORTRAIT);
 
   const handleOrientation = async (orientation: any) => {
-    if (orientation !== "UNKNOWN" && !isLoading) {
-      if (!orientation.includes(newOrientation)) {
-        setLoadRotate(true);
-        if (Platform.OS === "ios") {
-          if (orientation.includes("FACE-UP")) {
-            setLoadRotate(false);
-            return;
-          }
-        }
-        if (orientation.includes(PORTRAIT) && newOrientation !== PORTRAIT) {
+    setLoadRotate(true);
+
+    if (orientation !== "UNKNOWN") {
+      if (Platform.OS === "ios") {
+        if (orientation.includes("FACE-UP")) {
           setLoadRotate(false);
-
-          await setOrientation(PORTRAIT);
-        } else if (
-          orientation.includes(LANDSCAPE) &&
-          newOrientation !== LANDSCAPE
-        ) {
-          setLoadRotate(false);
-
-          await setOrientation(LANDSCAPE);
+          return;
         }
-
-        // setTimeout(() => {
-        //   setIndicator(false);
-        // }, 10000);
       }
+      if (orientation !== newOrientation) {
+        await setOrientation(orientation);
+        setLoadRotate(false);
+
+        setTimeout(() => {
+          setIndicator(false);
+        }, 10000);
+      }
+    } else {
+      setLoadRotate(false);
     }
   };
 
@@ -233,13 +215,9 @@ export default function RewatchWebinar({ navigation, route }: any) {
       };
 
       if (layout.Width_Layout > layout.Height_Layout) {
-        if (newOrientation !== LANDSCAPE) {
-          await setOrientation(LANDSCAPE);
-        }
+        await setOrientation(LANDSCAPE);
       } else {
-        if (newOrientation !== PORTRAIT) {
-          await setOrientation(PORTRAIT);
-        }
+        await setOrientation(PORTRAIT);
       }
     }
   };
@@ -250,13 +228,31 @@ export default function RewatchWebinar({ navigation, route }: any) {
     <View
       style={{ flex: 1 }}
       onLayout={(event) => {
-        // newHandleOrientation(event);
+        newHandleOrientation(event);
       }}
     >
-      <OrientationLocker
-        orientation={newOrientation.includes(PORTRAIT) ? PORTRAIT : LANDSCAPE}
-        onDeviceChange={handleOrientation}
-      />
+      {Platform.OS === "ios" ? (
+        <>
+          {newOrientation.includes(PORTRAIT) ? (
+            <OrientationLocker
+              orientation={PORTRAIT}
+              onDeviceChange={handleOrientation}
+            />
+          ) : (
+            <OrientationLocker
+              orientation={LANDSCAPE}
+              onDeviceChange={handleOrientation}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <OrientationLocker
+            orientation={"UNLOCK"}
+            // onDeviceChange={handleOrientation}
+          />
+        </>
+      )}
       {!loadRotate && (
         <>
           <Base

@@ -41,7 +41,8 @@ const Home = () => {
 
   const [listMentoring, setListMentoring] = useState(false);
 
-  const setModalAllPlan = () => {
+  const setModalAllPlan = (param: any) => {
+    // done
     dispatch(handleOpenModalSubscribe());
   };
 

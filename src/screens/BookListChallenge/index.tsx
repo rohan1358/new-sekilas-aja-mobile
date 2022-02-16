@@ -102,34 +102,40 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
     <EmptyPlaceholder title={strings.noBook} subtitle={strings.booksNotFound} />
   );
 
-  const renderItem = ({ item }: { item: CompactBooksProps }) => {
+  const renderItem = ({
+    item,
+    index
+  }: {
+    item: CompactBooksProps;
+    index: any;
+  }) => {
     const doneReading = (book: any) => {
       setLoadData(book);
       addDoneReadingChallenge(id, { uid: profile.id, book })
         .then((res) => {
           getProgressChallenge();
         })
-        .catch((err) => { });
+        .catch((err) => {});
     };
 
     return (
       <>
-        {loadData !== item?.book_title && (
-          <View key={Math.random()}>
-            <BookTileChallenge
-              index={item.index}
-              title={item?.book_title}
-              author={`${item?.author}`}
-              duration={item?.read_time}
-              cover={item?.book_cover}
-              onPress={(id) => navigation.navigate("Reading", { id, page: 0 })}
-              onPressDone={(id) => doneReading(id)}
-              isVideoAvailable={item?.isVideoAvailable}
-              progress={myProgress}
-            />
-            <Gap vertical={sp.sl} />
-          </View>
-        )}
+        {/* {loadData !== item?.book_title && ( */}
+        <View key={Math.random()}>
+          <BookTileChallenge
+            index={index}
+            title={item?.book_title}
+            author={`${item?.author}`}
+            duration={item?.read_time}
+            cover={item?.book_cover}
+            onPress={(id) => navigation.navigate("Reading", { id, page: 0 })}
+            onPressDone={(id) => doneReading(id)}
+            isVideoAvailable={item?.isVideoAvailable}
+            progress={myProgress}
+          />
+          <Gap vertical={sp.sl} />
+        </View>
+        {/* )} */}
       </>
     );
   };

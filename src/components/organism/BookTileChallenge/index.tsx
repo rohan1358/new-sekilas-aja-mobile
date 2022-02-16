@@ -1,10 +1,15 @@
 import { Lock } from "@assets";
 import { getBookCoverImageURL } from "@services";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { useSelector } from "react-redux";
 import { checkData } from "../../../utils";
-import { neutralColor, spacing as sp, strings } from "../../../constants";
+import {
+  neutralColor,
+  primaryColor,
+  spacing as sp,
+  strings
+} from "../../../constants";
 import { ReduxState } from "../../../redux/reducers";
 import { Amage, Button, Gap, Seed, TextItem } from "../../atom";
 import styles from "./styles";
@@ -36,6 +41,7 @@ const BookTileChallenge = ({
       : true;
 
   const [newCover, setNewCover] = useState<any>("");
+  const [loadDoneReading, setLoadDoneReading] = useState<any>(false);
 
   const newGetCover = async () => {
     getBookCoverImageURL(title).then((res) => {
@@ -72,7 +78,9 @@ const BookTileChallenge = ({
       </Button>
       <View style={styles.detail}>
         <>
-          <TextItem type="b.14.nc.80" numberOfLines={1}>Day {index}</TextItem>
+          <TextItem type="b.14.nc.80" numberOfLines={1}>
+            Day {index + 1}
+          </TextItem>
           <View style={styles.boxTitle}>
             <TextItem type="b.14.nc.90" numberOfLines={2} style={styles.title}>
               {title}
@@ -108,10 +116,19 @@ const BookTileChallenge = ({
                 <TextItem type="b.14.pc.main">Baca</TextItem>
               </Button>
               <Button
-                onPress={btnDonePress}
+                onPress={async () => {
+                  await setLoadDoneReading(true);
+                  setTimeout(() => {
+                    btnDonePress();
+                  }, 500);
+                }}
                 style={[styles.btn, styles.btnDone]}
               >
-                <TextItem type="b.14.nc.90.c">Selesai</TextItem>
+                {loadDoneReading ? (
+                  <ActivityIndicator size="small" color={neutralColor[90]} />
+                ) : (
+                  <TextItem type="b.14.nc.90.c">Selesai</TextItem>
+                )}
               </Button>
             </>
           )}

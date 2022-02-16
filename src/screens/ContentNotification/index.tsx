@@ -61,6 +61,7 @@ export default function Notification({ navigation, route }: any) {
 
   const changeActionButton = () => {
     if (type === "modal") {
+      // done
       dispatch(handleOpenModalSubscribe());
     } else if (type === "navigate") {
       const { to, param } = navigate;

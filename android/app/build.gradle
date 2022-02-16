@@ -134,8 +134,8 @@ android {
         applicationId "com.sekilasaja"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 46
-        versionName "0.0.46"
+        versionCode 47
+        versionName "0.0.47"
         multiDexEnabled true
     }
     splits {

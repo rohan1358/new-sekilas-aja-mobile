@@ -8,8 +8,8 @@ const BANNER_HEIGHT = (widthPercent(84.18) * 4) / 9 + 20;
 const styles = StyleSheet.create({
   container: {
     width: BANNER_WIDTH,
-    height: BANNER_WIDTH / 1.5,
-    borderRadius: 16,
+    height: BANNER_WIDTH / 1.9,
+    borderRadius: 20,
     overflow: "hidden"
   },
   containerDesk: {

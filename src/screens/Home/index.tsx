@@ -1,5 +1,5 @@
 import {
-  handleOpenModalSubscribe,
+  handleCloseModalSubscribe,
   setBookRecomended,
   setListCategory,
   setMostReadBook,
@@ -50,6 +50,7 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
+  Linking,
   TouchableOpacity,
   View
 } from "react-native";
@@ -74,7 +75,7 @@ import {
   fetchNotifPromo
 } from "../../services/notification";
 
-import { BookOpen, Mentor } from "@assets";
+import { BookOpen, ChallengeIcon, GroupDiscussionIcon, Mentor } from "@assets";
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -101,7 +102,7 @@ const Home = () => {
   const [carousel, setCarousel] = useState(false);
 
   const setModalAllPlan = (param: any) => {
-    dispatch(handleOpenModalSubscribe());
+    dispatch(handleCloseModalSubscribe());
   };
 
   useEffect(() => {
@@ -316,9 +317,9 @@ const Home = () => {
   const onGoingPress = () => {
     !!lastReading?.book
       ? navigation.navigate("Reading", {
-        id: lastReading?.book || "",
-        page: pageParser(lastReading?.kilas)
-      })
+          id: lastReading?.book || "",
+          page: pageParser(lastReading?.kilas)
+        })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
   };
 
@@ -366,14 +367,15 @@ const Home = () => {
     {
       label: "Challenge",
       text: <>Challenge</>,
-      icon: Mentor,
+      icon: ChallengeIcon,
       route: "Challenge"
     },
     {
       label: "Group Discuss",
       text: <>Grup Diskusi</>,
-      icon: BookOpen,
-      route: "Blog"
+      icon: GroupDiscussionIcon,
+      route: "Blog",
+      linking: () => Linking.openURL("https://t.me/+Z4ZtzJ60MHc0YTUx")
     }
   ];
 
@@ -499,7 +501,9 @@ const Home = () => {
                       return (
                         <TouchableOpacity
                           onPress={() => {
-                            navigation.navigate(Cb?.route || "Home");
+                            Cb?.linking
+                              ? Cb?.linking()
+                              : navigation.navigate(Cb?.route || "Home");
                           }}
                           style={styles.btnNewMenu}
                         >

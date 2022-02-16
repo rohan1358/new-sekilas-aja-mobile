@@ -86,8 +86,12 @@ import Maximize from "./maximize.svg";
 import NotifyActive from "./dot_notif.svg";
 import Mentor from "./Mentor.svg";
 import Calendar from "./calendar.svg";
+import ChallengeIcon from "./ChallengeIcon.svg";
+import GroupDiscussionIcon from "./GroupDiscussionIcon.svg";
 
 export {
+  GroupDiscussionIcon,
+  ChallengeIcon,
   Calendar,
   Alert,
   AlertModal,

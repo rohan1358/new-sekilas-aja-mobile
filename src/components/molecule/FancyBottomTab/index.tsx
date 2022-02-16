@@ -147,6 +147,7 @@ const FancyBottomTab = ({
   const modalVisible = modalSubscribeRedux;
 
   const setModalVisible = () => {
+    // done
     dispatch(handleOpenModalSubscribe());
   };
 

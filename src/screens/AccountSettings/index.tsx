@@ -66,6 +66,7 @@ export default function AccountSettings({ navigation }: any) {
   const [keyAlert, setKeyAlert] = useState("");
 
   const setModalSubsVisible = (param: any) => {
+    // done
     dispatch(handleOpenModalSubscribe());
   };
 
@@ -145,6 +146,7 @@ export default function AccountSettings({ navigation }: any) {
     switch (keyAlert) {
       case "logout":
         logOut();
+        dispatch(handleOpenModalSubscribe());
         break;
 
       case "":

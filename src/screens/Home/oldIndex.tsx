@@ -83,6 +83,7 @@ const Home = () => {
   const [carousel, setCarousel] = useState(false);
 
   const setModalAllPlan = (param?: any) => {
+    // done
     dispatch(handleOpenModalSubscribe());
   };
 

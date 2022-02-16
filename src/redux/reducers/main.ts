@@ -5,7 +5,7 @@ interface initialStateItf {
 }
 
 const inisialState: initialStateItf = {
-  modalSubscribeRedux: false
+  modalSubscribeRedux: true
 };
 
 const mainRedux = (
