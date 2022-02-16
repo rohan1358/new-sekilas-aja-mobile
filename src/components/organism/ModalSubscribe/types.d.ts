@@ -1,4 +1,4 @@
 interface ModalSubscribeProps {
-    modalVisible: boolean,
-    setModalVisible: any,
+  modalVisible: boolean;
+  setModalVisible?: any;
 }

@@ -4,3 +4,4 @@ export * from "./session";
 export * from "./book";
 export * from "./notif";
 export * from "./challenge";
+export * from "./main";

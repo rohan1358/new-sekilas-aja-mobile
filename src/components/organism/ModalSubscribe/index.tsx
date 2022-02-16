@@ -8,18 +8,22 @@ import { Button, TextItem } from "../../atom";
 import Payment from "../ChildModalSubs/Payment";
 import styles from "./styles";
 import firestore from "@react-native-firebase/firestore";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { Platform } from "react-native";
+import { handleCloseModalSubscribe } from "@actions";
 
 export default function ModalSubscribe({
   modalVisible,
-  setModalVisible,
   ...props
 }: ModalSubscribeProps) {
   const {
     sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
+  const dispatch = useDispatch();
+  const setModalVisible = (param: any) => {
+    dispatch(handleCloseModalSubscribe());
+  };
 
   const refScroll = useRef();
 

@@ -31,7 +31,7 @@ import Animated, {
   useSharedValue
 } from "react-native-reanimated";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Amage,
   Base,
@@ -60,6 +60,7 @@ import { CompactBooksProps } from "../Home/types";
 import { WebView } from "react-native-webview";
 import styles from "./styles";
 import { useIsFocused } from "@react-navigation/native";
+import { handleOpenModalSubscribe } from "@actions";
 
 const openRate = false;
 
@@ -68,6 +69,7 @@ export default function BookDetail({ navigation, route }: any) {
     editProfile: { profile },
     sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
+  const dispatch = useDispatch();
 
   const { id } = route.params;
 
@@ -76,7 +78,6 @@ export default function BookDetail({ navigation, route }: any) {
 
   const yOffset = useSharedValue(0);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [modalAllPlan, setModalAllPlan] = useState(false);
   const [ratingCount, setRatingCount] = useState(4.5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
@@ -87,6 +88,10 @@ export default function BookDetail({ navigation, route }: any) {
   const [favorite, setFavorite] = useState<any>([]);
   const [listComment, setListComment] = useState<any>(false);
   const [newCover, setNewCover] = useState<any>("");
+
+  const setModalAllPlan = () => {
+    dispatch(handleOpenModalSubscribe());
+  };
 
   const [book, setBook] = useState({
     book_title: "",
@@ -301,10 +306,7 @@ export default function BookDetail({ navigation, route }: any) {
               <Animated.View
                 style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
               >
-                <Button
-                  onPress={() => setModalAllPlan(!modalAllPlan)}
-                  style={styles.btnBar}
-                >
+                <Button onPress={() => setModalAllPlan()} style={styles.btnBar}>
                   <Lock color={primaryColor.main} width={28} />
                   <TextItem style={styles.titleSelect}>
                     {strings.yuk_upgrade}
@@ -374,7 +376,7 @@ export default function BookDetail({ navigation, route }: any) {
               ) : (
                 <View style={[styles.SelectBar, styles.upgrade_yuk]}>
                   <Button
-                    onPress={() => setModalAllPlan(!modalAllPlan)}
+                    onPress={() => setModalAllPlan()}
                     style={styles.btnBar}
                   >
                     <Lock color={primaryColor.main} width={28} />
@@ -471,7 +473,7 @@ export default function BookDetail({ navigation, route }: any) {
                       <Button
                         onPress={() => {
                           !lockReadingListenViewBook
-                            ? setModalAllPlan(!modalAllPlan)
+                            ? setModalAllPlan()
                             : navigationTopBar("reading", "", index);
                         }}
                         key={index}
@@ -624,10 +626,6 @@ export default function BookDetail({ navigation, route }: any) {
             </View>
           </Animated.ScrollView>
         </SkeletonContent>
-        <ModalSubscribe
-          modalVisible={modalAllPlan}
-          setModalVisible={setModalAllPlan}
-        />
       </Base>
     </>
   );

@@ -13,7 +13,6 @@ import {
 const Tab = createBottomTabNavigator();
 
 const MainBottomRoute = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}

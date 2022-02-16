@@ -32,7 +32,11 @@ import {
   IconIg,
   IconTw
 } from "@assets";
-import { loggingIn, setProfileRedux } from "../../redux/actions";
+import {
+  handleOpenModalSubscribe,
+  loggingIn,
+  setProfileRedux
+} from "../../redux/actions";
 import { CommonActions } from "@react-navigation/routers";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import { checkData, formatDate } from "../../../src/utils";
@@ -40,7 +44,8 @@ import { checkData, formatDate } from "../../../src/utils";
 export default function AccountSettings({ navigation }: any) {
   const {
     sessionReducer: { email },
-    editProfile: { profile }
+    editProfile: { profile },
+    mainContext: { modalSubscribeRedux }
   } = useSelector((state: ReduxState) => state);
   const profileRedux = useSelector((state: ReduxState) => state).editProfile
     .profile;
@@ -58,8 +63,11 @@ export default function AccountSettings({ navigation }: any) {
   const [putarAudio, setPutarAudio] = useState(false);
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
-  const [modalSubsVisible, setModalSubsVisible] = useState(false);
   const [keyAlert, setKeyAlert] = useState("");
+
+  const setModalSubsVisible = (param: any) => {
+    dispatch(handleOpenModalSubscribe());
+  };
 
   const [textAlert, setTextAlert] = useState({
     text: "",
@@ -209,7 +217,7 @@ export default function AccountSettings({ navigation }: any) {
                 {!profile?.is_subscribed && (
                   <Button
                     style={styles.btnPilih}
-                    onPress={() => setModalSubsVisible(!modalSubsVisible)}
+                    onPress={() => setModalSubsVisible(!modalSubscribeRedux)}
                   >
                     <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
                       {strings.upgrade_premium}
@@ -596,10 +604,6 @@ export default function AccountSettings({ navigation }: any) {
           </View>
         </View>
       </Modal>
-      <ModalSubscribe
-        modalVisible={modalSubsVisible}
-        setModalVisible={setModalSubsVisible}
-      />
     </Base>
   );
 }

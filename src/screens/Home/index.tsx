@@ -1,4 +1,5 @@
 import {
+  handleOpenModalSubscribe,
   setBookRecomended,
   setListCategory,
   setMostReadBook,
@@ -94,10 +95,14 @@ const Home = () => {
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [modalAllPlan, setModalAllPlan] = useState(true);
+
   const [lastReading, setLastReading] = useState({ book: false });
   const [loading, setLoading] = useState(false);
   const [carousel, setCarousel] = useState(false);
+
+  const setModalAllPlan = (param: any) => {
+    dispatch(handleOpenModalSubscribe());
+  };
 
   useEffect(() => {
     fetchNotifPromo();
@@ -680,10 +685,6 @@ const Home = () => {
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>
             </SkeletonContent>
-            <ModalSubscribe
-              modalVisible={modalAllPlan}
-              setModalVisible={setModalAllPlan}
-            />
           </Base>
         </>
       )}

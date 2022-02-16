@@ -24,20 +24,26 @@ import styles from "./styles";
 import { store } from "../../redux/store";
 import { checkData } from "../../utils";
 import { getAllMentoring } from "../../services/mentoring";
+import { useDispatch } from "react-redux";
+import { handleOpenModalSubscribe } from "@actions";
 
 let mounted = false;
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
+  const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [modalAllPlan, setModalAllPlan] = useState(false);
 
   const [listMentoring, setListMentoring] = useState(false);
+
+  const setModalAllPlan = () => {
+    dispatch(handleOpenModalSubscribe());
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -168,10 +174,6 @@ const Home = () => {
           </Base>
         </>
       )}
-      <ModalSubscribe
-        modalVisible={modalAllPlan}
-        setModalVisible={setModalAllPlan}
-      />
     </>
   );
 };

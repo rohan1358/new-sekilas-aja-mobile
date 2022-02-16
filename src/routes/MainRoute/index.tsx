@@ -30,7 +30,8 @@ import {
   Blog,
   ReadingBlog,
   Challenge,
-  ListBookChallenge
+  ListBookChallenge,
+  ModalSubscribe
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -43,7 +44,8 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 const MainRoute = () => {
   const {
-    editProfile: { profile }
+    editProfile: { profile },
+    mainContext: { modalSubscribeRedux }
   } = useSelector((state: ReduxState) => state);
 
   const [isFirstTime, setFirstTime] = useState(false);
@@ -105,6 +107,7 @@ const MainRoute = () => {
 
   return (
     <>
+      <ModalSubscribe modalVisible={modalSubscribeRedux} />
       {/* <OrientationLocker orientation={PORTRAIT} /> */}
       <Stack.Navigator
         initialRouteName={"MainBottomRoute"}

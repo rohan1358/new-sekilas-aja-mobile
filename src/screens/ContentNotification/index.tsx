@@ -32,22 +32,23 @@ import {
   notifHasOpen
 } from "../../services/notification";
 import { store } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { Button } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { formatDate } from "../../utils";
 import ModalSubscribe from "./../../components/organism/ModalSubscribe/index";
+import { handleOpenModalSubscribe } from "@actions";
 
 export default function Notification({ navigation, route }: any) {
   const {
     notifRedux: { loading, listNotifPromo, listNotifInbox, contentNotif },
     sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
+  const dispatch = useDispatch();
 
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const [coverNotif, setCoverNotif] = useState(false);
 
   const handleOpenNotif = (data: any, type: any) => {
@@ -60,7 +61,7 @@ export default function Notification({ navigation, route }: any) {
 
   const changeActionButton = () => {
     if (type === "modal") {
-      setModalVisible(true);
+      dispatch(handleOpenModalSubscribe());
     } else if (type === "navigate") {
       const { to, param } = navigate;
       navigation.navigate(to, param);
@@ -131,10 +132,6 @@ export default function Notification({ navigation, route }: any) {
           </View>
         </View>
       </SkeletonContent>
-      <ModalSubscribe
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
     </Base>
   );
 }

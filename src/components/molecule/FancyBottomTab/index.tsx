@@ -1,3 +1,4 @@
+import { handleOpenModalSubscribe } from "@actions";
 import {
   BookOpen,
   BookOpenFilled,
@@ -27,7 +28,7 @@ import Animated, {
   withDelay,
   withTiming
 } from "react-native-reanimated";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Gap, TextItem } from "../../atom";
 import styles from "./styles";
 
@@ -138,10 +139,16 @@ const FancyBottomTab = ({
   }));
 
   const {
-    editProfile: { profile }
+    editProfile: { profile },
+    mainContext: { modalSubscribeRedux }
   } = useSelector((state: ReduxState) => state);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+  const modalVisible = modalSubscribeRedux;
+
+  const setModalVisible = () => {
+    dispatch(handleOpenModalSubscribe());
+  };
 
   const detectKeyboard = () => {
     Keyboard.addListener(
@@ -273,10 +280,10 @@ const FancyBottomTab = ({
           </View>
         </Animated.View>
       </View>
-      <ModalSubscribe
+      {/* <ModalSubscribe
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-      />
+      /> */}
     </>
   );
 };
