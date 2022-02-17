@@ -22,6 +22,7 @@ import {
   LongPressGestureHandler,
   State,
   TapGestureHandler,
+  TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
 import Animated, {
   Easing,
@@ -105,21 +106,17 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
           </TextItem>
         </View>
         <Gap vertical={spacer.sm} />
-        {/* <Button
+        {/* <TouchableWithoutFeedback
           style={styles.iconButton}
-          onPress={() => {
-            if (paused.value) {
-              paused.value = false;
-            } else {
-              paused.value = true;
-            }
-          }}
+          onPressIn={() => logger("in")}
+          onPressOut={() => logger("out")}
         >
           <Assets.svg.CloseX stroke={neutralColor["10"]} />
-        </Button> */}
+        </TouchableWithoutFeedback> */}
         <View style={{ flexDirection: "row" }}>
           {storyData.map((item, index) => (
             <StoryIndicator
+              paused={paused}
               key={`${index}`}
               barSize={BAR_SIZE}
               isCurrent={index === storyIndex}
@@ -139,6 +136,7 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
       </View>
       <LongPressGestureHandler
         onHandlerStateChange={({ nativeEvent }) => {
+          logger({ sini: nativeEvent.state });
           if (nativeEvent.state === State.FAILED) {
             const tapPosition = nativeEvent.absoluteX;
             const isLeft = tapPosition < winWidthPercent(40);
@@ -157,7 +155,10 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
             }
           }
           if (nativeEvent.state === State.ACTIVE) {
-            logger("I'm being pressed for so long");
+            paused.value = true;
+          }
+          if (nativeEvent.state === State.END) {
+            paused.value = false;
           }
         }}
         minDurationMs={800}
