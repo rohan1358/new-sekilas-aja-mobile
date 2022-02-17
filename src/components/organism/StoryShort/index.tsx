@@ -1,5 +1,5 @@
 import Assets from "@assets";
-import { Button, Gap, TextItem } from "@atom";
+import { Button, Gap, StoryIndicator, TextItem } from "@atom";
 import { dangerColor, neutralColor, spacer } from "@constants";
 import {
   heightDp,
@@ -62,11 +62,6 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
     close: () => (position.value = withTiming(closePosition)),
     open: () => (position.value = withTiming(openPosition)),
   }));
-
-  const gesture = Gesture.Tap().onStart((event) =>
-    logger(event.absoluteX, event.absoluteY)
-  );
-
   /*
    readonly UNDETERMINED: 0;
     readonly FAILED: 1;
@@ -124,37 +119,20 @@ const StoryShort = forwardRef<any, any>((props, ref) => {
         </Button> */}
         <View style={{ flexDirection: "row" }}>
           {storyData.map((item, index) => (
-            <Fragment key={`${item}`}>
-              <View
-                style={{
-                  flexDirection: "row",
-                }}
-              >
-                <View
-                  style={{
-                    width: widthDp(BAR_SIZE),
-                    height: spacer.xxs,
-                    borderRadius: 100,
-                    backgroundColor: neutralColor.darkFocus,
-                    overflow: "hidden",
-                  }}
-                >
-                  <Animated.View
-                    style={[
-                      barStyle,
-                      {
-                        width: widthDp(BAR_SIZE),
-                        height: spacer.xxs,
-                        borderRadius: 100,
-                        position: "absolute",
-                        backgroundColor: neutralColor["10"],
-                      },
-                    ]}
-                  />
-                </View>
-                <Gap horizontal={spacer.xxs} />
-              </View>
-            </Fragment>
+            <StoryIndicator
+              key={`${index}`}
+              barSize={BAR_SIZE}
+              isCurrent={index === storyIndex}
+              isNext={index < storyIndex}
+              isWaiting={index > storyIndex}
+              afterAnimate={() => {
+                if (storyIndex === storyData.length - 1) {
+                  position.value = withTiming(closePosition);
+                  return;
+                }
+                setStoryIndex((current) => current + 1);
+              }}
+            />
           ))}
         </View>
         <Gap vertical={spacer.xs} />
