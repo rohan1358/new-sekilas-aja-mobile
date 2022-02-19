@@ -8,21 +8,14 @@ import {
   TextItem,
 } from "@atom";
 import { neutralColor, spacer } from "@constants";
-import {
-  heightDp,
-  logger,
-  widthDp,
-  winHeightPercent,
-  winWidthPercent,
-} from "@helpers";
+import { logger, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
 import React, {
   forwardRef,
   Fragment,
   useImperativeHandle,
   useState,
 } from "react";
-import { Share, View } from "react-native";
-import { LongPressGestureHandler, State } from "react-native-gesture-handler";
+import { Pressable, Share, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -124,34 +117,27 @@ const StoryShort = forwardRef<any, any>(
               ))}
             </View>
             <Gap vertical={spacer.xs} />
-
-            <LongPressGestureHandler
-              onHandlerStateChange={({ nativeEvent }) => {
-                if (nativeEvent.state === State.FAILED) {
-                  const tapPosition = nativeEvent.absoluteX;
-                  const isLeft = tapPosition < winWidthPercent(40);
-                  if (isLeft) {
-                    if (storyIndex === 0) {
-                      position.value = withTiming(closePosition);
-                      return;
-                    }
-                    setStoryIndex((current) => current - 1);
-                  } else {
-                    if (storyIndex === storyData?.shorts.length - 1) {
-                      position.value = withTiming(closePosition);
-                      return;
-                    }
-                    setStoryIndex((current) => current + 1);
+            <Pressable
+              onLongPress={(e) => (paused.value = true)}
+              style={{ flex: 1 }}
+              onPressOut={() => (paused.value = false)}
+              onPress={({ nativeEvent }) => {
+                const tapPosition = nativeEvent.pageX;
+                const isLeft = tapPosition < winWidthPercent(40);
+                if (isLeft) {
+                  if (storyIndex === 0) {
+                    position.value = withTiming(closePosition);
+                    return;
                   }
-                }
-                if (nativeEvent.state === State.ACTIVE) {
-                  paused.value = true;
-                }
-                if (nativeEvent.state === State.END) {
-                  paused.value = false;
+                  setStoryIndex((current) => current - 1);
+                } else {
+                  if (storyIndex === storyData?.shorts.length - 1) {
+                    position.value = withTiming(closePosition);
+                    return;
+                  }
+                  setStoryIndex((current) => current + 1);
                 }
               }}
-              minDurationMs={800}
             >
               <Animated.View style={styles.content}>
                 {storyData?.shorts[storyIndex]?.details.map(
@@ -167,7 +153,7 @@ const StoryShort = forwardRef<any, any>(
                   )
                 )}
               </Animated.View>
-            </LongPressGestureHandler>
+            </Pressable>
             <View style={styles.footer}>
               {storyData?.shorts.length - 1 === storyIndex ? (
                 <Button
