@@ -104,7 +104,7 @@ const StoryShort = forwardRef<any, any>(
                 <Assets.svg.CloseX stroke={neutralColor["10"]} />
               </Button>
               <Gap horizontal={spacer.sm} />
-              <View>
+              <View style={{ flex: 1 }}>
                 <TextItem type="b.20.nc.10" numberOfLines={1}>
                   {storyStatus}
                 </TextItem>
