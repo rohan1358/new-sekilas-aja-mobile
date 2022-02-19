@@ -37,10 +37,7 @@ const openPosition = 0;
 const StoryShort = forwardRef<any, any>(
   ({ onEnd, storyStatus, storyData, color, onLastStoryPress }, ref) => {
     const BAR_SIZE =
-      (winWidthPercent(100) -
-        spacer.sl * 2 -
-        4 * (storyData?.shorts.length - 1)) /
-      storyData?.shorts.length;
+      (winWidthPercent(100) - spacer.sl * 2) / storyData?.shorts.length;
     const dispatch = useDispatch();
     const position = useSharedValue(closePosition);
     const paused = useSharedValue(false);
@@ -111,7 +108,9 @@ const StoryShort = forwardRef<any, any>(
               </View>
             </View>
             <Gap vertical={spacer.sm} />
-            <View style={{ flexDirection: "row" }}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
               {storyData?.shorts.map((item: any, index: number) => (
                 <StoryIndicator
                   paused={paused}
