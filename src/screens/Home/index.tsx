@@ -5,8 +5,9 @@ import {
   setProfileRedux,
   toggleBottomTab,
 } from "@actions";
-import Assets, { BookOpen, Mentor } from "@assets";
+import { BookOpen, Mentor } from "@assets";
 import {
+  AdaptiveText,
   Base,
   BookTile,
   Button,
@@ -14,18 +15,13 @@ import {
   Gap,
   HomeHeader,
   ImageBanner,
-  ModalSubscribe,
   OngoingTile,
-  TextItem,
-  Amage,
   ShortsTile,
-  AdaptiveText,
   StoryShort,
+  TextItem,
 } from "@components";
 import {
-  colors,
   dangerColor,
-  fontFamily,
   neutralColor,
   primaryColor,
   skeleton,
@@ -36,15 +32,7 @@ import {
   successColor,
   systemColor,
 } from "@constants";
-import {
-  heightDp,
-  logger,
-  useMounted,
-  widthDp,
-  widthPercent,
-  winHeightPercent,
-  winWidthPercent,
-} from "@helpers";
+import { logger, useMounted } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import {
   useFocusEffect,
@@ -62,20 +50,13 @@ import {
   fetchShorts,
   modifyToken,
 } from "@services";
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
+  FlatList,
   TouchableOpacity,
   View,
-  FlatList,
-  Text,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
@@ -174,9 +155,9 @@ const Home = () => {
 
   useEffect(() => {
     if (isFocused) {
-      // getReadingBook();
-      // getHomeData(false);
-      // fetchCategory();
+      getReadingBook();
+      getHomeData(false);
+      fetchCategory();
       getShorts();
     }
   }, [isFocused]);
@@ -205,6 +186,7 @@ const Home = () => {
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
+      {/* @ts-ignore */}
       <ImageBanner
         data={item}
         placeholder={item.coverImageLink}
@@ -360,7 +342,9 @@ const Home = () => {
   const onGoingPress = () => {
     !!lastReading?.book
       ? navigation.navigate("Reading", {
+          //@ts-ignore
           id: lastReading?.book || "",
+          //@ts-ignore
           page: pageParser(lastReading?.kilas),
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
@@ -425,6 +409,7 @@ const Home = () => {
             <SkeletonContent
               containerStyle={styles.skeleton}
               isLoading={isLoading || !isFocused}
+              //@ts-ignore
               layout={skeleton.mainHome}
             >
               <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
@@ -439,7 +424,9 @@ const Home = () => {
                   <View style={styles.dummyHeader} />
                   {isFocused ? (
                     <OngoingTile
+                      //@ts-ignore
                       bookTitle={lastReading?.book}
+                      //@ts-ignore
                       bookUri={lastReading?.book_cover}
                       onPress={onGoingPress}
                       isAvailable={checkData(lastReading?.book)}
@@ -467,6 +454,7 @@ const Home = () => {
                           }
                           horizontal
                           showsHorizontalScrollIndicator={false}
+                          //@ts-ignore
                           data={carousel || []}
                           renderItem={bannerRenderItem}
                           keyExtractor={idKeyExtractor}
@@ -499,6 +487,7 @@ const Home = () => {
                       return (
                         <TouchableOpacity
                           onPress={() => {
+                            //@ts-ignore
                             navigation.navigate(Cb?.route || "Home");
                           }}
                           style={styles.btnNewMenu}
@@ -529,30 +518,34 @@ const Home = () => {
                     </TouchableOpacity> */}
                   </View>
                   <Gap vertical={spacer.sl} />
-                  <Gap horizontal={HORIZONTAL_GAP}>
-                    <AdaptiveText
-                      type="text3xl/black"
-                      textColor={neutralColor["90"]}
-                    >
-                      {"Sekilas Shorts"}
-                    </AdaptiveText>
-                  </Gap>
-                  <Gap vertical={sp.m} />
-                  <FlatList
-                    data={shorts}
-                    renderItem={({ item, index }) => (
-                      <ShortsTile
-                        index={index}
-                        onPress={storyPress}
-                        title={item?.book_title}
-                        cover={item?.book_cover}
+                  {!!shorts && (
+                    <>
+                      <Gap horizontal={HORIZONTAL_GAP}>
+                        <AdaptiveText
+                          type="text3xl/black"
+                          textColor={neutralColor["90"]}
+                        >
+                          {"Sekilas Shorts"}
+                        </AdaptiveText>
+                      </Gap>
+                      <Gap vertical={sp.m} />
+                      <FlatList
+                        data={shorts}
+                        renderItem={({ item, index }) => (
+                          <ShortsTile
+                            index={index}
+                            onPress={storyPress}
+                            title={item?.book_title}
+                            cover={item?.book_cover}
+                          />
+                        )}
+                        keyExtractor={({ id }) => `${id}`}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
                       />
-                    )}
-                    keyExtractor={({ id }) => `${id}`}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                  />
-                  <Gap vertical={sp.sl} />
+                      <Gap vertical={sp.sl} />
+                    </>
+                  )}
                   {open && (
                     <>
                       <>

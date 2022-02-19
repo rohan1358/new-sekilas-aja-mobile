@@ -1,22 +1,21 @@
-import { neutralColor, primaryColor, spacing as sp } from '@constants';
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { neutralColor, primaryColor, spacing as sp } from "@constants";
+import React, { useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSequence,
-  withTiming
-} from 'react-native-reanimated';
-import { Button, Gap, TextItem } from '../../atom';
-import styles from './styles';
+  withTiming,
+} from "react-native-reanimated";
+import { Button, Gap, TextItem } from "../../atom";
+import styles from "./styles";
 
 const Chips = ({
   isSelected = false,
   onPress,
   id,
   label,
-  Icon
+  Icon,
 }: ChipsProps) => {
   const scale = useSharedValue(1);
   const rotate = useSharedValue(0);
@@ -31,7 +30,7 @@ const Chips = ({
   };
 
   const iconStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotate.value}deg` }]
+    transform: [{ rotate: `${rotate.value}deg` }],
   }));
 
   useEffect(() => {
@@ -40,13 +39,15 @@ const Chips = ({
 
   return (
     <Button style={s.container} onPress={() => onPress(id)}>
-      <TextItem type={`r.16.${isSelected ? 'pc.main' : 'nc.70'}.c`}>
+      <TextItem type={`r.16.${isSelected ? "pc.main" : "nc.70"}.c`}>
         {label}
       </TextItem>
       <Gap horizontal={sp.xs} />
-      <Animated.View style={[s.icon, iconStyle]}>
-        <Icon stroke={isSelected ? primaryColor.main : neutralColor[70]} />
-      </Animated.View>
+      {!!Icon && (
+        <Animated.View style={[s.icon, iconStyle]}>
+          <Icon stroke={isSelected ? primaryColor.main : neutralColor[70]} />
+        </Animated.View>
+      )}
     </Button>
   );
 };

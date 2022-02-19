@@ -1,5 +1,5 @@
-import { dangerColor, spacer } from "@constants";
-import { widthDp, winHeightPercent, winWidthPercent } from "@helpers";
+import { dangerColor, neutralColor, spacer } from "@constants";
+import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -10,6 +10,28 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     paddingHorizontal: spacer.sl,
     justifyContent: "space-between",
+  },
+  content: {
+    paddingVertical: spacer.m,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  footer: {
+    justifyContent: "flex-end",
+  },
+  footerButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: neutralColor.darkFocus,
+    paddingVertical: spacer.xxs,
+    paddingHorizontal: spacer.xs,
+    borderRadius: spacer.xs,
+  },
+  footerGap: {
+    width: "100%",
+    height: heightDp(102) - spacer.m,
   },
 
   header: {

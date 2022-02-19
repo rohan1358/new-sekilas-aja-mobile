@@ -1,36 +1,20 @@
 import Assets from "@assets";
-import { Button, Gap, StoryIndicator, TextItem } from "@atom";
-import { dangerColor, neutralColor, spacer } from "@constants";
-import {
-  heightDp,
-  heightInterpolate,
-  logger,
-  widthDp,
-  winHeightPercent,
-  winWidthPercent,
-} from "@helpers";
+import { AdaptiveText, Button, Gap, StoryIndicator, TextItem } from "@atom";
+import { neutralColor, spacer } from "@constants";
+import { logger, winHeightPercent, winWidthPercent } from "@helpers";
 import React, {
   forwardRef,
   Fragment,
   useImperativeHandle,
   useState,
 } from "react";
-import { Share, Text, View } from "react-native";
-import {
-  Gesture,
-  GestureDetector,
-  LongPressGestureHandler,
-  State,
-  TapGestureHandler,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { Share, View } from "react-native";
+import { LongPressGestureHandler, State } from "react-native-gesture-handler";
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { withPause } from "react-native-redash";
 import { useDispatch } from "react-redux";
 import { toggleBottomTab } from "../../../redux/actions";
 import styles from "./style";
@@ -46,7 +30,6 @@ const StoryShort = forwardRef<any, any>(
       storyData?.shorts.length;
     const dispatch = useDispatch();
     const position = useSharedValue(closePosition);
-    const barPosition = useSharedValue(-BAR_SIZE);
     const paused = useSharedValue(false);
     const containerStyle = useAnimatedStyle(() => ({
       transform: [{ translateY: position.value }],
@@ -54,42 +37,42 @@ const StoryShort = forwardRef<any, any>(
 
     const [storyIndex, setStoryIndex] = useState(0);
 
-    const barStyle = useAnimatedStyle(() => ({
-      transform: [{ translateX: barPosition.value }],
-    }));
-
     useImperativeHandle(ref, () => ({
       close: () => (position.value = withTiming(closePosition)),
       open: () => (position.value = withTiming(openPosition)),
     }));
-    /*
-   readonly UNDETERMINED: 0;
-    readonly FAILED: 1;
-    readonly BEGAN: 2;
-    readonly CANCELLED: 3;
-    readonly ACTIVE: 4;
-    readonly END: 5;
-  */
+
+    const afterAnimate = () => {
+      if (storyIndex === storyData?.shorts.length - 1) {
+        position.value = withTiming(closePosition);
+        onEnd();
+        setStoryIndex(0);
+        return;
+      }
+      setStoryIndex((current) => current + 1);
+    };
+
+    const onClosePress = () => {
+      onEnd();
+      setStoryIndex(0);
+      position.value = withTiming(closePosition);
+      dispatch(toggleBottomTab(false));
+    };
 
     const onShare = async () => {
       const storyText = storyData?.shorts[storyIndex].details
         .map((item: string) => `${item}. `)
         .join("");
       try {
-        const result = await Share.share({
+        await Share.share({
           message: `${storyText}\n\nDikutip dari "${storyData?.book_title}" oleh SekilasAja!`,
         });
-        if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-          } else {
-          }
-        } else if (result.action === Share.dismissedAction) {
-        }
       } catch (error) {
         //@ts-ignore
         logger("StoryShort, onShare", error?.message);
       }
     };
+
     return (
       <Animated.View
         style={[
@@ -103,15 +86,7 @@ const StoryShort = forwardRef<any, any>(
         {!!storyStatus ? (
           <Fragment>
             <View style={styles.header}>
-              <Button
-                style={styles.iconButton}
-                onPress={() => {
-                  onEnd();
-                  setStoryIndex(0);
-                  position.value = withTiming(closePosition);
-                  dispatch(toggleBottomTab(false));
-                }}
-              >
+              <Button style={styles.iconButton} onPress={onClosePress}>
                 <Assets.svg.CloseX stroke={neutralColor["10"]} />
               </Button>
               <Gap horizontal={spacer.sm} />
@@ -131,15 +106,7 @@ const StoryShort = forwardRef<any, any>(
                   isCurrent={index === storyIndex}
                   isNext={index < storyIndex}
                   isWaiting={index > storyIndex}
-                  afterAnimate={() => {
-                    if (storyIndex === storyData?.shorts.length - 1) {
-                      position.value = withTiming(closePosition);
-                      onEnd();
-                      setStoryIndex(0);
-                      return;
-                    }
-                    setStoryIndex((current) => current + 1);
-                  }}
+                  afterAnimate={afterAnimate}
                 />
               ))}
             </View>
@@ -173,52 +140,24 @@ const StoryShort = forwardRef<any, any>(
               }}
               minDurationMs={800}
             >
-              <Animated.View
-                style={{
-                  paddingVertical: spacer.m,
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <Animated.View style={styles.content}>
                 {storyData?.shorts[storyIndex]?.details.map(
                   (item: string, index: number) => (
                     <View style={{ width: "100%" }} key={`${item}${index}`}>
-                      <Text
-                        style={{
-                          fontFamily: "NotoSans-Black",
-                          fontSize: widthDp(heightInterpolate(32)),
-                          color: neutralColor["10"],
-                          lineHeight: widthDp(heightInterpolate(32)) * 1.2,
-                          letterSpacing: widthDp(
-                            (winHeightPercent(100) < 823 ? 24 : 32) * -0.022
-                          ),
-                        }}
+                      <AdaptiveText
+                        type="text3xl/black"
+                        textColor={neutralColor["10"]}
                       >
                         {item}
-                      </Text>
+                      </AdaptiveText>
                     </View>
                   )
                 )}
               </Animated.View>
             </LongPressGestureHandler>
-            <View
-              style={{
-                justifyContent: "flex-end",
-              }}
-            >
+            <View style={styles.footer}>
               <View style={{ flexDirection: "row" }}>
-                <Button
-                  onPress={onShare}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    backgroundColor: neutralColor.darkFocus,
-                    paddingVertical: spacer.xxs,
-                    paddingHorizontal: spacer.xs,
-                    borderRadius: spacer.xs,
-                  }}
-                >
+                <Button onPress={onShare} style={styles.footerButton}>
                   <TextItem type="b.16.nc.10">Bagikan</TextItem>
                   <Gap horizontal={spacer.xxs} />
                   <Assets.svg.ShareIcon
@@ -228,16 +167,7 @@ const StoryShort = forwardRef<any, any>(
                   />
                 </Button>
                 <Gap horizontal={spacer.xs} />
-                <Button
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    backgroundColor: neutralColor.darkFocus,
-                    paddingVertical: spacer.xxs,
-                    paddingHorizontal: spacer.xs,
-                    borderRadius: spacer.xs,
-                  }}
-                >
+                <Button style={styles.footerButton}>
                   <TextItem type="b.16.nc.10">Simpan</TextItem>
                   <Gap horizontal={spacer.xxs} />
                   <Assets.svg.Bookmark
@@ -247,12 +177,7 @@ const StoryShort = forwardRef<any, any>(
                   />
                 </Button>
               </View>
-              <View
-                style={{
-                  width: "100%",
-                  height: heightDp(102) - spacer.m,
-                }}
-              />
+              <View style={styles.footerGap} />
               <Gap vertical={spacer.m} />
             </View>
           </Fragment>

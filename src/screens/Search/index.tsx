@@ -287,14 +287,14 @@ const Search = ({ navigation }: SearchProps) => {
                         return (
                           <View key={`${item}`}>
                             <View style={styles.chipsContainer}>
-                              {/* <Chips
+                              <Chips
                                 label={item}
                                 id={item}
                                 Icon={newCategories(item)}
                                 onPress={() =>
                                   chipPress({ label: item, id: item })
                                 }
-                              /> */}
+                              />
                               <Gap horizontal={sp.xs} />
                             </View>
                             <Gap vertical={sp.sm} />

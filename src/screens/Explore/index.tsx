@@ -48,7 +48,7 @@ const CategoryChips = ({
 }) => (
   <View key={item.id} style={styles.row}>
     {index == 0 && <Gap horizontal={sp.sl} />}
-    {/* <Chips label={item.label} id={item.id} Icon={item.Icon} onPress={onPress} /> */}
+    <Chips label={item.label} id={item.id} Icon={item.Icon} onPress={onPress} />
     <Gap horizontal={index === BOUNDARY - 1 ? sp.sl : sp.xs} />
   </View>
 );
