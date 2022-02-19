@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
   container: {
     width: winWidthPercent(100),
     height: winHeightPercent(100),
-    backgroundColor: dangerColor.hover,
     position: "absolute",
     zIndex: 1000,
     paddingHorizontal: spacer.sl,

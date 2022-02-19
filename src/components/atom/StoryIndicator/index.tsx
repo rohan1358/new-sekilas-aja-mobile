@@ -37,12 +37,6 @@ const StoryIndicator = ({
     transform: [{ translateX: barPosition.value }],
   }));
 
-  const animateCallback = (isFinished: boolean | undefined) => {
-    "worklet";
-    // afterAnimate();
-    logger({ isFinished });
-  };
-
   useEffect(() => {
     if (isCurrent) {
       barPosition.value = -barSize;

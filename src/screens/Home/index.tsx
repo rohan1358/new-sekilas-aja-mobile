@@ -33,6 +33,8 @@ import {
   spacer,
   spacing as sp,
   strings,
+  successColor,
+  systemColor,
 } from "@constants";
 import {
   heightDp,
@@ -57,6 +59,7 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
+  fetchShorts,
   modifyToken,
 } from "@services";
 import React, {
@@ -94,6 +97,18 @@ import { pageParser } from "./helper";
 import styles from "./styles";
 import { HORIZONTAL_GAP } from "./values";
 
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+const storyColors = [
+  primaryColor.pressed,
+  systemColor.hover,
+  successColor.hover,
+  dangerColor.hover,
+];
+
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
   const dispatch = useDispatch();
@@ -120,10 +135,19 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [carousel, setCarousel] = useState(false);
 
+  const [currentStory, setCurrentStory] = useState<null | string>();
+  const [shorts, setShorts] = useState<null | any[]>();
+  const [shortsColor, setShortsColor] = useState<string>();
+
+  const storyColorIndex = getRandomInt(0, 3);
+
   useEffect(() => {
     fetchNotifPromo();
     fetchNotifInbox();
     fetchNotifPrivate();
+    fetchCarousel().then((res: any) => {
+      setCarousel(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -150,17 +174,12 @@ const Home = () => {
 
   useEffect(() => {
     if (isFocused) {
-      getReadingBook();
-      getHomeData(false);
-      fetchCategory();
+      // getReadingBook();
+      // getHomeData(false);
+      // fetchCategory();
+      getShorts();
     }
   }, [isFocused]);
-
-  useEffect(() => {
-    fetchCarousel().then((res: any) => {
-      setCarousel(res.data);
-    });
-  }, []);
 
   const fetchCategory = async () => {
     try {
@@ -168,6 +187,17 @@ const Home = () => {
       dispatch(setListCategory(list?.list));
     } catch {
       dispatch(setListCategory(false));
+    }
+  };
+
+  const getShorts = async () => {
+    logger("getShorts");
+    try {
+      const { data, isSuccess } = await fetchShorts();
+      if (!isSuccess) return;
+      setShorts(data);
+    } catch (error) {
+      logger("Home, getShorts", error);
     }
   };
 
@@ -376,7 +406,9 @@ const Home = () => {
     },
   ];
 
-  const storyPress = () => {
+  const storyPress = (title: string) => {
+    setShortsColor(storyColors[storyColorIndex]);
+    setCurrentStory(title);
     dispatch(toggleBottomTab(true));
     storyRef.current?.open();
   };
@@ -386,7 +418,7 @@ const Home = () => {
       {profileStore && (
         <>
           <Base
-            barColor={primaryColor.main}
+            barColor={!currentStory ? primaryColor.main : shortsColor}
             snackState={snackState}
             setSnackState={setSnackState}
           >
@@ -507,11 +539,16 @@ const Home = () => {
                   </Gap>
                   <Gap vertical={sp.m} />
                   <FlatList
-                    data={[1, 2, 3, 4]}
-                    renderItem={({ _, index }) => (
-                      <ShortsTile index={index} onPress={storyPress} />
+                    data={shorts}
+                    renderItem={({ item, index }) => (
+                      <ShortsTile
+                        index={index}
+                        onPress={storyPress}
+                        title={item?.book_title}
+                        cover={item?.book_cover}
+                      />
                     )}
-                    keyExtractor={(id) => `${id}`}
+                    keyExtractor={({ id }) => `${id}`}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                   />
@@ -535,7 +572,7 @@ const Home = () => {
                               isLoading={!isFocused}
                               containerStyle={styles.skeleton}
                             >
-                              <View style={styles.row}>
+                              {/* <View style={styles.row}>
                                 {checkData(listCategory) &&
                                   listCategory
                                     .slice(0, listCategory.length / 2 + 1)
@@ -559,7 +596,7 @@ const Home = () => {
                                         />
                                       );
                                     })}
-                              </View>
+                              </View> */}
                               <Gap vertical={sp.sm} />
                               <View style={styles.row}>
                                 {listCategory &&
@@ -683,7 +720,15 @@ const Home = () => {
               modalVisible={modalAllPlan}
               setModalVisible={setModalAllPlan}
             /> */}
-            <StoryShort ref={storyRef} />
+            <StoryShort
+              ref={storyRef}
+              onEnd={() => setCurrentStory(null)}
+              storyStatus={currentStory}
+              storyData={shorts?.find(
+                (item) => item?.book_title === currentStory
+              )}
+              color={shortsColor}
+            />
           </Base>
         </>
       )}

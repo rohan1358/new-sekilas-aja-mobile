@@ -1,7 +1,8 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
-import { scrapBook } from "../../helpers";
+import { logger, scrapBook } from "../../helpers";
 import storage from "@react-native-firebase/storage";
+
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
@@ -308,6 +309,49 @@ const fetchListCategory = async () =>
     await firestore().collection("listCategory").doc("category").get()
   ).data();
 
+const fetchShorts = () => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore().collection(firebaseNode.books).get();
+      const dataShorts = await Promise.all(
+        raw.docs.map(async (value) => {
+          const rawShorts = await firestore()
+            .collection(
+              `${firebaseNode.books}/${value.data()?.book_title}/shorts`
+            )
+            .get();
+          const shortList = rawShorts.docs.map((item) => {
+            return item?.data();
+          });
+          return {
+            book_title: value?.data()?.book_title,
+            shorts: shortList,
+            book_cover: value.data()?.book_cover,
+            id: value.id,
+          };
+        })
+      );
+      //@ts-ignore
+      const finalShorts = dataShorts.filter(
+        (shortItem) => shortItem?.shorts.length !== 0
+      );
+      resolve({
+        data: finalShorts,
+        isSuccess: true,
+        error: null,
+        message: "Shorts successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch shorts failed.",
+      });
+    }
+  });
+};
+
 //Method to get book cover image from firebase storage
 const getBookCoverImageURL = (referenceName: string) => {
   return new Promise(async (resolve, reject) => {
@@ -337,4 +381,5 @@ export {
   fetchDetailBooks,
   fetchListCategory,
   getBookCoverImageURL,
+  fetchShorts,
 };

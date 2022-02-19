@@ -6,14 +6,16 @@ import styles from "./styles";
 
 interface ShortsTileProps {
   index?: number;
-  onPress(): void;
+  onPress(arg0: string): void;
+  title: string;
+  cover: string;
 }
 
-const ShortsTile = ({ index, onPress }: ShortsTileProps) => {
+const ShortsTile = ({ index, onPress, title, cover }: ShortsTileProps) => {
   return (
     <View style={styles.wrapper}>
       {index === 0 && <Gap horizontal={spacer.m} />}
-      <Button style={styles.container} onPress={onPress}>
+      <Button style={styles.container} onPress={() => onPress(title)}>
         <View style={styles.circle} />
         <View style={styles.smallCircle}>
           <AdaptiveText
@@ -21,10 +23,10 @@ const ShortsTile = ({ index, onPress }: ShortsTileProps) => {
             style={styles.title}
             numberOfLines={2}
           >
-            The Psychology of Money
+            {title}
           </AdaptiveText>
           <Gap vertical={spacer.xs} />
-          <Amage style={styles.image} />
+          <Amage style={styles.image} source={cover} />
         </View>
       </Button>
 
