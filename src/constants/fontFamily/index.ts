@@ -11,6 +11,7 @@ const NotoSans = {
   italic: "NotoSans-Italic",
   regular: "NotoSans",
   black: "NotoSans-Black",
+  medium: "NotoSans-Medium",
 };
 
 export { fontFamily, NotoSans };

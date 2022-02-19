@@ -119,6 +119,7 @@ const Home = () => {
   const [currentStory, setCurrentStory] = useState<null | string>();
   const [shorts, setShorts] = useState<null | any[]>();
   const [shortsColor, setShortsColor] = useState<string>();
+  const [test, setTest] = useState<boolean>();
 
   const storyColorIndex = getRandomInt(0, 3);
 
@@ -172,7 +173,6 @@ const Home = () => {
   };
 
   const getShorts = async () => {
-    logger("getShorts");
     try {
       const { data, isSuccess } = await fetchShorts();
       if (!isSuccess) return;
@@ -340,6 +340,8 @@ const Home = () => {
   const onBellPress = () => navigation.navigate("Notification");
 
   const onGoingPress = () => {
+    setTest((current) => !current);
+    return;
     !!lastReading?.book
       ? navigation.navigate("Reading", {
           //@ts-ignore
@@ -396,6 +398,9 @@ const Home = () => {
     dispatch(toggleBottomTab(true));
     storyRef.current?.open();
   };
+
+  const onLastStoryPress = (id: string) =>
+    navigation.navigate("BookDetail", { id });
 
   return (
     <>
@@ -721,6 +726,7 @@ const Home = () => {
                 (item) => item?.book_title === currentStory
               )}
               color={shortsColor}
+              onLastStoryPress={onLastStoryPress}
             />
           </Base>
         </>

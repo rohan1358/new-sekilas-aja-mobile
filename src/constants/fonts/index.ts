@@ -4,7 +4,7 @@ import { NotoSans } from "../fontFamily";
 const percentConverter = (fontSize: number, percent: number) =>
   (widthDp(fontSize) * percent) / 100;
 
-type FontFamilyTypes = "black";
+type FontFamilyTypes = "black" | "bold" | "medium";
 
 /**
  * @param fontFamily "black"
@@ -24,8 +24,13 @@ const text3xl = (fontFamily: FontFamilyTypes) => ({
   lineHeight: percentConverter(24, 120),
 });
 
-const fonts = { text3xl, textBase } as const;
+const textXs = (fontFamily: FontFamilyTypes) => ({
+  fontSize: widthDp(12),
+  fontFamily: NotoSans[fontFamily],
+});
+
+const fonts = { text3xl, textBase, textXs } as const;
 
 export type { FontFamilyTypes };
-export { text3xl, textBase };
+export { text3xl, textBase, textXs };
 export default fonts;

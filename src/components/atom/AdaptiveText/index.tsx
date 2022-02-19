@@ -3,9 +3,13 @@ import { PropsWithChildren } from "react";
 import { StyleSheet, Text, TextProps, TextStyle } from "react-native";
 import fonts, { FontFamilyTypes } from "../../../constants/fonts";
 
-type AdapativeTextTypes = "text3xl/black" | "textBase/black";
+type AdapativeTextTypes =
+  | "text3xl/black"
+  | "textBase/black"
+  | "textBase/bold"
+  | "textXs/medium";
 
-type AdaptiveFamilyTypes = "text3xl" | "textBase";
+type AdaptiveFamilyTypes = "text3xl" | "textBase" | "textXs";
 
 interface AdaptiveTextProps extends TextProps {
   type?: AdapativeTextTypes;

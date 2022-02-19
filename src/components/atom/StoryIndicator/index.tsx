@@ -45,7 +45,7 @@ const StoryIndicator = ({
           0,
           {
             easing: Easing.linear,
-            duration: 7000,
+            duration: 15000,
           },
           (isFinished) => {
             if (isFinished) {

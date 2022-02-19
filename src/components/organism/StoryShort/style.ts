@@ -3,6 +3,13 @@ import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  box: {
+    width: widthDp(40),
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   container: {
     width: winWidthPercent(100),
     height: winHeightPercent(100),
@@ -44,6 +51,16 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  tile: {
+    alignItems: "center",
+    paddingVertical: heightDp(12),
+    width: "100%",
+    backgroundColor: neutralColor["10"],
+    paddingHorizontal: heightDp(12),
+    flexDirection: "row",
+    borderRadius: widthDp(12),
   },
 });
 
