@@ -29,7 +29,7 @@ const fetchProfile = (email: string, uid?: any) => {
             : is_subscribed
       };
 
-      const user = { ...rawData, id };
+      const user = { ...rawData, id: uid };
 
       if (newData.id_incoive) {
         // get invoices

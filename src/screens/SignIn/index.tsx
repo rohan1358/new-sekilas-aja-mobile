@@ -1,7 +1,7 @@
 import auth from "@react-native-firebase/auth";
-import { Link } from "@react-navigation/native";
+import { Link, useFocusEffect } from "@react-navigation/native";
 import { fetchProfile } from "@services";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Keyboard, Linking, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
@@ -44,6 +44,8 @@ const SignIn = ({ navigation }: any) => {
   const [password, setPassword] = useState<string>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
 
+  const refFocus = useRef<object>();
+
   const ctaDisabling = () => {
     const check = [emailCheck.state, passwordCheck.state];
     return !check.every((item) => item === textFieldState.success);
@@ -72,6 +74,14 @@ const SignIn = ({ navigation }: any) => {
         state: textFieldState.warn
       };
     }
+    if (!validateEmail(email)) {
+      return {
+        message: strings.invalidEmail,
+        state: textFieldState.warn,
+        Icon: <Alert stroke={dangerColor.main} />
+      };
+    }
+
     return {
       message: strings.invalidEmail,
       state: textFieldState.warn
@@ -147,6 +157,12 @@ const SignIn = ({ navigation }: any) => {
       .finally(() => setIsLoading(false));
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      refFocus.current.focus();
+    }, [])
+  );
+
   return (
     <Base {...{ snackState, setSnackState }}>
       <ScrollView
@@ -158,6 +174,7 @@ const SignIn = ({ navigation }: any) => {
         <TextItem type="b.20.nc.90">{strings.emailAddress}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
+          ref={refFocus}
           placeholder={strings.emailPlaceholder}
           onChangeText={setEmail}
           keyboardType="email-address"

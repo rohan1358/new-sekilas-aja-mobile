@@ -61,10 +61,9 @@ const MainRoute = () => {
       .collection(firebaseNode.users)
       .doc(profile.id)
       .onSnapshot((res: any) => {
-        const { email, phoneNumber, promo_code_invoice, promo_codes_used } =
-          res.data();
-
-        if (res.data().id_incoive) {
+        if (res.data() && res.data().id_incoive) {
+          const { email, phoneNumber, promo_code_invoice, promo_codes_used } =
+            res.data();
           // get invoices
           const start_date = new Date();
 

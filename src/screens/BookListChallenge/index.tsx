@@ -1,10 +1,11 @@
+import { handleOpenModalSubscribe } from "@actions";
 import { Base, BookTile, EmptyPlaceholder, Gap } from "@components";
 import { skeleton, spacing as sp, strings } from "@constants";
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BookTileChallenge } from "../../components";
 import { ReduxState } from "../../redux/reducers";
 import {
@@ -47,6 +48,7 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
     sessionReducer: { email },
     editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
+  const dispatch = useDispatch();
 
   // console.log("profile", profile);
 
@@ -102,6 +104,11 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
     <EmptyPlaceholder title={strings.noBook} subtitle={strings.booksNotFound} />
   );
 
+  const lockReadingListenViewBook =
+    profile?.is_subscribed || profile.owned_books.includes(title)
+      ? false
+      : true;
+
   const renderItem = ({
     item,
     index
@@ -128,7 +135,13 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
             author={`${item?.author}`}
             duration={item?.read_time}
             cover={item?.book_cover}
-            onPress={(id) => navigation.navigate("Reading", { id, page: 0 })}
+            onPress={(id) => {
+              if (lockReadingListenViewBook) {
+                dispatch(handleOpenModalSubscribe());
+              } else {
+                navigation.navigate("Reading", { id, page: 0 });
+              }
+            }}
             onPressDone={(id) => doneReading(id)}
             isVideoAvailable={item?.isVideoAvailable}
             progress={myProgress}

@@ -1,9 +1,9 @@
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import React, { useMemo, useState } from "react";
-import { Keyboard, View } from "react-native";
+import React, { useMemo, useState, useRef, useCallback } from "react";
+import { Keyboard, Linking, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Check, Eye, EyeOff } from "../../../assets";
+import { Alert, Check, Eye, EyeOff } from "../../../assets";
 import {
   Base,
   BigButton,
@@ -13,6 +13,7 @@ import {
   TextItem
 } from "../../components";
 import {
+  dangerColor,
   defaultValue as dv,
   firebaseNode,
   neutralColor,
@@ -28,7 +29,8 @@ import { useDispatch } from "react-redux";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { fetchProfile } from "@services";
 import { Platform } from "react-native";
-import { validateEmail } from "../../utils";
+import { checkData, validateEmail } from "../../utils";
+import { useFocusEffect } from "@react-navigation/native";
 
 const { textFieldState } = dv;
 
@@ -45,6 +47,8 @@ const SignUp = ({ navigation }: SignUpProps) => {
   const [password, setPassword] = useState<string>();
   const [repassword, setRepassword] = useState<string>();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
+
+  const refFocus = useRef<object>();
 
   const ctaDisabling = () => {
     const check = [
@@ -71,6 +75,13 @@ const SignUp = ({ navigation }: SignUpProps) => {
       return {
         message: strings.emailCantBeEmpty,
         state: textFieldState.warn
+      };
+    }
+    if (!validateEmail(email)) {
+      return {
+        message: strings.invalidEmail,
+        state: textFieldState.warn,
+        Icon: <Alert stroke={dangerColor.main} />
       };
     }
     return {
@@ -176,73 +187,95 @@ const SignUp = ({ navigation }: SignUpProps) => {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then((resCreate) => {
-        firestore()
-          .collection(firebaseNode.users)
-          .doc(resCreate.user.uid)
-          .set({
-            firstName: name,
-            email,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
-            owned_books: [
-              "Atomic Habits",
-              "The Little Book of Common Sense Investing"
-            ],
-            favorite_books: [],
-            is_subscribed: false,
-            cart: [],
-            // sign_up_date: firestore.FieldValue.serverTimestamp(),
-            start_date: new Date(), // this date means UNSUBSCRIBED
-            end_date: new Date(), // this date means UNSUBSCRIBED
-            sign_up_date: new Date(),
-            promo_codes_used: []
-          })
-          .then(() => {
-            firestore()
-              .collection("dashboard")
-              .doc("track_record")
-              .set(
-                {
-                  sign_up: {
-                    [new Date().getTime()]: { email, date: new Date() }
-                  }
-                },
-                { merge: true }
-              )
-              .then(async (res) => {
-                //Make API request to create new subscriber for Non-Subscribers in KIRIM.EMAIL
-                fetch("https://sekilasaja.com/kirim-email-create-subscriber", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  // We convert the React state to JSON and send it as the POST body
-                  body: JSON.stringify({
-                    full_name: name,
-                    email: email,
-                    no_hp: phoneNumber,
-                    kirim_email_list_id: "190689"
-                  })
-                }).then(function (response) {});
+        try {
+          firestore()
+            .collection(firebaseNode.users)
+            .doc(resCreate.user.uid)
+            .set({
+              firstName: name,
+              email,
+              lastName: lastName,
+              phoneNumber: phoneNumber,
+              owned_books: [
+                "Atomic Habits",
+                "The Little Book of Common Sense Investing"
+              ],
+              favorite_books: [],
+              is_subscribed: false,
+              cart: [],
+              // sign_up_date: firestore.FieldValue.serverTimestamp(),
+              start_date: new Date(), // this date means UNSUBSCRIBED
+              end_date: new Date(), // this date means UNSUBSCRIBED
+              sign_up_date: new Date(),
+              promo_codes_used: []
+            })
+            .then(() => {
+              firestore()
+                .collection("dashboard")
+                .doc("track_record")
+                .set(
+                  {
+                    sign_up: {
+                      [new Date().getTime()]: { email, date: new Date() }
+                    }
+                  },
+                  { merge: true }
+                )
+                .then(async (res) => {
+                  //Make API request to create new subscriber for Non-Subscribers in KIRIM.EMAIL
+                  fetch(
+                    "https://sekilasaja.com/kirim-email-create-subscriber",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      // We convert the React state to JSON and send it as the POST body
+                      body: JSON.stringify({
+                        full_name: name,
+                        email: email,
+                        no_hp: phoneNumber,
+                        kirim_email_list_id: "190689"
+                      })
+                    }
+                  ).then(function (response) {});
 
-                //Make API request to create new subscriber for All in KIRIM.EMAIL
-                fetch("https://sekilasaja.com/kirim-email-create-subscriber", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  // We convert the React state to JSON and send it as the POST body
-                  body: JSON.stringify({
-                    full_name: name,
-                    email: email,
-                    no_hp: phoneNumber,
-                    kirim_email_list_id: "190688"
-                  })
-                }).then(function (response) {});
+                  //Make API request to create new subscriber for All in KIRIM.EMAIL
+                  fetch(
+                    "https://sekilasaja.com/kirim-email-create-subscriber",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      // We convert the React state to JSON and send it as the POST body
+                      body: JSON.stringify({
+                        full_name: name,
+                        email: email,
+                        no_hp: phoneNumber,
+                        kirim_email_list_id: "190688"
+                      })
+                    }
+                  ).then(function (response) {});
 
-                navigation.replace(pages.Home);
-                dispatch(loggingIn({ isLogin: true, email }));
-                const profile = await fetchProfile(email, resCreate.user.uid);
-                dispatch(setProfileRedux(profile.data));
-              });
-          })
-          .catch((err) => {});
+                  // login
+                  auth()
+                    .signInWithEmailAndPassword(email, password)
+                    .then(async (res) => {
+                      // const email = "DanielWijaya85@gmail.com";
+
+                      const profile = await fetchProfile(
+                        email,
+                        resCreate.user.uid
+                      );
+
+                      navigation.replace(pages.Home);
+                      dispatch(setProfileRedux(profile.data));
+
+                      dispatch(loggingIn({ isLogin: true, email }));
+                    });
+                });
+            })
+            .catch((err) => {});
+        } catch (err) {
+          console.log("signup error", err);
+        }
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
@@ -255,6 +288,12 @@ const SignUp = ({ navigation }: SignUpProps) => {
       })
       .finally(() => setIsLoading(false));
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      refFocus.current.focus();
+    }, [])
+  );
 
   return (
     <Base {...{ snackState, setSnackState }}>
@@ -269,6 +308,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
         <TextItem type="b.20.nc.90.c">{strings.name}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
+          ref={refFocus}
           placeholder={strings.namePlaceholder}
           onChangeText={setName}
           autoCapitalize="words"
@@ -301,6 +341,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
           iconPress={() => setIsSecurePassword((current) => !current)}
           {...passwordCheck}
         />
+
         <Gap vertical={sp.xs} />
         {/* <TextItem type="b.20.nc.90.c">{strings.enterConfirmPassword}</TextItem>
         <Gap vertical={sp.xs} />
@@ -334,6 +375,20 @@ const SignUp = ({ navigation }: SignUpProps) => {
               {...phoneNumberCheck}
             />
           </>
+        )}
+
+        {checkData(password) && (
+          <View style={{ alignItems: "flex-end" }}>
+            <Button
+              onPress={() =>
+                Linking.openURL("https://sekilasaja.com/lupa-password")
+              }
+            >
+              <TextItem style={styles.underlineText} type="b.14.nc.90">
+                {strings.forgotPassword}
+              </TextItem>
+            </Button>
+          </View>
         )}
 
         <Gap vertical={sp.sm} />

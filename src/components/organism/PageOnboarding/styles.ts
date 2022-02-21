@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { heightPercent, widthPercent } from "../../../helpers";
 import { PixelRatio, Dimensions } from "react-native";
 import { adjust } from "../../../utils";
-
 const styles = StyleSheet.create({
   pageContainer: {
     width: widthPercent(100),
@@ -10,14 +9,16 @@ const styles = StyleSheet.create({
   },
 
   boxImage: {
-    height: heightPercent(adjust(53)),
-    overflow: "hidden"
+    height: heightPercent(adjust(55)),
+    overflow: "hidden",
+    alignItems: "center"
   },
 
   image: {
-    width: "100%",
+    width: widthPercent(100),
     height: "100%",
-    resizeMode: "cover"
+    resizeMode: "stretch"
+    // resizeMode: "contain"
   },
 
   boxtitle: {
