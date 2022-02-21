@@ -142,7 +142,14 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
                 navigation.navigate("Reading", { id, page: 0 });
               }
             }}
-            onPressDone={(id) => doneReading(id)}
+            onPressDone={(id) => {
+              if (lockReadingListenViewBook) {
+                dispatch(handleOpenModalSubscribe());
+                setLoadData("");
+              } else {
+                doneReading(id);
+              }
+            }}
             isVideoAvailable={item?.isVideoAvailable}
             progress={myProgress}
           />
