@@ -126,12 +126,16 @@ const StoryShort = forwardRef<any, any>(
                 const isLeft = tapPosition < winWidthPercent(40);
                 if (isLeft) {
                   if (storyIndex === 0) {
+                    onEnd();
+                    setStoryIndex(0);
                     position.value = withTiming(closePosition);
                     return;
                   }
                   setStoryIndex((current) => current - 1);
                 } else {
                   if (storyIndex === storyData?.shorts.length - 1) {
+                    onEnd();
+                    setStoryIndex(0);
                     position.value = withTiming(closePosition);
                     return;
                   }

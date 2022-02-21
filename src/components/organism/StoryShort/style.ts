@@ -1,4 +1,4 @@
-import { dangerColor, neutralColor, spacer } from "@constants";
+import { neutralColor, spacer } from "@constants";
 import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
 import { StyleSheet } from "react-native";
 

@@ -19,6 +19,7 @@ import {
   ShortsTile,
   StoryShort,
   TextItem,
+  ModalSubscribe,
 } from "@components";
 import {
   dangerColor,
@@ -119,7 +120,6 @@ const Home = () => {
   const [currentStory, setCurrentStory] = useState<null | string>();
   const [shorts, setShorts] = useState<null | any[]>();
   const [shortsColor, setShortsColor] = useState<string>();
-  const [test, setTest] = useState<boolean>();
 
   const storyColorIndex = getRandomInt(0, 3);
 
@@ -340,8 +340,6 @@ const Home = () => {
   const onBellPress = () => navigation.navigate("Notification");
 
   const onGoingPress = () => {
-    setTest((current) => !current);
-    return;
     !!lastReading?.book
       ? navigation.navigate("Reading", {
           //@ts-ignore
@@ -714,10 +712,10 @@ const Home = () => {
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>
             </SkeletonContent>
-            {/* <ModalSubscribe
+            <ModalSubscribe
               modalVisible={modalAllPlan}
               setModalVisible={setModalAllPlan}
-            /> */}
+            />
             <StoryShort
               ref={storyRef}
               onEnd={() => setCurrentStory(null)}
