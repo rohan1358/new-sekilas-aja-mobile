@@ -89,6 +89,10 @@ import Calendar from "./calendar.svg";
 import ChallengeIcon from "./ChallengeIcon.svg";
 import GroupDiscussionIcon from "./GroupDiscussionIcon.svg";
 
+const svg = { Cross, CloseX, ShareIcon, Bookmark };
+
+export default svg;
+
 export {
   GroupDiscussionIcon,
   ChallengeIcon,
@@ -178,5 +182,5 @@ export {
   SkipBackFullScreen,
   SkipForwardFullScreen,
   NotifyActive,
-  Mentor
+  Mentor,
 };

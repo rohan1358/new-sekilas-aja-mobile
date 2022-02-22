@@ -29,7 +29,7 @@ import Animated, {
   withTiming
 } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
-import { Gap, TextItem } from "../../atom";
+import { Button, Gap, TextItem } from "../../atom";
 import styles from "./styles";
 
 const activeColor = primaryColor.main;
@@ -146,7 +146,7 @@ const FancyBottomTab = ({
   const dispatch = useDispatch();
   const modalVisible = modalSubscribeRedux;
 
-  const setModalVisible = () => {
+  const setModalVisible = (param?: any) => {
     // done
     dispatch(handleOpenModalSubscribe());
   };
@@ -165,12 +165,6 @@ const FancyBottomTab = ({
       () => (navPosition.value = withDelay(400, withTiming(TAB_BOTTOM_GAP)))
     );
   };
-
-  useEffect(() => {
-    detectKeyboard();
-  }, []);
-
-  const onPress = () => {};
 
   return (
     <>

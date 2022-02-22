@@ -6,6 +6,7 @@ import React from "react";
 import { View, ActivityIndicator } from "react-native";
 import styles from "./styles";
 import { useIsFocused } from "@react-navigation/native";
+import { logger } from "@helpers";
 const BOUNDARY =
   categories.length % 2 === 0
     ? categories.length / 2
@@ -13,7 +14,7 @@ const BOUNDARY =
 const CategoryChips = ({
   item,
   index,
-  onPress
+  onPress,
 }: {
   item: { id: string; label: string; Icon: any };
   index: number;
@@ -21,13 +22,13 @@ const CategoryChips = ({
 }) => {
   const isFocus = useIsFocused();
   return (
-    <View key={item.id} style={styles.row}>
+    <View key={item?.id} style={styles.row}>
       {index == 0 && <Gap horizontal={spacing.sl} />}
       {isFocus ? (
         <Chips
-          label={item.label}
-          id={item.id}
-          Icon={item.Icon}
+          label={item?.label}
+          id={item?.id}
+          Icon={item?.Icon}
           onPress={onPress}
         />
       ) : (

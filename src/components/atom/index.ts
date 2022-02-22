@@ -7,6 +7,9 @@ import Gap from "./Gap";
 import Seed from "./Seed";
 import TextItem from "./TextItem";
 
+export { default as AdaptiveText } from "./AdaptiveText";
+export { default as StoryIndicator } from "./StoryIndicator";
+
 export {
   Amage,
   AnimatedOverlay,

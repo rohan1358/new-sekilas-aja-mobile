@@ -3,9 +3,12 @@ import {
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux
+  setProfileRedux,
+  toggleBottomTab
 } from "@actions";
+import { BookOpen, Mentor, ChallengeIcon, GroupDiscussionIcon } from "@assets";
 import {
+  AdaptiveText,
   Base,
   BookTile,
   Button,
@@ -13,21 +16,25 @@ import {
   Gap,
   HomeHeader,
   ImageBanner,
-  MiniCollectionTile,
-  ModalSubscribe,
   OngoingTile,
-  TextItem
+  ShortsTile,
+  StoryShort,
+  TextItem,
+  ModalSubscribe
 } from "@components";
 import {
+  dangerColor,
   neutralColor,
-  pages,
   primaryColor,
   skeleton,
   snackState as ss,
+  spacer,
   spacing as sp,
-  strings
+  strings,
+  successColor,
+  systemColor
 } from "@constants";
-import { logger, useMounted, widthPercent } from "@helpers";
+import { logger, useMounted } from "@helpers";
 import messaging from "@react-native-firebase/messaging";
 import {
   useFocusEffect,
@@ -42,40 +49,49 @@ import {
   fetchProfile,
   fetchReadingBook,
   fetchRecommendedBooks,
+  fetchShorts,
   modifyToken
 } from "@services";
-import { fetchCarousel } from "../../services/bookContent";
-import { newCategories } from "../../../assets/dummy";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
-  Linking,
+  FlatList,
   TouchableOpacity,
-  View
+  View,
+  Linking
 } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
+import { newCategories } from "../../../assets/dummy";
 import CategoryChips from "../../../src/components/organism/CategoryChips";
 import { RootStackParamList } from "../../../src/types";
 import { SnackStateProps } from "../../components/atom/Base/types";
-import { dummyBanner } from "./dummy";
-import { dummyMiniCollectionData, pageParser } from "./helper";
-import styles from "./styles";
-import { HORIZONTAL_GAP } from "./values";
-import { store, persistor, mostBookStorage } from "../../redux/store";
-import { getLastReading } from "../../services/trackReading";
-import { checkData } from "../../utils";
-import { useCallback } from "react";
-import firestore from "@react-native-firebase/firestore";
+import { store } from "../../redux/store";
+import { fetchCarousel } from "../../services/bookContent";
 import {
   fetchNotifInbox,
   fetchNotifPrivate,
   fetchNotifPromo
 } from "../../services/notification";
+import { getLastReading } from "../../services/trackReading";
+import { checkData } from "../../utils";
+import { pageParser } from "./helper";
+import styles from "./styles";
+import { HORIZONTAL_GAP } from "./values";
 
-import { BookOpen, ChallengeIcon, GroupDiscussionIcon, Mentor } from "@assets";
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+const storyColors = [
+  primaryColor.pressed,
+  systemColor.hover,
+  successColor.hover,
+  dangerColor.hover
+];
 
 const Home = () => {
   const profileStore = store.getState().editProfile.profile;
@@ -84,13 +100,15 @@ const Home = () => {
   const isMounted = useMounted();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  const storyRef = useRef<any>();
+
   const {
     sessionReducer: { email, isLogin },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
     editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [profiles, setProfile] = useState<ProfileProps>();
   const [readingBook, setReadingBook] = useState<ReadingBookProps>();
@@ -101,14 +119,23 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [carousel, setCarousel] = useState(false);
 
+  const [currentStory, setCurrentStory] = useState<null | string>();
+  const [shorts, setShorts] = useState<null | any[]>();
+  const [shortsColor, setShortsColor] = useState<string>();
+
   const setModalAllPlan = (param: any) => {
     dispatch(handleCloseModalSubscribe());
   };
+
+  const storyColorIndex = getRandomInt(0, 3);
 
   useEffect(() => {
     fetchNotifPromo();
     fetchNotifInbox();
     fetchNotifPrivate();
+    fetchCarousel().then((res: any) => {
+      setCarousel(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -118,14 +145,12 @@ const Home = () => {
     if (profileStore && profileStore.is_subscribed) {
       setModalAllPlan(false);
     }
-
     if (!profiles?.id) return;
     messaging()
       .getToken()
       .then((FcmToken) => {
         return modifyToken({ FcmToken, id: profiles?.id });
       });
-
     return messaging().onTokenRefresh((FcmToken) => {
       modifyToken({ FcmToken, id: profiles?.id });
     });
@@ -140,6 +165,7 @@ const Home = () => {
       getReadingBook();
       getHomeData(false);
       fetchCategory();
+      getShorts();
     }
   }, [isFocused]);
 
@@ -152,16 +178,21 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCarousel().then((res: any) => {
-      setCarousel(res.data);
-    });
-  }, []);
+  const getShorts = async () => {
+    try {
+      const { data, isSuccess } = await fetchShorts();
+      if (!isSuccess) return;
+      setShorts(data);
+    } catch (error) {
+      logger("Home, getShorts", error);
+    }
+  };
 
   const { width } = Dimensions.get("screen");
 
   const bannerRenderItem = ({ item }: { item: any }) => (
     <View style={styles.newCollectionContainer}>
+      {/* @ts-ignore */}
       <ImageBanner
         data={item}
         placeholder={item.coverImageLink}
@@ -317,7 +348,9 @@ const Home = () => {
   const onGoingPress = () => {
     !!lastReading?.book
       ? navigation.navigate("Reading", {
+          //@ts-ignore
           id: lastReading?.book || "",
+          //@ts-ignore
           page: pageParser(lastReading?.kilas)
         })
       : navigation.navigate("MainBottomRoute", { screen: "Explore" });
@@ -379,18 +412,29 @@ const Home = () => {
     }
   ];
 
+  const storyPress = (title: string) => {
+    setShortsColor(storyColors[storyColorIndex]);
+    setCurrentStory(title);
+    dispatch(toggleBottomTab(true));
+    storyRef.current?.open();
+  };
+
+  const onLastStoryPress = (id: string) =>
+    navigation.navigate("BookDetail", { id });
+
   return (
     <>
       {profileStore && (
         <>
           <Base
-            barColor={primaryColor.main}
+            barColor={!currentStory ? primaryColor.main : shortsColor}
             snackState={snackState}
             setSnackState={setSnackState}
           >
             <SkeletonContent
               containerStyle={styles.skeleton}
               isLoading={isLoading || !isFocused}
+              //@ts-ignore
               layout={skeleton.mainHome}
             >
               <DummyFlatList onRefresh={onRefresh} refreshing={isRefreshing}>
@@ -405,7 +449,9 @@ const Home = () => {
                   <View style={styles.dummyHeader} />
                   {isFocused ? (
                     <OngoingTile
+                      //@ts-ignore
                       bookTitle={lastReading?.book}
+                      //@ts-ignore
                       bookUri={lastReading?.book_cover}
                       onPress={onGoingPress}
                       isAvailable={checkData(lastReading?.book)}
@@ -433,6 +479,7 @@ const Home = () => {
                           }
                           horizontal
                           showsHorizontalScrollIndicator={false}
+                          //@ts-ignore
                           data={carousel || []}
                           renderItem={bannerRenderItem}
                           keyExtractor={idKeyExtractor}
@@ -466,6 +513,7 @@ const Home = () => {
                       return (
                         <TouchableOpacity
                           onPress={() => {
+                            //@ts-ignore
                             navigation.navigate(Cb?.route || "Home");
                           }}
                           style={styles.btnNewMenu}
@@ -495,7 +543,7 @@ const Home = () => {
                       </TextItem>
                     </TouchableOpacity> */}
                   </View>
-                  <Gap vertical={sp.m} />
+                  <Gap vertical={spacer.sl} />
                   <View style={styles.clickTitle}>
                     {childMenuChallengeGroupDiscuss.map((Cb) => {
                       return (
@@ -525,7 +573,35 @@ const Home = () => {
                       );
                     })}
                   </View>
-                  <Gap vertical={sp.m} />
+                  <Gap vertical={spacer.sl} />
+                  {!!shorts && (
+                    <>
+                      <Gap horizontal={HORIZONTAL_GAP}>
+                        <AdaptiveText
+                          type="text3xl/black"
+                          textColor={neutralColor["90"]}
+                        >
+                          {"Sekilas Shorts"}
+                        </AdaptiveText>
+                      </Gap>
+                      <Gap vertical={sp.m} />
+                      <FlatList
+                        data={shorts}
+                        renderItem={({ item, index }) => (
+                          <ShortsTile
+                            index={index}
+                            onPress={storyPress}
+                            title={item?.book_title}
+                            cover={item?.book_cover}
+                          />
+                        )}
+                        keyExtractor={({ id }) => `${id}`}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                      />
+                      <Gap vertical={sp.sl} />
+                    </>
+                  )}
                   {open && (
                     <>
                       <>
@@ -545,7 +621,7 @@ const Home = () => {
                               isLoading={!isFocused}
                               containerStyle={styles.skeleton}
                             >
-                              <View style={styles.row}>
+                              {/* <View style={styles.row}>
                                 {checkData(listCategory) &&
                                   listCategory
                                     .slice(0, listCategory.length / 2 + 1)
@@ -569,7 +645,7 @@ const Home = () => {
                                         />
                                       );
                                     })}
-                              </View>
+                              </View> */}
                               <Gap vertical={sp.sm} />
                               <View style={styles.row}>
                                 {listCategory &&
@@ -689,6 +765,17 @@ const Home = () => {
                 <Gap vertical={sp.xxl} />
               </DummyFlatList>
             </SkeletonContent>
+
+            <StoryShort
+              ref={storyRef}
+              onEnd={() => setCurrentStory(null)}
+              storyStatus={currentStory}
+              storyData={shorts?.find(
+                (item) => item?.book_title === currentStory
+              )}
+              color={shortsColor}
+              onLastStoryPress={onLastStoryPress}
+            />
           </Base>
         </>
       )}

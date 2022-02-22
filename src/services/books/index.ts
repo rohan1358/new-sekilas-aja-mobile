@@ -1,7 +1,8 @@
 import { firebaseNode } from "@constants";
 import firestore from "@react-native-firebase/firestore";
-import { scrapBook } from "../../helpers";
+import { logger, scrapBook } from "../../helpers";
 import storage from "@react-native-firebase/storage";
+
 const fetchBooks = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
@@ -12,27 +13,27 @@ const fetchBooks = () => {
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
-        category: item.data()?.category
+        category: item.data()?.category,
       }));
       resolve({
         data: books,
         isSuccess: true,
         error: null,
-        message: "Books successfuly fetched."
+        message: "Books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch books failed."
+        message: "Fetch books failed.",
       });
     }
   });
 };
 
 const fetchCategorizedBooks = ({
-  category
+  category,
 }: {
   category: string | undefined;
 }) => {
@@ -49,20 +50,20 @@ const fetchCategorizedBooks = ({
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
-        isVideoAvailable: !!item.data()?.video_link
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
         isSuccess: true,
         error: null,
-        message: "Categorized books successfuly fetched."
+        message: "Categorized books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch categorized books failed."
+        message: "Fetch categorized books failed.",
       });
     }
   });
@@ -90,7 +91,7 @@ const fetchMostBooks = () => {
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
-        isVideoAvailable: !!item.data()?.video_link
+        isVideoAvailable: !!item.data()?.video_link,
       }));
 
       // @ts-ignore
@@ -102,14 +103,14 @@ const fetchMostBooks = () => {
         data: books,
         isSuccess: true,
         error: null,
-        message: "Most read books successfuly fetched."
+        message: "Most read books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch most read books failed."
+        message: "Fetch most read books failed.",
       });
     }
   });
@@ -130,7 +131,7 @@ const fetchReadingBook = (email: string) => {
           data: { book: "", book_cover: "", kilas: "", available: false },
           isSuccess: true,
           error: null,
-          message: "Reading book successfuly fetched."
+          message: "Reading book successfuly fetched.",
         });
       }
 
@@ -138,14 +139,14 @@ const fetchReadingBook = (email: string) => {
         data: { ...rawBook?.book, available: true },
         isSuccess: true,
         error: null,
-        message: "Reading book successfuly fetched."
+        message: "Reading book successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch reading book failed."
+        message: "Fetch reading book failed.",
       });
     }
   });
@@ -170,20 +171,20 @@ const fetchRecommendedBooks = () => {
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
-        isVideoAvailable: !!item.data()?.video_link
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
         isSuccess: true,
         error: null,
-        message: "Recommended books successfuly fetched."
+        message: "Recommended books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch recommended books failed."
+        message: "Fetch recommended books failed.",
       });
     }
   });
@@ -202,20 +203,20 @@ const fetchReleasedBooks = () => {
         read_time: item.data()?.read_time,
         id: item.id,
         book_cover: item.data()?.book_cover,
-        isVideoAvailable: !!item.data()?.video_link
+        isVideoAvailable: !!item.data()?.video_link,
       }));
       resolve({
         data: books,
         isSuccess: true,
         error: null,
-        message: "New released books successfuly fetched."
+        message: "New released books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch new released books failed."
+        message: "Fetch new released books failed.",
       });
     }
   });
@@ -244,21 +245,21 @@ const fetchTrendBooks = () => {
         author: item.data()?.author,
         read_time: item.data()?.read_time,
         id: item.id,
-        book_cover: item.data()?.book_cover
+        book_cover: item.data()?.book_cover,
       }));
 
       resolve({
         data: books,
         isSuccess: true,
         error: null,
-        message: "Trend books successfuly fetched."
+        message: "Trend books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch most trend books failed."
+        message: "Fetch most trend books failed.",
       });
     }
   });
@@ -284,20 +285,20 @@ const fetchDetailBooks = (id: any) => {
         description: raw.data()?.description,
         short_desc: raw.data()?.short_desc,
         video_link: raw.data()?.video_link,
-        watch_time: raw.data()?.watch_time
+        watch_time: raw.data()?.watch_time,
       };
       resolve({
         data: books,
         isSuccess: true,
         error: null,
-        message: "Trend books successfuly fetched."
+        message: "Trend books successfuly fetched.",
       });
     } catch (error) {
       reject({
         data: null,
         isSuccess: false,
         error,
-        message: "Fetch most trend books failed."
+        message: "Fetch most trend books failed.",
       });
     }
   });
@@ -307,6 +308,49 @@ const fetchListCategory = async () =>
   await (
     await firestore().collection("listCategory").doc("category").get()
   ).data();
+
+const fetchShorts = () => {
+  return new Promise<FetchResponse>(async (resolve, reject) => {
+    try {
+      const raw = await firestore().collection(firebaseNode.books).get();
+      const dataShorts = await Promise.all(
+        raw.docs.map(async (value) => {
+          const rawShorts = await firestore()
+            .collection(
+              `${firebaseNode.books}/${value.data()?.book_title}/shorts`
+            )
+            .get();
+          const shortList = rawShorts.docs.map((item) => {
+            return item?.data();
+          });
+          return {
+            book_title: value?.data()?.book_title,
+            shorts: shortList,
+            book_cover: value.data()?.book_cover,
+            id: value.id,
+          };
+        })
+      );
+      //@ts-ignore
+      const finalShorts = dataShorts.filter(
+        (shortItem) => shortItem?.shorts.length !== 0
+      );
+      resolve({
+        data: finalShorts,
+        isSuccess: true,
+        error: null,
+        message: "Shorts successfuly fetched.",
+      });
+    } catch (error) {
+      reject({
+        data: null,
+        isSuccess: false,
+        error,
+        message: "Fetch shorts failed.",
+      });
+    }
+  });
+};
 
 //Method to get book cover image from firebase storage
 const getBookCoverImageURL = (referenceName: string) => {
@@ -336,5 +380,6 @@ export {
   fetchTrendBooks,
   fetchDetailBooks,
   fetchListCategory,
-  getBookCoverImageURL
+  getBookCoverImageURL,
+  fetchShorts,
 };

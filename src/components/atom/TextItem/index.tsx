@@ -1,3 +1,4 @@
+import { widthDp } from "@helpers";
 import React, { PropsWithChildren } from "react";
 import { Text, PixelRatio } from "react-native";
 import { adjust } from "../../../utils";
@@ -67,8 +68,7 @@ const styleGenerator = (code: string) => {
   const color = colorFinder(colorScheme)[colorCode];
   //@ts-ignore
   const fontFamily = ff[familyFinder(fontCode)];
-  const fontSize = parseInt(adjust(size));
-  // const fontSize = parseInt(pixelRatio > 2 ? size : size - 2);
+  const fontSize = widthDp(parseInt(adjust(size)));
   const textTransform = transformFinder(transform);
   return { fontFamily, fontSize, color, textTransform };
 };

@@ -20,6 +20,7 @@ import ImageBannerWebinar from "./ImageBannerWebinar";
 import BookTileChallenge from "./BookTileChallenge";
 
 export { default as DuoRender } from "./DuoRender";
+export { default as StoryShort } from "./StoryShort";
 
 export {
   WebinarSearch,

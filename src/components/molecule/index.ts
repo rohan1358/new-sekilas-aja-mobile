@@ -9,6 +9,8 @@ import TextField from "./TextField";
 import TextIcon from "./TextIcon";
 import TitleTap from "./TitleTap";
 
+export { default as ShortsTile } from "./ShortsTile";
+
 export {
   BigButton,
   ButtonIcon,

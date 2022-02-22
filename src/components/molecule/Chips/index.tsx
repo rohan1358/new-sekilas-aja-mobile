@@ -45,7 +45,7 @@ const Chips = ({
         {label}
       </TextItem>
       <Gap horizontal={sp.xs} />
-      {checkData(Icon) && (
+      {!!Icon && (
         <Animated.View style={[s.icon, iconStyle]}>
           <Icon stroke={isSelected ? primaryColor.main : neutralColor[70]} />
         </Animated.View>
