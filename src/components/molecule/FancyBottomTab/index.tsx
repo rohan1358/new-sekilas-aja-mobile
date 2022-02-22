@@ -154,7 +154,28 @@ const FancyBottomTab = ({
   const detectKeyboard = () => {
     Keyboard.addListener(
       "keyboardDidShow",
-      () =>
+      () => BottomTabBarProps) => {
+        const navPosition = useSharedValue(TAB_BOTTOM_GAP);
+      
+        const containerStyle = useAnimatedStyle(() => ({
+          bottom: navPosition.value,
+        }));
+      
+        const {
+          editProfile: { profile },
+          general: { isBottomTabHidden },
+        } = useSelector((state: ReduxState) => state);
+      
+        const [modalVisible, setModalVisible] = useState(false);
+        const [toggleTab, setToggleTab] = useState(false);
+      
+        useEffect(() => {
+          detectKeyboard();
+        }, []);
+      
+        useEffect(() => {
+          setToggleTab(isBottomTabHidden);
+        }, [isBottomTabHidden]);
         (navPosition.value = withDelay(
           400,
           withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2)
