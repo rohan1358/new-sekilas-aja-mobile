@@ -142,6 +142,7 @@ const FancyBottomTab = ({
     editProfile: { profile },
     mainContext: { modalSubscribeRedux }
   } = useSelector((state: ReduxState) => state);
+<<<<<<< HEAD
 
   const dispatch = useDispatch();
   const modalVisible = modalSubscribeRedux;
@@ -153,6 +154,8 @@ const FancyBottomTab = ({
 
   const detectKeyboard = () => {
     Keyboard.addListener(
+=======
+>>>>>>> origin/feature/shorts
       "keyboardDidShow",
       () => BottomTabBarProps) => {
         const navPosition = useSharedValue(TAB_BOTTOM_GAP);
