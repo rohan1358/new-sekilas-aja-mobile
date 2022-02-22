@@ -95,114 +95,114 @@ const Icon = ({
 //         />
       ) : (
         <Grid stroke={inactiveColor} />
-      );
+//       );
 
-    case pages.Library:
-      return isFocused ? (
-        <BookOpenFilled
-          fill={activeColor}
-          width={ACTIVE_ICON_SIZE}
-          height={ACTIVE_ICON_SIZE}
-        />
-      ) : (
-        <BookOpen stroke={inactiveColor} />
-      );
-    case pages.Mentoring:
-      return isFocused ? (
-        <Mentor
-          fill={activeColor}
-          width={ACTIVE_ICON_SIZE}
-          height={ACTIVE_ICON_SIZE}
-        />
-      ) : (
-        <Mentor stroke={inactiveColor} />
-      );
+//     case pages.Library:
+//       return isFocused ? (
+//         <BookOpenFilled
+//           fill={activeColor}
+//           width={ACTIVE_ICON_SIZE}
+//           height={ACTIVE_ICON_SIZE}
+//         />
+//       ) : (
+//         <BookOpen stroke={inactiveColor} />
+//       );
+//     case pages.Mentoring:
+//       return isFocused ? (
+//         <Mentor
+//           fill={activeColor}
+//           width={ACTIVE_ICON_SIZE}
+//           height={ACTIVE_ICON_SIZE}
+//         />
+//       ) : (
+//         <Mentor stroke={inactiveColor} />
+//       );
 
-    default:
-      return <Home stroke={inactiveColor} />;
-  }
-};
+//     default:
+//       return <Home stroke={inactiveColor} />;
+//   }
+// };
 
-const TAB_HEIGHT = 64;
-const TAB_BOTTOM_GAP = sp.m;
+// const TAB_HEIGHT = 64;
+// const TAB_BOTTOM_GAP = sp.m;
 
-const FancyBottomTab = ({
-  state,
-  descriptors,
-  navigation,
-}: BottomTabBarProps) => {
-  const navPosition = useSharedValue(TAB_BOTTOM_GAP);
+// const FancyBottomTab = ({
+//   state,
+//   descriptors,
+//   navigation,
+// }: BottomTabBarProps) => {
+//   const navPosition = useSharedValue(TAB_BOTTOM_GAP);
 
-  const containerStyle = useAnimatedStyle(() => ({
-    bottom: navPosition.value,
-  }));
+//   const containerStyle = useAnimatedStyle(() => ({
+//     bottom: navPosition.value,
+//   }));
 
-  const {
-    editProfile: { profile },
-    general: { isBottomTabHidden },
-  } = useSelector((state: ReduxState) => state);
+//   const {
+//     editProfile: { profile },
+//     general: { isBottomTabHidden },
+//   } = useSelector((state: ReduxState) => state);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [toggleTab, setToggleTab] = useState(false);
+//   const [modalVisible, setModalVisible] = useState(false);
+//   const [toggleTab, setToggleTab] = useState(false);
 
-  useEffect(() => {
-    detectKeyboard();
-  }, []);
+//   useEffect(() => {
+//     detectKeyboard();
+//   }, []);
 
-  useEffect(() => {
-    setToggleTab(isBottomTabHidden);
-  }, [isBottomTabHidden]);
+//   useEffect(() => {
+//     setToggleTab(isBottomTabHidden);
+//   }, [isBottomTabHidden]);
 
-  useEffect(() => {
-    detectBottomTab();
-  }, [toggleTab]);
+//   useEffect(() => {
+//     detectBottomTab();
+//   }, [toggleTab]);
 
-  const detectBottomTab = () => {
-    if (toggleTab) {
-      navPosition.value = withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2);
-      return;
-    }
-    navPosition.value = withTiming(TAB_BOTTOM_GAP);
-  };
+//   const detectBottomTab = () => {
+//     if (toggleTab) {
+//       navPosition.value = withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2);
+//       return;
+//     }
+//     navPosition.value = withTiming(TAB_BOTTOM_GAP);
+//   };
 
-  const detectKeyboard = () => {
-    Keyboard.addListener(
-      "keyboardDidShow",
-      () =>
-        (navPosition.value = withDelay(
-          400,
-          withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2)
-        ))
-    );
-    Keyboard.addListener(
-      "keyboardDidHide",
-      () => (navPosition.value = withDelay(400, withTiming(TAB_BOTTOM_GAP)))
-    );
-  };
+//   const detectKeyboard = () => {
+//     Keyboard.addListener(
+//       "keyboardDidShow",
+//       () =>
+//         (navPosition.value = withDelay(
+//           400,
+//           withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2)
+//         ))
+//     );
+//     Keyboard.addListener(
+//       "keyboardDidHide",
+//       () => (navPosition.value = withDelay(400, withTiming(TAB_BOTTOM_GAP)))
+//     );
+//   };
 
-  return (
-    <>
-      <View style={styles.container}>
-        <Animated.View style={[styles.innerContainer, containerStyle]}>
-          <View style={styles.overlay} />
-          <View style={styles.tabsContainer}>
-            {state.routes.map((route, index) => {
-              const { options } = descriptors[route.key];
-              const label =
-                options.tabBarLabel !== undefined
-                  ? options.tabBarLabel
-                  : options.title !== undefined
-                  ? options.title
-                  : route.name;
+//   return (
+//     <>
+//       <View style={styles.container}>
+//         <Animated.View style={[styles.innerContainer, containerStyle]}>
+//           <View style={styles.overlay} />
+//           <View style={styles.tabsContainer}>
+//             {state.routes.map((route, index) => {
+//               const { options } = descriptors[route.key];
+//               const label =
+//                 options.tabBarLabel !== undefined
+//                   ? options.tabBarLabel
+//                   : options.title !== undefined
+//                   ? options.title
+//                   : route.name;
 
-              const isFocused = state.index === index;
+//               const isFocused = state.index === index;
 
-              const onPress = () => {
-                const event = navigation.emit({
-                  type: "tabPress",
-                  target: route.key,
-                  canPreventDefault: true,
-                });
+//               const onPress = () => {
+//                 const event = navigation.emit({
+//                   type: "tabPress",
+//                   target: route.key,
+//                   canPreventDefault: true,
+//                 });
 
                 if (!isFocused && !event.defaultPrevented) {
                   // The `merge: true` option makes sure that the params inside the tab screen are preserved
