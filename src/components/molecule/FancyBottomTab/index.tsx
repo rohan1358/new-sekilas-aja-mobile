@@ -37,63 +37,63 @@ const inactiveColor = neutralColor[50];
 const ACTIVE_ICON_SIZE = 32;
 
 const recentLabel = (
-//   label:
-//     | string
-//     | ((props: {
-//         focused: boolean;
-//         color: string;
-//         position: LabelPosition;
-//       }) => React.ReactNode)
-// ) => {
-//   switch (label) {
-//     case pages.Home:
-//       return strings.home;
+  label:
+    | string
+    | ((props: {
+        focused: boolean;
+        color: string;
+        position: LabelPosition;
+      }) => React.ReactNode)
+) => {
+  switch (label) {
+    case pages.Home:
+      return strings.home;
 
-//     case pages.Explore:
-//       return strings.explore;
+    case pages.Explore:
+      return strings.explore;
 
-//     case pages.Library:
-//       return strings.library;
-//     case pages.Mentoring:
-//       return strings.Mentoring;
+    case pages.Library:
+      return strings.library;
+    case pages.Mentoring:
+      return strings.Mentoring;
 
-//     default:
-//       return strings.home;
-//   }
+    default:
+      return strings.home;
+  }
 };
 
 const Icon = ({
   label,
   isFocused
 }: {
-//   label:
-//     | string
-//     | ((props: {
-//         focused: boolean;
-//         color: string;
-//         position: LabelPosition;
-//       }) => React.ReactNode);
-//   isFocused: boolean;
-// }) => {
-//   switch (label) {
-//     case pages.Home:
-//       return isFocused ? (
-//         <HomeFilled
-//           fill={activeColor}
-//           width={ACTIVE_ICON_SIZE}
-//           height={ACTIVE_ICON_SIZE}
-//         />
-//       ) : (
-//         <Home stroke={inactiveColor} />
-//       );
+  label:
+    | string
+    | ((props: {
+        focused: boolean;
+        color: string;
+        position: LabelPosition;
+      }) => React.ReactNode);
+  isFocused: boolean;
+}) => {
+  switch (label) {
+    case pages.Home:
+      return isFocused ? (
+        <HomeFilled
+          fill={activeColor}
+          width={ACTIVE_ICON_SIZE}
+          height={ACTIVE_ICON_SIZE}
+        />
+      ) : (
+        <Home stroke={inactiveColor} />
+      );
 
-//     case pages.Explore:
-//       return isFocused ? (
-//         <GridFilled
-//           fill={activeColor}
-//           width={ACTIVE_ICON_SIZE}
-//           height={ACTIVE_ICON_SIZE}
-//         />
+    case pages.Explore:
+      return isFocused ? (
+        <GridFilled
+          fill={activeColor}
+          width={ACTIVE_ICON_SIZE}
+          height={ACTIVE_ICON_SIZE}
+        />
       ) : (
         <Grid stroke={inactiveColor} />
       );
@@ -140,9 +140,11 @@ const FancyBottomTab = ({
 
   const {
     editProfile: { profile },
-    mainContext: { modalSubscribeRedux }
+    mainContext: { modalSubscribeRedux },
+    general: { isBottomTabHidden }
   } = useSelector((state: ReduxState) => state);
-<<<<<<< HEAD
+
+  const [toggleTab, setToggleTab] = useState(false);
 
   const dispatch = useDispatch();
   const modalVisible = modalSubscribeRedux;
@@ -154,31 +156,8 @@ const FancyBottomTab = ({
 
   const detectKeyboard = () => {
     Keyboard.addListener(
-=======
->>>>>>> origin/feature/shorts
       "keyboardDidShow",
-      () => BottomTabBarProps) => {
-        const navPosition = useSharedValue(TAB_BOTTOM_GAP);
-      
-        const containerStyle = useAnimatedStyle(() => ({
-          bottom: navPosition.value,
-        }));
-      
-        const {
-          editProfile: { profile },
-          general: { isBottomTabHidden },
-        } = useSelector((state: ReduxState) => state);
-      
-        const [modalVisible, setModalVisible] = useState(false);
-        const [toggleTab, setToggleTab] = useState(false);
-      
-        useEffect(() => {
-          detectKeyboard();
-        }, []);
-      
-        useEffect(() => {
-          setToggleTab(isBottomTabHidden);
-        }, [isBottomTabHidden]);
+      () =>
         (navPosition.value = withDelay(
           400,
           withTiming(-TAB_HEIGHT - TAB_BOTTOM_GAP * 2)
@@ -189,6 +168,14 @@ const FancyBottomTab = ({
       () => (navPosition.value = withDelay(400, withTiming(TAB_BOTTOM_GAP)))
     );
   };
+
+  useEffect(() => {
+    detectKeyboard();
+  }, []);
+
+  useEffect(() => {
+    setToggleTab(isBottomTabHidden);
+  }, [isBottomTabHidden]);
 
   return (
     <>
