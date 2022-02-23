@@ -622,7 +622,7 @@ const Home = () => {
                               isLoading={!isFocused}
                               containerStyle={styles.skeleton}
                             >
-                              {/* <View style={styles.row}>
+                              <View style={styles.row}>
                                 {checkData(listCategory) &&
                                   listCategory
                                     .slice(0, listCategory.length / 2 + 1)
@@ -646,7 +646,7 @@ const Home = () => {
                                         />
                                       );
                                     })}
-                              </View> */}
+                              </View>
                               <Gap vertical={sp.sm} />
                               <View style={styles.row}>
                                 {listCategory &&
