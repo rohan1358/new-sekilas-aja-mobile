@@ -113,7 +113,7 @@ const Library = (navigation: any) => {
             })
           }
           title={"Shortsku"}
-          bookCount={totalReading}
+          bookCount={0}
           icon={<Check stroke={neutralColor[90]} />}
         />
       </ScrollView>

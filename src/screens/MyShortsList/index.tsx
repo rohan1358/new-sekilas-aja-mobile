@@ -28,40 +28,12 @@ import {
 import { SpecialCategoryProps } from "../../types";
 import { HORIZONTAL_GAP } from "../Explore/values";
 import { CompactBooksProps } from "../Home/types";
-import { getRandomInt } from "../../utils";
+import { checkData, getRandomInt } from "../../utils";
 import styles from "./styles";
 import { SpecialBookListProps } from "./types";
 import ShortsTile from "./../../components/molecule/ShortsTile/index";
 import StoryShort from "./../../components/organism/StoryShort/index";
-
-const dataSelector = (
-  type: SpecialCategoryProps,
-  id: any
-): { title: string; api(): Promise<FetchResponse> } => {
-  switch (type) {
-    case "recommendation":
-      return { title: strings.recommendedBook, api: fetchRecommendedBooks };
-
-    case "newRelease":
-      return { title: strings.newRelease, api: fetchReleasedBooks };
-
-    case "mostRead":
-      return { title: strings.mostRead, api: fetchMostBooks };
-
-    case "trending":
-      return { title: strings.mostRead, api: fetchTrendBooks };
-    case "myFavorite":
-      return { title: strings.myFavorite, api: () => fetchBookByFavorit(id) };
-    case "doneReading":
-      return {
-        title: strings.finishedBooks,
-        api: () => fetchDoneReading(id)
-      };
-
-    default:
-      return { title: "", api: fetchRecommendedBooks };
-  }
-};
+import { TextItem } from "@atom";
 
 const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
   const isMounted = useRef<boolean>();
@@ -73,31 +45,11 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
   } = useSelector((state: ReduxState) => state);
   const dispatch = useDispatch();
 
-  const { title, api } = dataSelector(route.params?.type, email);
-
-  const [books, setBooks] = useState<CompactBooksProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [currentStory, setCurrentStory] = useState<null | string>();
   const [shorts, setShorts] = useState<null | any[]>();
   const [shortsColor, setShortsColor] = useState<string>();
-
-  const getBooks = async () => {
-    setIsLoading(true);
-    try {
-      const { data, isSuccess } = await api();
-      if (!isMounted.current) {
-        return;
-      }
-      if (!isSuccess) {
-        return;
-      }
-      setBooks(data);
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const headerState = {
     visible: true,
@@ -105,30 +57,10 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
     onBackPress: () => navigation.goBack()
   };
 
-  const keyExtractor = ({ id }: { id: string | number }) => `${id}`;
-
-  const ListEmptyComponent = (
-    <EmptyPlaceholder title={strings.noBook} subtitle={strings.booksNotFound} />
-  );
-
-  const renderItem = ({ item }: { item: CompactBooksProps }) => (
-    <View>
-      <BookTile
-        title={item?.book_title}
-        author={`${item?.author}`}
-        duration={item?.read_time}
-        cover={item?.book_cover}
-        onPress={(id) => navigation.navigate("BookDetail", { id })}
-        isVideoAvailable={item?.isVideoAvailable}
-      />
-      <Gap vertical={sp.sl} />
-    </View>
-  );
-
   useEffect(() => {
     isMounted.current = true;
 
-    getBooks();
+    // getBooks();
 
     return () => {
       isMounted.current = false;
@@ -151,10 +83,14 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
 
       setIsLoading(true);
 
-      fetchMyShorts(profile.id).then((res: any) => {
-        setShorts(res);
-        setIsLoading(false);
-      });
+      fetchMyShorts(profile.id)
+        .then((res: any) => {
+          setShorts(res);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+        });
 
       return () => {
         isActive = false;
@@ -183,14 +119,17 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
     navigation.navigate("BookDetail", { id });
 
   return (
-    <Base headerState={headerState} barColor={shortsColor || primaryColor.main}>
+    <Base
+      headerState={headerState}
+      barColor={checkData(shortsColor) ? shortsColor : primaryColor.main}
+    >
       <SkeletonContent
         containerStyle={styles.skeleton}
         isLoading={isLoading}
         layout={skeleton.mainCategory}
       >
         {/* my shorts area */}
-        {!!shorts && (
+        {checkData(shorts) && shorts?.length > 0 ? (
           <>
             <Gap vertical={sp.m} />
             <FlatList
@@ -209,6 +148,10 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
             />
             <Gap vertical={sp.sl} />
           </>
+        ) : (
+          <>
+            <EmptyPlaceholder title={"tidak ada short favorit"} subtitle={""} />
+          </>
         )}
       </SkeletonContent>
 
@@ -216,7 +159,7 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
         ref={storyRef}
         onEnd={() => {
           setCurrentStory(null);
-          setShortsColor(false);
+          setShortsColor("");
         }}
         storyStatus={currentStory}
         storyData={shorts?.find((item) => item?.book_title === currentStory)}
