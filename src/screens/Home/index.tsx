@@ -414,6 +414,7 @@ const Home = () => {
 
   const storyPress = (title: string) => {
     setShortsColor(storyColors[storyColorIndex]);
+
     setCurrentStory(title);
     dispatch(toggleBottomTab(true));
     storyRef.current?.open();

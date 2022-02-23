@@ -18,6 +18,7 @@ type MainBottomTabParamList = {
 
 type RootStackParamList = {
   Explore: undefined;
+  MyShortsList: undefined;
   Challenge: undefined;
   ListBookChallenge: undefined;
   Blog: undefined;

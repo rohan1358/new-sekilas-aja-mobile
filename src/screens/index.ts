@@ -27,8 +27,10 @@ import ReadingBlog from "./ReadBlog";
 import Challenge from "./Challenge";
 import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
 import ListBookChallenge from "./BookListChallenge";
+import MyShortsList from "./MyShortsList";
 
 export {
+  MyShortsList,
   ReadingBlog,
   Blog,
   RewatchWebinar,

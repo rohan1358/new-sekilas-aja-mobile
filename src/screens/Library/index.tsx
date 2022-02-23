@@ -104,6 +104,18 @@ const Library = (navigation: any) => {
           bookCount={totalReading}
           icon={<Check stroke={neutralColor[90]} />}
         />
+        <Gap vertical={sp.sm} />
+
+        <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate("MyShortsList", {
+              type: "doneReading"
+            })
+          }
+          title={"Shortsku"}
+          bookCount={totalReading}
+          icon={<Check stroke={neutralColor[90]} />}
+        />
       </ScrollView>
     </Base>
   );

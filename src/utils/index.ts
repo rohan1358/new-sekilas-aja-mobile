@@ -53,5 +53,19 @@ const validateEmail = (emailAdress: any) => {
   }
 };
 
+const getRandomInt = (min: number, max: number) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const openRate = false;
-export { padTo2Digits, formatDate, openRate, checkData, validateEmail, adjust };
+export {
+  padTo2Digits,
+  formatDate,
+  openRate,
+  checkData,
+  validateEmail,
+  adjust,
+  getRandomInt
+};

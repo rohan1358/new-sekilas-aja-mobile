@@ -5,25 +5,32 @@ import {
   Button,
   Gap,
   StoryIndicator,
-  TextItem,
+  TextItem
 } from "@atom";
 import { neutralColor, spacer } from "@constants";
 import { logger, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
+import { ReduxState } from "@rux";
 import React, {
   forwardRef,
   Fragment,
   useImperativeHandle,
-  useState,
+  useState
 } from "react";
 import { Pressable, Share, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleBottomTab } from "../../../redux/actions";
 import styles from "./style";
+import firestore from "@react-native-firebase/firestore";
+import {
+  checkSavedShorts,
+  fireRemoveShorts,
+  fireSaveShorts
+} from "../../../services/shorts";
 
 const closePosition = winHeightPercent(100);
 const openPosition = 0;
@@ -31,18 +38,23 @@ const StoryShort = forwardRef<any, any>(
   ({ onEnd, storyStatus, storyData, color, onLastStoryPress }, ref) => {
     const BAR_SIZE =
       (winWidthPercent(100) - spacer.sl * 2) / storyData?.shorts.length;
+
+    const {
+      editProfile: { profile }
+    } = useSelector((state: ReduxState) => state);
+
     const dispatch = useDispatch();
     const position = useSharedValue(closePosition);
     const paused = useSharedValue(false);
     const containerStyle = useAnimatedStyle(() => ({
-      transform: [{ translateY: position.value }],
+      transform: [{ translateY: position.value }]
     }));
 
     const [storyIndex, setStoryIndex] = useState(0);
 
     useImperativeHandle(ref, () => ({
       close: () => (position.value = withTiming(closePosition)),
-      open: () => (position.value = withTiming(openPosition)),
+      open: () => (position.value = withTiming(openPosition))
     }));
 
     const afterAnimate = () => {
@@ -69,7 +81,7 @@ const StoryShort = forwardRef<any, any>(
         .join("");
       try {
         await Share.share({
-          message: `${storyText}\n\nDikutip dari "${storyData?.book_title}" oleh SekilasAja!`,
+          message: `${storyText}\n\nDikutip dari "${storyData?.book_title}" oleh SekilasAja!`
         });
       } catch (error) {
         //@ts-ignore
@@ -77,12 +89,33 @@ const StoryShort = forwardRef<any, any>(
       }
     };
 
+    const saveShorts = () => {
+      let id_shorts = storyData?.shorts[storyIndex]["kilas"];
+      let user = profile.id;
+      let shorts_books = storyData["id"];
+
+      const body = {
+        user,
+        shorts_books,
+        shorts_cover: storyData["book_cover"],
+        id_shorts
+      };
+
+      checkSavedShorts(`${id_shorts}-${user}-${shorts_books}`)
+        .then((res) => {
+          fireSaveShorts(`${id_shorts}-${user}-${shorts_books}`, body);
+        })
+        .catch(() => {
+          fireRemoveShorts(`${id_shorts}-${user}-${shorts_books}`);
+        });
+    };
+
     return (
       <Animated.View
         style={[
           styles.container,
           containerStyle,
-          { backgroundColor: !!storyStatus ? color : neutralColor["10"] },
+          { backgroundColor: !!storyStatus ? color : neutralColor["10"] }
         ]}
       >
         <Gap vertical={spacer.sm} />
@@ -208,7 +241,12 @@ const StoryShort = forwardRef<any, any>(
                     />
                   </Button>
                   <Gap horizontal={spacer.xs} />
-                  <Button style={styles.footerButton}>
+                  <Button
+                    onPress={() => {
+                      saveShorts();
+                    }}
+                    style={styles.footerButton}
+                  >
                     <TextItem type="b.16.nc.10">Simpan</TextItem>
                     <Gap horizontal={spacer.xxs} />
                     <Assets.svg.Bookmark

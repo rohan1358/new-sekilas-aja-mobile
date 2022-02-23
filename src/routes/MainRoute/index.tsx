@@ -31,7 +31,8 @@ import {
   ReadingBlog,
   Challenge,
   ListBookChallenge,
-  ModalSubscribe
+  ModalSubscribe,
+  MyShortsList
 } from "../../screens";
 import { RootStackParamList } from "../../types";
 import MainBottomRoute from "../MainBottomRoute";
@@ -115,6 +116,12 @@ const MainRoute = () => {
         <Stack.Screen
           name={"Home"}
           component={!isFirstTime ? Home : MainBottomRoute}
+          // component={Home}
+        />
+
+        <Stack.Screen
+          name={"MyShortsList"}
+          component={MyShortsList}
           // component={Home}
         />
 
