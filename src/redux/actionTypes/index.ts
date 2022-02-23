@@ -5,3 +5,4 @@ export * from "./book";
 export * from "./notif";
 export * from "./challenge";
 export * from "./main";
+export * from "./progress";

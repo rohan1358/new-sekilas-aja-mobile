@@ -14,7 +14,7 @@ import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
-import { closeBottomTab, openBottomTab, toggleBottomTab } from "@actions";
+import { closeBottomTab, openBottomTab } from "@actions";
 import { fetchShorts, fetchMyShorts } from "../../services";
 import { checkData, getRandomInt } from "../../utils";
 import styles from "./styles";

@@ -28,8 +28,10 @@ import Challenge from "./Challenge";
 import ModalSubscribe from "./../components/organism/ModalSubscribe/index";
 import ListBookChallenge from "./BookListChallenge";
 import MyShortsList from "./MyShortsList";
+import BookListHistoryBrowsing from "./BookListHistoryBrowsing";
 
 export {
+  BookListHistoryBrowsing,
   MyShortsList,
   ReadingBlog,
   Blog,

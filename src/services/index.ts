@@ -6,3 +6,4 @@ export * from "./trackPlayer/fetchAudio";
 export * from "./user";
 export * from "./challenge";
 export * from "./shorts";
+export * from "./trackProgress";

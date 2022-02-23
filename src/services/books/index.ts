@@ -312,7 +312,10 @@ const fetchListCategory = async () =>
 const fetchShorts = () => {
   return new Promise<FetchResponse>(async (resolve, reject) => {
     try {
-      const raw = await firestore().collection(firebaseNode.books).get();
+      const raw = await firestore()
+        .collection(firebaseNode.books)
+        .where("shorts_exist", "==", true)
+        .get();
       const dataShorts = await Promise.all(
         raw.docs.map(async (value) => {
           const rawShorts = await firestore()

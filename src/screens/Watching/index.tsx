@@ -6,7 +6,7 @@ import {
   HeaderListening,
   TextItem
 } from "../../components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Share, View, Platform } from "react-native";
 import Orientation, {
   PORTRAIT,
@@ -43,13 +43,20 @@ import { heightPercent, logger } from "../../helpers";
 import { speedList } from "./dummy";
 import Video from "react-native-video";
 import { SnackStateProps } from "../../components/atom/Base/types";
+import { useFocusEffect } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { ReduxState } from "@rux";
+import { getProgressByBook, trackProgress } from "../../services";
+
+let newCurrentTIme = 0,
+  newDuration = 0;
 
 export default function Watching({ navigation, route }: any) {
   const { book } = route.params;
   const refRBSheet = useRef();
   const videoPlayer = useRef(null);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTimeOri] = useState(0);
   const [duration, setDuration] = useState(0);
   const [play, setPlay] = useState(false);
   const [speed, setSpeed] = useState(1.0);
@@ -58,6 +65,15 @@ export default function Watching({ navigation, route }: any) {
   const [videoBigbany, setVideoBigbany] = useState({
     uri: "https://api-files.sproutvideo.com/file/069dd8b0181fe6c08f/54cbce85df89c93d/240.mp4"
   });
+
+  const {
+    editProfile: { profile }
+  } = useSelector((state: ReduxState) => state);
+
+  const setCurrentTime = (e: any) => {
+    setCurrentTimeOri(e);
+    newCurrentTIme = e;
+  };
 
   const [indicator, setIndicator] = useState(true);
 
@@ -71,6 +87,7 @@ export default function Watching({ navigation, route }: any) {
   };
 
   const onLoad = (data: any) => {
+    newDuration = Math.round(data.duration);
     setDuration(Math.round(data.duration));
     setIsLoading(false);
     setTimeout(() => {
@@ -203,6 +220,45 @@ export default function Watching({ navigation, route }: any) {
       })
       .catch((err) => {});
   }, []);
+
+  useEffect(() => {
+    getProgressByBook(`${profile.id}-${book.book_title}`, "watching").then(
+      (res: any) => {
+        setCurrentTime(res.data.time);
+      }
+    );
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        let { book_title, book_cover, author } = book;
+        trackProgress(`${profile.id}-${book.book_title}`, {
+          watching: {
+            time: newCurrentTIme || 0,
+            persentase:
+              Math.round((Math.round(newCurrentTIme) / newDuration) * 100) || 0
+          },
+          book_title,
+          book_cover,
+          author,
+          user: profile.id
+        }).then((res) => {
+          newCurrentTIme = 0;
+          newDuration = 0;
+        });
+
+        // console.log(
+        //   "leave",
+        //   Math.round(newCurrentTIme),
+        //   newDuration,
+        //   profile.id,
+        //   book.book_title,
+        //   book
+        // );
+      };
+    }, [])
+  );
 
   const handleOrientation = async (orientation: any) => {
     setLoadRotate(true);
@@ -419,7 +475,7 @@ export default function Watching({ navigation, route }: any) {
                       <View style={styles.boxTextTime}>
                         <TextItem type={"r.14.nc.10"}>
                           {_convertDuration(currentTime)}/
-                          {_convertDuration(duration - currentTime)}
+                          {_convertDuration(duration)}
                         </TextItem>
                         <Button
                           onPress={() => {
@@ -482,7 +538,7 @@ export default function Watching({ navigation, route }: any) {
                     <View style={styles.boxTextTime}>
                       <TextItem type={"r.14.nc.90"}>
                         {_convertDuration(currentTime)}/
-                        {_convertDuration(duration - currentTime)}
+                        {_convertDuration(duration)}
                       </TextItem>
                       <Button
                         onPress={() => {
@@ -536,7 +592,7 @@ export default function Watching({ navigation, route }: any) {
                         onPress={() => navigationTopBar("reading")}
                         style={styles.btnBar}
                       >
-                        <File />
+                        <File stroke={"#FCCF32"} strokeWidth={2} />
                         <TextItem style={styles.titleSelect}>
                           {strings.baca}
                         </TextItem>
@@ -545,7 +601,7 @@ export default function Watching({ navigation, route }: any) {
                         onPress={() => navigationTopBar("listening")}
                         style={styles.btnBar}
                       >
-                        <Headphones />
+                        <Headphones stroke={"#FCCF32"} strokeWidth={2} />
                         <TextItem style={styles.titleSelect}>
                           {strings.dengar}
                         </TextItem>

@@ -6,6 +6,7 @@ import bookRedux from "./book";
 import notifRedux from "./notif";
 import challengeRedux from "./challenge";
 import mainContext from "./main";
+import progressContext from "./progress";
 
 const rootReducer = combineReducers({
   sessionReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   bookRedux,
   notifRedux,
   challengeRedux,
-  mainContext
+  mainContext,
+  progressContext
 });
 
 export type ReduxState = ReturnType<typeof rootReducer>;

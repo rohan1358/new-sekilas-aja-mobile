@@ -7,16 +7,22 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
-import { fetchFavoriteBooks, getTotalFinishingRead } from "../../services";
+import {
+  fetchFavoriteBooks,
+  getAllProgress,
+  getTotalFinishingRead
+} from "../../services";
 import styles from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
 
 const Library = (navigation: any) => {
   const [favorit, setFavorit] = React.useState(0);
   const [totalReading, setTotalReading] = React.useState(0);
+  const [totalProgress, setTotalProgress] = React.useState(0);
 
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const getTotalFavorit = async () => {
@@ -32,6 +38,9 @@ const Library = (navigation: any) => {
 
   useEffect(() => {
     getTotalFavorit();
+    getAllProgress(profile.id).then((res: any) => {
+      setTotalProgress(res.data.length);
+    });
   }, []);
 
   useFocusEffect(
@@ -114,6 +123,18 @@ const Library = (navigation: any) => {
           }
           title={"Shortsku"}
           bookCount={0}
+          icon={<Check stroke={neutralColor[90]} />}
+        />
+        <Gap vertical={sp.sm} />
+
+        <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate("BookListHistoryBrowsing", {
+              type: "doneReading"
+            })
+          }
+          title={"Riwayat Jelajah Buku"}
+          bookCount={totalProgress}
           icon={<Check stroke={neutralColor[90]} />}
         />
       </ScrollView>

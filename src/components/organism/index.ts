@@ -18,11 +18,13 @@ import ReadingHeader from "./ReadingHeader";
 import SearchHeader from "./SearchHeader";
 import ImageBannerWebinar from "./ImageBannerWebinar";
 import BookTileChallenge from "./BookTileChallenge";
+import BookTileHistoryBrowsing from "./BookTileHistoryBrowsing";
 
 export { default as DuoRender } from "./DuoRender";
 export { default as StoryShort } from "./StoryShort";
 
 export {
+  BookTileHistoryBrowsing,
   WebinarSearch,
   AboutHeader,
   BookTile,

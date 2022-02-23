@@ -17,6 +17,7 @@ type MainBottomTabParamList = {
 };
 
 type RootStackParamList = {
+  BookListHistoryBrowsing: undefined;
   Explore: undefined;
   MyShortsList: undefined;
   Challenge: undefined;

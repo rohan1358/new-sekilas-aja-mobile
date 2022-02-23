@@ -6,7 +6,7 @@ import {
   HeaderListening,
   TextItem
 } from "../../components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Share, Platform, Text, View, Dimensions } from "react-native";
 import styles from "./styles";
 import {
@@ -48,11 +48,14 @@ import {
   getBookAudioURL,
   fetchProfile,
   getKilas,
-  getBookCoverImageURL
+  getBookCoverImageURL,
+  trackProgress,
+  getProgressByBook
 } from "../../services/index";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { useFocusEffect } from "@react-navigation/native";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -66,6 +69,10 @@ TrackPlayer.updateOptions({
   compactCapabilities: [Capability.Play, Capability.Pause]
 });
 
+let newValueProgress = 0,
+  newValueDuration = 0,
+  newBab = 1;
+
 export default function Listening({ navigation, route }: any) {
   const { book } = route.params;
   const {
@@ -78,11 +85,24 @@ export default function Listening({ navigation, route }: any) {
   const refRBSheet = useRef();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [speed, setSpeed] = useState(1.0);
-  const [valueProgress, setValue] = useState(0);
+  const [valueProgress, setValueProgress] = useState(0);
   const [titleTrack, setTitle] = useState();
   const [authorTrack, setAuthor] = useState();
-  const [bab, setBab] = useState(0);
+  const [bab, setBabOri] = useState(1);
   const [listBab, setListbab] = useState(false);
+
+  const setBab = async (data: any) => {
+    await setBabOri(data);
+    newBab = bab + 1;
+  };
+
+  const setValue = async (data: any) => {
+    await setValueProgress(data);
+    newValueProgress = valueProgress;
+    if (progress.duration) {
+      newValueDuration = progress.duration;
+    }
+  };
 
   const setupPlayer = async () => {
     const listKilas = await getKilas(book?.book_title);
@@ -96,6 +116,7 @@ export default function Listening({ navigation, route }: any) {
     try {
       await TrackPlayer.setupPlayer();
       await TrackPlayer.add(listSoundTrack);
+      getHistory();
     } catch (error) {
       logger(error);
     }
@@ -209,6 +230,45 @@ export default function Listening({ navigation, route }: any) {
     newGetCover();
   }, []);
 
+  const getHistory = () => {
+    getProgressByBook(`${profile.id}-${book.book_title}`, "listening").then(
+      (res: any) => {
+        const { bab, time } = res.data;
+        TrackPlayer.skip(bab - 1);
+        TrackPlayer.seekTo(time);
+
+        setBab(bab);
+        setValue(time);
+      }
+    );
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        let { book_title, book_cover, author }: any = book;
+        const body = {
+          listening: {
+            time: newValueProgress || 0,
+            persentase:
+              Math.round((newValueProgress / newValueDuration) * 100) || 0,
+            bab: newBab
+          },
+          book_title,
+          book_cover,
+          author,
+          user: profile.id
+        };
+
+        trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
+          newValueProgress = 0;
+          newValueDuration = 0;
+          newBab = 1;
+        });
+      };
+    }, [])
+  );
+
   const navigationTopBar = async (type = "") => {
     switch (type) {
       case "reading":
@@ -230,10 +290,12 @@ export default function Listening({ navigation, route }: any) {
   };
 
   const handleNextBab = () => {
-    if (bab + 1 < listBab.length) setBab(bab + 1);
+    if (bab + 1 <= listBab.length) setBab(bab + 1);
   };
   const handlePrevBab = () => {
-    if (bab - 1 > 0) setBab(bab - 1);
+    if (bab - 1 >= 0) {
+      setBab(bab - 1);
+    }
   };
 
   const [newCover, setNewCover] = useState<any>("");
@@ -256,7 +318,7 @@ export default function Listening({ navigation, route }: any) {
         <HeaderListening
           navigation={navigation}
           onShare={() => onShare()}
-          title={listBab ? listBab[bab]?.title : "bab"}
+          title={listBab ? listBab[bab - 1]?.title : "bab"}
         />
 
         <ScrollView>
@@ -399,7 +461,7 @@ export default function Listening({ navigation, route }: any) {
                   onPress={() => navigationTopBar("reading")}
                   style={styles.btnBar}
                 >
-                  <File />
+                  <File stroke={"#FCCF32"} strokeWidth={2} />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
                 {book.video_link !== "" && (
@@ -407,7 +469,7 @@ export default function Listening({ navigation, route }: any) {
                     onPress={() => navigationTopBar("watching")}
                     style={styles.btnBar}
                   >
-                    <Video />
+                    <Video stroke={"#FCCF32"} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.tonton}
                     </TextItem>

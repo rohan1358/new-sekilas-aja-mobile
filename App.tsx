@@ -12,7 +12,7 @@ const App = () => {
   LogBox.ignoreLogs([
     "Require cycle",
     "Consider refactoring to remove",
-    "Seems like you're using an old API with gesture components",
+    "Seems like you're using an old API with gesture components"
   ]);
 
   const [initializing, setInitializing] = useState(true);

@@ -277,14 +277,14 @@ export default function BookDetail({ navigation, route }: any) {
                   onPress={() => navigationTopBar("reading")}
                   style={styles.btnBar}
                 >
-                  <File />
+                  <File stroke={"#FCCF32"} strokeWidth={2} />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
                 <Button
                   onPress={() => navigationTopBar("listening")}
                   style={styles.btnBar}
                 >
-                  <Headphones />
+                  <Headphones stroke={"#FCCF32"} strokeWidth={2} />
                   <TextItem style={styles.titleSelect}>
                     {strings.dengar}
                   </TextItem>
@@ -294,7 +294,7 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("watching")}
                     style={styles.btnBar}
                   >
-                    <Video />
+                    <Video stroke={"#FCCF32"} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.tonton}
                     </TextItem>
@@ -346,7 +346,7 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("reading")}
                     style={styles.btnBar}
                   >
-                    <File />
+                    <File stroke={"#FCCF32"} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.baca}
                     </TextItem>
@@ -356,7 +356,7 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("listening")}
                     style={styles.btnBar}
                   >
-                    <Headphones />
+                    <Headphones stroke={"#FCCF32"} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.dengar}
                     </TextItem>
@@ -367,7 +367,7 @@ export default function BookDetail({ navigation, route }: any) {
                       onPress={() => navigationTopBar("watching")}
                       style={styles.btnBar}
                     >
-                      <Video />
+                      <Video stroke={"#FCCF32"} strokeWidth={2} />
                       <TextItem style={styles.titleSelect}>
                         {strings.tonton}
                       </TextItem>

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
 
-  container: { width: TILE_WIDTH - 10, marginRight: sp.s },
+  container: { width: TILE_WIDTH - 20, marginRight: sp.s },
 
   detail: { flex: 1 },
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     flexDirection: "row",
-    position: "absolute",
+    // position: "absolute",
     bottom: adjust(10)
   }
 });

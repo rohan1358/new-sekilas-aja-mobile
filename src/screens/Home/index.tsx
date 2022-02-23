@@ -1,11 +1,11 @@
 import {
   closeBottomTab,
   handleCloseModalSubscribe,
+  openBottomTab,
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux,
-  toggleBottomTab
+  setProfileRedux
 } from "@actions";
 import { BookOpen, Mentor, ChallengeIcon, GroupDiscussionIcon } from "@assets";
 import {
@@ -173,6 +173,7 @@ const Home = () => {
   const fetchCategory = async () => {
     try {
       const list = await fetchListCategory();
+      if (!list?.list) return;
       dispatch(setListCategory(list?.list));
     } catch {
       dispatch(setListCategory(false));
@@ -413,19 +414,21 @@ const Home = () => {
     }
   ];
 
-  const storyPress = (title: string) => {
+  const storyPress = async (title: string) => {
+    dispatch(openBottomTab(true));
+
     setShortsColor(storyColors[storyColorIndex]);
 
     setCurrentStory(title);
-    dispatch(toggleBottomTab(true));
     storyRef.current?.open();
   };
 
-  const closeStory = () => {
+  const closeStory = async () => {
+    dispatch(closeBottomTab());
+
     setShortsColor("");
 
     setCurrentStory("");
-    dispatch(closeBottomTab());
     storyRef.current?.close();
   };
 
@@ -477,11 +480,7 @@ const Home = () => {
             </Gap> */}
                   {/* <Gap vertical={sp.sm} /> */}
                   {open && (
-                    <SkeletonContent
-                      layout={skeleton.componentBanner}
-                      isLoading={!isFocused}
-                      containerStyle={styles.skeleton}
-                    >
+                    <>
                       {checkData(carousel) && (
                         <FlatList
                           contentContainerStyle={
@@ -496,7 +495,7 @@ const Home = () => {
                           listKey={"bannerlist"}
                         />
                       )}
-                    </SkeletonContent>
+                    </>
                   )}
 
                   <Gap vertical={sp.m} />
@@ -626,11 +625,7 @@ const Home = () => {
                           showsHorizontalScrollIndicator={false}
                         >
                           <View>
-                            <SkeletonContent
-                              layout={skeleton.componentCategory}
-                              isLoading={!isFocused}
-                              containerStyle={styles.skeleton}
-                            >
+                            <>
                               <View style={styles.row}>
                                 {checkData(listCategory) &&
                                   listCategory
@@ -685,7 +680,7 @@ const Home = () => {
                                       );
                                     })}
                               </View>
-                            </SkeletonContent>
+                            </>
                           </View>
                         </ScrollView>
                       </>
@@ -702,11 +697,7 @@ const Home = () => {
                         </Button>
                       </View>
                       <Gap vertical={sp.sm} />
-                      <SkeletonContent
-                        layout={skeleton.componentRecomended}
-                        isLoading={!isFocused}
-                        containerStyle={styles.skeleton}
-                      >
+                      <>
                         <Gap horizontal={HORIZONTAL_GAP}>
                           <View
                             style={{
@@ -725,7 +716,7 @@ const Home = () => {
                               })}
                           </View>
                         </Gap>
-                      </SkeletonContent>
+                      </>
                       {/* most read */}
                       <>
                         <Gap vertical={sp.sl} />
@@ -744,11 +735,7 @@ const Home = () => {
                           </Button>
                         </View>
                         <Gap vertical={sp.sm} />
-                        <SkeletonContent
-                          layout={skeleton.componentMostRead}
-                          isLoading={!isFocused}
-                          containerStyle={styles.skeleton}
-                        >
+                        <>
                           <Gap horizontal={HORIZONTAL_GAP}>
                             <View
                               style={{
@@ -767,7 +754,7 @@ const Home = () => {
                                 })}
                             </View>
                           </Gap>
-                        </SkeletonContent>
+                        </>
                       </>
                     </>
                   )}

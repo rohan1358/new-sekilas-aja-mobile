@@ -21,15 +21,28 @@ import {
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
 import firestore from "@react-native-firebase/firestore";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
 import {
   fetchBookContent,
   fetchDetailBooks,
-  getBookCoverImageURL
+  getBookCoverImageURL,
+  getProgressByBook,
+  trackProgress
 } from "@services";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import { Share, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
@@ -52,13 +65,18 @@ import { setTrackingLastReadLinten } from "../../services/trackReading";
 const WIDTH = widthPercent(100);
 const ACTION_HIDE = -128;
 
+let newDetailBook = {},
+  newContent = {},
+  newCurrentPage = 0;
+
 const Reading = () => {
   const [toggleTolltip, setToggleTolltip] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, "Reading">>();
 
   const {
-    sessionReducer: { email }
+    sessionReducer: { email },
+    editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useMounted();
@@ -68,11 +86,26 @@ const Reading = () => {
   const actionPosition = useSharedValue(ACTION_HIDE);
   const tipPosition = useSharedValue(-WIDTH / 2);
 
-  const [content, setContent] = useState<BookContentProps | null>();
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [content, setContentOri] = useState<BookContentProps | null>();
+  const [currentPage, setCurrentPageOri] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
-  const [detailBook, setDetailBook] = useState(false);
+  const [detailBook, setDetailBookOri] = useState(false);
+
+  const setDetailBook = (data: any) => {
+    setDetailBookOri(data);
+    newDetailBook = data;
+  };
+
+  const setCurrentPage = async (data: any) => {
+    await setCurrentPageOri(data);
+    newCurrentPage = currentPage + 1;
+  };
+
+  const setContent = (data: any) => {
+    setContentOri(data);
+    newContent = data;
+  };
 
   const actionStyle = useAnimatedStyle(() => ({
     bottom: actionPosition.value
@@ -140,7 +173,8 @@ const Reading = () => {
           //   }
           // });
 
-          setDetailBook({ ...detailBook.data, book_cover });
+          const resDetailBook = { ...detailBook.data, book_cover };
+          setDetailBook(resDetailBook);
         }
       );
     } catch (err) {}
@@ -240,6 +274,40 @@ const Reading = () => {
     fetchListFinishingRead();
   }, []);
 
+  useEffect(() => {
+    getProgressByBook(`${profile.id}-${BOOK_ID}`, "reading").then(
+      (res: any) => {
+        setCurrentPage(res.data.bab - 1);
+      }
+    );
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        let { book_title, book_cover, author }: any = newDetailBook;
+        const body = {
+          reading: {
+            bab: newCurrentPage + 1,
+            persentase: Math.round(
+              ((newCurrentPage + 1) / newContent?.numberOfPage) * 100
+            )
+          },
+          book_title,
+          book_cover,
+          author,
+          user: profile.id
+        };
+
+        trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
+          newDetailBook = {};
+          newContent = {};
+          newCurrentPage = 0;
+        });
+      };
+    }, [])
+  );
+
   const onFinishedInReading = async () => {
     let newData = [...new Set([...listBookFinishingRead, BOOK_ID])];
 
@@ -280,15 +348,18 @@ const Reading = () => {
   };
 
   const onNextPress = async () => {
-    scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
-    setCurrentPage((current) =>
-      current < (content?.numberOfPage || 0) - 1 ? current + 1 : current
-    );
+    if (currentPage + 1 <= content?.numberOfPage) {
+      scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
+
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const onPrevPress = async () => {
-    scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
-    setCurrentPage((current) => (current > 0 ? current - 1 : current));
+    if (currentPage - 1 >= 0) {
+      scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   const onTap = () => {
@@ -428,7 +499,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
               style={s.button}
               onPress={() => navigationTopBar("listening")}
             >
-              <Headphones stroke={primaryColor.main} />
+              <Headphones stroke={primaryColor.main} strokeWidth={2} />
               <Gap horizontal={sp.xs} />
               <TextItem style={s.titleSelect}>{strings.listen}</TextItem>
             </Button>
@@ -438,7 +509,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 onPress={() => navigationTopBar("watching")}
                 style={s.button}
               >
-                <Video stroke={primaryColor.main} />
+                <Video stroke={primaryColor.main} strokeWidth={2} />
                 <Gap horizontal={sp.xs} />
                 <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
               </Button>

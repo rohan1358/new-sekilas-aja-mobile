@@ -1,0 +1,3 @@
+const SET_PROGRESS = "SET_PROGRESS";
+
+export { SET_PROGRESS };
