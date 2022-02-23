@@ -1,4 +1,5 @@
 import {
+  closeBottomTab,
   handleCloseModalSubscribe,
   setBookRecomended,
   setListCategory,
@@ -420,6 +421,14 @@ const Home = () => {
     storyRef.current?.open();
   };
 
+  const closeStory = () => {
+    setShortsColor("");
+
+    setCurrentStory("");
+    dispatch(closeBottomTab());
+    storyRef.current?.close();
+  };
+
   const onLastStoryPress = (id: string) =>
     navigation.navigate("BookDetail", { id });
 
@@ -769,7 +778,7 @@ const Home = () => {
 
             <StoryShort
               ref={storyRef}
-              onEnd={() => setCurrentStory(null)}
+              onEnd={() => closeStory()}
               storyStatus={currentStory}
               storyData={shorts?.find(
                 (item) => item?.book_title === currentStory

@@ -23,7 +23,7 @@ import Animated, {
   withTiming
 } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleBottomTab } from "../../../redux/actions";
+import { closeBottomTab, toggleBottomTab } from "../../../redux/actions";
 import styles from "./style";
 import firestore from "@react-native-firebase/firestore";
 import {
@@ -61,7 +61,7 @@ const StoryShort = forwardRef<any, any>(
       if (storyIndex === storyData?.shorts.length - 1) {
         position.value = withTiming(closePosition);
         onEnd();
-        dispatch(toggleBottomTab(false));
+        dispatch(closeBottomTab());
         setStoryIndex(0);
         return;
       }
@@ -72,7 +72,7 @@ const StoryShort = forwardRef<any, any>(
       onEnd();
       setStoryIndex(0);
       position.value = withTiming(closePosition);
-      dispatch(toggleBottomTab(false));
+      dispatch(closeBottomTab());
     };
 
     const onShare = async () => {

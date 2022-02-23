@@ -14,33 +14,19 @@ import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
-import { toggleBottomTab } from "@actions";
-import {
-  fetchBookByFavorit,
-  fetchDoneReading,
-  fetchMostBooks,
-  fetchRecommendedBooks,
-  fetchReleasedBooks,
-  fetchShorts,
-  fetchTrendBooks,
-  fetchMyShorts
-} from "../../services";
-import { SpecialCategoryProps } from "../../types";
-import { HORIZONTAL_GAP } from "../Explore/values";
-import { CompactBooksProps } from "../Home/types";
+import { closeBottomTab, openBottomTab, toggleBottomTab } from "@actions";
+import { fetchShorts, fetchMyShorts } from "../../services";
 import { checkData, getRandomInt } from "../../utils";
 import styles from "./styles";
 import { SpecialBookListProps } from "./types";
 import ShortsTile from "./../../components/molecule/ShortsTile/index";
 import StoryShort from "./../../components/organism/StoryShort/index";
-import { TextItem } from "@atom";
 
 const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
   const isMounted = useRef<boolean>();
   const storyRef = useRef<any>();
 
   const {
-    sessionReducer: { email },
     editProfile: { profile }
   } = useSelector((state: ReduxState) => state);
   const dispatch = useDispatch();
@@ -111,8 +97,16 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
     setShortsColor(storyColors[storyColorIndex]);
 
     setCurrentStory(title);
-    dispatch(toggleBottomTab(true));
+    dispatch(openBottomTab(true));
     storyRef.current?.open();
+  };
+
+  const closeStory = () => {
+    setShortsColor("");
+
+    setCurrentStory("");
+    dispatch(closeBottomTab());
+    storyRef.current?.close();
   };
 
   const onLastStoryPress = (id: string) =>
@@ -158,8 +152,7 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
       <StoryShort
         ref={storyRef}
         onEnd={() => {
-          setCurrentStory(null);
-          setShortsColor("");
+          closeStory();
         }}
         storyStatus={currentStory}
         storyData={shorts?.find((item) => item?.book_title === currentStory)}

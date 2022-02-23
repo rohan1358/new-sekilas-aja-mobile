@@ -1,4 +1,10 @@
-import { SAVE, CLEAR, TOGGLE_BOTTOM_TAB } from "../actionTypes";
+import {
+  SAVE,
+  CLEAR,
+  TOGGLE_BOTTOM_TAB,
+  OPEN_BOTTOM_TAB,
+  CLOSE_BOTTOM_TAB
+} from "../actionTypes";
 
 interface GeneralReducerIfc {
   keywords: string[];
@@ -7,7 +13,7 @@ interface GeneralReducerIfc {
 
 const initialState: GeneralReducerIfc = {
   keywords: [],
-  isBottomTabHidden: false,
+  isBottomTabHidden: false
 };
 
 const generalReducer = (
@@ -18,7 +24,7 @@ const generalReducer = (
     case SAVE:
       return {
         ...state,
-        keywords: [...new Set([...state.keywords, action.payload])],
+        keywords: [...new Set([...state.keywords, action.payload])]
       };
 
     case CLEAR:
@@ -27,7 +33,17 @@ const generalReducer = (
     case TOGGLE_BOTTOM_TAB:
       return {
         ...state,
-        isBottomTabHidden: action.payload || !state.isBottomTabHidden,
+        isBottomTabHidden: action.payload || !state.isBottomTabHidden
+      };
+    case OPEN_BOTTOM_TAB:
+      return {
+        ...state,
+        isBottomTabHidden: true
+      };
+    case CLOSE_BOTTOM_TAB:
+      return {
+        ...state,
+        isBottomTabHidden: false
       };
 
     default:
