@@ -246,25 +246,27 @@ export default function Listening({ navigation, route }: any) {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        let { book_title, book_cover, author }: any = book;
-        const body = {
-          listening: {
-            time: newValueProgress || 0,
-            persentase:
-              Math.round((newValueProgress / newValueDuration) * 100) || 0,
-            bab: newBab
-          },
-          book_title,
-          book_cover,
-          author,
-          user: profile.id
-        };
+        if (newValueDuration > 0 || newValueProgress > 0) {
+          let { book_title, book_cover, author }: any = book;
+          const body = {
+            listening: {
+              time: newValueProgress || 0,
+              persentase:
+                Math.round((newValueProgress / newValueDuration) * 100) || 0,
+              bab: newBab
+            },
+            book_title,
+            book_cover: book_cover || newCover,
+            author,
+            user: profile.id
+          };
 
-        trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
-          newValueProgress = 0;
-          newValueDuration = 0;
-          newBab = 1;
-        });
+          trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
+            newValueProgress = 0;
+            newValueDuration = 0;
+            newBab = 1;
+          });
+        }
       };
     }, [])
   );

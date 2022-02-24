@@ -67,7 +67,7 @@ const ACTION_HIDE = -128;
 
 let newDetailBook = {},
   newContent = {},
-  newCurrentPage = 0;
+  newCurrentPage = 1;
 
 const Reading = () => {
   const [toggleTolltip, setToggleTolltip] = useState(false);
@@ -87,7 +87,7 @@ const Reading = () => {
   const tipPosition = useSharedValue(-WIDTH / 2);
 
   const [content, setContentOri] = useState<BookContentProps | null>();
-  const [currentPage, setCurrentPageOri] = useState<number>(0);
+  const [currentPage, setCurrentPageOri] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
@@ -99,7 +99,7 @@ const Reading = () => {
 
   const setCurrentPage = async (data: any) => {
     await setCurrentPageOri(data);
-    newCurrentPage = currentPage + 1;
+    newCurrentPage = data;
   };
 
   const setContent = (data: any) => {
@@ -128,7 +128,7 @@ const Reading = () => {
       return;
     }
 
-    setCurrentPage(parseInt(route.params?.page) || 0);
+    setCurrentPage(parseInt(route.params?.page) || 1);
   }, [route.params?.page]);
 
   const closeActions = () => (actionPosition.value = withTiming(0));
@@ -232,7 +232,7 @@ const Reading = () => {
       book: {
         book: detailBook?.book_title,
         book_cover: detailBook?.book_cover,
-        kilas: currentPage + 1
+        kilas: currentPage
       }
     })
       .then((res) => {
@@ -277,7 +277,8 @@ const Reading = () => {
   useEffect(() => {
     getProgressByBook(`${profile.id}-${BOOK_ID}`, "reading").then(
       (res: any) => {
-        setCurrentPage(res.data.bab - 1);
+        let { bab } = res.data;
+        setCurrentPage(bab);
       }
     );
   }, []);
@@ -288,7 +289,7 @@ const Reading = () => {
         let { book_title, book_cover, author }: any = newDetailBook;
         const body = {
           reading: {
-            bab: newCurrentPage + 1,
+            bab: newCurrentPage, // by index, ex. current page = 1 That means 2.
             persentase: Math.round(
               ((newCurrentPage + 1) / newContent?.numberOfPage) * 100
             )
