@@ -93,8 +93,10 @@ export default function Listening({ navigation, route }: any) {
   const [valueProgress, setValueProgress] = useState(0);
   const [titleTrack, setTitle] = useState();
   const [authorTrack, setAuthor] = useState();
-  const [bab, setBabOri] = useState(1);
+  const [bab, setBabOri] = useState(0);
   const [listBab, setListbab] = useState(false);
+
+  const [mounted, setMouted] = useState(false);
 
   const setBab = async (data: any) => {
     await setBabOri(data);
@@ -116,17 +118,14 @@ export default function Listening({ navigation, route }: any) {
 
     const list = await getBookAudioURL(listKilas, book);
 
-    listSoundTrack = list;
-
     axios
       .post(`${baseUrl}/get-audio-duration-one-book`, {
         audio: list
       })
       .then((res) => {
         listSoundTrack = res.data.data;
+        setMouted(true);
       });
-
-    // console.log("list", list);
 
     try {
       await TrackPlayer.setupPlayer();
@@ -277,7 +276,8 @@ export default function Listening({ navigation, route }: any) {
             book_title,
             book_cover: book_cover || newCover,
             author,
-            user: profile.id
+            user: profile.id,
+            date: new Date()
           };
 
           trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
@@ -514,7 +514,7 @@ export default function Listening({ navigation, route }: any) {
                 )}
               </View>
             </View>
-            {checkData(listSoundTrack) &&
+            {checkData(mounted) &&
               listSoundTrack.map((data: any, index: number) => {
                 return (
                   <View

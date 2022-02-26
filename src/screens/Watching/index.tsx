@@ -242,7 +242,8 @@ export default function Watching({ navigation, route }: any) {
           book_title,
           book_cover,
           author,
-          user: profile.id
+          user: profile.id,
+          date: new Date()
         }).then((res) => {
           newCurrentTIme = 0;
           newDuration = 0;

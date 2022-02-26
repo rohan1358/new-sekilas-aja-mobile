@@ -197,7 +197,7 @@ const BookListHistoryBrowsing = ({
         layout={skeleton.mainChallenge}
       >
         <FlatList
-          data={books}
+          data={books?.sort((a, b) => b.date.toDate() - a.date.toDate())}
           keyExtractor={keyExtractor}
           numColumns={1}
           renderItem={renderItem}

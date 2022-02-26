@@ -87,7 +87,7 @@ const Reading = () => {
   const tipPosition = useSharedValue(-WIDTH / 2);
 
   const [content, setContentOri] = useState<BookContentProps | null>();
-  const [currentPage, setCurrentPageOri] = useState<number>(1);
+  const [currentPage, setCurrentPageOri] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
@@ -297,7 +297,8 @@ const Reading = () => {
           book_title,
           book_cover,
           author,
-          user: profile.id
+          user: profile.id,
+          date: new Date()
         };
 
         trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
