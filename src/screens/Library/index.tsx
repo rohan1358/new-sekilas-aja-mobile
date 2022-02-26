@@ -49,9 +49,6 @@ const Library = (navigation: any) => {
   useEffect(() => {
     getTotalShorts();
     getTotalFavorit();
-    getAllProgress(profile.id).then((res: any) => {
-      setTotalProgress(res.data.length);
-    });
   }, []);
 
   useFocusEffect(
@@ -71,10 +68,16 @@ const Library = (navigation: any) => {
         }
       };
 
+      getAllProgress(profile.id).then((res: any) => {
+        setTotalProgress(res.data.length);
+      });
+
       getTotalFavorit();
 
       return () => {
-        getTotalFavorit();
+        setTotalProgress(0);
+        setTotalReading(0);
+        setFavorit(0);
         isActive = false;
       };
     }, [])
