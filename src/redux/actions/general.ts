@@ -20,10 +20,10 @@ const toggleBottomTab = (payload?: boolean) => ({
   payload
 });
 
-const openBottomTab = (payload?: boolean) => ({
+const closeBottomTab = (payload?: boolean) => ({
   type: OPEN_BOTTOM_TAB
 });
-const closeBottomTab = () => ({
+const openBottomTab = () => ({
   type: CLOSE_BOTTOM_TAB
 });
 
@@ -31,6 +31,6 @@ export {
   addSearchHistory,
   clearSearchHistory,
   toggleBottomTab,
-  openBottomTab,
-  closeBottomTab
+  closeBottomTab,
+  openBottomTab
 };

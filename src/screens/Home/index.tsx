@@ -1,7 +1,7 @@
 import {
-  closeBottomTab,
-  handleCloseModalSubscribe,
   openBottomTab,
+  handleCloseModalSubscribe,
+  closeBottomTab,
   setBookRecomended,
   setListCategory,
   setMostReadBook,
@@ -162,11 +162,12 @@ const Home = () => {
   // }, []);
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && !checkData(listCategory)) {
       getReadingBook();
       getHomeData(false);
       fetchCategory();
       getShorts();
+      dispatch(openBottomTab());
     }
   }, [isFocused]);
 
@@ -373,7 +374,10 @@ const Home = () => {
   const onRefresh = async () => {
     setIsRefreshing(true);
     try {
-      Promise.all([getHomeData(true)]);
+      getHomeData(true);
+      getReadingBook();
+      fetchCategory();
+      getShorts();
     } catch (error) {
       logger("onRefresh", error);
     } finally {
@@ -415,7 +419,7 @@ const Home = () => {
   ];
 
   const storyPress = async (title: string) => {
-    dispatch(openBottomTab(true));
+    dispatch(closeBottomTab(true));
 
     setShortsColor(storyColors[storyColorIndex]);
 
@@ -424,7 +428,7 @@ const Home = () => {
   };
 
   const closeStory = async () => {
-    dispatch(closeBottomTab());
+    dispatch(openBottomTab());
 
     setShortsColor("");
 

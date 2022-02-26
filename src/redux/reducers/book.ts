@@ -2,7 +2,8 @@ import { EMAIL, NAMA, PASSWORD, PROFILE } from "../actionTypes";
 import {
   SET_BOOK_RECOMENDED,
   SET_MOST_READ_BOOK,
-  SET_LIST_CATEGORY
+  SET_LIST_CATEGORY,
+  SET_DURATION_AUDIO
 } from "../actionTypes/book";
 import { bookRecomendedStorage, mostBookStorage } from "../store";
 
@@ -19,6 +20,7 @@ interface initialStateItf {
   bookRecomended: any;
   mostReadBook: any;
   listCategory: any;
+  duration: number;
 }
 
 const inisialState: initialStateItf = {
@@ -28,7 +30,8 @@ const inisialState: initialStateItf = {
   profile: null,
   bookRecomended: false,
   mostReadBook: false,
-  listCategory: false
+  listCategory: false,
+  duration: 0
 };
 
 const book = (state = inisialState, action: { type: string; payload: any }) => {
@@ -41,6 +44,12 @@ const book = (state = inisialState, action: { type: string; payload: any }) => {
       return { ...state, mostReadBook: action.payload };
     case SET_LIST_CATEGORY:
       return { ...state, listCategory: action.payload };
+    case SET_DURATION_AUDIO:
+      return {
+        ...state,
+        duration:
+          action.payload === "reset" ? 0 : state.duration + action.payload
+      };
     default:
       return state;
   }

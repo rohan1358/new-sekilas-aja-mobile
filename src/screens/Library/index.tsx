@@ -9,6 +9,7 @@ import { logger } from "../../helpers";
 import { ReduxState } from "../../redux/reducers";
 import {
   fetchFavoriteBooks,
+  fetchMyShorts,
   getAllProgress,
   getTotalFinishingRead
 } from "../../services";
@@ -19,6 +20,7 @@ const Library = (navigation: any) => {
   const [favorit, setFavorit] = React.useState(0);
   const [totalReading, setTotalReading] = React.useState(0);
   const [totalProgress, setTotalProgress] = React.useState(0);
+  const [totalShorts, setTotalShorts] = React.useState(0);
 
   const {
     sessionReducer: { email },
@@ -36,7 +38,16 @@ const Library = (navigation: any) => {
     }
   };
 
+  const getTotalShorts = () => {
+    fetchMyShorts(profile.id).then((res) => {
+      if (Array.isArray(res) && res.length > 0) {
+        setTotalShorts(res.length);
+      }
+    });
+  };
+
   useEffect(() => {
+    getTotalShorts();
     getTotalFavorit();
     getAllProgress(profile.id).then((res: any) => {
       setTotalProgress(res.data.length);
@@ -122,7 +133,7 @@ const Library = (navigation: any) => {
             })
           }
           title={"Shortsku"}
-          bookCount={0}
+          bookCount={totalShorts}
           icon={<Check stroke={neutralColor[90]} />}
         />
         <Gap vertical={sp.sm} />

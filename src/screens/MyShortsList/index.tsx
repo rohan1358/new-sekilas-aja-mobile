@@ -14,7 +14,7 @@ import { FlatList, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
-import { closeBottomTab, openBottomTab } from "@actions";
+import { openBottomTab, closeBottomTab } from "@actions";
 import { fetchShorts, fetchMyShorts } from "../../services";
 import { checkData, getRandomInt } from "../../utils";
 import styles from "./styles";
@@ -97,7 +97,7 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
     setShortsColor(storyColors[storyColorIndex]);
 
     setCurrentStory(title);
-    dispatch(openBottomTab(true));
+    dispatch(closeBottomTab(true));
     storyRef.current?.open();
   };
 
@@ -105,7 +105,7 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
     setShortsColor("");
 
     setCurrentStory("");
-    dispatch(closeBottomTab());
+    dispatch(openBottomTab());
     storyRef.current?.close();
   };
 

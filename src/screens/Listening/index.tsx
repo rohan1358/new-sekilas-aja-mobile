@@ -50,12 +50,16 @@ import {
   getKilas,
   getBookCoverImageURL,
   trackProgress,
-  getProgressByBook
+  getProgressByBook,
+  baseUrl
 } from "../../services/index";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useFocusEffect } from "@react-navigation/native";
+import ListAudio from "./component/ListAudio";
+import { adjust, checkData } from "../../utils";
+import axios from "axios";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -71,7 +75,8 @@ TrackPlayer.updateOptions({
 
 let newValueProgress = 0,
   newValueDuration = 0,
-  newBab = 1;
+  newBab = 0,
+  listSoundTrack: any = false;
 
 export default function Listening({ navigation, route }: any) {
   const { book } = route.params;
@@ -93,7 +98,7 @@ export default function Listening({ navigation, route }: any) {
 
   const setBab = async (data: any) => {
     await setBabOri(data);
-    newBab = bab + 1;
+    newBab = data;
   };
 
   const setValue = async (data: any) => {
@@ -111,11 +116,12 @@ export default function Listening({ navigation, route }: any) {
 
     const list = await getBookAudioURL(listKilas, book);
 
-    const listSoundTrack = list;
+    listSoundTrack = list;
 
     try {
       await TrackPlayer.setupPlayer();
-      await TrackPlayer.add(listSoundTrack);
+      await TrackPlayer.add(list);
+
       getHistory();
     } catch (error) {
       logger(error);
@@ -234,7 +240,7 @@ export default function Listening({ navigation, route }: any) {
     getProgressByBook(`${profile.id}-${book.book_title}`, "listening").then(
       (res: any) => {
         const { bab, time } = res.data;
-        TrackPlayer.skip(bab - 1);
+        TrackPlayer.skip(bab);
         TrackPlayer.seekTo(time);
 
         setBab(bab);
@@ -246,13 +252,16 @@ export default function Listening({ navigation, route }: any) {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (newValueDuration > 0 || newValueProgress > 0) {
+        let persentase =
+          Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0;
+
+        if (persentase > 0) {
           let { book_title, book_cover, author }: any = book;
           const body = {
             listening: {
               time: newValueProgress || 0,
               persentase:
-                Math.round((newValueProgress / newValueDuration) * 100) || 0,
+                Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0,
               bab: newBab
             },
             book_title,
@@ -264,8 +273,9 @@ export default function Listening({ navigation, route }: any) {
           trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
             newValueProgress = 0;
             newValueDuration = 0;
-            newBab = 1;
+            newBab = 0;
           });
+          listSoundTrack = false;
         }
       };
     }, [])
@@ -300,6 +310,21 @@ export default function Listening({ navigation, route }: any) {
     }
   };
 
+  let isRunning = playbackState === State.Playing;
+
+  const handleMoveBab = async (params: any) => {
+    if (isRunning && bab === params) {
+      await TrackPlayer.pause();
+    } else if (bab === params) {
+      await TrackPlayer.play();
+    } else {
+      await TrackPlayer.skip(params);
+      await setBab(params);
+
+      await TrackPlayer.play();
+    }
+  };
+
   const [newCover, setNewCover] = useState<any>("");
 
   const newGetCover = async () => {
@@ -320,7 +345,7 @@ export default function Listening({ navigation, route }: any) {
         <HeaderListening
           navigation={navigation}
           onShare={() => onShare()}
-          title={listBab ? listBab[bab - 1]?.title : "bab"}
+          title={listBab ? listBab[bab]?.title : "bab"}
         />
 
         <ScrollView>
@@ -411,7 +436,7 @@ export default function Listening({ navigation, route }: any) {
                       .substr(14, 5)}
                   </TextItem>
                   <TextItem type={"r.14.nc.90"}>
-                    {new Date((progress.duration - progress.position) * 1000)
+                    {new Date(progress.duration * 1000)
                       .toISOString()
                       .substr(14, 5)}
                   </TextItem>
@@ -479,6 +504,26 @@ export default function Listening({ navigation, route }: any) {
                 )}
               </View>
             </View>
+            {checkData(listSoundTrack) &&
+              listSoundTrack.map((data: any, index: number) => {
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      marginVertical: adjust(5)
+                    }}
+                  >
+                    <ListAudio
+                      onPress={() => {
+                        handleMoveBab(index);
+                      }}
+                      audio={{ ...data, text: listBab[index]?.title }}
+                      id={index}
+                      active={isRunning && index === bab}
+                    />
+                  </View>
+                );
+              })}
           </View>
         </ScrollView>
 

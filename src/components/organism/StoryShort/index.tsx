@@ -23,7 +23,7 @@ import Animated, {
   withTiming
 } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
-import { closeBottomTab } from "../../../redux/actions";
+import { openBottomTab } from "../../../redux/actions";
 import styles from "./style";
 import {
   checkSavedShorts,
@@ -59,7 +59,7 @@ const StoryShort = forwardRef<any, any>(
     const afterAnimate = async () => {
       if (storyIndex === storyData?.shorts.length - 1) {
         position.value = withTiming(closePosition);
-        dispatch(closeBottomTab());
+        dispatch(openBottomTab());
 
         onEnd();
         setStoryIndex(0);
@@ -69,7 +69,7 @@ const StoryShort = forwardRef<any, any>(
     };
 
     const onClosePress = async () => {
-      dispatch(closeBottomTab());
+      dispatch(openBottomTab());
 
       onEnd();
       setStoryIndex(0);

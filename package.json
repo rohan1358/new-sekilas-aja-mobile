@@ -26,6 +26,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "@react-navigation/stack": "^6.0.11",
     "@sanity/client": "^2.23.2",
+    "axios": "^0.26.0",
     "base-64": "^1.0.0",
     "crypto-js": "^4.1.1",
     "moment": "^2.29.1",
