@@ -118,6 +118,16 @@ export default function Listening({ navigation, route }: any) {
 
     listSoundTrack = list;
 
+    axios
+      .post(`${baseUrl}/get-audio-duration-one-book`, {
+        audio: list
+      })
+      .then((res) => {
+        listSoundTrack = res.data.data;
+      });
+
+    // console.log("list", list);
+
     try {
       await TrackPlayer.setupPlayer();
       await TrackPlayer.add(list);

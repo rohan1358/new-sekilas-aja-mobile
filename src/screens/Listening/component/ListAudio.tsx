@@ -65,10 +65,22 @@ const ListAudio = ({ audio, id, onPress, active }: any) => {
                 </TextItem>
               </View>
               <TextItem>
-                {checkData(duration) ? (
-                  <>{new Date(duration * 1000).toISOString().substr(14, 5)}</>
+                {checkData(audio.duration) ? (
+                  <>
+                    {new Date(audio.duration * 1000)
+                      .toISOString()
+                      .substr(14, 5)}
+                  </>
                 ) : (
-                  "duration"
+                  <>
+                    {checkData(duration) ? (
+                      <>
+                        {new Date(duration * 1000).toISOString().substr(14, 5)}
+                      </>
+                    ) : (
+                      "duration"
+                    )}
+                  </>
                 )}
               </TextItem>
             </View>
