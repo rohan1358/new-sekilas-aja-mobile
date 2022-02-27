@@ -1,4 +1,4 @@
-import Assets, { ArrowLeft } from "@assets";
+import Assets, { ArrowLeft, BookmarkDetail } from "@assets";
 import {
   AdaptiveText,
   Amage,
@@ -39,7 +39,8 @@ const StoryShort = forwardRef<any, any>(
       (winWidthPercent(100) - spacer.sl * 2) / storyData?.shorts.length;
 
     const {
-      editProfile: { profile }
+      editProfile: { profile },
+      shortsCOntext: { myShorts }
     } = useSelector((state: ReduxState) => state);
 
     const dispatch = useDispatch();
@@ -111,6 +112,21 @@ const StoryShort = forwardRef<any, any>(
         });
     };
 
+    const newCheckSavedShorts = () => {
+      try {
+        const findDat = myShorts.find(
+          (data: any) => data.book_title === storyData["id"]
+        );
+        let id_shorts = storyData?.shorts[storyIndex]["kilas"];
+        let isSaved = findDat["shorts"].find(
+          (data: any) => data.kilas === id_shorts
+        );
+        return isSaved ? true : false;
+      } catch {
+        return false;
+      }
+    };
+
     return (
       <Animated.View
         style={[
@@ -155,13 +171,15 @@ const StoryShort = forwardRef<any, any>(
               onLongPress={(e) => (paused.value = true)}
               style={{ flex: 1 }}
               onPressOut={() => (paused.value = false)}
-              onPress={({ nativeEvent }) => {
+              onPress={async ({ nativeEvent }) => {
                 const tapPosition = nativeEvent.pageX;
                 const isLeft = tapPosition < winWidthPercent(40);
                 if (isLeft) {
                   if (storyIndex === 0) {
                     onEnd();
                     setStoryIndex(0);
+                    // newCheckSavedShorts();
+
                     position.value = withTiming(closePosition);
                     return;
                   }
@@ -170,7 +188,10 @@ const StoryShort = forwardRef<any, any>(
                   if (storyIndex === storyData?.shorts.length - 1) {
                     onEnd();
                     setStoryIndex(0);
+                    // newCheckSavedShorts();
+
                     position.value = withTiming(closePosition);
+
                     return;
                   }
                   setStoryIndex((current) => current + 1);
@@ -250,11 +271,19 @@ const StoryShort = forwardRef<any, any>(
                   >
                     <TextItem type="b.16.nc.10">Simpan</TextItem>
                     <Gap horizontal={spacer.xxs} />
-                    <Assets.svg.Bookmark
-                      stroke={neutralColor["10"]}
-                      width={16}
-                      height={16}
-                    />
+                    {newCheckSavedShorts() ? (
+                      <BookmarkDetail
+                        width={16}
+                        height={16}
+                        color={neutralColor["10"]}
+                      />
+                    ) : (
+                      <Assets.svg.Bookmark
+                        stroke={neutralColor["10"]}
+                        width={16}
+                        height={16}
+                      />
+                    )}
                   </Button>
                 </View>
               )}

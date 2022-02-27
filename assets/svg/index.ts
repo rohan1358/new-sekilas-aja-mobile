@@ -88,12 +88,14 @@ import Mentor from "./Mentor.svg";
 import Calendar from "./calendar.svg";
 import ChallengeIcon from "./ChallengeIcon.svg";
 import GroupDiscussionIcon from "./GroupDiscussionIcon.svg";
+import Film from "./Film.svg";
 
 const svg = { Cross, CloseX, ShareIcon, Bookmark };
 
 export default svg;
 
 export {
+  Film,
   GroupDiscussionIcon,
   ChallengeIcon,
   Calendar,
@@ -182,5 +184,5 @@ export {
   SkipBackFullScreen,
   SkipForwardFullScreen,
   NotifyActive,
-  Mentor,
+  Mentor
 };

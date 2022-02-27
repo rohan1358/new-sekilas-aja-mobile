@@ -104,8 +104,8 @@ export default function Listening({ navigation, route }: any) {
   };
 
   const setValue = async (data: any) => {
-    await setValueProgress(data);
-    newValueProgress = valueProgress;
+    // await setValueProgress(data);
+    newValueProgress = data;
     if (progress.duration) {
       newValueDuration = progress.duration;
     }
@@ -203,7 +203,7 @@ export default function Listening({ navigation, route }: any) {
     }
   };
 
-  const handleSleder = async (value) => {
+  const handleSleder = async (value: any) => {
     await TrackPlayer.seekTo(value);
     setValue(value);
   };
@@ -422,7 +422,7 @@ export default function Listening({ navigation, route }: any) {
             <TextItem style={[styles.text]}>{authorTrack}</TextItem>
             <View>
               <Slider
-                value={valueProgress}
+                value={newValueProgress}
                 containerStyle={styles.SliderContainer}
                 minimumValue={0}
                 maximumValue={progress.duration}

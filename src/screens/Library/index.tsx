@@ -1,4 +1,4 @@
-import { Bookmark, Check, Download, Heart, Search } from "@assets";
+import { Bookmark, Check, Clock, Download, Film, Heart, Search } from "@assets";
 import { Base, Button, Gap, LibraryMenu, TextItem } from "@components";
 import { neutralColor, primaryColor, spacing as sp, strings } from "@constants";
 import React, { useCallback, useEffect } from "react";
@@ -137,7 +137,7 @@ const Library = (navigation: any) => {
           }
           title={"Shortsku"}
           bookCount={totalShorts}
-          icon={<Check stroke={neutralColor[90]} />}
+          icon={<Film stroke={neutralColor[90]} />}
         />
         <Gap vertical={sp.sm} />
 
@@ -149,7 +149,7 @@ const Library = (navigation: any) => {
           }
           title={"Riwayat Jelajah Buku"}
           bookCount={totalProgress}
-          icon={<Check stroke={neutralColor[90]} />}
+          icon={<Clock stroke={neutralColor[90]} />}
         />
       </ScrollView>
     </Base>

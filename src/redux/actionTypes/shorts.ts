@@ -1,0 +1,2 @@
+const SET_MY_SHORTS = "SET_MY_SHORTS";
+export { SET_MY_SHORTS };

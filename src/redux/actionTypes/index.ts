@@ -6,3 +6,4 @@ export * from "./notif";
 export * from "./challenge";
 export * from "./main";
 export * from "./progress";
+export * from "./shorts";

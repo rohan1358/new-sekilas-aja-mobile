@@ -5,7 +5,8 @@ import {
   setBookRecomended,
   setListCategory,
   setMostReadBook,
-  setProfileRedux
+  setProfileRedux,
+  setMyShorts
 } from "@actions";
 import { BookOpen, Mentor, ChallengeIcon, GroupDiscussionIcon } from "@assets";
 import {
@@ -23,6 +24,8 @@ import {
   TextItem,
   ModalSubscribe
 } from "@components";
+import firestore from "@react-native-firebase/firestore";
+
 import {
   dangerColor,
   neutralColor,
@@ -106,7 +109,8 @@ const Home = () => {
   const {
     sessionReducer: { email, isLogin },
     bookRedux: { bookRecomended, mostReadBook, listCategory },
-    editProfile: { profile }
+    editProfile: { profile },
+    shortsCOntext: { myShorts }
   } = useSelector((state: ReduxState) => state);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -166,9 +170,9 @@ const Home = () => {
       getReadingBook();
       getHomeData(false);
       fetchCategory();
-      getShorts();
     }
     dispatch(openBottomTab());
+    getShorts();
   }, [isFocused]);
 
   const fetchCategory = async () => {
@@ -271,6 +275,96 @@ const Home = () => {
       };
     }, [])
   );
+
+  const fetchMyShorts = (idUser?: any) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const newGroupArrays = (data: any) => {
+          return new Promise((resolve) => {
+            let results = Object.keys(data).map((books: any) => {
+              let id_shorts = data[books].map((cb: any) => {
+                return cb.id_shorts;
+              });
+              return {
+                books,
+                id_shorts,
+                shorts: data[books],
+                shorts_cover: data[books][0]["shorts_cover"]
+              };
+            });
+            resolve(results);
+          });
+        };
+
+        const newGroupingBook = (data: any) => {
+          return new Promise((resolve) => {
+            const groups = data.reduce((groups: any, shorts: any) => {
+              const books = shorts.shorts_books;
+              if (!groups[books]) {
+                groups[books] = [];
+              }
+              groups[books].push(shorts);
+              return groups;
+            }, {});
+            resolve(groups);
+          });
+        };
+
+        const fireShorts = firestore().collection("myShorts");
+
+        fireShorts.where("user", "==", idUser).onSnapshot((res) => {
+          const results = res.docs.map((cb) => {
+            return {
+              ...cb.data(),
+              id: cb.id
+            };
+          });
+          newGroupingBook(results).then((res) => {
+            newGroupArrays(res).then(async (cbGa) => {
+              if (Array.isArray(cbGa)) {
+                const resultsPromise = await Promise.all(
+                  cbGa.map(async (data) => {
+                    const shortList = await firestore()
+                      .collection("books")
+                      .doc(data.books)
+                      .collection("shorts")
+                      .where("kilas", "in", data.id_shorts)
+                      .get()
+                      .then((myShort: any) => {
+                        const results = myShort.docs.map((cb: any) => {
+                          return {
+                            ...cb.data(),
+                            id: cb.id
+                          };
+                        });
+
+                        return results;
+                      });
+
+                    const results = {
+                      book_title: data.books,
+                      shorts: shortList,
+                      book_cover: data.shorts_cover,
+                      id: data.books
+                    };
+
+                    return results;
+                  })
+                );
+
+                dispatch(setMyShorts(resultsPromise));
+                resolve(resultsPromise);
+              }
+            });
+          });
+        });
+      } catch {}
+    });
+  };
+
+  useEffect(() => {
+    fetchMyShorts(profile.id);
+  }, []);
 
   const getHomeData = async (isRefresh: any) => {
     setIsLoading(true);
@@ -480,7 +574,7 @@ const Home = () => {
 
                 <View style={styles.adjuster}>
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
-              <TextItem type="b.24.nc.90">{strings.weekNewCollection}</TextItem>
+              <AdaptiveText type="text3xl/black" textColor={neutralColor["90"]}>{strings.weekNewCollection}</AdaptiveText>
             </Gap> */}
                   {/* <Gap vertical={sp.sm} /> */}
                   {open && (
@@ -504,7 +598,7 @@ const Home = () => {
 
                   <Gap vertical={sp.m} />
                   {/* <Gap horizontal={HORIZONTAL_GAP}>
-              <TextItem type="b.24.nc.90">{strings.bookCollections}</TextItem>
+              <AdaptiveText type="text3xl/black" textColor={neutralColor["90"]}>{strings.bookCollections}</AdaptiveText>
               <TextItem type="r.14.nc.70">
                 {strings.bookCollectionsDesc}
               </TextItem>
@@ -619,9 +713,12 @@ const Home = () => {
                     <>
                       <>
                         <Gap horizontal={HORIZONTAL_GAP}>
-                          <TextItem type="b.24.nc.90">
+                          <AdaptiveText
+                            type="text3xl/black"
+                            textColor={neutralColor["90"]}
+                          >
                             {strings.bookCategory}
-                          </TextItem>
+                          </AdaptiveText>
                         </Gap>
                         <Gap vertical={sp.sm} />
                         <ScrollView
@@ -690,9 +787,13 @@ const Home = () => {
                       </>
                       <Gap vertical={sp.sl} />
                       <View style={styles.clickTitle}>
-                        <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                        <AdaptiveText
+                          type="text3xl/black"
+                          textColor={neutralColor["90"]}
+                          // style={styles.longTitle}
+                        >
                           {strings.recommendedBook}
-                        </TextItem>
+                        </AdaptiveText>
                         <Gap horizontal={20} />
                         <Button onPress={onPressRecommend}>
                           <TextItem type="b.14.nc.90" style={styles.underline}>
@@ -725,9 +826,13 @@ const Home = () => {
                       <>
                         <Gap vertical={sp.sl} />
                         <View style={styles.clickTitle}>
-                          <TextItem type="b.24.nc.90" style={styles.longTitle}>
+                          <AdaptiveText
+                            textColor={neutralColor["90"]}
+                            type="text3xl/black"
+                            // style={styles.longTitle}
+                          >
                             {strings.mostRead}
-                          </TextItem>
+                          </AdaptiveText>
                           <Gap horizontal={20} />
                           <Button onPress={onMostReadPress}>
                             <TextItem

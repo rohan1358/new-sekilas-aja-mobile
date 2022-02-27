@@ -7,6 +7,7 @@ import notifRedux from "./notif";
 import challengeRedux from "./challenge";
 import mainContext from "./main";
 import progressContext from "./progress";
+import shortsCOntext from "./shorts";
 
 const rootReducer = combineReducers({
   sessionReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   notifRedux,
   challengeRedux,
   mainContext,
-  progressContext
+  progressContext,
+  shortsCOntext
 });
 
 export type ReduxState = ReturnType<typeof rootReducer>;

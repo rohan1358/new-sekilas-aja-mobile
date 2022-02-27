@@ -20,29 +20,6 @@ export const checkSavedShorts = (body?: any) => {
 export const fetchMyShorts = (idUser?: any) => {
   return new Promise((resolve, reject) => {
     try {
-      // const groups = data.reduce((groups: any, shorts: any) => {
-      //   const books = shorts.shorts_books;
-      //   if (!groups[books]) {
-      //     groups[books] = [];
-      //   }
-      //   groups[books].push(shorts);
-      //   return groups;
-      // }, {});
-
-      // const groupArrays = Object.keys(groups).map((books: any) => {
-      //   console.log("books", books);
-      //   let is_shorts = groups[books].map((cb: any) => {
-      //     return cb.id_shorts;
-      //   });
-      //   return {
-      //     books,
-      //     is_shorts,
-      //     shorts: groups[books]
-      //   };
-      // });
-
-      // console.log("groupArrays", JSON.stringify(groupArrays), "groups", groups);
-
       const newGroupArrays = (data: any) => {
         return new Promise((resolve) => {
           let results = Object.keys(data).map((books: any) => {
