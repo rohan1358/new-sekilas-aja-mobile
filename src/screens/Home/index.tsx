@@ -167,8 +167,8 @@ const Home = () => {
       getHomeData(false);
       fetchCategory();
       getShorts();
-      dispatch(openBottomTab());
     }
+    dispatch(openBottomTab());
   }, [isFocused]);
 
   const fetchCategory = async () => {
