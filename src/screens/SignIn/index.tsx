@@ -137,11 +137,10 @@ const SignIn = ({ navigation }: any) => {
 
         const profile = await fetchProfile(email, res.user.uid);
 
-        navigation.replace(pages.Home);
-
         dispatch(setProfileRedux(profile.data));
 
         dispatch(loggingIn({ isLogin: true, email }));
+        navigation.replace(pages.Home);
       })
       .catch((error) => {
         if (error.code === "auth/user-not-found") {
