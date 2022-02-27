@@ -514,6 +514,7 @@ export default function Listening({ navigation, route }: any) {
                 )}
               </View>
             </View>
+
             {checkData(mounted) &&
               listSoundTrack.map((data: any, index: number) => {
                 return (

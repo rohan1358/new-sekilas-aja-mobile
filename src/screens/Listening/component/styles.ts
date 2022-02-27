@@ -9,15 +9,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
-    width: 50,
-    height: 50
+    width: adjust(40),
+    height: adjust(40)
   },
   iconPlay: {
     marginLeft: 5
   },
   titleAudio: {
     flex: 1,
-    justifyContent: "center",
     marginHorizontal: adjust(5)
   }
 });
