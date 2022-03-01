@@ -786,15 +786,18 @@ const Home = () => {
                         </ScrollView>
                       </>
                       <Gap vertical={sp.sl} />
-                      <View style={styles.clickTitle}>
-                        <AdaptiveText
-                          type="text3xl/black"
-                          textColor={neutralColor["90"]}
-                          // style={styles.longTitle}
-                        >
-                          {strings.recommendedBook}
-                        </AdaptiveText>
-                        <Gap horizontal={20} />
+                      <View style={[styles.clickTitle]}>
+                        <View style={{ maxWidth: "60%" }}>
+                          <AdaptiveText
+                            type="text3xl/black"
+                            textColor={neutralColor["90"]}
+                            // style={styles.longTitle}
+                          >
+                            {strings.recommendedBook}
+                          </AdaptiveText>
+                        </View>
+
+                        <Gap horizontal={10} />
                         <Button onPress={onPressRecommend}>
                           <TextItem type="b.14.nc.90" style={styles.underline}>
                             {strings.seeAll}
@@ -825,15 +828,16 @@ const Home = () => {
                       {/* most read */}
                       <>
                         <Gap vertical={sp.sl} />
-                        <View style={styles.clickTitle}>
-                          <AdaptiveText
-                            textColor={neutralColor["90"]}
-                            type="text3xl/black"
-                            // style={styles.longTitle}
-                          >
-                            {strings.mostRead}
-                          </AdaptiveText>
-                          <Gap horizontal={20} />
+                        <View style={[styles.clickTitle]}>
+                          <View style={{ maxWidth: "60%" }}>
+                            <AdaptiveText
+                              textColor={neutralColor["90"]}
+                              type="text3xl/black"
+                            >
+                              {strings.mostRead}
+                            </AdaptiveText>
+                          </View>
+                          <Gap horizontal={10} />
                           <Button onPress={onMostReadPress}>
                             <TextItem
                               type="b.14.nc.90"

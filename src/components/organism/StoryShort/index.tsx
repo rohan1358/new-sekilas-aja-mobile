@@ -282,7 +282,9 @@ const StoryShort = forwardRef<any, any>(
                     }}
                     style={styles.footerButton}
                   >
-                    <TextItem type="b.16.nc.10">Simpan</TextItem>
+                    <TextItem type="b.16.nc.10">
+                      {newCheckSavedShorts() ? "Simpan" : "Tersimpan"}{" "}
+                    </TextItem>
                     <Gap horizontal={spacer.xxs} />
                     {newCheckSavedShorts() ? (
                       <BookmarkDetail
