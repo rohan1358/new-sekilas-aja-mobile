@@ -199,17 +199,30 @@ const StoryShort = forwardRef<any, any>(
               }}
             >
               <Animated.View style={styles.content}>
-                {storyData?.shorts[storyIndex]?.details.map(
-                  (item: string, index: number) => (
-                    <View style={{ width: "100%" }} key={`${item}${index}`}>
+                {Array.isArray(storyData?.shorts[storyIndex]?.details) ? (
+                  storyData?.shorts[storyIndex]?.details.map(
+                    (item: string, index: number) => (
+                      <View style={{ width: "100%" }} key={`${item}${index}`}>
+                        <AdaptiveText
+                          type="text3xl/black"
+                          textColor={neutralColor["10"]}
+                        >
+                          {item}
+                        </AdaptiveText>
+                      </View>
+                    )
+                  )
+                ) : (
+                  <>
+                    <View style={{ width: "100%" }}>
                       <AdaptiveText
                         type="text3xl/black"
                         textColor={neutralColor["10"]}
                       >
-                        {item}
+                        {storyData?.shorts[storyIndex]?.details}
                       </AdaptiveText>
                     </View>
-                  )
+                  </>
                 )}
               </Animated.View>
             </Pressable>
