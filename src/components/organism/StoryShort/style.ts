@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
   container: {
     width: winWidthPercent(100),
-    height: winHeightPercent(100),
+    height: "100%",
     position: "absolute",
     zIndex: 1000,
     paddingHorizontal: spacer.sl,

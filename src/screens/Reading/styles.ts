@@ -33,7 +33,9 @@ const styles = ({
       paddingHorizontal: sp.sm
     },
 
-    contentContainerStyle: { paddingHorizontal: sp.sl },
+    contentContainerStyle: {
+      // paddingHorizontal: sp.sl
+    },
 
     linearGradient: {
       width: "100%",

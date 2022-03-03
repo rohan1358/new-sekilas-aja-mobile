@@ -17,6 +17,7 @@ import {
   skeleton,
   snackState as ss,
   spacing as sp,
+  spacing,
   strings
 } from "@constants";
 import { logger, useMounted, widthPercent } from "@helpers";
@@ -44,7 +45,7 @@ import React, {
   useState
 } from "react";
 import { Share, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   useAnimatedStyle,
@@ -54,7 +55,7 @@ import Animated, {
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useSelector } from "react-redux";
 import { RootStackParamList } from "src/types";
-import { checkData } from "../../utils";
+import { adjust, checkData } from "../../utils";
 import {
   HeaderStateProps,
   SnackStateProps
@@ -82,6 +83,7 @@ const Reading = () => {
   const isMounted = useMounted();
   const overlayRef = useRef<any>();
   const scrollRef = useRef<FlatList<any>>();
+  const contentRef = useRef<FlatList<any>>();
 
   const actionPosition = useSharedValue(ACTION_HIDE);
   const tipPosition = useSharedValue(-WIDTH / 2);
@@ -91,6 +93,8 @@ const Reading = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
+
+  let [page, setPage] = useState(0);
 
   const setDetailBook = (data: any) => {
     setDetailBookOri(data);
@@ -216,7 +220,7 @@ const Reading = () => {
 
   const isOnLastPage = currentPage === (content?.numberOfPage || 0) - 1;
 
-  const keyExtractor = (item: string) => `${item}`;
+  // const keyExtractor = (item: string) => `${item}`;
 
   const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
 
@@ -279,6 +283,12 @@ const Reading = () => {
       (res: any) => {
         let { bab } = res.data;
         setCurrentPage(bab);
+
+        contentRef.current?.scrollTo({
+          x: widthPercent(100) * bab,
+          y: 0,
+          animated: true
+        });
       }
     );
   }, []);
@@ -351,16 +361,33 @@ const Reading = () => {
 
   const onNextPress = async () => {
     if (currentPage + 1 <= content?.numberOfPage) {
-      scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
+      let newCurrent = currentPage + 1;
+      let slide = widthPercent(100) * newCurrent;
+      setPage(slide);
 
-      setCurrentPage(currentPage + 1);
+      setCurrentPage(newCurrent);
+
+      contentRef.current?.scrollTo({
+        x: slide,
+        y: 0,
+        animated: true
+      });
     }
   };
 
   const onPrevPress = async () => {
     if (currentPage - 1 >= 0) {
-      scrollRef.current?.scrollToOffset({ animated: false, offset: 0 });
-      setCurrentPage(currentPage - 1);
+      let newCurrent = currentPage - 1;
+      let slide = widthPercent(100) * newCurrent;
+      setPage(slide);
+
+      setCurrentPage(newCurrent);
+
+      contentRef.current?.scrollTo({
+        x: slide,
+        y: 0,
+        animated: true
+      });
     }
   };
 
@@ -370,11 +397,15 @@ const Reading = () => {
     closeTolltip();
   };
 
-  const renderItem = ({ item }: { item: string }) => (
-    <View>
-      <TextItem type="r.16.nc.70">{item}</TextItem>
-      <Gap vertical={sp.sm} />
-    </View>
+  const NewRenderItem = ({ item }: { item: any }) => (
+    <>
+      <View style={{ width: widthPercent(100), paddingHorizontal: spacing.sl }}>
+        <TextItem type="b.32.nc.100">{item.title}</TextItem>
+        <Gap vertical={sp.sl} />
+
+        <TextItem type="r.16.nc.70">{item.details}</TextItem>
+      </View>
+    </>
   );
 
   const onShare = async () => {
@@ -446,6 +477,17 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
 
   const s = styles({ isOnFirstPage, isOnLastPage });
 
+  const handleSetIndex = async (e: any) => {
+    const contentOffset = e.nativeEvent.contentOffset.x;
+
+    if (contentOffset > page) {
+      await onNextPress();
+    } else if (contentOffset < page) {
+      await onPrevPress();
+    }
+    setPage(contentOffset);
+  };
+
   return (
     <>
       <Base {...{ headerState, snackState, setSnackState }}>
@@ -456,8 +498,9 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
         >
           <DuoRender isRenderMain={!!content} falseComponent={falseComponent}>
             <DummyFlatList
+              scrollEnabled
               contentContainerStyle={s.contentContainerStyle}
-              ref={scrollRef}
+              // ref={scrollRef}
             >
               <Gap vertical={sp.sl} />
               <PageController
@@ -470,13 +513,20 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 }}
               />
               <Gap vertical={36} />
-              <TextItem type="b.32.nc.100">{currentTitle}</TextItem>
-              <Gap vertical={sp.sl} />
-              <FlatList
-                data={content?.pageContent[currentPage]?.details}
-                keyExtractor={keyExtractor}
-                renderItem={renderItem}
-              />
+
+              <ScrollView
+                ref={contentRef}
+                decelerationRate={0}
+                pagingEnabled={true}
+                snapToAlignment={"center"}
+                horizontal={true}
+                onMomentumScrollEnd={handleSetIndex}
+                showsHorizontalScrollIndicator={false}
+              >
+                {content?.pageContent.map((data) => {
+                  return <NewRenderItem item={data} />;
+                })}
+              </ScrollView>
               <Gap vertical={sp.sl} />
               <PageController
                 {...{
@@ -487,6 +537,13 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                   onPrevPress
                 }}
               />
+
+              {/* <FlatList
+                data={content?.pageContent[currentPage]?.details}
+                keyExtractor={keyExtractor}
+                renderItem={renderItem}
+              /> */}
+
               <Gap vertical={sp.xl * 3} />
             </DummyFlatList>
           </DuoRender>

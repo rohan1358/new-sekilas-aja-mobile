@@ -8,7 +8,13 @@ import {
   TextItem
 } from "@atom";
 import { neutralColor, spacer } from "@constants";
-import { logger, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
+import {
+  heightPercent,
+  logger,
+  widthDp,
+  winHeightPercent,
+  winWidthPercent
+} from "@helpers";
 import { ReduxState } from "@rux";
 import React, {
   forwardRef,
@@ -32,7 +38,7 @@ import {
 } from "../../../services/shorts";
 import { adjust } from "../../../utils";
 
-const closePosition = winHeightPercent(100);
+const closePosition = heightPercent(100);
 const openPosition = 0;
 const StoryShort = forwardRef<any, any>(
   ({ onEnd, storyStatus, storyData, color, onLastStoryPress }, ref) => {
@@ -46,6 +52,7 @@ const StoryShort = forwardRef<any, any>(
 
     const dispatch = useDispatch();
     const position = useSharedValue(closePosition);
+
     const paused = useSharedValue(false);
     const containerStyle = useAnimatedStyle(() => ({
       transform: [{ translateY: position.value }]
@@ -135,8 +142,6 @@ const StoryShort = forwardRef<any, any>(
           0
         )
       : 0;
-
-    console.log("sumWithInitial", sumWithInitial);
 
     const [textLength, setTextLength] = useState(0);
 

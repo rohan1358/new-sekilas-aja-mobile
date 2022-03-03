@@ -138,14 +138,14 @@ android {
         versionName "0.0.50"
         multiDexEnabled true
     }
-    // splits {
-    //     abi {
-    //         reset()
-    //         enable enableSeparateBuildPerCPUArchitecture
-    //         universalApk false  // If true, also generate a universal APK (set false to testing internal)
-    //         include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-    //     }
-    // }
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK (set false to testing internal)
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
+    }
     signingConfigs {
         release {
             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
