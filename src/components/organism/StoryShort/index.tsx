@@ -169,7 +169,7 @@ const StoryShort = forwardRef<any, any>(
           { backgroundColor: !!storyStatus ? color : neutralColor["10"] }
         ]}
       >
-        <Gap vertical={spacer.sm} />
+        <Gap vertical={spacer.xs} />
 
         {!!storyStatus ? (
           <Fragment>
@@ -177,14 +177,14 @@ const StoryShort = forwardRef<any, any>(
               <Button style={styles.iconButton} onPress={onClosePress}>
                 <Assets.svg.CloseX stroke={neutralColor["10"]} />
               </Button>
-              <Gap horizontal={spacer.sm} />
+              <Gap horizontal={spacer.xs} />
               <View style={{ flex: 1 }}>
                 <TextItem type="b.20.nc.10" numberOfLines={1}>
                   {storyStatus}
                 </TextItem>
               </View>
             </View>
-            <Gap vertical={spacer.sm} />
+            <Gap vertical={spacer.xs} />
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
