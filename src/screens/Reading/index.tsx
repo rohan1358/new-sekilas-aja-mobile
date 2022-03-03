@@ -284,8 +284,12 @@ const Reading = () => {
         let { bab } = res.data;
         setCurrentPage(bab);
 
+        let slide = widthPercent(100) * bab;
+
+        setPage(slide);
+
         contentRef.current?.scrollTo({
-          x: widthPercent(100) * bab,
+          x: slide,
           y: 0,
           animated: true
         });
