@@ -106,40 +106,6 @@ const Library = (navigation: any) => {
           icon={<Download stroke={neutralColor[90]} />}
         />
         <Gap vertical={sp.sm} /> */}
-        <LibraryMenu
-          action={() =>
-            navigation.navigation.navigate("SpecialBookList", {
-              type: "myFavorite"
-            })
-          }
-          title={strings.favBooks}
-          bookCount={favorit}
-          icon={<Bookmark stroke={neutralColor[90]} width={24} height={24} />}
-        />
-        <Gap vertical={sp.sm} />
-        <LibraryMenu
-          action={() =>
-            navigation.navigation.navigate("SpecialBookList", {
-              type: "doneReading"
-            })
-          }
-          title={strings.finishedBooks}
-          bookCount={totalReading}
-          icon={<Check stroke={neutralColor[90]} />}
-        />
-        <Gap vertical={sp.sm} />
-
-        <LibraryMenu
-          action={() =>
-            navigation.navigation.navigate("MyShortsList", {
-              type: "doneReading"
-            })
-          }
-          title={"Shortsku"}
-          bookCount={totalShorts}
-          icon={<Film stroke={neutralColor[90]} />}
-        />
-        <Gap vertical={sp.sm} />
 
         <LibraryMenu
           action={() =>
@@ -150,6 +116,45 @@ const Library = (navigation: any) => {
           title={"Riwayat Jelajah Buku"}
           bookCount={totalProgress}
           icon={<Clock stroke={neutralColor[90]} />}
+        />
+
+        <Gap vertical={sp.sm} />
+
+        <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate("SpecialBookList", {
+              type: "myFavorite"
+            })
+          }
+          title={strings.favBooks}
+          bookCount={favorit}
+          icon={<Bookmark stroke={neutralColor[90]} width={24} height={24} />}
+        />
+
+        <Gap vertical={sp.sm} />
+
+        <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate("MyShortsList", {
+              type: "doneReading"
+            })
+          }
+          title={"Shorts Favoritku"}
+          bookCount={totalShorts}
+          icon={<Film stroke={neutralColor[90]} />}
+        />
+
+        <Gap vertical={sp.sm} />
+
+        <LibraryMenu
+          action={() =>
+            navigation.navigation.navigate("SpecialBookList", {
+              type: "doneReading"
+            })
+          }
+          title={strings.finishedBooks}
+          bookCount={totalReading}
+          icon={<Check stroke={neutralColor[90]} />}
         />
       </ScrollView>
     </Base>
