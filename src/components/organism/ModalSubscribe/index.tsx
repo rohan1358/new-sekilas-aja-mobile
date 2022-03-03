@@ -112,14 +112,12 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${
-              strings.rp
-            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${strings.rp
+              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${
-            strings.rp
-          }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
+          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${strings.rp
+            }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
             {strings.pembayaran_langsung + item.month + strings.didepan}
           </TextItem>
@@ -145,9 +143,8 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${
-              strings.rp
-            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${strings.rp
+              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
@@ -204,69 +201,69 @@ export default function ModalSubscribe({
                 </TextItem>
                 <View style={styles.boxWhite}>
                   {/* <View style={styles.list}>
-                <Check color={neutralColor[70]} />
-                <TextItem type="r.14.nc.70" style={styles.textList}>
+                // <Check color={neutralColor[70]} />
+                <TextItem type="r.16.nc.70" style={styles.textList}>
                   {strings.akses_online}
                 </TextItem>
               </View> */}
                   <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.kilas_buku}
+                    {/* <Check color={neutralColor[70]} /> */}
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                      ✔️ {strings.kilas_buku}
                     </TextItem>
                   </View>
                   <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.akses_penuh}
+                    {/* <Check color={neutralColor[70]} /> */}
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                      ✔️ {strings.akses_penuh}
                     </TextItem>
                   </View>
                   <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.membuka_semua}
-                    </TextItem>
-                  </View>
-
-                  <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.bentuk_tersedia}
+                    {/* <Check color={neutralColor[70]} /> */}
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                      ✔️ {strings.membuka_semua}
                     </TextItem>
                   </View>
 
                   <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.belajar_live}
+                    {/* <Check color={neutralColor[70]} /> */}
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                      ✔️ {strings.bentuk_tersedia}
                     </TextItem>
                   </View>
 
-                  <View style={styles.list}>
+                  {/* <View style={styles.list}>
                     <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                    ✔️ {strings.belajar_live}
+                    </TextItem>
+                  </View> */}
+
+                  {/* <View style={styles.list}>
+                    // <Check color={neutralColor[70]} />
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
                       {strings.webinar_gratis}
                     </TextItem>
-                  </View>
+                  </View> */}
 
-                  <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
+                  {/* <View style={styles.list}>
+                    // <Check color={neutralColor[70]} />
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
                       {strings.rekaman_webinar}
                     </TextItem>
-                  </View>
+                  </View> */}
 
                   <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.artikel_pembelajaran}
+                    {/* <Check color={neutralColor[70]} /> */}
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                      ✔️ {strings.artikel_pembelajaran}
                     </TextItem>
                   </View>
 
                   <View style={styles.list}>
-                    <Check color={neutralColor[70]} />
-                    <TextItem type="r.14.nc.70" style={styles.textList}>
-                      {strings.tergabung_komunitas}
+                    {/* <Check color={neutralColor[70]} /> */}
+                    <TextItem type="r.16.nc.70" style={styles.textList}>
+                      ✔️ {strings.tergabung_komunitas}
                     </TextItem>
                   </View>
                 </View>

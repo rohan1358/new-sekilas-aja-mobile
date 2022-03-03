@@ -69,10 +69,10 @@ export const strings = {
   enterConfirmPassword: "Konfirmasi Password",
   explore: "Eksplor",
 
-  favBooks: "Bukuku",
+  favBooks: "Buku Favoritku",
   findFavBook: "Cari Buku Favoritmu!",
   findFavBookPlaceholder: "Cari buku favoritmu di sini..",
-  finishedBooks: "Buku yang selesai dibaca",
+  finishedBooks: "Selesai Dibaca",
   forgotPassword: "Lupa password?",
 
   ganti_foto: "Ganti Profil",
@@ -192,7 +192,7 @@ export const strings = {
 
   searchEmpty: "Saat ini kamu tidak memiliki pencarian terbaru",
   seeAll: "Lihat Semua >",
-  sekilasShorts: "Sekilas Shorts",
+  sekilasShorts: "SekilasShorts!",
   share: "Bagikan",
   sub_onBoard_1:
     "Dapatkan 100+ RANGKUMAN BUKU terbaik dunia dalam versi VIDEO, AUDIO, dan TEXT.",
