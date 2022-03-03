@@ -111,6 +111,7 @@ const Icon = ({
     case pages.Mentoring:
       return isFocused ? (
         <Mentor
+          stroke={"none"}
           fill={activeColor}
           width={ACTIVE_ICON_SIZE}
           height={ACTIVE_ICON_SIZE}

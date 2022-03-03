@@ -4,8 +4,8 @@ import { fetchProfile } from "@services";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Keyboard, Linking, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useDispatch } from "react-redux";
-import { validateEmail } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { checkData, validateEmail } from "../../utils";
 import { Alert, Check, Eye, EyeOff } from "../../../assets";
 import {
   Base,
@@ -28,10 +28,16 @@ import {
 } from "../../constants";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import styles from "./styles";
+import { ReduxState } from "@rux";
 
 const { textFieldState } = dv;
 
 const SignIn = ({ navigation }: any) => {
+  const {
+    sessionReducer: { isLogin },
+    editProfile: { profile }
+  } = useSelector((state: ReduxState) => state);
+
   const dispatch = useDispatch();
   const currentEmail = useRef<string>();
   const currentPassword = useRef<string>();
@@ -137,10 +143,13 @@ const SignIn = ({ navigation }: any) => {
 
         const profile = await fetchProfile(email, res.user.uid);
 
+        setTimeout(() => {
+          navigation.replace(pages.Home);
+        }, 250);
+
         dispatch(setProfileRedux(profile.data));
 
         dispatch(loggingIn({ isLogin: true, email }));
-        navigation.replace(pages.Home);
       })
       .catch((error) => {
         if (error.code === "auth/user-not-found") {

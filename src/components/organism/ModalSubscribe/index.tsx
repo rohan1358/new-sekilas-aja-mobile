@@ -297,13 +297,15 @@ export default function ModalSubscribe({
                 </TextItem>
                 <View style={styles.boxListCard}>
                   {Array.isArray(paketList) &&
-                    paketList.map((item, index) =>
-                      item.type == "best" ? (
-                        <CardBest item={item} key={index} />
-                      ) : (
-                        <CardNormal item={item} key={index} />
-                      )
-                    )}
+                    paketList
+                      .sort((a, b) => b.month - a.month)
+                      .map((item, index) =>
+                        item.type == "best" ? (
+                          <CardBest item={item} key={index} />
+                        ) : (
+                          <CardNormal item={item} key={index} />
+                        )
+                      )}
                 </View>
                 <View>
                   {/* <Button onPress={() => handleNext(200)} style={styles.btnPilih}>

@@ -533,6 +533,13 @@ const Home = () => {
   const onLastStoryPress = (id: string) =>
     navigation.navigate("BookDetail", { id });
 
+  let freeShorts = shorts?.filter((data) =>
+    profile.owned_books.includes(data.book_title)
+  );
+  let premiumShorts = shorts?.filter(
+    (data) => !profile.owned_books.includes(data.book_title)
+  );
+
   return (
     <>
       {profileStore && (
@@ -693,7 +700,7 @@ const Home = () => {
                       </Gap>
                       <Gap vertical={sp.m} />
                       <FlatList
-                        data={shorts}
+                        data={[...freeShorts, ...premiumShorts]}
                         renderItem={({ item, index }) => (
                           <ShortsTile
                             index={index}

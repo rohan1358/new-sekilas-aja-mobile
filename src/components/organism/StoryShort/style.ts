@@ -1,13 +1,14 @@
 import { neutralColor, spacer } from "@constants";
 import { heightDp, widthDp, winHeightPercent, winWidthPercent } from "@helpers";
 import { StyleSheet } from "react-native";
+import { adjust } from "../../../utils";
 
 const styles = StyleSheet.create({
   box: {
     width: widthDp(40),
     aspectRatio: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   container: {
@@ -16,17 +17,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1000,
     paddingHorizontal: spacer.sl,
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   content: {
     paddingVertical: spacer.m,
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   footer: {
     justifyContent: "flex-end",
+    marginTop: adjust(10)
   },
   footerButton: {
     flexDirection: "row",
@@ -34,23 +36,23 @@ const styles = StyleSheet.create({
     backgroundColor: neutralColor.darkFocus,
     paddingVertical: spacer.xxs,
     paddingHorizontal: spacer.xs,
-    borderRadius: spacer.xs,
+    borderRadius: spacer.xs
   },
   footerGap: {
     width: "100%",
-    height: heightDp(102) - spacer.m,
+    height: heightDp(80) - spacer.l
   },
 
   header: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   iconButton: {
     width: widthDp(40),
     aspectRatio: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   tile: {
@@ -60,8 +62,8 @@ const styles = StyleSheet.create({
     backgroundColor: neutralColor["10"],
     paddingHorizontal: heightDp(12),
     flexDirection: "row",
-    borderRadius: widthDp(12),
-  },
+    borderRadius: widthDp(12)
+  }
 });
 
 export default styles;

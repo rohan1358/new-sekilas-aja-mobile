@@ -7,9 +7,10 @@ type AdapativeTextTypes =
   | "text3xl/black"
   | "textBase/black"
   | "textBase/bold"
+  | "textMd/normal"
   | "textXs/medium";
 
-type AdaptiveFamilyTypes = "text3xl" | "textBase" | "textXs";
+type AdaptiveFamilyTypes = "text3xl" | "textBase" | "textXs" | "textMd";
 
 interface AdaptiveTextProps extends TextProps {
   type?: AdapativeTextTypes;
@@ -25,7 +26,7 @@ const styleSelector = (textType: AdapativeTextTypes) => {
     //@ts-ignore
     raw[0],
     //@ts-ignore
-    raw[1],
+    raw[1]
   ];
   return adaptiveStyleGenerator(fonts[extractedType[0]](extractedType[1]));
 };
@@ -39,7 +40,7 @@ const AdaptiveText = ({
 }: PropsWithChildren<AdaptiveTextProps>) => {
   const formulatedStyle: TextStyle = styleSelector(type);
   return (
-    <Text {...props} style={[{ color: textColor }, style, formulatedStyle]}>
+    <Text {...props} style={[{ color: textColor }, formulatedStyle, style]}>
       {children}
     </Text>
   );

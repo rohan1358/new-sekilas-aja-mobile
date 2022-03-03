@@ -30,6 +30,7 @@ import {
   fireRemoveShorts,
   fireSaveShorts
 } from "../../../services/shorts";
+import { adjust } from "../../../utils";
 
 const closePosition = winHeightPercent(100);
 const openPosition = 0;
@@ -127,6 +128,34 @@ const StoryShort = forwardRef<any, any>(
       }
     };
 
+    const sumWithInitial = Array.isArray(storyData?.shorts[storyIndex]?.details)
+      ? storyData?.shorts[storyIndex]?.details.reduce(
+          (previousValue: any, currentValue: any) =>
+            previousValue + currentValue.length,
+          0
+        )
+      : 0;
+
+    console.log("sumWithInitial", sumWithInitial);
+
+    const [textLength, setTextLength] = useState(0);
+
+    const adjustTextShorts = () => {
+      if (sumWithInitial < 600) {
+        return adjust(21);
+      } else if (sumWithInitial < 650) {
+        return adjust(19.5);
+      } else if (sumWithInitial < 700) {
+        return adjust(19);
+      } else if (sumWithInitial < 750) {
+        return adjust(18.5);
+      } else if (sumWithInitial < 800) {
+        return adjust(18);
+      } else {
+        return adjust(24);
+      }
+    };
+
     return (
       <Animated.View
         style={[
@@ -201,25 +230,38 @@ const StoryShort = forwardRef<any, any>(
               <Animated.View style={styles.content}>
                 {Array.isArray(storyData?.shorts[storyIndex]?.details) ? (
                   storyData?.shorts[storyIndex]?.details.map(
-                    (item: string, index: number) => (
-                      <View style={{ width: "100%" }} key={`${item}${index}`}>
-                        <AdaptiveText
-                          type="text3xl/black"
-                          textColor={neutralColor["10"]}
-                        >
-                          {item}
-                        </AdaptiveText>
-                      </View>
-                    )
+                    (item: string, index: number) => {
+                      return (
+                        <View style={{ width: "100%" }} key={`${item}${index}`}>
+                          <AdaptiveText
+                            type="textMd/normal"
+                            textColor={neutralColor["10"]}
+                            style={{
+                              fontSize: adjustTextShorts()
+                            }}
+                          >
+                            {item[0] === "•" ? (
+                              <>{item}</>
+                            ) : (
+                              <>
+                                {item}
+                                {"\n"}
+                              </>
+                            )}
+                          </AdaptiveText>
+                        </View>
+                      );
+                    }
                   )
                 ) : (
                   <>
                     <View style={{ width: "100%" }}>
                       <AdaptiveText
-                        type="text3xl/black"
+                        type="textMd/normal"
                         textColor={neutralColor["10"]}
                       >
-                        {storyData?.shorts[storyIndex]?.details}
+                        {storyData?.shorts[storyIndex]?.details}{" "}
+                        asefarwerawerwerawerawerawer
                       </AdaptiveText>
                     </View>
                   </>
@@ -303,7 +345,7 @@ const StoryShort = forwardRef<any, any>(
                 </View>
               )}
               <View style={styles.footerGap} />
-              <Gap vertical={spacer.m} />
+              {/* <Gap vertical={spacer.m} /> */}
             </View>
           </Fragment>
         ) : (

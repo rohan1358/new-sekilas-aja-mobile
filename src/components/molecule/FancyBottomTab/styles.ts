@@ -10,40 +10,40 @@ const ICON_SIZE = 24;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: "center"
   },
 
   iconContainer: {
     width: ICON_SIZE,
     height: ICON_SIZE,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   innerContainer: {
     height: TAB_HEIGHT,
     width: widthPercent(100) - TAB_HORIZONTAL_GAP * 2,
     borderRadius: RADIUS,
     position: "absolute",
-    bottom: TAB_BOTTOM_GAP,
+    bottom: TAB_BOTTOM_GAP
   },
 
   overlay: {
     width: widthPercent(100),
     position: "absolute",
     height: TAB_HEIGHT,
-    backgroundColor: `${neutralColor[10]}99`,
+    // backgroundColor: `${neutralColor[10]}99`,
     left: -TAB_HORIZONTAL_GAP,
-    top: TAB_BOTTOM_GAP,
+    top: TAB_BOTTOM_GAP
   },
 
   tab: {
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
+    flex: 1
   },
   tabContainer: {
     flex: 1,
-    backgroundColor: neutralColor[90],
+    backgroundColor: neutralColor[90]
   },
   tabsContainer: {
     width: "100%",
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     backgroundColor: neutralColor[90],
     borderRadius: RADIUS,
     flexDirection: "row",
-    overflow: "hidden",
-  },
+    overflow: "hidden"
+  }
 });
 
 export default styles;
