@@ -1,10 +1,11 @@
+import { handleOpenModalSubscribe } from "@actions";
 import { Lock } from "@assets";
 import { AdaptiveText, Amage, Button, Gap, TextItem } from "@atom";
 import { neutralColor, primaryColor, spacer } from "@constants";
 import { ReduxState } from "@rux";
 import React from "react";
 import { View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { adjust } from "../../../utils";
 import styles from "./styles";
 
@@ -23,6 +24,12 @@ const ShortsTile = ({ index, onPress, title, cover }: ShortsTileProps) => {
   let { is_subscribed, owned_books } = profile;
 
   let isOpen = owned_books.includes(title) || is_subscribed;
+
+  const dispatch = useDispatch();
+
+  const openModal = () => {
+    dispatch(handleOpenModalSubscribe());
+  };
 
   return (
     <>
@@ -47,7 +54,7 @@ const ShortsTile = ({ index, onPress, title, cover }: ShortsTileProps) => {
         {index === 0 && <Gap horizontal={spacer.m} />}
         <Button
           style={styles.container}
-          onPress={() => isOpen && onPress(title)}
+          onPress={() => (isOpen ? onPress(title) : openModal())}
         >
           <View style={styles.circle} />
           <View style={styles.smallCircle}>
