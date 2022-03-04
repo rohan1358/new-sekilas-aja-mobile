@@ -143,8 +143,6 @@ const StoryShort = forwardRef<any, any>(
         )
       : 0;
 
-    const [textLength, setTextLength] = useState(0);
-
     const adjustTextShorts = () => {
       if (sumWithInitial < 600) {
         return adjust(21);

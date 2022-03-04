@@ -68,7 +68,8 @@ const ACTION_HIDE = -128;
 
 let newDetailBook = {},
   newContent = {},
-  newCurrentPage = 1;
+  newCurrentPage = 1,
+  page = 0;
 
 const Reading = () => {
   const [toggleTolltip, setToggleTolltip] = useState(false);
@@ -93,8 +94,6 @@ const Reading = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
-
-  let [page, setPage] = useState(0);
 
   const setDetailBook = (data: any) => {
     setDetailBookOri(data);
@@ -286,7 +285,7 @@ const Reading = () => {
 
         let slide = widthPercent(100) * bab;
 
-        setPage(slide);
+        page = slide;
 
         contentRef.current?.scrollTo({
           x: slide,
@@ -367,7 +366,7 @@ const Reading = () => {
     if (currentPage + 1 <= content?.numberOfPage) {
       let newCurrent = currentPage + 1;
       let slide = widthPercent(100) * newCurrent;
-      setPage(slide);
+      page = slide;
 
       setCurrentPage(newCurrent);
 
@@ -383,7 +382,7 @@ const Reading = () => {
     if (currentPage - 1 >= 0) {
       let newCurrent = currentPage - 1;
       let slide = widthPercent(100) * newCurrent;
-      setPage(slide);
+      page = slide;
 
       setCurrentPage(newCurrent);
 
@@ -489,7 +488,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
     } else if (contentOffset < page) {
       await onPrevPress();
     }
-    setPage(contentOffset);
+    page = contentOffset;
   };
 
   return (
