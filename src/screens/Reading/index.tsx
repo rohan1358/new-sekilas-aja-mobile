@@ -44,7 +44,7 @@ import React, {
   useRef,
   useState
 } from "react";
-import { Share, View } from "react-native";
+import ReactNative, { Share, View } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
@@ -71,6 +71,12 @@ let newDetailBook = {},
   newCurrentPage = 1,
   page = 0;
 
+let newMaesure: any = [
+  2183.636474609375, 2183.636474609375, 2183.636474609375, 2183.636474609375,
+  2183.636474609375, 2183.636474609375, 2183.636474609375, 2183.636474609375,
+  2183.636474609375
+];
+
 const Reading = () => {
   const [toggleTolltip, setToggleTolltip] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -83,7 +89,7 @@ const Reading = () => {
 
   const isMounted = useMounted();
   const overlayRef = useRef<any>();
-  const scrollRef = useRef<FlatList<any>>();
+  const descRef = useRef(null);
   const contentRef = useRef<FlatList<any>>();
 
   const actionPosition = useSharedValue(ACTION_HIDE);
@@ -94,6 +100,9 @@ const Reading = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
+
+  const [measure, setMeasure] = useState(false);
+  const [heightContent, setHeightContent] = useState(newMaesure);
 
   const setDetailBook = (data: any) => {
     setDetailBookOri(data);
@@ -319,6 +328,7 @@ const Reading = () => {
           newContent = {};
           newCurrentPage = 0;
         });
+        setMeasure(false);
       };
     }, [])
   );
@@ -362,35 +372,37 @@ const Reading = () => {
       });
   };
 
-  const onNextPress = async () => {
+  const onNextPress = async (fromScroll?: boolean) => {
     if (currentPage + 1 <= content?.numberOfPage) {
       let newCurrent = currentPage + 1;
       let slide = widthPercent(100) * newCurrent;
       page = slide;
 
       setCurrentPage(newCurrent);
-
-      contentRef.current?.scrollTo({
-        x: slide,
-        y: 0,
-        animated: true
-      });
+      if (fromScroll !== true) {
+        contentRef.current?.scrollTo({
+          x: slide,
+          y: 0,
+          animated: true
+        });
+      }
     }
   };
 
-  const onPrevPress = async () => {
+  const onPrevPress = async (fromScroll?: any) => {
     if (currentPage - 1 >= 0) {
       let newCurrent = currentPage - 1;
       let slide = widthPercent(100) * newCurrent;
       page = slide;
 
       setCurrentPage(newCurrent);
-
-      contentRef.current?.scrollTo({
-        x: slide,
-        y: 0,
-        animated: true
-      });
+      if (fromScroll !== true) {
+        contentRef.current?.scrollTo({
+          x: slide,
+          y: 0,
+          animated: true
+        });
+      }
     }
   };
 
@@ -400,23 +412,41 @@ const Reading = () => {
     closeTolltip();
   };
 
-  const NewRenderItem = ({ item }: { item: any }) => {
+  const NewRenderItem = ({ item, index }: { item: any; index: any }) => {
+    // let height = 0;
     return (
       <>
         <View
           style={{ width: widthPercent(100), paddingHorizontal: spacing.sl }}
         >
-          <TextItem type="b.32.nc.100">{item.title}</TextItem>
-          <Gap vertical={sp.sl} />
+          <View
+            ref={descRef}
+            onLayout={(e: any) => {
+              const height = e.nativeEvent.layout.height;
 
-          {item.details.map((desc: any) => {
-            return (
-              <>
-                <TextItem type="r.16.nc.70">{desc}</TextItem>
-                <Gap vertical={sp.sm} />
-              </>
-            );
-          })}
+              newMaesure[index] = height;
+
+              if (index === content?.pageContent.length - 1 && !measure) {
+                setMeasure(true);
+
+                setHeightContent(newMaesure);
+              }
+
+              // setMeasure(height);
+            }}
+          >
+            <TextItem type="b.32.nc.100">{item.title}</TextItem>
+            <Gap vertical={sp.sl} />
+
+            {item.details.map((desc: any) => {
+              return (
+                <>
+                  <TextItem type="r.16.nc.70">{desc}</TextItem>
+                  <Gap vertical={sp.sm} />
+                </>
+              );
+            })}
+          </View>
         </View>
       </>
     );
@@ -495,9 +525,9 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
     const contentOffset = e.nativeEvent.contentOffset.x;
 
     if (contentOffset > page) {
-      await onNextPress();
+      await onNextPress(true);
     } else if (contentOffset < page) {
-      await onPrevPress();
+      await onPrevPress(true);
     }
     page = contentOffset;
   };
@@ -536,9 +566,13 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 horizontal={true}
                 onMomentumScrollEnd={handleSetIndex}
                 showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  // height:
+                  height: measure ? Math.round(heightContent[currentPage]) : 500
+                }}
               >
-                {content?.pageContent.map((data) => {
-                  return <NewRenderItem item={data} />;
+                {content?.pageContent.map((data, index) => {
+                  return <NewRenderItem item={data} index={index} />;
                 })}
               </ScrollView>
               <Gap vertical={sp.sl} />
@@ -601,9 +635,9 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
               <Button style={s.tipButton} onPress={tableContentPress}>
                 <TextItem type="r.20.nc.90">{strings.tableOfContent}</TextItem>
               </Button>
-              <Button style={s.tipButton} onPress={onMark}>
+              {/* <Button style={s.tipButton} onPress={onMark}>
                 <TextItem type="r.20.nc.90">{strings.mark}</TextItem>
-              </Button>
+              </Button> */}
               <Button style={s.tipButton} onPress={onFinishedInReading}>
                 <TextItem
                   type={
