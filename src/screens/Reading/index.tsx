@@ -400,16 +400,27 @@ const Reading = () => {
     closeTolltip();
   };
 
-  const NewRenderItem = ({ item }: { item: any }) => (
-    <>
-      <View style={{ width: widthPercent(100), paddingHorizontal: spacing.sl }}>
-        <TextItem type="b.32.nc.100">{item.title}</TextItem>
-        <Gap vertical={sp.sl} />
+  const NewRenderItem = ({ item }: { item: any }) => {
+    return (
+      <>
+        <View
+          style={{ width: widthPercent(100), paddingHorizontal: spacing.sl }}
+        >
+          <TextItem type="b.32.nc.100">{item.title}</TextItem>
+          <Gap vertical={sp.sl} />
 
-        <TextItem type="r.16.nc.70">{item.details}</TextItem>
-      </View>
-    </>
-  );
+          {item.details.map((desc: any) => {
+            return (
+              <>
+                <TextItem type="r.16.nc.70">{desc}</TextItem>
+                <Gap vertical={sp.sm} />
+              </>
+            );
+          })}
+        </View>
+      </>
+    );
+  };
 
   const onShare = async () => {
     try {
