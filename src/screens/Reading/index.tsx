@@ -485,11 +485,10 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
 
     if (contentOffset > page) {
       await onNextPress();
-      page = contentOffset;
     } else if (contentOffset < page) {
       await onPrevPress();
-      page = contentOffset;
     }
+    page = contentOffset;
   };
 
   return (
