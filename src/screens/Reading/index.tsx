@@ -96,7 +96,7 @@ const Reading = () => {
   const tipPosition = useSharedValue(-WIDTH / 2);
 
   const [content, setContentOri] = useState<BookContentProps | null>();
-  const [currentPage, setCurrentPageOri] = useState<number>(0);
+  const [currentPage, setCurrentPageOri] = useState<number>(9);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
@@ -230,7 +230,11 @@ const Reading = () => {
 
   // const keyExtractor = (item: string) => `${item}`;
 
-  const label = `${currentPage + 1} dari ${content?.numberOfPage}`;
+  const label = `${
+    currentPage + 1 > content?.pageContent.length
+      ? currentPage
+      : currentPage + 1
+  } dari ${content?.numberOfPage}`;
 
   const closeTolltip = async () => {
     await overlayRef.current?.close();
