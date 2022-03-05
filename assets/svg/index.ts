@@ -61,6 +61,7 @@ import StarAnActive from "./StarAnActive.svg";
 import ShareIcon from "./Share.svg";
 import SkipBack from "./SkipBack.svg";
 import SkipBackFullScreen from "./SkipBackFullScreen.svg";
+import CheckCircle from "./CheckCircle.svg";
 
 import SkipForward from "./SkipForward.svg";
 import SkipForwardFullScreen from "./SkipForwardFullScreen.svg";
@@ -95,6 +96,7 @@ const svg = { Cross, CloseX, ShareIcon, Bookmark };
 export default svg;
 
 export {
+  CheckCircle,
   Film,
   GroupDiscussionIcon,
   ChallengeIcon,

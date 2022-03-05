@@ -1,4 +1,4 @@
-import { Headphones, Video } from "@assets";
+import { CheckCircle, Headphones, Video } from "@assets";
 import {
   AnimatedOverlay,
   Base,
@@ -13,6 +13,7 @@ import {
 } from "@components";
 import {
   firebaseNode,
+  neutralColor,
   primaryColor,
   skeleton,
   snackState as ss,
@@ -658,6 +659,27 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 <TextItem style={s.titleSelect}>{strings.watch}</TextItem>
               </Button>
             )}
+            <Button style={s.button} onPress={onFinishedInReading}>
+              <CheckCircle
+                stroke={
+                  listBookFinishingRead.includes(BOOK_ID)
+                    ? neutralColor[90]
+                    : primaryColor.main
+                }
+                fill={
+                  !listBookFinishingRead.includes(BOOK_ID)
+                    ? neutralColor[90]
+                    : primaryColor.main
+                }
+                strokeWidth={2}
+              />
+              <Gap horizontal={sp.xs} />
+              <TextItem style={s.titleSelect}>
+                {listBookFinishingRead.includes(BOOK_ID)
+                  ? strings.cancleDoneRead
+                  : strings.doneRead}
+              </TextItem>
+            </Button>
           </View>
           <Gap vertical={sp.sl} />
         </Animated.View>
@@ -675,7 +697,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
               {/* <Button style={s.tipButton} onPress={onMark}>
                 <TextItem type="r.20.nc.90">{strings.mark}</TextItem>
               </Button> */}
-              <Button style={s.tipButton} onPress={onFinishedInReading}>
+              {/* <Button style={s.tipButton} onPress={onFinishedInReading}>
                 <TextItem
                   type={
                     listBookFinishingRead.includes(BOOK_ID)
@@ -691,7 +713,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                     ? strings.cancleDoneRead
                     : strings.doneRead}
                 </TextItem>
-              </Button>
+              </Button> */}
             </View>
           </Animated.View>
         )}
