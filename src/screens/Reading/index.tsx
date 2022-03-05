@@ -231,9 +231,7 @@ const Reading = () => {
   // const keyExtractor = (item: string) => `${item}`;
 
   const label = `${
-    currentPage + 1 > content?.pageContent.length
-      ? currentPage
-      : currentPage + 1
+    currentPage >= content?.pageContent.length ? currentPage : currentPage + 1
   } dari ${content?.numberOfPage}`;
 
   const closeTolltip = async () => {
