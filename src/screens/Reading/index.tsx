@@ -96,7 +96,7 @@ const Reading = () => {
   const tipPosition = useSharedValue(-WIDTH / 2);
 
   const [content, setContentOri] = useState<BookContentProps | null>();
-  const [currentPage, setCurrentPageOri] = useState<number>(9);
+  const [currentPage, setCurrentPageOri] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [detailBook, setDetailBookOri] = useState(false);
