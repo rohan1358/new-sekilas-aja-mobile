@@ -241,7 +241,51 @@ export default function Watching({ navigation, route }: any) {
       .doc(email)
       .get();
     const list: any = get?.data() ? get?.data()?.book : [];
+
     setListBookFinishingRead(list);
+  };
+
+  const overlayRef = useRef<any>();
+  const [toggleTolltip, setToggleTolltip] = useState(false);
+
+  const closeTolltip = async () => {
+    await overlayRef.current?.close();
+    setTimeout(() => {
+      setToggleTolltip(false);
+    }, 500);
+  };
+
+  const onFinishedInReading = async () => {
+    let newData = [...new Set([...listBookFinishingRead, book.book_title])];
+    let book_title = book.book_title;
+
+    let type = "add";
+
+    const checkBook = listBookFinishingRead.includes(book_title);
+
+    if (checkBook) {
+      newData = listBookFinishingRead.filter((book) => book !== book_title);
+
+      type = "reduce";
+    }
+
+    firestore()
+      .collection(firebaseNode.finishedInReading)
+      .doc(email)
+      .set(
+        {
+          book: newData,
+          total: newData.length
+        },
+        { merge: true }
+      )
+      .then(() => {
+        fetchListFinishingRead();
+      })
+      .catch(() => {
+        setSnackState(ss.failState(strings.markFailed));
+      })
+      .finally(() => {});
   };
 
   useEffect(() => {
@@ -267,15 +311,6 @@ export default function Watching({ navigation, route }: any) {
           newCurrentTIme = 0;
           newDuration = 0;
         });
-
-        // console.log(
-        //   "leave",
-        //   Math.round(newCurrentTIme),
-        //   newDuration,
-        //   profile.id,
-        //   book.book_title,
-        //   book
-        // );
       };
     }, [])
   );
@@ -629,8 +664,7 @@ export default function Watching({ navigation, route }: any) {
 
                       <Button
                         style={styles.btnBar}
-
-                        //  onPress={onFinishedInReading}
+                        onPress={() => onFinishedInReading()}
                       >
                         <CheckCircle
                           stroke={

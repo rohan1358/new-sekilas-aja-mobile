@@ -255,6 +255,49 @@ export default function Listening({ navigation, route }: any) {
     setListBookFinishingRead(list);
   };
 
+  const onFinishedInReading = async () => {
+    let newData = [...new Set([...listBookFinishingRead, book.book_title])];
+
+    let type = "add";
+
+    let book_title = book.book_title;
+
+    const checkBook = listBookFinishingRead.includes(book_title);
+
+    if (checkBook) {
+      newData = listBookFinishingRead.filter((book) => book !== book_title);
+      type = "reduce";
+    }
+
+    firestore()
+      .collection(firebaseNode.finishedInReading)
+      .doc(email)
+      .set(
+        {
+          book: newData,
+          total: newData.length
+        },
+        { merge: true }
+      )
+      .then(() => {
+        fetchListFinishingRead();
+        // setSnackState(
+        //   ss.successState(
+        //     type === "add"
+        //       ? strings.addFinishingRead
+        //       : strings.cancleFinishingRead
+        //   )
+        // );
+      })
+      .catch(() => {
+        // setSnackState(ss.failState(strings.markFailed));
+      })
+      .finally(() => {
+        // onTap();
+        // closeTolltip();
+      });
+  };
+
   useEffect(() => {
     fetchListFinishingRead();
   }, []);
@@ -532,11 +575,7 @@ export default function Listening({ navigation, route }: any) {
                   </Button>
                 )}
 
-                <Button
-                  style={styles.btnBar}
-
-                  //  onPress={onFinishedInReading}
-                >
+                <Button style={styles.btnBar} onPress={onFinishedInReading}>
                   <CheckCircle
                     stroke={
                       listBookFinishingRead.includes(book.book_title)
