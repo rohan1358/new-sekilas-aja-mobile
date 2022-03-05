@@ -374,13 +374,27 @@ const Reading = () => {
       });
   };
 
+  let enableScroll: any = true;
+
+  // const [, setEnableScroll] = useState(true);
+
+  const setEnableScroll = (param?: boolean) => {
+    enableScroll = param;
+  };
+
   const onNextPress = async (fromScroll?: boolean) => {
+    setEnableScroll(false);
+
     if (currentPage + 1 <= content?.numberOfPage) {
       let newCurrent = currentPage + 1;
       let slide = widthPercent(100) * newCurrent;
       page = slide;
 
-      setCurrentPage(newCurrent);
+      await setCurrentPage(newCurrent);
+      setTimeout(() => {
+        setEnableScroll(true);
+      }, 1000);
+
       if (fromScroll !== true) {
         contentRef.current?.scrollTo({
           x: slide,
@@ -388,16 +402,26 @@ const Reading = () => {
           animated: true
         });
       }
+    } else {
+      setTimeout(() => {
+        setEnableScroll(true);
+      }, 1000);
     }
   };
 
   const onPrevPress = async (fromScroll?: any) => {
+    setEnableScroll(false);
+
     if (currentPage - 1 >= 0) {
       let newCurrent = currentPage - 1;
       let slide = widthPercent(100) * newCurrent;
       page = slide;
 
-      setCurrentPage(newCurrent);
+      await setCurrentPage(newCurrent);
+      setTimeout(() => {
+        setEnableScroll(true);
+      }, 1000);
+
       if (fromScroll !== true) {
         contentRef.current?.scrollTo({
           x: slide,
@@ -405,6 +429,10 @@ const Reading = () => {
           animated: true
         });
       }
+    } else {
+      setTimeout(() => {
+        setEnableScroll(true);
+      }, 1000);
     }
   };
 
@@ -568,6 +596,7 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 horizontal={true}
                 onMomentumScrollEnd={handleSetIndex}
                 showsHorizontalScrollIndicator={false}
+                scrollEnabled={enableScroll}
                 contentContainerStyle={{
                   // height:
                   height:
