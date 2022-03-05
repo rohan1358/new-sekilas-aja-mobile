@@ -274,7 +274,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
             })
             .catch((err) => {});
         } catch (err) {
-          console.log("signup error", err);
+          // console.log("signup error", err);
         }
       })
       .catch((error) => {

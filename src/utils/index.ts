@@ -6,8 +6,6 @@ const padTo2Digits = (num: number) => {
   return num.toString().padStart(2, "0");
 };
 
-console.log("pixelRatio", pixelRatio);
-
 const adjust = (size?: any) => {
   if (size >= 5) {
     if (pixelRatio <= 1.5) {
