@@ -374,13 +374,13 @@ const Reading = () => {
       });
   };
 
-  let enableScroll: any = true;
+  // let enableScroll: any = false;
 
-  // const [, setEnableScroll] = useState(true);
+  const [enableScroll, setEnableScroll] = useState(true);
 
-  const setEnableScroll = (param?: boolean) => {
-    enableScroll = param;
-  };
+  // const setEnableScroll = (param?: boolean) => {
+  //   enableScroll = param;
+  // };
 
   const onNextPress = async (fromScroll?: boolean) => {
     setEnableScroll(false);
@@ -553,11 +553,14 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
 
   const handleSetIndex = async (e: any) => {
     const contentOffset = e.nativeEvent.contentOffset.x;
+    setEnableScroll(false);
 
     if (contentOffset > page) {
       await onNextPress(true);
     } else if (contentOffset < page) {
       await onPrevPress(true);
+    } else {
+      setEnableScroll(true);
     }
     page = contentOffset;
   };
