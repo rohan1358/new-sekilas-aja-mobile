@@ -144,16 +144,18 @@ const StoryShort = forwardRef<any, any>(
       : 0;
 
     const adjustTextShorts = () => {
-      if (sumWithInitial < 600) {
-        return adjust(21);
-      } else if (sumWithInitial < 650) {
-        return adjust(19.5);
-      } else if (sumWithInitial < 700) {
-        return adjust(19);
-      } else if (sumWithInitial < 750) {
+      if (sumWithInitial < 550) {
         return adjust(18.5);
-      } else if (sumWithInitial < 800) {
+      } else if (sumWithInitial < 600) {
         return adjust(18);
+      } else if (sumWithInitial < 650) {
+        return adjust(17.5);
+      } else if (sumWithInitial < 700) {
+        return adjust(17);
+      } else if (sumWithInitial < 750) {
+        return adjust(16.5);
+      } else if (sumWithInitial < 800) {
+        return adjust(16);
       } else {
         return adjust(24);
       }

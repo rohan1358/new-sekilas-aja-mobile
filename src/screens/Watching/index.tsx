@@ -16,6 +16,7 @@ import Orientation, {
 import styles from "./styles";
 import {
   colors,
+  firebaseNode,
   neutralColor,
   pages,
   primaryColor,
@@ -24,6 +25,7 @@ import {
 } from "@constants";
 import { Slider } from "@miblanchard/react-native-slider";
 import {
+  CheckCircle,
   Exit,
   File,
   Headphones,
@@ -47,6 +49,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { getProgressByBook, trackProgress } from "../../services";
+import firestore from "@react-native-firebase/firestore";
 
 let newCurrentTIme = 0,
   newDuration = 0;
@@ -67,7 +70,8 @@ export default function Watching({ navigation, route }: any) {
   });
 
   const {
-    editProfile: { profile }
+    editProfile: { profile },
+    sessionReducer: { email }
   } = useSelector((state: ReduxState) => state);
 
   const setCurrentTime = (e: any) => {
@@ -227,6 +231,21 @@ export default function Watching({ navigation, route }: any) {
         setCurrentTime(res.data.time);
       }
     );
+  }, []);
+
+  const [listBookFinishingRead, setListBookFinishingRead] = useState([]);
+
+  const fetchListFinishingRead = async () => {
+    const get = await firestore()
+      .collection(firebaseNode.finishedInReading)
+      .doc(email)
+      .get();
+    const list: any = get?.data() ? get?.data()?.book : [];
+    setListBookFinishingRead(list);
+  };
+
+  useEffect(() => {
+    fetchListFinishingRead();
   }, []);
 
   useFocusEffect(
@@ -605,6 +624,32 @@ export default function Watching({ navigation, route }: any) {
                         <Headphones stroke={"#FCCF32"} strokeWidth={2} />
                         <TextItem style={styles.titleSelect}>
                           {strings.dengar}
+                        </TextItem>
+                      </Button>
+
+                      <Button
+                        style={styles.btnBar}
+
+                        //  onPress={onFinishedInReading}
+                      >
+                        <CheckCircle
+                          stroke={
+                            listBookFinishingRead.includes(book.book_title)
+                              ? neutralColor[90]
+                              : primaryColor.main
+                          }
+                          fill={
+                            !listBookFinishingRead.includes(book.book_title)
+                              ? neutralColor[90]
+                              : primaryColor.main
+                          }
+                          strokeWidth={2}
+                        />
+                        {/* <Gap horizontal={sp.xs} /> */}
+                        <TextItem style={styles.titleSelect}>
+                          {listBookFinishingRead.includes(book.book_title)
+                            ? strings.cancleDoneRead
+                            : strings.doneRead}
                         </TextItem>
                       </Button>
                     </View>

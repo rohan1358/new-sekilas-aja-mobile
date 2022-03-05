@@ -11,6 +11,7 @@ import { Share, Platform, Text, View, Dimensions } from "react-native";
 import styles from "./styles";
 import {
   colors,
+  firebaseNode,
   neutralColor,
   pages,
   primaryColor,
@@ -19,7 +20,10 @@ import {
   strings
 } from "@constants";
 import { Slider } from "@miblanchard/react-native-slider";
+import firestore from "@react-native-firebase/firestore";
+
 import {
+  CheckCircle,
   Exit,
   File,
   Pause,
@@ -239,6 +243,21 @@ export default function Listening({ navigation, route }: any) {
     } finally {
     }
   };
+
+  const [listBookFinishingRead, setListBookFinishingRead] = useState([]);
+
+  const fetchListFinishingRead = async () => {
+    const get = await firestore()
+      .collection(firebaseNode.finishedInReading)
+      .doc(email)
+      .get();
+    const list: any = get?.data() ? get?.data()?.book : [];
+    setListBookFinishingRead(list);
+  };
+
+  useEffect(() => {
+    fetchListFinishingRead();
+  }, []);
 
   useEffect(() => {
     getHomeData();
@@ -512,6 +531,32 @@ export default function Listening({ navigation, route }: any) {
                     </TextItem>
                   </Button>
                 )}
+
+                <Button
+                  style={styles.btnBar}
+
+                  //  onPress={onFinishedInReading}
+                >
+                  <CheckCircle
+                    stroke={
+                      listBookFinishingRead.includes(book.book_title)
+                        ? neutralColor[90]
+                        : primaryColor.main
+                    }
+                    fill={
+                      !listBookFinishingRead.includes(book.book_title)
+                        ? neutralColor[90]
+                        : primaryColor.main
+                    }
+                    strokeWidth={2}
+                  />
+                  {/* <Gap horizontal={sp.xs} /> */}
+                  <TextItem style={styles.titleSelect}>
+                    {listBookFinishingRead.includes(book.book_title)
+                      ? strings.cancleDoneRead
+                      : strings.doneRead}
+                  </TextItem>
+                </Button>
               </View>
             </View>
 
