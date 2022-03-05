@@ -568,7 +568,10 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                   // height:
-                  height: measure ? Math.round(heightContent[currentPage]) : 500
+                  height:
+                    measure && heightContent[currentPage]
+                      ? Math.round(heightContent[currentPage])
+                      : 500
                 }}
               >
                 {content?.pageContent.map((data, index) => {
