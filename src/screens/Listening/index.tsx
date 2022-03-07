@@ -322,7 +322,7 @@ export default function Listening({ navigation, route }: any) {
 
   useFocusEffect(
     useCallback(() => {
-      return () => {
+      return async () => {
         let persentase =
           Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0;
 
@@ -347,6 +347,7 @@ export default function Listening({ navigation, route }: any) {
             newValueDuration = 0;
             newBab = 0;
           });
+          await setMouted(false);
           listSoundTrack = false;
         }
       };
