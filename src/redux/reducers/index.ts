@@ -8,6 +8,7 @@ import challengeRedux from "./challenge";
 import mainContext from "./main";
 import progressContext from "./progress";
 import shortsCOntext from "./shorts";
+import audioRedux from "./floatingMedia";
 
 const rootReducer = combineReducers({
   sessionReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   challengeRedux,
   mainContext,
   progressContext,
-  shortsCOntext
+  shortsCOntext,
+  audioRedux
 });
 
 export type ReduxState = ReturnType<typeof rootReducer>;

@@ -139,9 +139,10 @@ const SignIn = ({ navigation }: any) => {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(async (res) => {
-        // const email = "DanielWijaya85@gmail.com";
+        //
+        const uid = res.user.uid;
 
-        const profile = await fetchProfile(email, res.user.uid);
+        const profile = await fetchProfile(email, uid);
 
         setTimeout(() => {
           navigation.replace(pages.Home);

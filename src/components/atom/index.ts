@@ -6,6 +6,7 @@ import DummyFlatList from "./DummyFlatList";
 import Gap from "./Gap";
 import Seed from "./Seed";
 import TextItem from "./TextItem";
+import FloatingMedia from "./FloatingMedia";
 
 export { default as AdaptiveText } from "./AdaptiveText";
 export { default as StoryIndicator } from "./StoryIndicator";
@@ -19,4 +20,5 @@ export {
   Gap,
   Seed,
   TextItem,
+  FloatingMedia
 };

@@ -24,6 +24,7 @@ import firestore from "@react-native-firebase/firestore";
 
 import {
   CheckCircle,
+  CloseX,
   Exit,
   File,
   Pause,
@@ -57,13 +58,14 @@ import {
   getProgressByBook,
   baseUrl
 } from "../../services/index";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useFocusEffect } from "@react-navigation/native";
 import ListAudio from "./component/ListAudio";
 import { adjust, checkData } from "../../utils";
 import axios from "axios";
+import { closeFloatingMedia, setAudioBookRedux } from "@actions";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -94,7 +96,7 @@ export default function Listening({ navigation, route }: any) {
   const refRBSheet = useRef();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [speed, setSpeed] = useState(1.0);
-  const [valueProgress, setValueProgress] = useState(0);
+
   const [titleTrack, setTitle] = useState();
   const [authorTrack, setAuthor] = useState();
   const [bab, setBabOri] = useState(0);
@@ -258,8 +260,6 @@ export default function Listening({ navigation, route }: any) {
   const onFinishedInReading = async () => {
     let newData = [...new Set([...listBookFinishingRead, book.book_title])];
 
-    let type = "add";
-
     let book_title = book.book_title;
 
     const checkBook = listBookFinishingRead.includes(book_title);
@@ -320,14 +320,36 @@ export default function Listening({ navigation, route }: any) {
     );
   };
 
+  let isRunning = playbackState === State.Playing;
+
+  const handleMoveBab = async (params: any) => {
+    if (isRunning && bab === params) {
+      await TrackPlayer.pause();
+    } else if (bab === params) {
+      await TrackPlayer.play();
+    } else {
+      await TrackPlayer.skip(params);
+      await setBab(params);
+
+      await TrackPlayer.play();
+    }
+  };
+
+  const dispatch = useDispatch();
+
   useFocusEffect(
     useCallback(() => {
+      dispatch(closeFloatingMedia());
+
       return async () => {
         let persentase =
           Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0;
 
         if (persentase > 0) {
           let { book_title, book_cover, author }: any = book;
+
+          dispatch(setAudioBookRedux(book));
+
           const body = {
             listening: {
               time: newValueProgress || 0,
@@ -380,21 +402,6 @@ export default function Listening({ navigation, route }: any) {
   const handlePrevBab = () => {
     if (bab - 1 >= 0) {
       setBab(bab - 1);
-    }
-  };
-
-  let isRunning = playbackState === State.Playing;
-
-  const handleMoveBab = async (params: any) => {
-    if (isRunning && bab === params) {
-      await TrackPlayer.pause();
-    } else if (bab === params) {
-      await TrackPlayer.play();
-    } else {
-      await TrackPlayer.skip(params);
-      await setBab(params);
-
-      await TrackPlayer.play();
     }
   };
 
