@@ -46,10 +46,11 @@ import { speedList } from "./dummy";
 import Video from "react-native-video";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import { useFocusEffect } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { getProgressByBook, trackProgress } from "../../services";
 import firestore from "@react-native-firebase/firestore";
+import { closeFloatingMedia } from "@actions";
 
 let newCurrentTIme = 0,
   newDuration = 0;
@@ -292,8 +293,13 @@ export default function Watching({ navigation, route }: any) {
     fetchListFinishingRead();
   }, []);
 
+  const dispatch = useDispatch();
+
   useFocusEffect(
     useCallback(() => {
+      setTimeout(() => {
+        dispatch(closeFloatingMedia());
+      }, 2000);
       return () => {
         let { book_title, book_cover, author } = book;
         trackProgress(`${profile.id}-${book.book_title}`, {
