@@ -296,14 +296,15 @@ export default function Watching({ navigation, route }: any) {
 
   const dispatch = useDispatch();
 
+  if (State.Playing) {
+    TrackPlayer.pause();
+  }
+
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
         dispatch(closeFloatingMedia());
-        if (State.Playing) {
-          TrackPlayer.pause();
-        }
-      }, 3000);
+      }, 2000);
       return () => {
         let { book_title, book_cover, author } = book;
         trackProgress(`${profile.id}-${book.book_title}`, {
