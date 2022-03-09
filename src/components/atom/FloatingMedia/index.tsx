@@ -343,8 +343,6 @@ function OriFloatingMedia() {
 
         setBab(bab);
         setValue(time);
-
-        TrackPlayer.play();
       }
     );
   };
