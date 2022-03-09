@@ -121,6 +121,20 @@ function OriFloatingMedia() {
   // new
   const navigation = useNavigation();
 
+  let stateNavigation = navigation.getState() || {};
+
+  const { index, key, routeNames, routes, stale, type, history } =
+    stateNavigation;
+
+  useEffect(() => {
+    if (
+      routes &&
+      ["Listening", "RewatchWebinar", "Watching"].includes(routes[index].name)
+    ) {
+      close();
+    }
+  }, [index]);
+
   const {
     sessionReducer: { email },
     editProfile: { profile },
@@ -371,6 +385,7 @@ function OriFloatingMedia() {
   const navigationTopBar = async (type = "") => {
     switch (type) {
       case "reading":
+        setModalVisible(false);
         navigation.navigate("Reading", {
           id: book.book_title,
           page: 0,
@@ -379,6 +394,8 @@ function OriFloatingMedia() {
         await TrackPlayer.pause();
         break;
       case "watching":
+        setModalVisible(false);
+
         navigation.navigate(pages.Watching, { book });
         await TrackPlayer.pause();
         break;

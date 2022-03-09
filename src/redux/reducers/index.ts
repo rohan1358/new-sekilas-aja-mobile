@@ -9,6 +9,7 @@ import mainContext from "./main";
 import progressContext from "./progress";
 import shortsCOntext from "./shorts";
 import audioRedux from "./floatingMedia";
+import videoRedux from "./floatingVideo";
 
 const rootReducer = combineReducers({
   sessionReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   mainContext,
   progressContext,
   shortsCOntext,
-  audioRedux
+  audioRedux,
+  videoRedux
 });
 
 export type ReduxState = ReturnType<typeof rootReducer>;

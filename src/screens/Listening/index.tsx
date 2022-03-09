@@ -65,7 +65,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import ListAudio from "./component/ListAudio";
 import { adjust, checkData } from "../../utils";
 import axios from "axios";
-import { closeFloatingMedia, setAudioBookRedux } from "@actions";
+import { setAudioBookRedux } from "@actions";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -339,8 +339,6 @@ export default function Listening({ navigation, route }: any) {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(closeFloatingMedia());
-
       return async () => {
         let persentase =
           Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0;

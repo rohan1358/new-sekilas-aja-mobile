@@ -8,3 +8,4 @@ export * from "./main";
 export * from "./progress";
 export * from "./shorts";
 export * from "./floatingMedia";
+export * from "./floatingVideo";

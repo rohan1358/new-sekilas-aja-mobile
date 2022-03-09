@@ -50,8 +50,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { getProgressByBook, trackProgress } from "../../services";
 import firestore from "@react-native-firebase/firestore";
-import { closeFloatingMedia } from "@actions";
 import TrackPlayer, { State } from "react-native-track-player";
+import { setVideoBookRedux } from "@actions";
 
 let newCurrentTIme = 0,
   newDuration = 0;
@@ -302,11 +302,10 @@ export default function Watching({ navigation, route }: any) {
 
   useFocusEffect(
     useCallback(() => {
-      setTimeout(() => {
-        dispatch(closeFloatingMedia());
-      }, 2000);
       return () => {
         let { book_title, book_cover, author } = book;
+
+        dispatch(setVideoBookRedux(book));
         trackProgress(`${profile.id}-${book.book_title}`, {
           watching: {
             time: newCurrentTIme || 0,

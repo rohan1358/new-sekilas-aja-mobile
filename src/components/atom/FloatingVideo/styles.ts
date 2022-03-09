@@ -1,7 +1,7 @@
 import { neutralColor, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
-import { adjust } from "../../utils";
-import { heightPercent, widthPercent } from "../../helpers";
+import { adjust } from "../../../utils";
+import { heightPercent, widthPercent } from "../../../helpers";
 
 const styles = StyleSheet.create({
   content: {
@@ -10,14 +10,34 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 25
   },
+  contentModal: {
+    backgroundColor: primaryColor.main,
+    flex: 1,
+    // paddingHorizontal: 25,
+    // paddingVertical: 25,
+    width: widthPercent(100)
+  },
+  container: {
+    backgroundColor: primaryColor.main,
+    flex: 1
+  },
   boxImage: {
-    height: heightPercent(25)
-    // marginVertical: 23
+    height: heightPercent(25),
+    paddingTop: adjust(23)
   },
   boxImageLanscape: {
     width: heightPercent(100),
     height: widthPercent(100)
     // marginVertical: 23
+  },
+
+  boxExitIos: {
+    // alignItems: "flex-end",
+    paddingTop: 30
+  },
+
+  boxExit: {
+    // alignItems: "flex-end"
   },
 
   backgroundVideo: {
