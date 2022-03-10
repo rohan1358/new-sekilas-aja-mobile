@@ -65,7 +65,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import ListAudio from "./component/ListAudio";
 import { adjust, checkData } from "../../utils";
 import axios from "axios";
-import { setAudioBookRedux } from "@actions";
+import { setAudioBookRedux, closeFloatingVideo } from "@actions";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -219,6 +219,8 @@ export default function Listening({ navigation, route }: any) {
   }, [progress.position]);
 
   useEffect(() => {
+    dispatch(closeFloatingVideo());
+
     setupPlayer();
 
     const hadbleStop = async () => {
