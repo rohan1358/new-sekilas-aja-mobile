@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     alignItems: "center",
-    borderColor: neutralColor[50]
+    borderColor: neutralColor[50],
+    width: adjust(widthPercent(40))
   },
   iconNewMenu: {
     alignItems: "center",

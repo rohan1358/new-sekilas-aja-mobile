@@ -513,7 +513,7 @@ function NewFloatingVideo() {
               >
                 <Button
                   onPress={() => !isLoading && setPlay(!play)}
-                  style={styles.playFooter}
+                  style={[styles.playFooter, { marginHorizontal: adjust(10) }]}
                 >
                   {play ? (
                     <Play color={primaryColor.main} style={styles.iconPlay} />

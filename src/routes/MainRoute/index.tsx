@@ -48,7 +48,9 @@ const Stack = createStackNavigator<RootStackParamList>();
 const MainRoute = () => {
   const {
     editProfile: { profile },
-    mainContext: { modalSubscribeRedux }
+    mainContext: { modalSubscribeRedux },
+    audioRedux: { audio_exist },
+    videoRedux: { video_exist }
   } = useSelector((state: ReduxState) => state);
 
   const [isFirstTime, setFirstTime] = useState(false);
@@ -206,8 +208,7 @@ const MainRoute = () => {
         <Stack.Screen name={"Subscribe"} component={Subscribe} />
         <Stack.Screen name={"SpecialBookList"} component={SpecialBookList} />
       </Stack.Navigator>
-      <FloatingMedia />
-      <FloatingVideo />
+      {video_exist ? <FloatingVideo /> : <FloatingMedia />}
     </>
   );
 };

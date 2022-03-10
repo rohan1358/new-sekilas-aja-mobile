@@ -143,12 +143,11 @@ const styles = StyleSheet.create({
 
   playFooter: {
     backgroundColor: neutralColor[90],
-    borderRadius: adjust(50),
+    borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: adjust(5)
-    // width: 50,
-    // height: 50
+    width: 50,
+    height: 50
   },
 
   rotate: {
