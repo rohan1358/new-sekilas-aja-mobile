@@ -126,11 +126,19 @@ function OriFloatingMedia() {
   const { index, key, routeNames, routes, stale, type, history } =
     stateNavigation;
 
-  useEffect(() => {
+  const isOpenFloat = () => {
     if (
       routes &&
       ["Listening", "RewatchWebinar", "Watching"].includes(routes[index].name)
     ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpenFloat()) {
       close();
     }
   }, [index]);
@@ -492,206 +500,215 @@ function OriFloatingMedia() {
 
   return (
     <>
-      {audio_exist && (
-        <View>
-          <ScrollView
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={closeFromSLide}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                backgroundColor: primaryColor.main,
-                padding: adjust(10),
-                width: widthPercent(100),
-                overflow: "hidden"
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  flex: 1
-                }}
+      {isOpenFloat() && (
+        <>
+          {audio_exist && (
+            <View>
+              <ScrollView
+                horizontal={true}
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                onMomentumScrollEnd={closeFromSLide}
               >
-                <Button onPress={() => handlePrev()}>
-                  <RotateCcw height={25} color={neutralColor[90]} />
-                </Button>
-                <Button
-                  onPress={() => togglePlayback(playbackState)}
-                  style={[styles.play, { marginHorizontal: adjust(10) }]}
-                >
-                  {playbackState === State.Playing ? (
-                    <Pause color={primaryColor.main} />
-                  ) : (
-                    <Play color={primaryColor.main} style={styles.iconPlay} />
-                  )}
-                </Button>
-                <Button
-                  // onPress={() => {
-                  //   setModalVisible(true);
-                  // }}
-                  onPress={() => handleNext()}
-                >
-                  <RotateCw height={25} color={neutralColor[90]} />
-                </Button>
-                <Button
-                  onPress={() => {
-                    setModalVisible(true);
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    backgroundColor: primaryColor.main,
+                    padding: adjust(10),
+                    width: widthPercent(100),
+                    overflow: "hidden"
                   }}
                 >
                   <View
                     style={{
-                      paddingHorizontal: adjust(10)
+                      flexDirection: "row",
+                      alignItems: "center",
+                      flex: 1
                     }}
                   >
-                    <TextTicker
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: adjust(17),
-                        color: neutralColor[90]
-                      }}
-                      duration={10000}
-                      loop
-                      bounce
-                      repeatSpacer={50}
-                      marqueeDelay={800}
+                    <Button onPress={() => handlePrev()}>
+                      <RotateCcw height={25} color={neutralColor[90]} />
+                    </Button>
+                    <Button
+                      onPress={() => togglePlayback(playbackState)}
+                      style={[styles.play, { marginHorizontal: adjust(10) }]}
                     >
-                      {/* {listBab ? listBab[bab]?.title : "bab"} */}
-                      {titleKilas}
-                    </TextTicker>
+                      {playbackState === State.Playing ? (
+                        <Pause color={primaryColor.main} />
+                      ) : (
+                        <Play
+                          color={primaryColor.main}
+                          style={styles.iconPlay}
+                        />
+                      )}
+                    </Button>
+                    <Button
+                      // onPress={() => {
+                      //   setModalVisible(true);
+                      // }}
+                      onPress={() => handleNext()}
+                    >
+                      <RotateCw height={25} color={neutralColor[90]} />
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        setModalVisible(true);
+                      }}
+                    >
+                      <View
+                        style={{
+                          paddingHorizontal: adjust(10)
+                        }}
+                      >
+                        <TextTicker
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: adjust(17),
+                            color: neutralColor[90]
+                          }}
+                          duration={10000}
+                          loop
+                          bounce
+                          repeatSpacer={50}
+                          marqueeDelay={800}
+                        >
+                          {/* {listBab ? listBab[bab]?.title : "bab"} */}
+                          {titleKilas}
+                        </TextTicker>
 
-                    <TextItem type={"r.14.nc.90"}>{book.book_title}</TextItem>
+                        <TextItem type={"r.14.nc.90"}>
+                          {book.book_title}
+                        </TextItem>
+                      </View>
+                    </Button>
                   </View>
-                </Button>
-              </View>
-              <View>
-                <Button
-                  onPress={() => {
-                    close();
-                  }}
-                >
-                  <CloseX color={neutralColor[90]} />
-                </Button>
-              </View>
-            </View>
-            <View
-              style={{
-                width: widthPercent(100)
-              }}
-            >
-              <TextItem></TextItem>
-            </View>
-          </ScrollView>
-        </View>
-      )}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <View style={styles.container}>
-          <ScrollView
-            ref={refScroll}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            scrollEnabled={false}
-          >
-            <View style={styles.content}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  paddingHorizontal: adjust(10),
-                  alignSelf: "center",
-                  marginTop: adjust(10)
-                }}
-              >
-                <View>
-                  <Button
-                    onPress={() => {
-                      exitPage();
-                    }}
-                  >
-                    <ArrowLeft color={neutralColor[90]} />
-                  </Button>
+                  <View>
+                    <Button
+                      onPress={() => {
+                        close();
+                      }}
+                    >
+                      <CloseX color={neutralColor[90]} />
+                    </Button>
+                  </View>
                 </View>
                 <View
                   style={{
-                    flex: 1,
-                    marginHorizontal: adjust(10)
+                    width: widthPercent(100)
                   }}
                 >
-                  <TextTicker
+                  <TextItem></TextItem>
+                </View>
+              </ScrollView>
+            </View>
+          )}
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}
+          >
+            <View style={styles.container}>
+              <ScrollView
+                ref={refScroll}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                scrollEnabled={false}
+              >
+                <View style={styles.content}>
+                  <View
                     style={{
-                      fontWeight: "bold",
-                      fontSize: adjust(20),
-                      color: neutralColor[90]
+                      flexDirection: "row",
+                      paddingHorizontal: adjust(10),
+                      alignSelf: "center",
+                      marginTop: adjust(10)
                     }}
-                    duration={10000}
-                    loop
-                    bounce
-                    repeatSpacer={50}
-                    marqueeDelay={800}
                   >
-                    {/* {listBab ? listBab[bab]?.title : "bab"} */}
-                    {listBab ? listBab[bab]?.title : "bab"}
-                  </TextTicker>
-                </View>
-                <View
-                  style={
-                    Platform.OS === "ios" ? styles.boxExitIos : styles.boxExit
-                  }
-                >
-                  <Button
-                    onPress={() => {
-                      close();
-                    }}
-                    // style={styles.btn}
-                  >
-                    <Exit />
-                  </Button>
-                </View>
-              </View>
+                    <View>
+                      <Button
+                        onPress={() => {
+                          exitPage();
+                        }}
+                      >
+                        <ArrowLeft color={neutralColor[90]} />
+                      </Button>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginHorizontal: adjust(10)
+                      }}
+                    >
+                      <TextTicker
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: adjust(20),
+                          color: neutralColor[90]
+                        }}
+                        duration={10000}
+                        loop
+                        bounce
+                        repeatSpacer={50}
+                        marqueeDelay={800}
+                      >
+                        {/* {listBab ? listBab[bab]?.title : "bab"} */}
+                        {listBab ? listBab[bab]?.title : "bab"}
+                      </TextTicker>
+                    </View>
+                    <View
+                      style={
+                        Platform.OS === "ios"
+                          ? styles.boxExitIos
+                          : styles.boxExit
+                      }
+                    >
+                      <Button
+                        onPress={() => {
+                          close();
+                        }}
+                        // style={styles.btn}
+                      >
+                        <Exit />
+                      </Button>
+                    </View>
+                  </View>
 
-              {audio_exist && (
-                <View style={{ flex: 1 }}>
-                  <ScrollView>
-                    <View style={stylesScreen.content}>
-                      <View style={stylesScreen.boxImage}>
-                        <Amage
-                          resizeMode="contain"
-                          source={book?.book_cover || newCover}
-                        />
-                      </View>
-                      <View style={stylesScreen.containerTitle}>
-                        {Platform.OS === "ios" ? (
-                          <></>
-                        ) : (
-                          dimensionWidth > 320 && (
-                            <LinearGradient
-                              colors={[
-                                primaryColor.main,
-                                "rgba(251, 207, 50, 0.5)",
-                                "transparent"
-                              ]}
-                              useAngle={true}
-                              angle={45}
-                              angleCenter={{ x: 0.5, y: 0.5 }}
-                              style={stylesScreen.gradientLeft}
+                  {audio_exist && (
+                    <View style={{ flex: 1 }}>
+                      <ScrollView>
+                        <View style={stylesScreen.content}>
+                          <View style={stylesScreen.boxImage}>
+                            <Amage
+                              resizeMode="contain"
+                              source={book?.book_cover || newCover}
                             />
-                          )
-                        )}
+                          </View>
+                          <View style={stylesScreen.containerTitle}>
+                            {Platform.OS === "ios" ? (
+                              <></>
+                            ) : (
+                              dimensionWidth > 320 && (
+                                <LinearGradient
+                                  colors={[
+                                    primaryColor.main,
+                                    "rgba(251, 207, 50, 0.5)",
+                                    "transparent"
+                                  ]}
+                                  useAngle={true}
+                                  angle={45}
+                                  angleCenter={{ x: 0.5, y: 0.5 }}
+                                  style={stylesScreen.gradientLeft}
+                                />
+                              )
+                            )}
 
-                        {/* <TextTicker
+                            {/* <TextTicker
             duration={6000}
             loop
             animationType='scroll'
@@ -699,242 +716,255 @@ function OriFloatingMedia() {
             marqueeDelay={1}
             useNativeDriver={true}
           > */}
-                        <ScrollView
-                          horizontal
-                          showsHorizontalScrollIndicator={false}
-                        >
-                          <TextItem
-                            style={[stylesScreen.text, stylesScreen.title]}
-                          >
-                            {titleTrack}
-                          </TextItem>
-                        </ScrollView>
-
-                        {/* </TextTicker> */}
-                        {Platform.OS === "ios" ? (
-                          <></>
-                        ) : (
-                          dimensionWidth > 320 && (
-                            <LinearGradient
-                              colors={[
-                                "transparent",
-                                "rgba(251, 207, 50, 0.5)",
-                                primaryColor.main
-                              ]}
-                              useAngle={true}
-                              angle={45}
-                              angleCenter={{ x: 0.5, y: 0.5 }}
-                              style={stylesScreen.gradientRight}
-                            />
-                          )
-                        )}
-                      </View>
-
-                      <TextItem style={[stylesScreen.text]}>
-                        {authorTrack}
-                      </TextItem>
-                      <View>
-                        <Slider
-                          value={newValueProgress}
-                          containerStyle={stylesScreen.SliderContainer}
-                          minimumValue={0}
-                          maximumValue={progress.duration}
-                          minimumTrackTintColor={neutralColor[90]}
-                          maximumTrackTintColor={"#D1D7E1"}
-                          thumbTintColor={colors.white}
-                          trackStyle={stylesScreen.trackSliderStyle}
-                          onSlidingComplete={(value) => {
-                            handleSleder(Number(value));
-                          }}
-                        />
-                        <SkeletonContent
-                          containerStyle={stylesScreen.skeleton}
-                          isLoading={progress.duration <= 0}
-                          layout={skeleton.listening.timing}
-                        >
-                          <View style={stylesScreen.boxTextTime}>
-                            <TextItem type={"r.14.nc.90"}>
-                              {new Date(progress.position * 1000)
-                                .toISOString()
-                                .substr(14, 5)}
-                            </TextItem>
-                            <TextItem type={"r.14.nc.90"}>
-                              {new Date(progress.duration * 1000)
-                                .toISOString()
-                                .substr(14, 5)}
-                            </TextItem>
-                          </View>
-                        </SkeletonContent>
-                      </View>
-                      <View style={stylesScreen.boxAction}>
-                        <Button onPress={() => handlePrev()}>
-                          <RotateCcw height={25} color={neutralColor[90]} />
-                        </Button>
-                        <Button
-                          onPress={async () => {
-                            await TrackPlayer.skipToPrevious();
-                            handlePrevBab();
-                          }}
-                        >
-                          <SkipBack color={neutralColor[90]} />
-                        </Button>
-                        <Button
-                          onPress={() => togglePlayback(playbackState)}
-                          style={stylesScreen.play}
-                        >
-                          {playbackState === State.Playing ? (
-                            <Pause color={primaryColor.main} />
-                          ) : (
-                            <Play
-                              color={primaryColor.main}
-                              style={stylesScreen.iconPlay}
-                            />
-                          )}
-                        </Button>
-                        <Button
-                          onPress={async () => {
-                            await TrackPlayer.skipToNext();
-                            handleNextBab();
-                          }}
-                        >
-                          <SkipForward color={neutralColor[90]} />
-                        </Button>
-                        <Button onPress={() => handleNext()}>
-                          <RotateCw height={25} color={neutralColor[90]} />
-                        </Button>
-                      </View>
-                      <View style={stylesScreen.boxFooter}>
-                        <Button onPress={() => refRBSheet.current.open()}>
-                          <TextItem
-                            type={"b.14.nc.90"}
-                            style={stylesScreen.speedText}
-                          >
-                            {strings.kecepatan + speed.toString() + strings.x}
-                          </TextItem>
-                        </Button>
-                        <View style={stylesScreen.SelectBar}>
-                          <Button
-                            onPress={() => navigationTopBar("reading")}
-                            style={stylesScreen.btnBar}
-                          >
-                            <File stroke={"#FCCF32"} strokeWidth={2} />
-                            <TextItem style={stylesScreen.titleSelect}>
-                              {strings.baca}
-                            </TextItem>
-                          </Button>
-                          {book.video_link !== "" && (
-                            <Button
-                              onPress={() => navigationTopBar("watching")}
-                              style={stylesScreen.btnBar}
+                            <ScrollView
+                              horizontal
+                              showsHorizontalScrollIndicator={false}
                             >
-                              <Video stroke={"#FCCF32"} strokeWidth={2} />
-                              <TextItem style={stylesScreen.titleSelect}>
-                                {strings.tonton}
+                              <TextItem
+                                style={[stylesScreen.text, stylesScreen.title]}
+                              >
+                                {titleTrack}
                               </TextItem>
-                            </Button>
-                          )}
+                            </ScrollView>
 
-                          <Button
-                            style={stylesScreen.btnBar}
-                            onPress={onFinishedInReading}
-                          >
-                            <CheckCircle
-                              stroke={
-                                listBookFinishingRead.includes(book.book_title)
-                                  ? neutralColor[90]
-                                  : primaryColor.main
-                              }
-                              fill={
-                                !listBookFinishingRead.includes(book.book_title)
-                                  ? neutralColor[90]
-                                  : primaryColor.main
-                              }
-                              strokeWidth={2}
+                            {/* </TextTicker> */}
+                            {Platform.OS === "ios" ? (
+                              <></>
+                            ) : (
+                              dimensionWidth > 320 && (
+                                <LinearGradient
+                                  colors={[
+                                    "transparent",
+                                    "rgba(251, 207, 50, 0.5)",
+                                    primaryColor.main
+                                  ]}
+                                  useAngle={true}
+                                  angle={45}
+                                  angleCenter={{ x: 0.5, y: 0.5 }}
+                                  style={stylesScreen.gradientRight}
+                                />
+                              )
+                            )}
+                          </View>
+
+                          <TextItem style={[stylesScreen.text]}>
+                            {authorTrack}
+                          </TextItem>
+                          <View>
+                            <Slider
+                              value={newValueProgress}
+                              containerStyle={stylesScreen.SliderContainer}
+                              minimumValue={0}
+                              maximumValue={progress.duration}
+                              minimumTrackTintColor={neutralColor[90]}
+                              maximumTrackTintColor={"#D1D7E1"}
+                              thumbTintColor={colors.white}
+                              trackStyle={stylesScreen.trackSliderStyle}
+                              onSlidingComplete={(value) => {
+                                handleSleder(Number(value));
+                              }}
                             />
-                            {/* <Gap horizontal={sp.xs} /> */}
-                            <TextItem style={stylesScreen.titleSelect}>
-                              {listBookFinishingRead.includes(book.book_title)
-                                ? strings.cancleDoneRead
-                                : strings.doneRead}
-                            </TextItem>
-                          </Button>
-                        </View>
-                      </View>
-
-                      {checkData(mounted) &&
-                        listSoundTrack &&
-                        listSoundTrack.map((data: any, index: number) => {
-                          return (
-                            <View
-                              key={index}
-                              style={{
-                                marginVertical: adjust(5)
+                            <SkeletonContent
+                              containerStyle={stylesScreen.skeleton}
+                              isLoading={progress.duration <= 0}
+                              layout={skeleton.listening.timing}
+                            >
+                              <View style={stylesScreen.boxTextTime}>
+                                <TextItem type={"r.14.nc.90"}>
+                                  {new Date(progress.position * 1000)
+                                    .toISOString()
+                                    .substr(14, 5)}
+                                </TextItem>
+                                <TextItem type={"r.14.nc.90"}>
+                                  {new Date(progress.duration * 1000)
+                                    .toISOString()
+                                    .substr(14, 5)}
+                                </TextItem>
+                              </View>
+                            </SkeletonContent>
+                          </View>
+                          <View style={stylesScreen.boxAction}>
+                            <Button onPress={() => handlePrev()}>
+                              <RotateCcw height={25} color={neutralColor[90]} />
+                            </Button>
+                            <Button
+                              onPress={async () => {
+                                await TrackPlayer.skipToPrevious();
+                                handlePrevBab();
                               }}
                             >
-                              <ListAudio
-                                onPress={() => {
-                                  handleMoveBab(index);
-                                }}
-                                audio={{ ...data, text: listBab[index]?.title }}
-                                id={index}
-                                active={isRunning && index === bab}
-                              />
-                            </View>
-                          );
-                        })}
-                    </View>
-                  </ScrollView>
+                              <SkipBack color={neutralColor[90]} />
+                            </Button>
+                            <Button
+                              onPress={() => togglePlayback(playbackState)}
+                              style={stylesScreen.play}
+                            >
+                              {playbackState === State.Playing ? (
+                                <Pause color={primaryColor.main} />
+                              ) : (
+                                <Play
+                                  color={primaryColor.main}
+                                  style={stylesScreen.iconPlay}
+                                />
+                              )}
+                            </Button>
+                            <Button
+                              onPress={async () => {
+                                await TrackPlayer.skipToNext();
+                                handleNextBab();
+                              }}
+                            >
+                              <SkipForward color={neutralColor[90]} />
+                            </Button>
+                            <Button onPress={() => handleNext()}>
+                              <RotateCw height={25} color={neutralColor[90]} />
+                            </Button>
+                          </View>
+                          <View style={stylesScreen.boxFooter}>
+                            <Button onPress={() => refRBSheet.current.open()}>
+                              <TextItem
+                                type={"b.14.nc.90"}
+                                style={stylesScreen.speedText}
+                              >
+                                {strings.kecepatan +
+                                  speed.toString() +
+                                  strings.x}
+                              </TextItem>
+                            </Button>
+                            <View style={stylesScreen.SelectBar}>
+                              <Button
+                                onPress={() => navigationTopBar("reading")}
+                                style={stylesScreen.btnBar}
+                              >
+                                <File stroke={"#FCCF32"} strokeWidth={2} />
+                                <TextItem style={stylesScreen.titleSelect}>
+                                  {strings.baca}
+                                </TextItem>
+                              </Button>
+                              {book.video_link !== "" && (
+                                <Button
+                                  onPress={() => navigationTopBar("watching")}
+                                  style={stylesScreen.btnBar}
+                                >
+                                  <Video stroke={"#FCCF32"} strokeWidth={2} />
+                                  <TextItem style={stylesScreen.titleSelect}>
+                                    {strings.tonton}
+                                  </TextItem>
+                                </Button>
+                              )}
 
-                  <RBSheet
-                    ref={refRBSheet}
-                    closeOnDragDown={false}
-                    closeOnPressMask={true}
-                    customStyles={{
-                      wrapper: {
-                        backgroundColor: "rgba(0,0,0,0.3)"
-                      },
-                      container: {
-                        borderTopLeftRadius: 24,
-                        borderTopRightRadius: 24
-                      }
-                    }}
-                    height={heightPercent(42)}
-                  >
-                    <View style={stylesScreen.boxTitleSheet}>
-                      <TextItem style={stylesScreen.titleSheet}>
-                        {strings.kecepatan_audio}
-                      </TextItem>
-                      <Button onPress={() => refRBSheet.current.close()}>
-                        <Exit color={neutralColor[90]} />
-                      </Button>
-                    </View>
-                    <DummyFlatList>
-                      <View style={stylesScreen.boxListSpeed}>
-                        {speedList.map((item, index) => (
-                          <Button
-                            onPress={() => {
-                              handleRate(item);
-                              // setTimeout(() => {
-                              //   setSpeed(item)
-                              // }, 1200);
-                            }}
-                            key={index}
-                            style={stylesScreen.listSpeed}
-                          >
-                            <TextItem type={"r.16.nc.90"}>
-                              {item + strings.x}
-                            </TextItem>
+                              <Button
+                                style={stylesScreen.btnBar}
+                                onPress={onFinishedInReading}
+                              >
+                                <CheckCircle
+                                  stroke={
+                                    listBookFinishingRead.includes(
+                                      book.book_title
+                                    )
+                                      ? neutralColor[90]
+                                      : primaryColor.main
+                                  }
+                                  fill={
+                                    !listBookFinishingRead.includes(
+                                      book.book_title
+                                    )
+                                      ? neutralColor[90]
+                                      : primaryColor.main
+                                  }
+                                  strokeWidth={2}
+                                />
+                                {/* <Gap horizontal={sp.xs} /> */}
+                                <TextItem style={stylesScreen.titleSelect}>
+                                  {listBookFinishingRead.includes(
+                                    book.book_title
+                                  )
+                                    ? strings.cancleDoneRead
+                                    : strings.doneRead}
+                                </TextItem>
+                              </Button>
+                            </View>
+                          </View>
+
+                          {checkData(mounted) &&
+                            listSoundTrack &&
+                            listSoundTrack.map((data: any, index: number) => {
+                              return (
+                                <View
+                                  key={index}
+                                  style={{
+                                    marginVertical: adjust(5)
+                                  }}
+                                >
+                                  <ListAudio
+                                    onPress={() => {
+                                      handleMoveBab(index);
+                                    }}
+                                    audio={{
+                                      ...data,
+                                      text: listBab[index]?.title
+                                    }}
+                                    id={index}
+                                    active={isRunning && index === bab}
+                                  />
+                                </View>
+                              );
+                            })}
+                        </View>
+                      </ScrollView>
+
+                      <RBSheet
+                        ref={refRBSheet}
+                        closeOnDragDown={false}
+                        closeOnPressMask={true}
+                        customStyles={{
+                          wrapper: {
+                            backgroundColor: "rgba(0,0,0,0.3)"
+                          },
+                          container: {
+                            borderTopLeftRadius: 24,
+                            borderTopRightRadius: 24
+                          }
+                        }}
+                        height={heightPercent(42)}
+                      >
+                        <View style={stylesScreen.boxTitleSheet}>
+                          <TextItem style={stylesScreen.titleSheet}>
+                            {strings.kecepatan_audio}
+                          </TextItem>
+                          <Button onPress={() => refRBSheet.current.close()}>
+                            <Exit color={neutralColor[90]} />
                           </Button>
-                        ))}
-                      </View>
-                    </DummyFlatList>
-                  </RBSheet>
+                        </View>
+                        <DummyFlatList>
+                          <View style={stylesScreen.boxListSpeed}>
+                            {speedList.map((item, index) => (
+                              <Button
+                                onPress={() => {
+                                  handleRate(item);
+                                  // setTimeout(() => {
+                                  //   setSpeed(item)
+                                  // }, 1200);
+                                }}
+                                key={index}
+                                style={stylesScreen.listSpeed}
+                              >
+                                <TextItem type={"r.16.nc.90"}>
+                                  {item + strings.x}
+                                </TextItem>
+                              </Button>
+                            ))}
+                          </View>
+                        </DummyFlatList>
+                      </RBSheet>
+                    </View>
+                  )}
                 </View>
-              )}
+              </ScrollView>
             </View>
-          </ScrollView>
-        </View>
-      </Modal>
+          </Modal>
+        </>
+      )}
     </>
   );
 }

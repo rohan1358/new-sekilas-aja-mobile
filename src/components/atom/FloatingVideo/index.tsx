@@ -98,11 +98,19 @@ function NewFloatingVideo() {
   const { index, key, routeNames, routes, stale, type, history } =
     stateNavigation;
 
-  useEffect(() => {
+  const isOpenFloat = () => {
     if (
       routes &&
       ["Listening", "RewatchWebinar", "Watching"].includes(routes[index].name)
     ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpenFloat()) {
       close();
     }
   }, [index]);
@@ -410,482 +418,502 @@ function NewFloatingVideo() {
 
   return (
     <>
-      {videoFooter && (
-        <View
-          style={
-            {
-              // marginVertical: adjust(10)
-            }
-          }
-        >
-          <ScrollView
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={closeFromSLide}
-          >
-            <Button
-              onPress={() => {
-                setModalVisible(true);
-              }}
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                backgroundColor: primaryColor.main,
-                paddingHorizontal: adjust(10),
-                width: widthPercent(100),
-                overflow: "hidden",
-                height: heightPercent(8)
-              }}
+      {isOpenFloat() && (
+        <>
+          {videoFooter && (
+            <View
+              style={
+                {
+                  // marginVertical: adjust(10)
+                }
+              }
             >
-              <View
-                style={{
-                  backgroundColor: "black",
-                  flex: 0.6
-                }}
+              <ScrollView
+                horizontal={true}
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                onMomentumScrollEnd={closeFromSLide}
               >
-                <View
-                  style={{
-                    height: "95%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignContent: "center",
-                    alignSelf: "center"
-                  }}
-                >
-                  {isLoading && (
-                    <ActivityIndicator size="small" color={primaryColor.main} />
-                  )}
-                </View>
-                <Video
-                  fullscreen={newOrientation.includes(LANDSCAPE)}
-                  onTouchStart={(e) =>
-                    newOrientation.includes(LANDSCAPE) && toggleIndicator()
-                  }
-                  ref={videoPlayer}
-                  source={videoBigbany}
-                  onLoadStart={onLoadStart}
-                  onLoad={onLoad}
-                  fullscreenOrientation={"landscape"}
-                  style={[
-                    Platform.OS === "ios" && newOrientation.includes(LANDSCAPE)
-                      ? styles.backgroundVideoIosFooter
-                      : styles.backgroundVideoFooter
-                  ]}
-                  paused={play}
-                  onProgress={onProgress}
-                  resizeMode={
-                    newOrientation.includes(LANDSCAPE) ? "contain" : "cover"
-                  }
-                  // resizeMode={"contain"}
-                  rate={speed}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  paddingHorizontal: adjust(10)
-                }}
-              >
-                <TextTicker
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: adjust(17),
-                    color: neutralColor[90]
-                  }}
-                  duration={10000}
-                  loop
-                  bounce
-                  repeatSpacer={50}
-                  marqueeDelay={800}
-                >
-                  {/* {listBab ? listBab[bab]?.title : "bab"} */}
-                  {book.book_title}
-                </TextTicker>
-                <TextItem type={"r.14.nc.80"}>{book.author}</TextItem>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center"
-                }}
-              >
-                <Button
-                  onPress={() => !isLoading && setPlay(!play)}
-                  style={[styles.playFooter, { marginHorizontal: adjust(10) }]}
-                >
-                  {play ? (
-                    <Play
-                      width={adjust(32)}
-                      height={adjust(32)}
-                      color={primaryColor.main}
-                      style={styles.iconPlay}
-                    />
-                  ) : (
-                    <Pause
-                      width={adjust(32)}
-                      height={adjust(32)}
-                      color={primaryColor.main}
-                    />
-                  )}
-                </Button>
                 <Button
                   onPress={() => {
-                    close();
+                    setModalVisible(true);
+                  }}
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    backgroundColor: primaryColor.main,
+                    paddingHorizontal: adjust(10),
+                    width: widthPercent(100),
+                    overflow: "hidden",
+                    height: heightPercent(8)
                   }}
                 >
-                  <CloseX
-                    width={adjust(32)}
-                    height={adjust(32)}
-                    color={neutralColor[90]}
-                  />
+                  <View
+                    style={{
+                      backgroundColor: "black",
+                      flex: 0.6
+                    }}
+                  >
+                    <View
+                      style={{
+                        height: "95%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        alignContent: "center",
+                        alignSelf: "center"
+                      }}
+                    >
+                      {isLoading && (
+                        <ActivityIndicator
+                          size="small"
+                          color={primaryColor.main}
+                        />
+                      )}
+                    </View>
+                    <Video
+                      fullscreen={newOrientation.includes(LANDSCAPE)}
+                      onTouchStart={(e) =>
+                        newOrientation.includes(LANDSCAPE) && toggleIndicator()
+                      }
+                      ref={videoPlayer}
+                      source={videoBigbany}
+                      onLoadStart={onLoadStart}
+                      onLoad={onLoad}
+                      fullscreenOrientation={"landscape"}
+                      style={[
+                        Platform.OS === "ios" &&
+                        newOrientation.includes(LANDSCAPE)
+                          ? styles.backgroundVideoIosFooter
+                          : styles.backgroundVideoFooter
+                      ]}
+                      paused={play}
+                      onProgress={onProgress}
+                      resizeMode={
+                        newOrientation.includes(LANDSCAPE) ? "contain" : "cover"
+                      }
+                      // resizeMode={"contain"}
+                      rate={speed}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      paddingHorizontal: adjust(10)
+                    }}
+                  >
+                    <TextTicker
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: adjust(17),
+                        color: neutralColor[90]
+                      }}
+                      duration={10000}
+                      loop
+                      bounce
+                      repeatSpacer={50}
+                      marqueeDelay={800}
+                    >
+                      {/* {listBab ? listBab[bab]?.title : "bab"} */}
+                      {book.book_title}
+                    </TextTicker>
+                    <TextItem type={"r.14.nc.80"}>{book.author}</TextItem>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Button
+                      onPress={() => !isLoading && setPlay(!play)}
+                      style={[
+                        styles.playFooter,
+                        { marginHorizontal: adjust(10) }
+                      ]}
+                    >
+                      {play ? (
+                        <Play
+                          width={adjust(32)}
+                          height={adjust(32)}
+                          color={primaryColor.main}
+                          style={styles.iconPlay}
+                        />
+                      ) : (
+                        <Pause
+                          width={adjust(32)}
+                          height={adjust(32)}
+                          color={primaryColor.main}
+                        />
+                      )}
+                    </Button>
+                    <Button
+                      onPress={() => {
+                        close();
+                      }}
+                    >
+                      <CloseX
+                        width={adjust(32)}
+                        height={adjust(32)}
+                        color={neutralColor[90]}
+                      />
+                    </Button>
+                  </View>
                 </Button>
-              </View>
-            </Button>
-            <View
-              style={{
-                width: widthPercent(100)
-              }}
-            >
-              <TextItem></TextItem>
-            </View>
-          </ScrollView>
-        </View>
-      )}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <View style={styles.container}>
-          <ScrollView
-            ref={refScroll}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            scrollEnabled={false}
-          >
-            <View style={styles.contentModal}>
-              <>
                 <View
-                  style={{ flex: 1 }}
-                  onLayout={(event) => {
-                    newHandleOrientation(event);
+                  style={{
+                    width: widthPercent(100)
                   }}
                 >
-                  {!loadRotate && (
-                    <>
-                      <Base
-                        barColor={primaryColor.main}
-                        snackState={snackState}
-                        setSnackState={setSnackState}
-                        fullScreen={newOrientation.includes(LANDSCAPE)}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            paddingHorizontal: adjust(10),
-                            alignSelf: "center",
-                            // marginTop: adjust(10),
-                            backgroundColor: primaryColor.main
-                          }}
-                        >
-                          <View>
-                            <Button
-                              onPress={() => {
-                                exitPage();
-                              }}
-                            >
-                              <ArrowLeft color={neutralColor[90]} />
-                            </Button>
-                          </View>
-                          <View
-                            style={{
-                              flex: 1,
-                              marginHorizontal: adjust(10)
-                            }}
-                          >
-                            <TextTicker
-                              style={{
-                                fontWeight: "bold",
-                                fontSize: adjust(20),
-                                color: neutralColor[90]
-                              }}
-                              duration={10000}
-                              loop
-                              bounce
-                              repeatSpacer={50}
-                              marqueeDelay={800}
-                            >
-                              {/* {listBab ? listBab[bab]?.title : "bab"} */}
-                              {book.book_title}
-                            </TextTicker>
-                          </View>
-                          <View
-                            style={
-                              Platform.OS === "ios"
-                                ? styles.boxExitIos
-                                : styles.boxExit
-                            }
-                          >
-                            <Button
-                              onPress={() => {
-                                close();
-                              }}
-                              // style={styles.btn}
-                            >
-                              <Exit />
-                            </Button>
-                          </View>
-                        </View>
+                  <TextItem></TextItem>
+                </View>
+              </ScrollView>
+            </View>
+          )}
 
-                        <View style={styles.boxImage}>
-                          <>
-                            {isLoading && (
-                              <View style={styles.loadVideo}>
-                                <ActivityIndicator
-                                  size="large"
-                                  color={primaryColor.main}
-                                />
-                              </View>
-                            )}
-                            {isBufferLoad && (
-                              <View style={styles.loadVideoActive}>
-                                <ActivityIndicator
-                                  size="large"
-                                  color={primaryColor.main}
-                                />
-                              </View>
-                            )}
-                          </>
-
-                          <Video
-                            onTouchStart={(e) =>
-                              newOrientation.includes(LANDSCAPE) &&
-                              toggleIndicator()
-                            }
-                            ref={videoPlayer}
-                            source={videoBigbany}
-                            onLoadStart={onLoadStart}
-                            onLoad={onLoad}
-                            fullscreenOrientation={"landscape"}
-                            style={
-                              Platform.OS === "ios" &&
-                              newOrientation.includes(LANDSCAPE)
-                                ? styles.backgroundVideoIos
-                                : styles.backgroundVideo
-                            }
-                            paused={play}
-                            onProgress={onProgress}
-                            resizeMode={"cover"}
-                            rate={speed}
-                          />
-                        </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}
+          >
+            <View style={styles.container}>
+              <ScrollView
+                ref={refScroll}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                scrollEnabled={false}
+              >
+                <View style={styles.contentModal}>
+                  <>
+                    <View
+                      style={{ flex: 1 }}
+                      onLayout={(event) => {
+                        newHandleOrientation(event);
+                      }}
+                    >
+                      {!loadRotate && (
                         <>
-                          <View style={styles.content}>
-                            <View>
-                              <Slider
-                                value={currentTime}
-                                containerStyle={styles.SliderContainer}
-                                minimumValue={0}
-                                maximumValue={duration}
-                                minimumTrackTintColor={neutralColor[90]}
-                                maximumTrackTintColor={"#D1D7E1"}
-                                thumbTintColor={colors.white}
-                                trackStyle={styles.trackSliderStyle}
-                                onValueChange={(value) => {
-                                  videoPlayer.current.seek(Number(value));
-                                  setCurrentTime(Number(value));
-                                }}
-                              />
-                              <View style={styles.boxTextTime}>
-                                <TextItem type={"r.14.nc.90"}>
-                                  {_convertDuration(currentTime)}/
-                                  {_convertDuration(duration)}
-                                </TextItem>
+                          <Base
+                            barColor={primaryColor.main}
+                            snackState={snackState}
+                            setSnackState={setSnackState}
+                            fullScreen={newOrientation.includes(LANDSCAPE)}
+                          >
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                paddingHorizontal: adjust(10),
+                                alignSelf: "center",
+                                // marginTop: adjust(10),
+                                backgroundColor: primaryColor.main
+                              }}
+                            >
+                              <View>
                                 <Button
                                   onPress={() => {
-                                    handleOrientation(LANDSCAPE);
-                                    Orientation.lockToLandscape();
+                                    exitPage();
                                   }}
                                 >
-                                  <Maximize
-                                    height={25}
-                                    color={neutralColor[90]}
-                                  />
+                                  <ArrowLeft color={neutralColor[90]} />
                                 </Button>
-                                {/* <TextItem type={"r.14.nc.90"}>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: adjust(10)
+                                }}
+                              >
+                                <TextTicker
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: adjust(20),
+                                    color: neutralColor[90]
+                                  }}
+                                  duration={10000}
+                                  loop
+                                  bounce
+                                  repeatSpacer={50}
+                                  marqueeDelay={800}
+                                >
+                                  {/* {listBab ? listBab[bab]?.title : "bab"} */}
+                                  {book.book_title}
+                                </TextTicker>
+                              </View>
+                              <View
+                                style={
+                                  Platform.OS === "ios"
+                                    ? styles.boxExitIos
+                                    : styles.boxExit
+                                }
+                              >
+                                <Button
+                                  onPress={() => {
+                                    close();
+                                  }}
+                                  // style={styles.btn}
+                                >
+                                  <Exit />
+                                </Button>
+                              </View>
+                            </View>
+
+                            <View style={styles.boxImage}>
+                              <>
+                                {isLoading && (
+                                  <View style={styles.loadVideo}>
+                                    <ActivityIndicator
+                                      size="large"
+                                      color={primaryColor.main}
+                                    />
+                                  </View>
+                                )}
+                                {isBufferLoad && (
+                                  <View style={styles.loadVideoActive}>
+                                    <ActivityIndicator
+                                      size="large"
+                                      color={primaryColor.main}
+                                    />
+                                  </View>
+                                )}
+                              </>
+
+                              <Video
+                                onTouchStart={(e) =>
+                                  newOrientation.includes(LANDSCAPE) &&
+                                  toggleIndicator()
+                                }
+                                ref={videoPlayer}
+                                source={videoBigbany}
+                                onLoadStart={onLoadStart}
+                                onLoad={onLoad}
+                                fullscreenOrientation={"landscape"}
+                                style={
+                                  Platform.OS === "ios" &&
+                                  newOrientation.includes(LANDSCAPE)
+                                    ? styles.backgroundVideoIos
+                                    : styles.backgroundVideo
+                                }
+                                paused={play}
+                                onProgress={onProgress}
+                                resizeMode={"cover"}
+                                rate={speed}
+                              />
+                            </View>
+                            <>
+                              <View style={styles.content}>
+                                <View>
+                                  <Slider
+                                    value={currentTime}
+                                    containerStyle={styles.SliderContainer}
+                                    minimumValue={0}
+                                    maximumValue={duration}
+                                    minimumTrackTintColor={neutralColor[90]}
+                                    maximumTrackTintColor={"#D1D7E1"}
+                                    thumbTintColor={colors.white}
+                                    trackStyle={styles.trackSliderStyle}
+                                    onValueChange={(value) => {
+                                      videoPlayer.current.seek(Number(value));
+                                      setCurrentTime(Number(value));
+                                    }}
+                                  />
+                                  <View style={styles.boxTextTime}>
+                                    <TextItem type={"r.14.nc.90"}>
+                                      {_convertDuration(currentTime)}/
+                                      {_convertDuration(duration)}
+                                    </TextItem>
+                                    <Button
+                                      onPress={() => {
+                                        handleOrientation(LANDSCAPE);
+                                        Orientation.lockToLandscape();
+                                      }}
+                                    >
+                                      <Maximize
+                                        height={25}
+                                        color={neutralColor[90]}
+                                      />
+                                    </Button>
+                                    {/* <TextItem type={"r.14.nc.90"}>
                     <Maximize
                       onPress={() => handleOrientation(LANDSCAPE)}
                       height={25}
                       color={neutralColor[90]}
                     />
                   </TextItem> */}
-                              </View>
-                            </View>
-                            <View style={styles.boxAction}>
-                              <Button onPress={() => handlePrev()}>
-                                <RotateCcw
-                                  height={25}
-                                  color={neutralColor[90]}
-                                />
-                              </Button>
-                              <Button>
-                                <SkipBack color={neutralColor[90]} />
-                              </Button>
-                              <Button
-                                onPress={() => setPlay(!play)}
-                                style={styles.play}
-                              >
-                                {play ? (
-                                  <Play
-                                    color={primaryColor.main}
-                                    style={styles.iconPlay}
-                                  />
-                                ) : (
-                                  <Pause color={primaryColor.main} />
-                                )}
-                              </Button>
-                              <Button>
-                                <SkipForward color={neutralColor[90]} />
-                              </Button>
-                              <Button onPress={() => handleNext()}>
-                                <RotateCw
-                                  height={25}
-                                  color={neutralColor[90]}
-                                />
-                              </Button>
-                            </View>
-                            <View style={styles.boxFooter}>
-                              <Button onPress={() => refRBSheet.current.open()}>
-                                <TextItem
-                                  type={"b.14.nc.90"}
-                                  style={styles.speedText}
-                                >
-                                  {strings.kecepatan +
-                                    speed.toString() +
-                                    strings.x}
-                                </TextItem>
-                              </Button>
-                              <View style={styles.SelectBar}>
-                                <Button
-                                  onPress={() => navigationTopBar("reading")}
-                                  style={styles.btnBar}
-                                >
-                                  <File stroke={"#FCCF32"} strokeWidth={2} />
-                                  <TextItem style={styles.titleSelect}>
-                                    {strings.baca}
-                                  </TextItem>
-                                </Button>
-                                <Button
-                                  onPress={() => navigationTopBar("listening")}
-                                  style={styles.btnBar}
-                                >
-                                  <Headphones
-                                    stroke={"#FCCF32"}
-                                    strokeWidth={2}
-                                  />
-                                  <TextItem style={styles.titleSelect}>
-                                    {strings.dengar}
-                                  </TextItem>
-                                </Button>
-
-                                <Button
-                                  style={styles.btnBar}
-                                  onPress={() => onFinishedInReading()}
-                                >
-                                  <CheckCircle
-                                    stroke={
-                                      listBookFinishingRead.includes(
-                                        book.book_title
-                                      )
-                                        ? neutralColor[90]
-                                        : primaryColor.main
-                                    }
-                                    fill={
-                                      !listBookFinishingRead.includes(
-                                        book.book_title
-                                      )
-                                        ? neutralColor[90]
-                                        : primaryColor.main
-                                    }
-                                    strokeWidth={2}
-                                  />
-                                  {/* <Gap horizontal={sp.xs} /> */}
-                                  <TextItem style={styles.titleSelect}>
-                                    {listBookFinishingRead.includes(
-                                      book.book_title
-                                    )
-                                      ? strings.cancleDoneRead
-                                      : strings.doneRead}
-                                  </TextItem>
-                                </Button>
-                              </View>
-                            </View>
-                          </View>
-                          <RBSheet
-                            ref={refRBSheet}
-                            closeOnDragDown={false}
-                            closeOnPressMask={true}
-                            customStyles={{
-                              wrapper: {
-                                backgroundColor: "rgba(0,0,0,0.3)"
-                              },
-                              container: {
-                                borderTopLeftRadius: 24,
-                                borderTopRightRadius: 24
-                              }
-                            }}
-                            height={heightPercent(42)}
-                          >
-                            <View>
-                              <View style={styles.boxTitleSheet}>
-                                <TextItem style={styles.titleSheet}>
-                                  {strings.kecepatan_video}
-                                </TextItem>
-                                <Button
-                                  onPress={() => refRBSheet.current.close()}
-                                >
-                                  <Exit color={neutralColor[90]} />
-                                </Button>
-                              </View>
-                              <DummyFlatList>
-                                <View style={styles.boxListSpeed}>
-                                  {speedList.map((item, index) => (
-                                    <Button
-                                      onPress={() => {
-                                        refRBSheet.current.close();
-                                        setTimeout(() => {
-                                          setSpeed(item);
-                                        }, 1200);
-                                      }}
-                                      key={index}
-                                      style={styles.listSpeed}
+                                  </View>
+                                </View>
+                                <View style={styles.boxAction}>
+                                  <Button onPress={() => handlePrev()}>
+                                    <RotateCcw
+                                      height={25}
+                                      color={neutralColor[90]}
+                                    />
+                                  </Button>
+                                  <Button>
+                                    <SkipBack color={neutralColor[90]} />
+                                  </Button>
+                                  <Button
+                                    onPress={() => setPlay(!play)}
+                                    style={styles.play}
+                                  >
+                                    {play ? (
+                                      <Play
+                                        color={primaryColor.main}
+                                        style={styles.iconPlay}
+                                      />
+                                    ) : (
+                                      <Pause color={primaryColor.main} />
+                                    )}
+                                  </Button>
+                                  <Button>
+                                    <SkipForward color={neutralColor[90]} />
+                                  </Button>
+                                  <Button onPress={() => handleNext()}>
+                                    <RotateCw
+                                      height={25}
+                                      color={neutralColor[90]}
+                                    />
+                                  </Button>
+                                </View>
+                                <View style={styles.boxFooter}>
+                                  <Button
+                                    onPress={() => refRBSheet.current.open()}
+                                  >
+                                    <TextItem
+                                      type={"b.14.nc.90"}
+                                      style={styles.speedText}
                                     >
-                                      <TextItem type={"r.16.nc.90"}>
-                                        {item + strings.x}
+                                      {strings.kecepatan +
+                                        speed.toString() +
+                                        strings.x}
+                                    </TextItem>
+                                  </Button>
+                                  <View style={styles.SelectBar}>
+                                    <Button
+                                      onPress={() =>
+                                        navigationTopBar("reading")
+                                      }
+                                      style={styles.btnBar}
+                                    >
+                                      <File
+                                        stroke={"#FCCF32"}
+                                        strokeWidth={2}
+                                      />
+                                      <TextItem style={styles.titleSelect}>
+                                        {strings.baca}
                                       </TextItem>
                                     </Button>
-                                  ))}
+                                    <Button
+                                      onPress={() =>
+                                        navigationTopBar("listening")
+                                      }
+                                      style={styles.btnBar}
+                                    >
+                                      <Headphones
+                                        stroke={"#FCCF32"}
+                                        strokeWidth={2}
+                                      />
+                                      <TextItem style={styles.titleSelect}>
+                                        {strings.dengar}
+                                      </TextItem>
+                                    </Button>
+
+                                    <Button
+                                      style={styles.btnBar}
+                                      onPress={() => onFinishedInReading()}
+                                    >
+                                      <CheckCircle
+                                        stroke={
+                                          listBookFinishingRead.includes(
+                                            book.book_title
+                                          )
+                                            ? neutralColor[90]
+                                            : primaryColor.main
+                                        }
+                                        fill={
+                                          !listBookFinishingRead.includes(
+                                            book.book_title
+                                          )
+                                            ? neutralColor[90]
+                                            : primaryColor.main
+                                        }
+                                        strokeWidth={2}
+                                      />
+                                      {/* <Gap horizontal={sp.xs} /> */}
+                                      <TextItem style={styles.titleSelect}>
+                                        {listBookFinishingRead.includes(
+                                          book.book_title
+                                        )
+                                          ? strings.cancleDoneRead
+                                          : strings.doneRead}
+                                      </TextItem>
+                                    </Button>
+                                  </View>
                                 </View>
-                              </DummyFlatList>
-                            </View>
-                          </RBSheet>
+                              </View>
+                              <RBSheet
+                                ref={refRBSheet}
+                                closeOnDragDown={false}
+                                closeOnPressMask={true}
+                                customStyles={{
+                                  wrapper: {
+                                    backgroundColor: "rgba(0,0,0,0.3)"
+                                  },
+                                  container: {
+                                    borderTopLeftRadius: 24,
+                                    borderTopRightRadius: 24
+                                  }
+                                }}
+                                height={heightPercent(42)}
+                              >
+                                <View>
+                                  <View style={styles.boxTitleSheet}>
+                                    <TextItem style={styles.titleSheet}>
+                                      {strings.kecepatan_video}
+                                    </TextItem>
+                                    <Button
+                                      onPress={() => refRBSheet.current.close()}
+                                    >
+                                      <Exit color={neutralColor[90]} />
+                                    </Button>
+                                  </View>
+                                  <DummyFlatList>
+                                    <View style={styles.boxListSpeed}>
+                                      {speedList.map((item, index) => (
+                                        <Button
+                                          onPress={() => {
+                                            refRBSheet.current.close();
+                                            setTimeout(() => {
+                                              setSpeed(item);
+                                            }, 1200);
+                                          }}
+                                          key={index}
+                                          style={styles.listSpeed}
+                                        >
+                                          <TextItem type={"r.16.nc.90"}>
+                                            {item + strings.x}
+                                          </TextItem>
+                                        </Button>
+                                      ))}
+                                    </View>
+                                  </DummyFlatList>
+                                </View>
+                              </RBSheet>
+                            </>
+                          </Base>
                         </>
-                      </Base>
-                    </>
-                  )}
+                      )}
+                    </View>
+                  </>
                 </View>
-              </>
+              </ScrollView>
             </View>
-          </ScrollView>
-        </View>
-      </Modal>
+          </Modal>
+        </>
+      )}
     </>
   );
 }
