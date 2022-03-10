@@ -15,7 +15,10 @@ export default function HeaderListening({
 
   return (
     <View style={styles.container}>
-      <Button onPress={() => navigation.goBack()} style={styles.btn}>
+      <Button
+        onPress={() => (navigation.goBack ? navigation.goBack() : navigation())}
+        style={styles.btn}
+      >
         <ArrowLeft color={neutralColor[90]} />
       </Button>
       <>

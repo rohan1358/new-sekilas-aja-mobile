@@ -374,9 +374,9 @@ export default function Listening({ navigation, route }: any) {
               newValueDuration = 0;
               newBab = 0;
             });
-            await setMouted(false);
-            listSoundTrack = false;
           }
+          await setMouted(false);
+          listSoundTrack = false;
         }
       };
     }, [])
@@ -429,7 +429,9 @@ export default function Listening({ navigation, route }: any) {
     >
       <View style={{ flex: 1, height: "100%" }}>
         <HeaderListening
-          navigation={navigation}
+          navigation={() => {
+            navigation.push("BookDetail", { id: book.book_title });
+          }}
           onShare={() => onShare()}
           title={listBab ? listBab[bab]?.title : "bab"}
         />

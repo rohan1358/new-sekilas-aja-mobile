@@ -37,9 +37,9 @@ const Base = ({
         </SafeAreaProvider>
       ) : (
         <GestureHandlerRootView style={s.container}>
-          {Platform.OS === 'ios' ? (
-            <SafeAreaView 
-              edges={['top']}
+          {Platform.OS === "ios" ? (
+            <SafeAreaView
+              edges={["top"]}
               style={{
                 backgroundColor: barColor
               }}
