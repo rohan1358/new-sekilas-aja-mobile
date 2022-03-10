@@ -516,9 +516,18 @@ function NewFloatingVideo() {
                   style={[styles.playFooter, { marginHorizontal: adjust(10) }]}
                 >
                   {play ? (
-                    <Play color={primaryColor.main} style={styles.iconPlay} />
+                    <Play
+                      width={adjust(32)}
+                      height={adjust(32)}
+                      color={primaryColor.main}
+                      style={styles.iconPlay}
+                    />
                   ) : (
-                    <Pause color={primaryColor.main} />
+                    <Pause
+                      width={adjust(32)}
+                      height={adjust(32)}
+                      color={primaryColor.main}
+                    />
                   )}
                 </Button>
                 <Button
@@ -526,7 +535,11 @@ function NewFloatingVideo() {
                     close();
                   }}
                 >
-                  <CloseX color={neutralColor[90]} />
+                  <CloseX
+                    width={adjust(32)}
+                    height={adjust(32)}
+                    color={neutralColor[90]}
+                  />
                 </Button>
               </View>
             </Button>
