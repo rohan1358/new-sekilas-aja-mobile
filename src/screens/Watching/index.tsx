@@ -51,7 +51,7 @@ import { ReduxState } from "@rux";
 import { getProgressByBook, trackProgress } from "../../services";
 import firestore from "@react-native-firebase/firestore";
 import TrackPlayer, { State } from "react-native-track-player";
-import { setVideoBookRedux } from "@actions";
+import { closeFloatingVideo, setVideoBookRedux } from "@actions";
 
 let newCurrentTIme = 0,
   newDuration = 0;
@@ -291,6 +291,8 @@ export default function Watching({ navigation, route }: any) {
   };
 
   useEffect(() => {
+    dispatch(closeFloatingVideo());
+
     fetchListFinishingRead();
   }, []);
 
