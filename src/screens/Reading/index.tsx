@@ -32,6 +32,7 @@ import {
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ReduxState } from "@rux";
 import {
+  doneProgress,
   fetchBookContent,
   fetchDetailBooks,
   getBookCoverImageURL,
@@ -68,9 +69,10 @@ const WIDTH = widthPercent(100);
 const ACTION_HIDE = -128;
 
 let newDetailBook = {},
-  newContent = {},
+  newContent: any = {},
   newCurrentPage = 1,
-  page = 0;
+  page = 0,
+  newListBookFinishingRead: any = [];
 
 let newMaesure: any = [
   2183.636474609375, 2183.636474609375, 2183.636474609375, 2183.636474609375,
@@ -148,7 +150,7 @@ const Reading = () => {
 
   const closeTip = () => (tipPosition.value = withTiming(-WIDTH / 2));
 
-  const BOOK_ID = route.params?.id || "";
+  const BOOK_ID: string = route.params?.id || "";
   const BOOK = route.params?.book;
 
   const customComp = () => (
@@ -282,7 +284,11 @@ const Reading = () => {
       .doc(email)
       .get();
     const list: any = get?.data() ? get?.data()?.book : [];
+
+    console.log("list", list);
+
     setListBookFinishingRead(list);
+    newListBookFinishingRead = list;
   };
 
   useEffect(() => {
@@ -312,26 +318,33 @@ const Reading = () => {
     useCallback(() => {
       return () => {
         let { book_title, book_cover, author }: any = newDetailBook;
-        const body = {
-          reading: {
-            bab: newCurrentPage, // by index, ex. current page = 1 That means 2.
-            persentase: Math.round(
-              ((newCurrentPage + 1) / newContent?.numberOfPage) * 100
-            )
-          },
-          book_title,
-          book_cover,
-          author,
-          user: profile.id,
-          date: new Date()
-        };
 
-        trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
-          newDetailBook = {};
-          newContent = {};
-          newCurrentPage = 0;
-        });
-        setMeasure(false);
+        if (!newListBookFinishingRead.includes(book_title)) {
+          let newCurrent =
+            newContent?.pageContent.length === newCurrentPage
+              ? newCurrentPage
+              : newCurrentPage + 1;
+          const body = {
+            reading: {
+              bab: newCurrentPage, // by index, ex. current page = 1 That means 2.
+              persentase: Math.round(
+                (newCurrent / newContent?.numberOfPage) * 100
+              )
+            },
+            book_title,
+            book_cover,
+            author,
+            user: profile.id,
+            date: new Date()
+          };
+
+          trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
+            newDetailBook = {};
+            newContent = {};
+            newCurrentPage = 0;
+          });
+          setMeasure(false);
+        }
       };
     }, [])
   );
@@ -344,6 +357,8 @@ const Reading = () => {
     if (listBookFinishingRead.includes(BOOK_ID)) {
       newData = listBookFinishingRead.filter((book) => book !== BOOK_ID);
       type = "reduce";
+    } else {
+      doneProgress(`${profile.id}-${BOOK_ID}`);
     }
 
     firestore()
@@ -469,14 +484,21 @@ const Reading = () => {
             <TextItem type="b.32.nc.100">{item.title}</TextItem>
             <Gap vertical={sp.sl} />
 
-            {item.details.map((desc: any) => {
-              return (
-                <>
-                  <TextItem type="r.16.nc.70">{desc}</TextItem>
-                  <Gap vertical={sp.sm} />
-                </>
-              );
-            })}
+            {Array.isArray(item.details) ? (
+              item.details.map((desc: any) => {
+                return (
+                  <>
+                    <TextItem type="r.16.nc.70">{desc}</TextItem>
+                    <Gap vertical={sp.sm} />
+                  </>
+                );
+              })
+            ) : (
+              <>
+                <TextItem type="r.16.nc.70">-</TextItem>
+                <Gap vertical={sp.sm} />
+              </>
+            )}
           </View>
         </View>
       </>

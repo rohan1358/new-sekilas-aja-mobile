@@ -57,7 +57,11 @@ import { SnackStateProps } from "../../atom/Base/types";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
-import { getProgressByBook, trackProgress } from "../../../services";
+import {
+  doneProgress,
+  getProgressByBook,
+  trackProgress
+} from "../../../services";
 import firestore from "@react-native-firebase/firestore";
 import TrackPlayer, { State } from "react-native-track-player";
 import { adjust } from "../../../utils";
@@ -66,7 +70,8 @@ import TextTicker from "react-native-text-ticker";
 import Gap from "../Gap";
 
 let newCurrentTIme = 0,
-  newDuration = 0;
+  newDuration = 0,
+  newListBookFinishingRead: any = [];
 
 export default function FloatingVideo() {
   const {
@@ -289,6 +294,7 @@ function NewFloatingVideo() {
     const list: any = get?.data() ? get?.data()?.book : [];
 
     setListBookFinishingRead(list);
+    newListBookFinishingRead = list;
   };
 
   const overlayRef = useRef<any>();
@@ -313,6 +319,8 @@ function NewFloatingVideo() {
       newData = listBookFinishingRead.filter((book) => book !== book_title);
 
       type = "reduce";
+    } else {
+      doneProgress(`${profile.id}-${book_title}`);
     }
 
     firestore()
@@ -350,21 +358,23 @@ function NewFloatingVideo() {
     dispatch(closeFloatingVideo());
 
     let { book_title, book_cover, author } = book;
-    trackProgress(`${profile.id}-${book.book_title}`, {
-      watching: {
-        time: newCurrentTIme || 0,
-        persentase:
-          Math.round((Math.round(newCurrentTIme) / newDuration) * 100) || 0
-      },
-      book_title,
-      book_cover,
-      author,
-      user: profile.id,
-      date: new Date()
-    }).then((res) => {
-      newCurrentTIme = 0;
-      newDuration = 0;
-    });
+    if (!newListBookFinishingRead.includes(book_title)) {
+      trackProgress(`${profile.id}-${book.book_title}`, {
+        watching: {
+          time: newCurrentTIme || 0,
+          persentase:
+            Math.round((Math.round(newCurrentTIme) / newDuration) * 100) || 0
+        },
+        book_title,
+        book_cover,
+        author,
+        user: profile.id,
+        date: new Date()
+      }).then((res) => {
+        newCurrentTIme = 0;
+        newDuration = 0;
+      });
+    }
   };
 
   const handleOrientation = async (orientation: any) => {

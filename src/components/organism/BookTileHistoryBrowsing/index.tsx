@@ -115,13 +115,29 @@ const BookTileChallenge = ({
               <TextItem>
                 <File stroke={"black"} strokeWidth={2} />
               </TextItem>
-              <ProgressBarAndroid
+              {/* <ProgressBarAndroid
                 styleAttr="Horizontal"
                 indeterminate={false}
                 progress={progress.reading.persentase / 100}
                 style={{ flex: 1, marginHorizontal: adjust(5) }}
                 color={primaryColor.main}
-              />
+              /> */}
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: neutralColor[50],
+                  height: adjust(3),
+                  marginHorizontal: adjust(6)
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: primaryColor.main,
+                    width: `${progress.reading.persentase}%`,
+                    height: "100%"
+                  }}
+                />
+              </View>
               <TextItem>{progress.reading.persentase}%</TextItem>
             </View>
             <Gap vertical={sp.xs} />
@@ -134,13 +150,31 @@ const BookTileChallenge = ({
               <TextItem>
                 <Headphones stroke={"black"} strokeWidth={2} />
               </TextItem>
-              <ProgressBarAndroid
+              {/* <ProgressBarAndroid
                 styleAttr="Horizontal"
                 indeterminate={false}
                 progress={progress.listening.persentase / 100}
                 style={{ flex: 1, marginHorizontal: adjust(5) }}
                 color={primaryColor.main}
-              />
+              /> */}
+
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: neutralColor[50],
+                  height: adjust(3),
+                  marginHorizontal: adjust(6)
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: primaryColor.main,
+                    width: `${progress.listening.persentase}%`,
+                    height: "100%"
+                  }}
+                />
+              </View>
+
               <TextItem>{progress.listening.persentase}%</TextItem>
             </View>
             <Gap vertical={sp.xs} />
@@ -152,13 +186,31 @@ const BookTileChallenge = ({
             <TextItem>
               <Video stroke={"black"} strokeWidth={2} />
             </TextItem>
-            <ProgressBarAndroid
+            {/* <ProgressBarAndroid
               styleAttr="Horizontal"
               indeterminate={false}
               progress={progress.watching.persentase / 100}
               style={{ flex: 1, marginHorizontal: adjust(5) }}
               color={primaryColor.main}
-            />
+            /> */}
+
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: neutralColor[50],
+                height: adjust(3),
+                marginHorizontal: adjust(6)
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: primaryColor.main,
+                  width: `${progress.watching.persentase}%`,
+                  height: "100%"
+                }}
+              />
+            </View>
+
             <TextItem>{progress.watching.persentase}%</TextItem>
           </View>
         )}

@@ -94,3 +94,23 @@ export const getProgressByBook = (route: any, by: any) => {
     }
   });
 };
+
+export const doneProgress = (book: any) => {
+  return new Promise((resolve, reject) => {
+    fireInProgress
+      .doc(book)
+      .delete()
+      .then((res) => {
+        resolve({
+          message: "success remove progress",
+          is_success: true
+        });
+      })
+      .catch(() => {
+        reject({
+          message: "success remove progress",
+          is_success: true
+        });
+      });
+  });
+};

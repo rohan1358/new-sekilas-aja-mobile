@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
   containerButton: {
     flexDirection: "row",
     // position: "absolute",
-    bottom: adjust(10)
+    bottom: adjust(10),
+    alignItems: "center"
   }
 });
 

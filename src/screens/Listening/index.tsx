@@ -56,7 +56,8 @@ import {
   getBookCoverImageURL,
   trackProgress,
   getProgressByBook,
-  baseUrl
+  baseUrl,
+  doneProgress
 } from "../../services/index";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
@@ -82,7 +83,8 @@ TrackPlayer.updateOptions({
 let newValueProgress = 0,
   newValueDuration = 0,
   newBab = 0,
-  listSoundTrack: any = false;
+  listSoundTrack: any = false,
+  newListBookFinishingRead: any = [];
 
 export default function Listening({ navigation, route }: any) {
   const { book } = route.params;
@@ -257,6 +259,7 @@ export default function Listening({ navigation, route }: any) {
       .get();
     const list: any = get?.data() ? get?.data()?.book : [];
     setListBookFinishingRead(list);
+    newListBookFinishingRead = list;
   };
 
   const onFinishedInReading = async () => {
@@ -268,7 +271,9 @@ export default function Listening({ navigation, route }: any) {
 
     if (checkBook) {
       newData = listBookFinishingRead.filter((book) => book !== book_title);
-      type = "reduce";
+      // type = "reduce";
+    } else {
+      doneProgress(`${profile.id}-${book_title}`);
     }
 
     firestore()
@@ -347,30 +352,31 @@ export default function Listening({ navigation, route }: any) {
 
         if (persentase > 0) {
           let { book_title, book_cover, author }: any = book;
-
           dispatch(setAudioBookRedux(book));
 
-          const body = {
-            listening: {
-              time: newValueProgress || 0,
-              persentase:
-                Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0,
-              bab: newBab
-            },
-            book_title,
-            book_cover: book_cover || newCover,
-            author,
-            user: profile.id,
-            date: new Date()
-          };
+          if (!newListBookFinishingRead.includes(book_title)) {
+            const body = {
+              listening: {
+                time: newValueProgress || 0,
+                persentase:
+                  Math.round(((newBab + 1) / listSoundTrack.length) * 100) || 0,
+                bab: newBab
+              },
+              book_title,
+              book_cover: book_cover || newCover,
+              author,
+              user: profile.id,
+              date: new Date()
+            };
 
-          trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
-            newValueProgress = 0;
-            newValueDuration = 0;
-            newBab = 0;
-          });
-          await setMouted(false);
-          listSoundTrack = false;
+            trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
+              newValueProgress = 0;
+              newValueDuration = 0;
+              newBab = 0;
+            });
+            await setMouted(false);
+            listSoundTrack = false;
+          }
         }
       };
     }, [])
