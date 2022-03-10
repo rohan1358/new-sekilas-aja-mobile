@@ -73,7 +73,19 @@ export default function FloatingVideo() {
     videoRedux: { video_exist }
   } = useSelector((state: ReduxState) => state);
 
-  return <>{video_exist && <NewFloatingVideo />}</>;
+  const navigation = useNavigation();
+
+  let stateNavigation = navigation.getState() || {};
+
+  const { index, key, routeNames, routes, stale, type, history } =
+    stateNavigation;
+
+  let routeName = routes && routes[index].name;
+
+  let newChecking =
+    routes && ["Listening", "RewatchWebinar", "Watching"].includes(routeName);
+
+  return <>{!newChecking && video_exist && <NewFloatingVideo />}</>;
 }
 
 function NewFloatingVideo() {
@@ -98,14 +110,20 @@ function NewFloatingVideo() {
   const { index, key, routeNames, routes, stale, type, history } =
     stateNavigation;
 
+  let routeName = routes && routes[index].name;
+
+  let newChecking =
+    routes && ["Listening", "RewatchWebinar", "Watching"].includes(routeName);
+
   const isOpenFloat = () => {
-    if (
-      routes &&
-      ["Listening", "RewatchWebinar", "Watching"].includes(routes[index].name)
-    ) {
-      return false;
+    if (routes) {
+      if (["Listening", "RewatchWebinar", "Watching"].includes(routeName)) {
+        return false;
+      } else {
+        return true;
+      }
     } else {
-      return true;
+      return false;
     }
   };
 
@@ -418,7 +436,7 @@ function NewFloatingVideo() {
 
   return (
     <>
-      {isOpenFloat() && (
+      {!newChecking && (
         <>
           {videoFooter && (
             <View
