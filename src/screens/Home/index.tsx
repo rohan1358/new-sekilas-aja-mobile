@@ -479,7 +479,7 @@ const Home = () => {
     }
   };
 
-  let open = false;
+  let open = true;
 
   let childMenu = [
     {

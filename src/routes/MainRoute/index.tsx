@@ -208,9 +208,13 @@ const MainRoute = () => {
         <Stack.Screen name={"Subscribe"} component={Subscribe} />
         <Stack.Screen name={"SpecialBookList"} component={SpecialBookList} />
       </Stack.Navigator>
-      {video_exist ? <FloatingVideo /> : <FloatingMedia />}
-
-      <FloatingMentoring />
+      {video_exist ? (
+        <FloatingVideo />
+      ) : audio_exist ? (
+        <FloatingMedia />
+      ) : (
+        <FloatingMentoring />
+      )}
     </>
   );
 };
