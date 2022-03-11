@@ -110,7 +110,7 @@ function NewFloationgMentoring({}: any) {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [play, setPlay] = useState(false);
+  const [play, setPlay] = useState(true);
   const [speed, setSpeed] = useState(1.0);
   const [isLoading, setIsLoading] = useState(false);
   const [isBufferLoad, setBuffer] = useState(false);

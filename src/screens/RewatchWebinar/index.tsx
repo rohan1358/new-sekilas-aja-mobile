@@ -77,6 +77,7 @@ export default function RewatchWebinar({ navigation, route }: any) {
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(closeFloatingMentoring());
       return () => {
         dispatch(setVideoMentoringRedux(newParams));
       };
