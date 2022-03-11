@@ -422,7 +422,7 @@ export default function Watching({ navigation, route }: any) {
             {!newOrientation.includes(LANDSCAPE) && (
               <HeaderListening
                 navigation={() => {
-                  navigation.push("BookDetail", { id: book.book_title });
+                  navigation.replace("BookDetail", { id: book.book_title });
                 }}
                 onShare={() => onShare()}
                 title={book.book_title}

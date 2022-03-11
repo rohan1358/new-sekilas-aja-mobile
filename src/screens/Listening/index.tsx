@@ -430,7 +430,7 @@ export default function Listening({ navigation, route }: any) {
       <View style={{ flex: 1, height: "100%" }}>
         <HeaderListening
           navigation={() => {
-            navigation.push("BookDetail", { id: book.book_title });
+            navigation.replace("BookDetail", { id: book.book_title });
           }}
           onShare={() => onShare()}
           title={listBab ? listBab[bab]?.title : "bab"}

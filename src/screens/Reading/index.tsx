@@ -156,7 +156,7 @@ const Reading = () => {
   const customComp = () => (
     <ReadingHeader
       title={BOOK_ID || "Book Content"}
-      backPress={() => navigation.push("BookDetail", { id: BOOK_ID })}
+      backPress={() => navigation.replace("BookDetail", { id: BOOK_ID })}
       dotPress={async () => {
         await setToggleTolltip(true);
         actionPosition.value = withTiming(ACTION_HIDE);
