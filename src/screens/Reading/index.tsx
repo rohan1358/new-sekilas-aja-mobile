@@ -285,8 +285,6 @@ const Reading = () => {
       .get();
     const list: any = get?.data() ? get?.data()?.book : [];
 
-    console.log("list", list);
-
     setListBookFinishingRead(list);
     newListBookFinishingRead = list;
   };
@@ -320,30 +318,32 @@ const Reading = () => {
         let { book_title, book_cover, author }: any = newDetailBook;
 
         if (!newListBookFinishingRead.includes(book_title)) {
-          let newCurrent =
-            newContent?.pageContent.length === newCurrentPage
-              ? newCurrentPage
-              : newCurrentPage + 1;
-          const body = {
-            reading: {
-              bab: newCurrentPage, // by index, ex. current page = 1 That means 2.
-              persentase: Math.round(
-                (newCurrent / newContent?.numberOfPage) * 100
-              )
-            },
-            book_title,
-            book_cover,
-            author,
-            user: profile.id,
-            date: new Date()
-          };
+          if (Array.isArray(newContent?.pageContent)) {
+            let newCurrent =
+              newContent?.pageContent.length === newCurrentPage
+                ? newCurrentPage
+                : newCurrentPage + 1;
+            const body = {
+              reading: {
+                bab: newCurrentPage, // by index, ex. current page = 1 That means 2.
+                persentase: Math.round(
+                  (newCurrent / newContent?.numberOfPage) * 100
+                )
+              },
+              book_title,
+              book_cover,
+              author,
+              user: profile.id,
+              date: new Date()
+            };
 
-          trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
-            newDetailBook = {};
-            newContent = {};
-            newCurrentPage = 0;
-          });
-          setMeasure(false);
+            trackProgress(`${profile.id}-${book_title}`, body).then((res) => {
+              newDetailBook = {};
+              newContent = {};
+              newCurrentPage = 0;
+            });
+            setMeasure(false);
+          }
         }
       };
     }, [])

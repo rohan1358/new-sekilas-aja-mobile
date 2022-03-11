@@ -8,6 +8,7 @@ import Seed from "./Seed";
 import TextItem from "./TextItem";
 import FloatingMedia from "./FloatingMedia";
 import FloatingVideo from "./FloatingVideo";
+import FloatingMentoring from "./FloatingMentoring";
 
 export { default as AdaptiveText } from "./AdaptiveText";
 export { default as StoryIndicator } from "./StoryIndicator";
@@ -22,5 +23,6 @@ export {
   Seed,
   TextItem,
   FloatingMedia,
-  FloatingVideo
+  FloatingVideo,
+  FloatingMentoring
 };

@@ -141,7 +141,7 @@ function NewFloatingVideo() {
   const {
     editProfile: { profile },
     sessionReducer: { email },
-    videoRedux: { book, video_exist, videoFooter, videoPage }
+    videoRedux: { book, videoFooter, videoPage }
   } = useSelector((state: ReduxState) => state);
 
   const setCurrentTime = (e: any) => {
@@ -449,13 +449,7 @@ function NewFloatingVideo() {
       {!newChecking && (
         <>
           {videoFooter && (
-            <View
-              style={
-                {
-                  // marginVertical: adjust(10)
-                }
-              }
-            >
+            <View>
               <ScrollView
                 horizontal={true}
                 pagingEnabled={true}

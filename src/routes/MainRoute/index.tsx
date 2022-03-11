@@ -41,7 +41,7 @@ import firestore from "@react-native-firebase/firestore";
 import { updateUser } from "@services";
 import { firebaseTrackPayment, getInvoices } from "../../services/payment";
 import { firebaseNode } from "@constants";
-import { FloatingMedia, FloatingVideo } from "@atom";
+import { FloatingMedia, FloatingMentoring, FloatingVideo } from "@atom";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -209,6 +209,8 @@ const MainRoute = () => {
         <Stack.Screen name={"SpecialBookList"} component={SpecialBookList} />
       </Stack.Navigator>
       {video_exist ? <FloatingVideo /> : <FloatingMedia />}
+
+      <FloatingMentoring />
     </>
   );
 };

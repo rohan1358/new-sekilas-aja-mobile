@@ -9,3 +9,4 @@ export * from "./progress";
 export * from "./shorts";
 export * from "./floatingMedia";
 export * from "./floatingVideo";
+export * from "./floatingMentoring";

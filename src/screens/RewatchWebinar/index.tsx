@@ -6,7 +6,7 @@ import {
   HeaderListening,
   TextItem
 } from "../../components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Share, View, Platform } from "react-native";
 import Orientation, {
   PORTRAIT,
@@ -46,11 +46,17 @@ import { heightPercent, logger } from "../../helpers";
 import { speedList } from "./dummy";
 import Video from "react-native-video";
 import { SnackStateProps } from "../../components/atom/Base/types";
+import { useFocusEffect } from "@react-navigation/native";
+import { closeFloatingMentoring, setVideoMentoringRedux } from "@actions";
+import { useDispatch } from "react-redux";
+
+let newParams = {};
 
 export default function RewatchWebinar({ navigation, route }: any) {
   const { id_video, title } = route.params;
   const refRBSheet = useRef();
   const videoPlayer = useRef(null);
+
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -64,6 +70,18 @@ export default function RewatchWebinar({ navigation, route }: any) {
   // const [videoUrl, setVideoUrl] = useState(videoNusa)
 
   const [loadRotate, setLoadRotate] = useState(false);
+
+  newParams = route.params;
+
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        dispatch(setVideoMentoringRedux(newParams));
+      };
+    }, [])
+  );
 
   const onLoadStart = () => {
     setIsLoading(true);
@@ -160,6 +178,8 @@ export default function RewatchWebinar({ navigation, route }: any) {
     }
   };
   useEffect(() => {
+    closeFloatingMentoring();
+
     var myHeaders = new Headers({
       "SproutVideo-Api-Key": "c1c6624f7314a47777f9e3fdb3dcaccf"
     });
