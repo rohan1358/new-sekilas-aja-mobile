@@ -2,6 +2,7 @@ import {
   CLOSE_FLOATING_MEDIA,
   SET_AUDIO_BOOK,
   SET_DISPLAY_AUDIO,
+  SET_LIST_KILAS_AUDIO,
   SET_PROGRESS_AUDIO
 } from "../actionTypes";
 
@@ -29,5 +30,12 @@ export const setDisplayAudioRedux = (display: any) => {
 export const closeFloatingMedia = () => {
   return {
     type: CLOSE_FLOATING_MEDIA
+  };
+};
+
+export const setListKilasAudio = (payload?: any) => {
+  return {
+    type: SET_LIST_KILAS_AUDIO,
+    payload
   };
 };

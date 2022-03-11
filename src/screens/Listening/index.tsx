@@ -66,7 +66,11 @@ import { StackActions, useFocusEffect } from "@react-navigation/native";
 import ListAudio from "./component/ListAudio";
 import { adjust, checkData } from "../../utils";
 import axios from "axios";
-import { setAudioBookRedux, closeFloatingVideo } from "@actions";
+import {
+  setAudioBookRedux,
+  closeFloatingVideo,
+  setListKilasAudio
+} from "@actions";
 
 TrackPlayer.updateOptions({
   stopWithApp: true,
@@ -90,7 +94,8 @@ export default function Listening({ navigation, route }: any) {
   const { book } = route.params;
   const {
     sessionReducer: { email },
-    editProfile: { profile }
+    editProfile: { profile },
+    audioRedux: { listKilasAudio }
   } = useSelector((state: ReduxState) => state);
   const playbackState = usePlaybackState();
   const progress = useProgress();
@@ -98,7 +103,7 @@ export default function Listening({ navigation, route }: any) {
   const refRBSheet = useRef();
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [speed, setSpeed] = useState(1.0);
-
+  const [newCover, setNewCover] = useState<any>("");
   const [titleTrack, setTitle] = useState();
   const [authorTrack, setAuthor] = useState();
   const [bab, setBabOri] = useState(0);
@@ -133,6 +138,12 @@ export default function Listening({ navigation, route }: any) {
       .then((res) => {
         listSoundTrack = res.data.data;
         setMouted(true);
+
+        dispatch(
+          setListKilasAudio({
+            [book?.book_title]: res.data.data
+          })
+        );
       });
 
     try {
@@ -417,13 +428,18 @@ export default function Listening({ navigation, route }: any) {
     }
   };
 
-  const [newCover, setNewCover] = useState<any>("");
-
   const newGetCover = async () => {
     getBookCoverImageURL(book?.book_title).then((res) => {
       setNewCover(res);
     });
   };
+
+  // console.log("listSoundTrack", listSoundTrack);
+
+  // const newListSoundTrack = listSoundTrack;
+  const newListSoundTrack = listKilasAudio[book.book_title]
+    ? listKilasAudio[book.book_title]
+    : listSoundTrack;
 
   const dimensionWidth = Dimensions.get("screen").width;
   return (
@@ -621,8 +637,8 @@ export default function Listening({ navigation, route }: any) {
               </View>
             </View>
 
-            {checkData(mounted) &&
-              listSoundTrack.map((data: any, index: number) => {
+            {(checkData(mounted) || Array.isArray(newListSoundTrack)) &&
+              newListSoundTrack.map((data: any, index: number) => {
                 return (
                   <View
                     key={index}
