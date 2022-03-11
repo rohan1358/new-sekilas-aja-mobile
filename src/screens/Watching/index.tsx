@@ -45,7 +45,7 @@ import { heightPercent, logger } from "../../helpers";
 import { speedList } from "./dummy";
 import Video from "react-native-video";
 import { SnackStateProps } from "../../components/atom/Base/types";
-import { useFocusEffect } from "@react-navigation/native";
+import { StackActions, useFocusEffect } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "@rux";
 import { doneProgress, getProgressByBook, trackProgress } from "../../services";
@@ -185,9 +185,13 @@ export default function Watching({ navigation, route }: any) {
     }
   };
 
+  const popAction = StackActions.pop(1);
+
   const navigationTopBar = (type = "") => {
     switch (type) {
       case "reading":
+        navigation.dispatch(popAction);
+
         navigation.navigate("Reading", {
           id: book.book_title,
           page: 0,
@@ -195,7 +199,10 @@ export default function Watching({ navigation, route }: any) {
         });
         break;
       case "listening":
+        navigation.dispatch(popAction);
+
         navigation.navigate(pages.Listening, { book });
+
         break;
       case "watching":
         navigation.navigate(pages.Watching, { book });
@@ -422,7 +429,7 @@ export default function Watching({ navigation, route }: any) {
             {!newOrientation.includes(LANDSCAPE) && (
               <HeaderListening
                 navigation={() => {
-                  navigation.replace("BookDetail", { id: book.book_title });
+                  navigation.goBack();
                 }}
                 onShare={() => onShare()}
                 title={book.book_title}

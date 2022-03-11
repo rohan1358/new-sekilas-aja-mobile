@@ -6,6 +6,7 @@ import {
   HeartBook
 } from "@assets";
 import { neutralColor, primaryColor } from "@constants";
+import { useNavigation, StackActions } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
 import { Button } from "../../atom";
@@ -18,6 +19,17 @@ export default function HeaderBookDetail({
   active,
   isSubscribe
 }: HeaderBookDetailProps) {
+  const newNavigation = useNavigation();
+
+  const popAction = StackActions.pop(1);
+
+  let stateNavigation = newNavigation.getState() || {};
+
+  const { index, key, routeNames, routes, stale, type, history } =
+    stateNavigation;
+
+  let routeName = routes && routes[index].name;
+  // newNavigation.dispatch(popAction)
   return (
     <View style={styles.container}>
       <Button onPress={() => navigation.goBack()}>

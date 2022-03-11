@@ -25,6 +25,7 @@ import { logger, useMounted, widthPercent } from "@helpers";
 import firestore from "@react-native-firebase/firestore";
 import {
   RouteProp,
+  StackActions,
   useFocusEffect,
   useNavigation,
   useRoute
@@ -156,7 +157,7 @@ const Reading = () => {
   const customComp = () => (
     <ReadingHeader
       title={BOOK_ID || "Book Content"}
-      backPress={() => navigation.replace("BookDetail", { id: BOOK_ID })}
+      backPress={() => navigation.goBack()}
       dotPress={async () => {
         await setToggleTolltip(true);
         actionPosition.value = withTiming(ACTION_HIDE);
@@ -548,9 +549,13 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
     });
   };
 
+  const popAction = StackActions.pop(1);
+
   const navigationTopBar = (type: any) => {
     switch (type) {
       case "reading":
+        navigation.dispatch(popAction);
+
         navigation.navigate("Reading", {
           id: BOOK_ID,
           page: 0,
@@ -558,6 +563,8 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
         });
         break;
       case "listening":
+        navigation.dispatch(popAction);
+
         navigation.navigate("Listening", {
           book: checkData(BOOK) ? BOOK : detailBook
         });

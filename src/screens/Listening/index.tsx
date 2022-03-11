@@ -62,7 +62,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "../../redux/reducers";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
-import { useFocusEffect } from "@react-navigation/native";
+import { StackActions, useFocusEffect } from "@react-navigation/native";
 import ListAudio from "./component/ListAudio";
 import { adjust, checkData } from "../../utils";
 import axios from "axios";
@@ -382,9 +382,13 @@ export default function Listening({ navigation, route }: any) {
     }, [])
   );
 
+  const popAction = StackActions.pop(1);
+
   const navigationTopBar = async (type = "") => {
     switch (type) {
       case "reading":
+        navigation.dispatch(popAction);
+
         navigation.navigate("Reading", {
           id: book.book_title,
           page: 0,
@@ -393,6 +397,8 @@ export default function Listening({ navigation, route }: any) {
         await TrackPlayer.pause();
         break;
       case "watching":
+        navigation.dispatch(popAction);
+
         navigation.navigate(pages.Watching, { book });
         await TrackPlayer.pause();
         break;
@@ -430,7 +436,7 @@ export default function Listening({ navigation, route }: any) {
       <View style={{ flex: 1, height: "100%" }}>
         <HeaderListening
           navigation={() => {
-            navigation.replace("BookDetail", { id: book.book_title });
+            navigation.goBack();
           }}
           onShare={() => onShare()}
           title={listBab ? listBab[bab]?.title : "bab"}
