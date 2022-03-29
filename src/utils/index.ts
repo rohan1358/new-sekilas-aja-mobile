@@ -7,11 +7,35 @@ const padTo2Digits = (num: number) => {
 };
 
 const adjust = (size?: any) => {
+  const calculate = (param: any) => {
+    if (size > 60) {
+      return param * 3;
+    } else if (size > 50) {
+      return param * 2;
+    } else {
+      return param;
+    }
+  };
+
   if (size >= 5) {
     if (pixelRatio <= 1.5) {
-      return size - 4;
+      return size - calculate(4);
     } else if (pixelRatio <= 2) {
-      return size - 2;
+      return size - calculate(2);
+    } else {
+      return size;
+    }
+  } else {
+    return size;
+  }
+};
+
+const adjustLetterSpace = (size?: any) => {
+  if (size >= 5) {
+    if (pixelRatio <= 1.5) {
+      return size + 0.4;
+    } else if (pixelRatio <= 2) {
+      return size + 0.2;
     } else {
       return size;
     }
@@ -46,7 +70,9 @@ const checkData = (param: any) => {
 
 const validateEmail = (emailAdress: any) => {
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (emailAdress.match(regexEmail)) {
+  if (!emailAdress.includes("com")) {
+    return false;
+  } else if (emailAdress.match(regexEmail) || !emailAdress.includes("com")) {
     return true;
   } else {
     return false;
@@ -67,5 +93,6 @@ export {
   checkData,
   validateEmail,
   adjust,
-  getRandomInt
+  getRandomInt,
+  adjustLetterSpace
 };

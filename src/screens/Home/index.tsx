@@ -98,7 +98,6 @@ const storyColors = [
 ];
 
 const Home = () => {
-  const profileStore = store.getState().editProfile.profile;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const isMounted = useMounted();
@@ -112,6 +111,8 @@ const Home = () => {
     editProfile: { profile },
     shortsCOntext: { myShorts }
   } = useSelector((state: ReduxState) => state);
+
+  const profileStore = profile;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -364,6 +365,32 @@ const Home = () => {
 
   useEffect(() => {
     fetchMyShorts(profile.id);
+  }, []);
+
+  let mountedSnapshot = false;
+
+  useEffect(() => {
+    try {
+      if (!mountedSnapshot && profileStore) {
+        firestore()
+          .collection("users")
+          .doc(profile.id)
+          .onSnapshot(async (res) => {
+            // newLastRead
+            // readingData
+            const [profileData] = await Promise.all([
+              fetchProfile(email, profile.id)
+            ]);
+            mountedSnapshot = true;
+            if (profileData.isSuccess) {
+              setProfile({ ...profileData.data, statusFetch: true });
+              dispatch(setProfileRedux(profileData.data));
+
+              handleSub(profileData.data);
+            }
+          });
+      }
+    } catch {}
   }, []);
 
   const getHomeData = async (isRefresh: any) => {

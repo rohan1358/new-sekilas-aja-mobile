@@ -251,7 +251,7 @@ export const strings = {
   x: "x",
 
   yakin_keluar: "Yakin ingin keluar?",
-  yuk_upgrade: "Yuk, upgrade dulu ke premium!",
+  yuk_upgrade: "Yuk upgrade dulu ke premium",
   upgrade_premium: "Upgrade ke premium",
 
   zona: "Zona",
@@ -261,5 +261,5 @@ export const strings = {
   webinar_gratis: "Webinar GRATIS SETIAP MINGGU!",
   rekaman_webinar: "Tersedia Rekaman video webinar sebelumnya",
   artikel_pembelajaran: "50+ Artikel pembelajaran",
-  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif",
+  tergabung_komunitas: "Tergabung ke dalam Komunitas Eksklusif"
 };

@@ -68,9 +68,7 @@ const Home = () => {
         setIsRefreshing(false);
         setIsLoading(false);
       })
-      .catch((err) => {
-        // console.log('please check your connection')
-      });
+      .catch((err) => {});
   };
 
   const bannerRenderItem = ({ item }: { item: any }) => (

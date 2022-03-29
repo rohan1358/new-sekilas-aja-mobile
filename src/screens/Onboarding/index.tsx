@@ -54,7 +54,7 @@ const dataPage = [
   }
 ];
 
-const { width } = Dimensions.get("screen");
+const { width } = Dimensions.get("window");
 
 export default function Onboarding({ navigation }: any) {
   const scrollRef = useRef();

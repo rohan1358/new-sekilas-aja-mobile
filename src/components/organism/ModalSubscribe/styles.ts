@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
     padding: adjust(5)
   },
 
+  btnClose: {
+    backgroundColor: "#CC2E71",
+    borderRadius: adjust(50)
+  },
+
   content: {
     flex: 1,
     width: widthPercent(100)
@@ -50,30 +55,37 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderWidth: 2,
     borderColor: neutralColor[90],
-    borderRadius: 16,
-    paddingVertical: 29,
-    paddingHorizontal: 16,
+    borderRadius: adjust(16),
+    paddingVertical: adjust(29),
+    // paddingHorizontal: adjust(10),
     marginVertical: 24
   },
 
   list: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 2
+    // alignItems: "center",
+    marginBottom: 2,
+    marginHorizontal: 10
   },
 
   textList: {
-    marginLeft: 8
+    marginLeft: adjust(8),
+    flex: 1
   },
 
   btnPilih: {
     height: 64,
-    backgroundColor: neutralColor[90],
+    // backgroundColor: neutralColor[90],
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 16,
     marginBottom: 5
   },
+
+  bgNc90: {
+    backgroundColor: neutralColor[90]
+  },
+
   btnBackToHome: {
     height: 64,
     backgroundColor: neutralColor[90],

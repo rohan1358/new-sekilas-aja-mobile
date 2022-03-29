@@ -1,5 +1,5 @@
-import { ArrowLeft, Check, ChevronRight, Exit } from "@assets";
-import { firebaseNode, neutralColor, strings } from "@constants";
+import { ArrowLeft, Check, ChevronRight, ExitSubs } from "@assets";
+import { firebaseNode, neutralColor, primaryColor, strings } from "@constants";
 import { fetchProfileRealtime } from "@services";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, ScrollView, View } from "react-native";
@@ -99,6 +99,24 @@ export default function ModalSubscribe({
     fetchProfileRealtime();
   }, []);
 
+  let {
+    kilas_buku,
+    akses_penuh,
+    membuka_semua,
+    bentuk_tersedia,
+    artikel_pembelajaran,
+    tergabung_komunitas
+  } = strings;
+
+  const liseKeuntungan = [
+    kilas_buku,
+    akses_penuh,
+    membuka_semua,
+    bentuk_tersedia,
+    artikel_pembelajaran,
+    tergabung_komunitas
+  ];
+
   const CardBest = ({ item }: any) => {
     return (
       <Button onPress={() => handlePressCard(item.type)} style={styles.card}>
@@ -112,12 +130,14 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${strings.rp
-              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${strings.rp
-            }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
+          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${
+            strings.rp
+          }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
             {strings.pembayaran_langsung + item.month + strings.didepan}
           </TextItem>
@@ -143,8 +163,9 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${strings.rp
-              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
@@ -187,9 +208,13 @@ export default function ModalSubscribe({
                   onPress={() => {
                     exitPage();
                   }}
-                  style={styles.btn}
+                  style={[styles.btn, styles.btnClose]}
                 >
-                  <Exit />
+                  <ExitSubs
+                    // color={primaryColor.main}
+                    stroke={"white"}
+                    strokeWidth={3}
+                  />
                 </Button>
               </View>
               <View style={styles.boxContent}>
@@ -206,31 +231,19 @@ export default function ModalSubscribe({
                   {strings.akses_online}
                 </TextItem>
               </View> */}
-                  <View style={styles.list}>
-                    {/* <Check color={neutralColor[70]} /> */}
-                    <TextItem type="r.16.nc.70" style={styles.textList}>
-                      ✔️ {strings.kilas_buku}
-                    </TextItem>
-                  </View>
-                  <View style={styles.list}>
-                    {/* <Check color={neutralColor[70]} /> */}
-                    <TextItem type="r.16.nc.70" style={styles.textList}>
-                      ✔️ {strings.akses_penuh}
-                    </TextItem>
-                  </View>
-                  <View style={styles.list}>
-                    {/* <Check color={neutralColor[70]} /> */}
-                    <TextItem type="r.16.nc.70" style={styles.textList}>
-                      ✔️ {strings.membuka_semua}
-                    </TextItem>
-                  </View>
 
-                  <View style={styles.list}>
-                    {/* <Check color={neutralColor[70]} /> */}
-                    <TextItem type="r.16.nc.70" style={styles.textList}>
-                      ✔️ {strings.bentuk_tersedia}
-                    </TextItem>
-                  </View>
+                  {liseKeuntungan.map((txt) => {
+                    return (
+                      <View style={styles.list}>
+                        {/* <Check color={neutralColor[70]} /> */}
+                        <TextItem>✔️</TextItem>
+
+                        <TextItem type="r.16.nc.70" style={styles.textList}>
+                          {txt}
+                        </TextItem>
+                      </View>
+                    );
+                  })}
 
                   {/* <View style={styles.list}>
                     <Check color={neutralColor[70]} />
@@ -252,22 +265,11 @@ export default function ModalSubscribe({
                       {strings.rekaman_webinar}
                     </TextItem>
                   </View> */}
-
-                  <View style={styles.list}>
-                    {/* <Check color={neutralColor[70]} /> */}
-                    <TextItem type="r.16.nc.70" style={styles.textList}>
-                      ✔️ {strings.artikel_pembelajaran}
-                    </TextItem>
-                  </View>
-
-                  <View style={styles.list}>
-                    {/* <Check color={neutralColor[70]} /> */}
-                    <TextItem type="r.16.nc.70" style={styles.textList}>
-                      ✔️ {strings.tergabung_komunitas}
-                    </TextItem>
-                  </View>
                 </View>
-                <Button onPress={() => handleNext(100)} style={styles.btnPilih}>
+                <Button
+                  onPress={() => handleNext(100)}
+                  style={[styles.btnPilih, styles.bgNc90]}
+                >
                   <TextItem type="b.24.pc.main">{strings.pilih_paket}</TextItem>
                 </Button>
               </View>
@@ -312,9 +314,7 @@ export default function ModalSubscribe({
               </Button> */}
 
                   <Button onPress={() => exitPage()} style={styles.btnPilih}>
-                    <TextItem type="b.24.pc.main">
-                      {strings.lagi_bokek}
-                    </TextItem>
+                    <TextItem type="b.24.nc.90">{strings.lagi_bokek}</TextItem>
                   </Button>
                 </View>
               </View>

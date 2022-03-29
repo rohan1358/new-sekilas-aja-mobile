@@ -6,7 +6,13 @@ import {
   TextField,
   TextItem
 } from "../../components";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -36,8 +42,14 @@ import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
 import { fetchProfile } from "../../services";
 import { logger } from "../../helpers";
+import { useIsFocused } from "@react-navigation/native";
 
 const { textFieldState } = dv;
+
+let pernahInput = {
+  pwLama: false,
+  pwBaru: false
+};
 
 export default function PageEditProfile({ route, navigation }: any) {
   const {
@@ -59,6 +71,15 @@ export default function PageEditProfile({ route, navigation }: any) {
   const [snackState, setSnackState] = useState<SnackStateProps>(ss.closeState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSecurePassword, setIsSecurePassword] = useState<boolean>(true);
+
+  useEffect(() => {
+    return () => {
+      pernahInput = {
+        pwLama: false,
+        pwBaru: false
+      };
+    };
+  }, []);
 
   const getProfileData = async () => {
     try {
@@ -102,31 +123,16 @@ export default function PageEditProfile({ route, navigation }: any) {
     };
   }, [value]);
 
-  const passwordCheck = useMemo(() => {
-    if (passwordBaru === undefined) {
+  const passwordCheckLama = useMemo(() => {
+    if (!pernahInput.pwLama) {
       return { state: textFieldState.none };
     }
-    if (passwordBaru?.length >= 6) {
-      return {
-        message: "",
-        state: textFieldState.success
-      };
-    }
-    if (passwordBaru.length === 0) {
+    if (pernahInput.pwLama && !passwordLama) {
       return {
         message: strings.passwordCantBeEmpty,
+
         state: textFieldState.warn
       };
-    }
-    return {
-      message: strings.passwordMinChar,
-      state: textFieldState.warn
-    };
-  }, [passwordBaru]);
-
-  const passwordCheckLama = useMemo(() => {
-    if (passwordLama === undefined) {
-      return { state: textFieldState.none };
     }
     if (passwordLama?.length >= 6) {
       return {
@@ -134,17 +140,49 @@ export default function PageEditProfile({ route, navigation }: any) {
         state: textFieldState.success
       };
     }
-    if (passwordLama.length === 0) {
+    // if (passwordLama.length === 0) {
+    //   return {
+    //     state: textFieldState.warn
+    //   };
+    // }
+    // return {
+    //   message: strings.passwordMinChar,
+    //   state: textFieldState.warn
+    // };
+  }, [passwordLama]);
+
+  const passwordCheck = useMemo(() => {
+    if (!pernahInput.pwBaru) {
+      return {
+        state: textFieldState.none
+      };
+    }
+    if (pernahInput.pwBaru && !passwordBaru) {
       return {
         message: strings.passwordCantBeEmpty,
         state: textFieldState.warn
       };
     }
-    return {
-      message: strings.passwordMinChar,
-      state: textFieldState.warn
-    };
-  }, [passwordLama]);
+
+    if (passwordBaru.length <= 6) {
+      return {
+        message: strings.passwordMinChar,
+        state: textFieldState.warn
+      };
+    }
+
+    if (passwordBaru?.length >= 6) {
+      return {
+        message: "",
+        state: textFieldState.success
+      };
+    }
+
+    // return {
+    //   message: strings.passwordMinChar,
+    //   state: textFieldState.warn
+    // };
+  }, [passwordBaru]);
 
   const passwordCheckKonfir = useMemo(() => {
     if (passwordKonfir === undefined) {
@@ -372,7 +410,10 @@ export default function PageEditProfile({ route, navigation }: any) {
                   )
                 }
                 secureTextEntry={isSecurePassword}
-                onChangeText={setPasswordLama}
+                onChangeText={(e) => {
+                  pernahInput.pwLama = true;
+                  setPasswordLama(e);
+                }}
                 iconPress={() => setIsSecurePassword((current) => !current)}
                 {...passwordCheckLama}
               />
@@ -391,15 +432,18 @@ export default function PageEditProfile({ route, navigation }: any) {
                   )
                 }
                 secureTextEntry={isSecurePassword}
-                onChangeText={setPasswordBaru}
+                onChangeText={(e) => {
+                  pernahInput.pwBaru = true;
+                  setPasswordBaru(e);
+                }}
                 iconPress={() => setIsSecurePassword((current) => !current)}
                 {...passwordCheck}
               />
-              <TextItem style={styles.textAlert}>
+              {/* <TextItem style={styles.textAlert}>
                 {strings.password_minimal}
-              </TextItem>
+              </TextItem> */}
 
-              <TextItem style={styles.title}>
+              {/* <TextItem style={styles.title}>
                 {strings.password_konfir}
               </TextItem>
               <TextField
@@ -415,7 +459,7 @@ export default function PageEditProfile({ route, navigation }: any) {
                 onChangeText={setPasswordKonfir}
                 iconPress={() => setIsSecurePassword((current) => !current)}
                 {...passwordCheckKonfir}
-              />
+              /> */}
             </View>
           )}
           <View style={styles.boxBtnAction}>

@@ -12,8 +12,8 @@ export default function PagesOnboarding({ image, title, subTitle }: any) {
         <View style={styles.boxImage}>
           <Image source={image} style={styles.image} />
         </View>
-        <View style={height > 550 && styles.boxtitle}>
-          <TextItem type="b.26.nc.90" style={styles.title}>
+        <View style={styles.boxtitle}>
+          <TextItem type="b.24.nc.90" style={styles.title}>
             {title}
           </TextItem>
           {/* {height > 700 && ( */}

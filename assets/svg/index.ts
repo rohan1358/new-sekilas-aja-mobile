@@ -90,12 +90,14 @@ import Calendar from "./calendar.svg";
 import ChallengeIcon from "./ChallengeIcon.svg";
 import GroupDiscussionIcon from "./GroupDiscussionIcon.svg";
 import Film from "./Film.svg";
+import ExitSubs from "./ExitSubs.svg";
 
 const svg = { Cross, CloseX, ShareIcon, Bookmark };
 
 export default svg;
 
 export {
+  ExitSubs,
   CheckCircle,
   Film,
   GroupDiscussionIcon,

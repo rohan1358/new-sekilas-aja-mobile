@@ -171,8 +171,6 @@ export default function AccountSettings({ navigation }: any) {
     );
   };
 
-  // console.log("end_date", typeof profile?.end_date);
-
   return (
     <Base
       barColor={primaryColor.main}

@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { adjust } from "../../../utils";
 import {
   colors,
   dangerColor,
@@ -6,10 +7,10 @@ import {
   neutralColor,
   primaryColor,
   spacing,
-  successColor,
+  successColor
 } from "../../../constants";
 
-const FIELD_HEIGHT = 48;
+const FIELD_HEIGHT = adjust(48);
 
 const styles = ({ state }: { state: string }) => {
   const { none, warn, success, fail } = defaultValue.textFieldState;
@@ -25,25 +26,25 @@ const styles = ({ state }: { state: string }) => {
       : colors.white1;
   return StyleSheet.create({
     container: {
-      borderRadius: 12,
+      borderRadius: adjust(12),
       borderWidth: 2,
       borderColor,
       height: FIELD_HEIGHT,
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "center"
     },
 
     iconContainer: {
       width: FIELD_HEIGHT - 8,
       height: FIELD_HEIGHT - 8,
       justifyContent: "center",
-      alignItems: "center",
+      alignItems: "center"
     },
     input: {
       flex: 1,
       paddingHorizontal: spacing.sm,
-      color: neutralColor[100],
-    },
+      color: neutralColor[100]
+    }
   });
 };
 

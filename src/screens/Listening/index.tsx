@@ -434,8 +434,6 @@ export default function Listening({ navigation, route }: any) {
     });
   };
 
-  // console.log("listSoundTrack", listSoundTrack);
-
   // const newListSoundTrack = listSoundTrack;
   const newListSoundTrack = listKilasAudio[book.book_title]
     ? listKilasAudio[book.book_title]

@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
   buttonLanjut: {
     flex: 1,
-    height: 64,
+    height: adjust(64),
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: neutralColor[80],

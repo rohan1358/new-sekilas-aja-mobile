@@ -195,7 +195,7 @@ export default function Profile({ navigation }: any) {
             />
             <EditGray />
           </Button> */}
-          <TextItem style={styles.title}>{strings.password}</TextItem>
+          {/* <TextItem style={styles.title}>{strings.password}</TextItem>
           <Button
             onPress={() =>
               navToEditProfile({ type: "password", title: "Ubah Password" })
@@ -209,7 +209,7 @@ export default function Profile({ navigation }: any) {
               secureTextEntry={true}
             />
             <EditGray />
-          </Button>
+          </Button> */}
           {/* <Button
             onPress={() => {
               setModalAlert(true);

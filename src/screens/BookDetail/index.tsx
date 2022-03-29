@@ -362,7 +362,7 @@ export default function BookDetail({ navigation, route }: any) {
                     </TextItem>
                   </Button>
                   {/* )} */}
-                  {book.video_link != "" && (
+                  {book.video_link !== "" && (
                     <Button
                       onPress={() => navigationTopBar("watching")}
                       style={styles.btnBar}
@@ -392,9 +392,9 @@ export default function BookDetail({ navigation, route }: any) {
             <View style={styles.sectionDetail}>
               <View style={styles.boxTitle}>
                 <TextItem style={styles.titleBook}>{book?.book_title}</TextItem>
-                <TextItem style={styles.textShortDesc}>
+                {/* <TextItem style={styles.textShortDesc}>
                   {book?.short_desc}
-                </TextItem>
+                </TextItem> */}
                 <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
                 <View style={styles.info}>
                   <Clock style={styles.iconInfo} stroke={neutralColor[70]} />

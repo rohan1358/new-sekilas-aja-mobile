@@ -134,17 +134,18 @@ android {
         applicationId "com.sekilasaja"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 51
-        versionName "0.0.51"
+        versionCode 52
+        versionName "0.0.52"
         multiDexEnabled true
     }
     splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK (set false to testing internal)
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-        }
+        // comment to generate .apk
+        // abi {
+        //     reset()
+        //     enable enableSeparateBuildPerCPUArchitecture
+        //     universalApk false  // If true, also generate a universal APK (set false to testing internal)
+        //     include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        // }
     }
     signingConfigs {
         release {

@@ -23,9 +23,7 @@ const ImageBanner = ({
     } else if (data?.joinLink) {
       Linking.openURL(data?.joinLink)
         .then((res) => {})
-        .catch((err) => {
-          // console.log("whatsapp tidak terinstall!");
-        });
+        .catch((err) => {});
     }
   };
 

@@ -57,10 +57,7 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
     try {
       const { data, isSuccess } = await fetchShorts();
       if (!isSuccess) return;
-      // console.log("data shorts", data);
-    } catch (error) {
-      // console.log("Home, getShorts", error);
-    }
+    } catch (error) {}
   };
 
   useFocusEffect(

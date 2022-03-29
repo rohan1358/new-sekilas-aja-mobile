@@ -50,8 +50,6 @@ const ListBookChallenge = ({ navigation, route }: SpecialBookListProps) => {
   } = useSelector((state: ReduxState) => state);
   const dispatch = useDispatch();
 
-  // console.log("profile", profile);
-
   const { title, api, id } = dataSelector("bookChallenge", route.params);
 
   const [books, setBooks] = useState<CompactBooksProps[]>();
