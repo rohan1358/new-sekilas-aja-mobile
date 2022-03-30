@@ -196,10 +196,7 @@ const SignUp = ({ navigation }: SignUpProps) => {
               email,
               lastName: lastName,
               phoneNumber: phoneNumber,
-              owned_books: [
-                "Atomic Habits",
-                "The Little Book of Common Sense Investing"
-              ],
+              owned_books: ["GRIT"],
               favorite_books: [],
               is_subscribed: false,
               cart: [],

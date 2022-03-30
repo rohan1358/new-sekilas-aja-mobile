@@ -298,13 +298,15 @@ export default function ModalSubscribe({
                   {Array.isArray(paketList) &&
                     paketList
                       .sort((a, b) => b.month - a.month)
-                      .map((item, index) =>
-                        item.type == "best" ? (
-                          <CardBest item={item} key={index} />
-                        ) : (
-                          <CardNormal item={item} key={index} />
-                        )
-                      )}
+                      .map((item, index) => {
+                        if (item.open) {
+                          return item.type == "best" ? (
+                            <CardBest item={item} key={index} />
+                          ) : (
+                            <CardNormal item={item} key={index} />
+                          );
+                        }
+                      })}
                 </View>
                 <View>
                   {/* <Button onPress={() => handleNext(200)} style={styles.btnPilih}>

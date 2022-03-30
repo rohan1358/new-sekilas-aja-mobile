@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./src/redux/store";
 import { LogBox, Text } from "react-native";
+import firestore from "@react-native-firebase/firestore";
 
 const App = () => {
   LogBox.ignoreLogs([
@@ -33,8 +34,24 @@ const App = () => {
     // setTimeout(() => {
     //   setLoading(false);
     // }, 5000);
+
+    // firestore()
+    //   .collection("users")
+    //   .get()
+    //   .then((res) => {
+    //     res.docs.map((data) => {
+    //       let { id } = data;
+    //       firestore()
+    //         .collection("users")
+    //         .doc(id)
+    //         .set({ ...data.data(), owned_books: ["GRIT"] }, { merge: true });
+    //     });
+    //   });
+
     return subscriber; // unsubscribe on unmount
   }, []);
+
+  // zzQJOIvNesVsQsIz6rlMH1QdfgB3
 
   return (
     <Provider store={store}>
