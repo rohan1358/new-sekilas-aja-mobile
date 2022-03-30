@@ -101,7 +101,6 @@ export default function ModalSubscribe({
 
   let {
     kilas_buku,
-    akses_penuh,
     membuka_semua,
     bentuk_tersedia,
     artikel_pembelajaran,
@@ -110,7 +109,6 @@ export default function ModalSubscribe({
 
   const liseKeuntungan = [
     kilas_buku,
-    akses_penuh,
     membuka_semua,
     bentuk_tersedia,
     artikel_pembelajaran,
@@ -130,14 +128,12 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${
-              strings.rp
-            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${strings.rp
+              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${
-            strings.rp
-          }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
+          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${strings.rp
+            }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
             {strings.pembayaran_langsung + item.month + strings.didepan}
           </TextItem>
@@ -163,9 +159,8 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${
-              strings.rp
-            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${strings.rp
+              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
