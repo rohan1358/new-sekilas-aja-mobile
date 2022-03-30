@@ -140,12 +140,6 @@ export default function Subscribe({ navigation }: SubscribeProps) {
               <View style={styles.list}>
                 <Check color={neutralColor[70]} />
                 <TextItem type="r.16.nc.70" style={styles.textList}>
-                  {strings.akses_penuh}
-                </TextItem>
-              </View>
-              <View style={styles.list}>
-                <Check color={neutralColor[70]} />
-                <TextItem type="r.16.nc.70" style={styles.textList}>
                   {strings.membuka_semua}
                 </TextItem>
               </View>
