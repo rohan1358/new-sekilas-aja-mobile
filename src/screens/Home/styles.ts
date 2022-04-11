@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     borderColor: neutralColor[50],
-    width: adjust(widthPercent(40))
+    width: adjust(widthPercent(42))
   },
   iconNewMenu: {
     alignItems: "center",

@@ -8,7 +8,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import { withPause } from "react-native-redash";
 import Gap from "../Gap";
@@ -29,12 +29,12 @@ const StoryIndicator = ({
   isNext,
   isWaiting,
   afterAnimate,
-  paused,
+  paused
 }: StoryIndicatorProps) => {
   const barPosition = useSharedValue(-barSize);
 
   const barStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: barPosition.value }],
+    transform: [{ translateX: barPosition.value }]
   }));
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const StoryIndicator = ({
           0,
           {
             easing: Easing.linear,
-            duration: 15000,
+            duration: 15000
           },
           (isFinished) => {
             if (isFinished) {

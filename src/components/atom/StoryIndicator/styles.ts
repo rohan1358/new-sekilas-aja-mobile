@@ -1,4 +1,4 @@
-import { neutralColor, spacer } from "@constants";
+import { neutralColor, neutralColorText, spacer } from "@constants";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -6,18 +6,18 @@ const styles = StyleSheet.create({
     height: spacer.xxs,
     borderRadius: 100,
     position: "absolute",
-    backgroundColor: neutralColor["10"],
+    backgroundColor: neutralColorText["10"]
   },
   barWrapper: {
     height: spacer.xxs,
     borderRadius: 100,
     backgroundColor: neutralColor.darkFocus,
-    overflow: "hidden",
+    overflow: "hidden"
   },
 
   container: {
-    flexDirection: "row",
-  },
+    flexDirection: "row"
+  }
 });
 
 export default styles;

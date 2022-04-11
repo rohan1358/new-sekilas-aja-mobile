@@ -201,4 +201,34 @@ export const updateUser = (email: any, data: any) => {
   });
 };
 
+export const newUpdateUser = (id: any, data: any) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      firestore()
+        .collection(firebaseNode.users)
+        .doc(id)
+        .get()
+        .then((resGetuser) => {
+          firestore()
+            .collection(firebaseNode.users)
+            .doc(resGetuser.id)
+            .update(data)
+            .then((res) => {
+              resolve({
+                status: "success",
+                isSuccess: true,
+                isFailed: false
+              });
+            });
+        });
+    } catch {
+      reject({
+        status: "failed",
+        isSuccess: false,
+        isFailed: true
+      });
+    }
+  });
+};
+
 export { fetchProfile, modifyToken, fetchProfileRealtime };

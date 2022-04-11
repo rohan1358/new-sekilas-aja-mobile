@@ -3,7 +3,8 @@ import {
   neutralColor,
   primaryColor,
   successColor,
-  spacing as sp
+  spacing as sp,
+  neutralColorText
 } from "@constants";
 import { StyleSheet } from "react-native";
 
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   titleList: {
     fontSize: 15,
     fontWeight: "500",
-    color: neutralColor[80]
+    color: neutralColorText[80]
   },
 
   textLevel: {
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
   },
   textLevelNonSubs: {
     fontSize: 14,
-    color: "#888888",
+    color: neutralColorText[80],
     marginTop: 4
   },
 
   textContent: {
     fontSize: 14,
-    color: neutralColor[60],
+    color: neutralColorText[60],
     marginTop: 4
   },
 

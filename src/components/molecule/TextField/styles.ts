@@ -5,6 +5,8 @@ import {
   dangerColor,
   defaultValue,
   neutralColor,
+  neutralColorNormal,
+  neutralColorText,
   primaryColor,
   spacing,
   successColor
@@ -38,12 +40,13 @@ const styles = ({ state }: { state: string }) => {
       width: FIELD_HEIGHT - 8,
       height: FIELD_HEIGHT - 8,
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      color: neutralColorText[90]
     },
     input: {
       flex: 1,
       paddingHorizontal: spacing.sm,
-      color: neutralColor[100]
+      color: neutralColorText[100]
     }
   });
 };

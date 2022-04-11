@@ -119,22 +119,24 @@ export default function ModalSubscribe({
     return (
       <Button onPress={() => handlePressCard(item.type)} style={styles.card}>
         <View style={[styles.headCard, styles.backBlack]}>
-          <TextItem type="b.14.nc.90" style={[styles.textBestValue]}>
+          <TextItem type="b.14.ncb.90" style={[styles.textBestValue]}>
             {strings.best_value}
           </TextItem>
         </View>
         <View style={[styles.contentCard, styles.boxBest]}>
-          <TextItem type="b.18.nc.90">
+          <TextItem type="b.18.ncb.90">
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${strings.rp
-              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
-          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${strings.rp
-            }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
-          <TextItem type="n.14.nc.70" style={[styles.note]}>
+          <TextItem style={[styles.hemat]}>{`${strings.hemat} ${
+            strings.rp
+          }${Intl.NumberFormat()?.format(item.hemat)}`}</TextItem>
+          <TextItem type="n.14.ncb.70" style={[styles.note]}>
             {strings.pembayaran_langsung + item.month + strings.didepan}
           </TextItem>
         </View>
@@ -159,8 +161,9 @@ export default function ModalSubscribe({
             Paket {item.month + " " + strings.bulan}
           </TextItem>
           <TextItem style={[styles.price]}>
-            <TextItem style={styles.textBold}>{`${strings.rp
-              }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
+            <TextItem style={styles.textBold}>{`${
+              strings.rp
+            }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
             {`/${strings.bulan}`}
           </TextItem>
           <TextItem type="n.14.nc.70" style={[styles.note]}>
@@ -213,10 +216,10 @@ export default function ModalSubscribe({
                 </Button>
               </View>
               <View style={styles.boxContent}>
-                <TextItem type="b.32.nc.90">
+                <TextItem type="b.32.ncb.90">
                   {strings.dapatkan_ringkasan}
                 </TextItem>
-                <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
+                <TextItem type="r.20.ncb.90" style={styles.subTextTitle}>
                   {strings.keuntungan}
                 </TextItem>
                 <View style={styles.boxWhite}>
@@ -283,10 +286,10 @@ export default function ModalSubscribe({
                 </Button>
               </View>
               <View style={[styles.boxContent, styles.flex1]}>
-                <TextItem type="b.32.nc.90">
+                <TextItem type="b.32.ncb.90">
                   {strings.pilih_paket_premium}
                 </TextItem>
-                <TextItem type="r.20.nc.90" style={styles.subTextTitle}>
+                <TextItem type="r.20.ncb.90" style={styles.subTextTitle}>
                   {strings.pilihan_paket}
                 </TextItem>
                 <View style={styles.boxListCard}>
@@ -311,7 +314,7 @@ export default function ModalSubscribe({
               </Button> */}
 
                   <Button onPress={() => exitPage()} style={styles.btnPilih}>
-                    <TextItem type="b.24.nc.90">{strings.lagi_bokek}</TextItem>
+                    <TextItem type="b.24.ncb.90">{strings.lagi_bokek}</TextItem>
                   </Button>
                 </View>
               </View>

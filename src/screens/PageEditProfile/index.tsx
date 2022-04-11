@@ -30,8 +30,11 @@ import {
   defaultValue as dv,
   successColor,
   primaryColor,
-  firebaseNode
+  firebaseNode,
+  neutralColorText
 } from "../../constants";
+import { CommonActions } from "@react-navigation/routers";
+
 import { Check, Exit, Eye, EyeOff } from "@assets";
 import { useDispatch, useSelector } from "react-redux";
 // import { saveEmail, saveNama, savePassword } from '../../redux/actions';
@@ -40,9 +43,10 @@ import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import { loggingIn, setProfileRedux } from "../../redux/actions";
 import { ReduxState } from "../../redux/reducers";
-import { fetchProfile } from "../../services";
+import { fetchProfile, newUpdateUser, updateUser } from "../../services";
 import { logger } from "../../helpers";
 import { useIsFocused } from "@react-navigation/native";
+import { encrypt } from "../../utils";
 
 const { textFieldState } = dv;
 
@@ -206,46 +210,100 @@ export default function PageEditProfile({ route, navigation }: any) {
     };
   }, [passwordKonfir]);
 
+  const logOut = () => {
+    dispatch(loggingIn({ isLogin: false, email: "" }));
+    dispatch(setProfileRedux(null));
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: pages.SignIn }]
+      })
+    );
+  };
+
+  const relogin = () => {
+    return new Promise((resolve, reject) => {
+      auth()
+        .signInWithEmailAndPassword(email, passwordLama)
+        .then((res) => {
+          resolve("password lama benar");
+        })
+        .catch((err) => {
+          reject("password lama salah");
+        });
+    });
+  };
+
   const handlePassword = () => {
-    if (passwordLama != "") {
-      if (passwordBaru === passwordKonfir) {
-        setIsLoading(true);
-        reauthenticate(passwordLama)
-          .then(() => {
-            user
-              ?.updatePassword(passwordBaru)
-              .then(() => {
-                // success
-                setSnackState(ss.successState(strings.success));
-              })
-              .catch((error) => {
-                logger(error);
-                setIsLoading(false);
-                setSnackState(ss.failState("password error"));
-              })
-              .finally(() => {
-                navigation.navigate(pages.Profile);
-              });
-          })
-          .catch((error) => {
-            logger(error);
+    if (passwordLama) {
+      relogin()
+        .then((res) => {
+          // check password form password baru terisi
+          if (!passwordBaru) {
             setIsLoading(false);
             setSnackState(ss.failState("password error"));
-          });
-      } else {
-        setSnackState(ss.failState(strings.password_tidak_sama));
-        setIsLoading(false);
-      }
+          }
+          // check password sama
+          else if (passwordBaru && passwordBaru !== passwordLama) {
+            setIsLoading(true);
+
+            user
+              ?.updatePassword(passwordBaru)
+              .then(async () => {
+                // success
+                setSnackState(ss.successState(strings.success));
+                await newUpdateUser(user.uid, {
+                  password: encrypt(passwordBaru)
+                });
+                navigation.navigate(pages.Profile);
+              })
+              .catch((error) => {
+                if (
+                  error.message ===
+                  "[auth/user-token-expired] The user's credential is no longer valid. The user must sign in again."
+                ) {
+                  // relogin();
+                } else {
+                  setIsLoading(false);
+                  setSnackState(ss.failState("password error"));
+                }
+              });
+          } else {
+            setSnackState(ss.failState("password tidak boleh sama"));
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          setSnackState(ss.failState(err));
+        });
     } else {
-      setSnackState(ss.failState(strings.password_lama_kosong));
+      // string password lama tidak boleh kosong
+      setSnackState(ss.failState("password lama tidak boleh kosong"));
       setIsLoading(false);
     }
   };
 
-  const reauthenticate = (currentPassword) => {
-    var user = auth().currentUser;
-    var cred = auth.EmailAuthProvider.credential(email, currentPassword);
-    return user.reauthenticateWithCredential(cred);
+  const reauthenticate = (currentPassword: any) => {
+    return new Promise(async (resolve, reject) => {
+      var user = auth().currentUser;
+      // var user = auth().currentUser;
+
+      // var cred = await auth.EmailAuthProvider.credential(
+      //   email,
+      //   currentPassword
+      // );
+      // user
+      //   ?.reauthenticateWithCredential(cred)
+      //   ?.then((res) => {
+      //     console.log(res);
+      //     resolve(res);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     reject(err);
+      //   });
+    });
   };
 
   const handleValue = () => {
@@ -348,7 +406,80 @@ export default function PageEditProfile({ route, navigation }: any) {
       <AboutHeader title={title} navigation={navigation} />
       <DummyFlatList>
         <View style={styles.content}>
-          {type !== "password" ? (
+          {type === "password" ? (
+            <>
+              <View>
+                <TextItem style={styles.title}>
+                  {strings.password_lama}
+                </TextItem>
+                <TextField
+                  // style={{
+                  //   color: neutralColorText[90]
+                  // }}
+                  placeholder={strings.passwordPlaceholder}
+                  Icon={
+                    isSecurePassword ? (
+                      <EyeOff stroke={neutralColor[50]} />
+                    ) : (
+                      <Eye stroke={neutralColor[50]} />
+                    )
+                  }
+                  secureTextEntry={isSecurePassword}
+                  onChangeText={(e) => {
+                    pernahInput.pwLama = true;
+                    setPasswordLama(e);
+                  }}
+                  iconPress={() => setIsSecurePassword((current) => !current)}
+                  {...passwordCheckLama}
+                />
+                {/* <TextItem style={styles.textAlert}>
+                {strings.alertEditProfile}
+              </TextItem> */}
+
+                <TextItem style={styles.title}>
+                  {strings.password_baru}
+                </TextItem>
+                <TextField
+                  placeholder={strings.passwordPlaceholder}
+                  Icon={
+                    isSecurePassword ? (
+                      <EyeOff stroke={neutralColor[50]} />
+                    ) : (
+                      <Eye stroke={neutralColor[50]} />
+                    )
+                  }
+                  secureTextEntry={isSecurePassword}
+                  onChangeText={(e) => {
+                    pernahInput.pwBaru = true;
+                    setPasswordBaru(e);
+                  }}
+                  iconPress={() => setIsSecurePassword((current) => !current)}
+                  {...passwordCheck}
+                />
+                {/* <TextItem style={styles.textAlert}>
+                {strings.password_minimal}
+              </TextItem> */}
+
+                {/* <TextItem style={styles.title}>
+                {strings.password_konfir}
+              </TextItem>
+              <TextField
+                placeholder={strings.passwordPlaceholder}
+                Icon={
+                  isSecurePassword ? (
+                    <EyeOff stroke={neutralColor[50]} />
+                  ) : (
+                    <Eye stroke={neutralColor[50]} />
+                  )
+                }
+                secureTextEntry={isSecurePassword}
+                onChangeText={setPasswordKonfir}
+                iconPress={() => setIsSecurePassword((current) => !current)}
+                {...passwordCheckKonfir}
+              /> */}
+              </View>
+            </>
+          ) : (
             <>
               <TextItem style={styles.title}>{type}</TextItem>
               {type == "email" ? (
@@ -389,78 +520,14 @@ export default function PageEditProfile({ route, navigation }: any) {
                     autoCapitalize={type === "email" ? "none" : "words"}
                   />
                   <Button disabled={isLoading} onPress={() => setValue("")}>
-                    <Exit color={neutralColor[60]} />
+                    <Exit stroke={neutralColorText[60]} />
                   </Button>
                 </View>
               )}
               {/* <TextItem style={styles.textAlert}>
-                {strings.alertEditProfile}
-              </TextItem> */}
+              {strings.alertEditProfile}
+            </TextItem> */}
             </>
-          ) : (
-            <View>
-              <TextItem style={styles.title}>{strings.password_lama}</TextItem>
-              <TextField
-                placeholder={strings.passwordPlaceholder}
-                Icon={
-                  isSecurePassword ? (
-                    <EyeOff stroke={neutralColor[50]} />
-                  ) : (
-                    <Eye stroke={neutralColor[50]} />
-                  )
-                }
-                secureTextEntry={isSecurePassword}
-                onChangeText={(e) => {
-                  pernahInput.pwLama = true;
-                  setPasswordLama(e);
-                }}
-                iconPress={() => setIsSecurePassword((current) => !current)}
-                {...passwordCheckLama}
-              />
-              {/* <TextItem style={styles.textAlert}>
-                {strings.alertEditProfile}
-              </TextItem> */}
-
-              <TextItem style={styles.title}>{strings.password_baru}</TextItem>
-              <TextField
-                placeholder={strings.passwordPlaceholder}
-                Icon={
-                  isSecurePassword ? (
-                    <EyeOff stroke={neutralColor[50]} />
-                  ) : (
-                    <Eye stroke={neutralColor[50]} />
-                  )
-                }
-                secureTextEntry={isSecurePassword}
-                onChangeText={(e) => {
-                  pernahInput.pwBaru = true;
-                  setPasswordBaru(e);
-                }}
-                iconPress={() => setIsSecurePassword((current) => !current)}
-                {...passwordCheck}
-              />
-              {/* <TextItem style={styles.textAlert}>
-                {strings.password_minimal}
-              </TextItem> */}
-
-              {/* <TextItem style={styles.title}>
-                {strings.password_konfir}
-              </TextItem>
-              <TextField
-                placeholder={strings.passwordPlaceholder}
-                Icon={
-                  isSecurePassword ? (
-                    <EyeOff stroke={neutralColor[50]} />
-                  ) : (
-                    <Eye stroke={neutralColor[50]} />
-                  )
-                }
-                secureTextEntry={isSecurePassword}
-                onChangeText={setPasswordKonfir}
-                iconPress={() => setIsSecurePassword((current) => !current)}
-                {...passwordCheckKonfir}
-              /> */}
-            </View>
           )}
           <View style={styles.boxBtnAction}>
             <Button
@@ -471,7 +538,10 @@ export default function PageEditProfile({ route, navigation }: any) {
               {isLoading ? (
                 <ActivityIndicator color={primaryColor.main} size="large" />
               ) : (
-                <TextItem style={styles.textBtn}>{strings.btn_simpan}</TextItem>
+                <TextItem style={styles.textBtn}>
+                  {/* string Simpan */}
+                  Simpan
+                </TextItem>
               )}
             </Button>
             <Button
@@ -480,7 +550,8 @@ export default function PageEditProfile({ route, navigation }: any) {
               style={[styles.btnAction, styles.btnBatal]}
             >
               <TextItem style={[styles.textBtn, styles.textBatal]}>
-                {strings.btn_batal}
+                {/* string Batal */}
+                Batal
               </TextItem>
             </Button>
           </View>

@@ -1,6 +1,11 @@
 import React, { forwardRef } from "react";
 import { TextInput, View } from "react-native";
-import { defaultValue, neutralColor, spacing } from "../../../constants";
+import {
+  defaultValue,
+  neutralColor,
+  neutralColorText,
+  spacing
+} from "../../../constants";
 import { Gap, TextItem, Button } from "../../atom";
 import styles from "./styles";
 import { TextFieldProps } from "./types";
@@ -30,7 +35,7 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
           <TextInput
             {...props}
             style={[s.input, inputStyle]}
-            placeholderTextColor={neutralColor[50]}
+            placeholderTextColor={neutralColorText[50]}
             ref={ref}
           />
           {Icon && (

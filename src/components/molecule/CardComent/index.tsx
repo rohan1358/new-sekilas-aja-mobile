@@ -1,10 +1,10 @@
-import { strings } from '@constants';
-import React from 'react';
-import { View } from 'react-native';
-import { AirbnbRating } from 'react-native-ratings';
-import { openRate } from '../../../utils';
-import { Amage, TextItem } from '../../atom';
-import styles from './styles';
+import { strings, warningColor } from "@constants";
+import React from "react";
+import { View } from "react-native";
+import { AirbnbRating } from "react-native-ratings";
+import { openRate } from "../../../utils";
+import { Amage, TextItem } from "../../atom";
+import styles from "./styles";
 
 export default function CardComent({ rating, image, name, time, text }: any) {
   return (
@@ -30,7 +30,7 @@ export default function CardComent({ rating, image, name, time, text }: any) {
               size={16}
               showRating={false}
               isDisabled={true}
-              selectedColor="#E27814"
+              selectedColor={warningColor.main}
             />
           )}
         </View>

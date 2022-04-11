@@ -1,4 +1,4 @@
-import { neutralColor, primaryColor } from "@constants";
+import { neutralColor, neutralColorText, primaryColor } from "@constants";
 import { StyleSheet } from "react-native";
 import { heightPercent, widthPercent } from "../../helpers";
 
@@ -88,13 +88,13 @@ const styles = StyleSheet.create({
   titleBook: {
     fontSize: 32,
     fontWeight: "700",
-    color: neutralColor[90]
+    color: neutralColorText[90]
   },
 
   titleOuthor: {
     fontWeight: "500",
     fontSize: 20,
-    color: neutralColor[70],
+    color: neutralColorText[70],
     marginTop: 14,
     fontStyle: "italic"
     // textDecorationLine: 'underline'
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
   textInfo: {
     fontSize: 10,
-    color: neutralColor[90],
+    color: neutralColorText[90],
     fontWeight: "500"
   },
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   titleSection: {
     fontSize: 24,
     fontWeight: "900",
-    color: neutralColor[90]
+    color: neutralColorText[90]
   },
 
   boxTextKategori: {
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   textKategori: {
     fontSize: 16,
     marginRight: 6,
-    color: neutralColor[80]
+    color: neutralColorText[80]
   },
 
   boxTextTentang: {
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 
   textTentang: {
     fontSize: 16,
-    color: neutralColor[70],
+    color: neutralColorText[70],
     marginBottom: 10
   },
 
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   textDfatar: {
     fontSize: 16,
     fontWeight: "500",
-    color: neutralColor[90]
+    color: neutralColorText[90]
   },
 
   boxTitleUlasan: {

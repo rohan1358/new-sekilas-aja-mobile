@@ -7,8 +7,11 @@ import {
   dangerColor,
   fontFamily as ff,
   neutralColor,
+  neutralColorNormal,
+  neutralColorText,
   NotoSans,
-  primaryColor
+  primaryColor,
+  primaryColorText
 } from "../../../constants";
 import { TextItemProps } from "./types";
 
@@ -67,11 +70,13 @@ const colorFinder = (code: string) => {
     case "dc":
       return dangerColor;
     case "nc":
-      return neutralColor;
+      return neutralColorText;
+    case "ncb":
+      return neutralColorNormal;
     case "c":
       return colors;
     case "pc":
-      return primaryColor;
+      return primaryColorText;
 
     default:
       return colors;
@@ -107,6 +112,7 @@ const TextItem = ({
   ...props
 }: PropsWithChildren<TextItemProps>) => {
   const textStyle = styleGenerator(type);
+
   return (
     <>
       {/* 

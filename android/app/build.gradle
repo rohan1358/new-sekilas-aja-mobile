@@ -140,12 +140,12 @@ android {
     }
     splits {
         // comment to generate .apk
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK (set false to testing internal)
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-        }
+//        abi {
+//            reset()
+//            enable enableSeparateBuildPerCPUArchitecture
+//            universalApk false  // If true, also generate a universal APK (set false to testing internal)
+//            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+//        }
     }
     signingConfigs {
         release {

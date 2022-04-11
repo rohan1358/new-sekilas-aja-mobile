@@ -170,7 +170,10 @@ const Explore = ({ navigation }: ExploreProps) => {
         <Animated.View style={[styles.container, headerStyle]}>
           <Gap vertical={TOP_HEADER_GAP} />
           <View onLayout={(e) => setHeaderHeight(e.nativeEvent.layout.height)}>
-            <TextItem type="b.24.nc.90">{strings.findFavBook}</TextItem>
+            <TextItem type="b.24.ncb.90">
+              {/* string cari buku favoritmu! */}
+              Cari Buku Favoritmu!
+            </TextItem>
           </View>
           <Gap vertical={BOTTOM_HEADER_GAP} />
           <ExploreSearch

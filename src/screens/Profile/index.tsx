@@ -130,7 +130,8 @@ export default function Profile({ navigation }: any) {
   };
 
   const navToEditProfile = (data: any) => {
-    navigation.navigate(pages.PageEditProfile, { data: data });
+    // page PageEditProfile
+    navigation.navigate("PageEditProfile", { data: data });
   };
 
   const logOut = () => {
@@ -195,7 +196,8 @@ export default function Profile({ navigation }: any) {
             />
             <EditGray />
           </Button> */}
-          {/* <TextItem style={styles.title}>{strings.password}</TextItem>
+          {/* string password */}
+          <TextItem style={styles.title}>{strings.password}</TextItem>
           <Button
             onPress={() =>
               navToEditProfile({ type: "password", title: "Ubah Password" })
@@ -209,7 +211,7 @@ export default function Profile({ navigation }: any) {
               secureTextEntry={true}
             />
             <EditGray />
-          </Button> */}
+          </Button>
           {/* <Button
             onPress={() => {
               setModalAlert(true);

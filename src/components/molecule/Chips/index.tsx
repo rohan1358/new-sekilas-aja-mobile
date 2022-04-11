@@ -1,4 +1,9 @@
-import { neutralColor, primaryColor, spacing as sp } from "@constants";
+import {
+  neutralColor,
+  neutralColorText,
+  primaryColor,
+  spacing as sp
+} from "@constants";
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import Animated, {
@@ -47,7 +52,9 @@ const Chips = ({
       <Gap horizontal={sp.xs} />
       {!!Icon && (
         <Animated.View style={[s.icon, iconStyle]}>
-          <Icon stroke={isSelected ? primaryColor.main : neutralColor[70]} />
+          <Icon
+            stroke={isSelected ? primaryColor.main : neutralColorText[70]}
+          />
         </Animated.View>
       )}
     </Button>

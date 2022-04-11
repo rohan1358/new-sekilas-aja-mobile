@@ -1,4 +1,4 @@
-import { colors, neutralColor, spacer } from "@constants";
+import { colors, neutralColor, primaryColor, spacer } from "@constants";
 import { widthDp } from "@helpers";
 import { StyleSheet } from "react-native";
 
@@ -11,36 +11,40 @@ const styles = StyleSheet.create({
   circle: {
     width: widthDp(TILE_SIZE * CIRCLE_MULTIPLIER),
     height: widthDp(TILE_SIZE * CIRCLE_MULTIPLIER),
-    backgroundColor: colors.yellow2,
+    backgroundColor: primaryColor.main,
     borderRadius: widthDp(TILE_SIZE * CIRCLE_MULTIPLIER),
     position: "absolute",
-    top: widthDp(TILE_SIZE / 2),
+    top: widthDp(TILE_SIZE / 2)
+  },
+  lockIcon: {
+    width: widthDp(TILE_SIZE * CIRCLE_MULTIPLIER),
+    height: widthDp(TILE_SIZE * CIRCLE_MULTIPLIER)
   },
   container: {
     width: widthDp(TILE_SIZE),
     aspectRatio: 81 / 113,
-    backgroundColor: colors.yellow1,
+    backgroundColor: primaryColor.main,
     borderRadius: spacer.sm,
     overflow: "hidden",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   image: {
     width: widthDp(IMAGE_WIDTH),
-    height: widthDp(IMAGE_WIDTH * IMAGE_RATIO),
+    height: widthDp(IMAGE_WIDTH * IMAGE_RATIO)
   },
 
   smallCircle: {
     width: "100%",
     paddingHorizontal: spacer.sm,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   title: { textAlign: "center", color: neutralColor["90"] },
 
-  wrapper: { flexDirection: "row" },
+  wrapper: { flexDirection: "row" }
 });
 
 export default styles;

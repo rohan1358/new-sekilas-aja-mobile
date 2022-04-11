@@ -1,100 +1,99 @@
-import { colors, neutralColor } from "@constants";
+import { colors, neutralColor, neutralColorText } from "@constants";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    skeleton: { flex: 1 },
-    
-    sectionContent: {
-        borderTopWidth: 1,
-        borderColor: neutralColor[60],
-        paddingTop: 32 
-    },
+  skeleton: { flex: 1 },
 
-    subTitle:{
-        marginLeft: 32
-    },
+  sectionContent: {
+    borderTopWidth: 1,
+    borderColor: neutralColor[60],
+    paddingTop: 32
+  },
 
-    list: {
-        marginHorizontal: 32,
-        marginVertical: 8
-    },
+  subTitle: {
+    marginLeft: 32
+  },
 
-    listPreferens: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent:'space-between',
-    },
+  list: {
+    marginHorizontal: 32,
+    marginVertical: 8
+  },
 
-    boxText: {
-        maxWidth: '65%',
-    },
+  listPreferens: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
 
-    titleList: {
-        fontSize: 15,
-        fontWeight: "500",
-        color: neutralColor[80]
-    },
+  boxText: {
+    maxWidth: "65%"
+  },
 
-    textContent: {
-        fontSize: 14,
-        color: neutralColor[60],
-        marginTop: 4
-    },
+  titleList: {
+    fontSize: 15,
+    fontWeight: "500",
+    color: neutralColorText[80]
+  },
 
-    textTime: {
-        color: neutralColor[90]
-    },
+  textContent: {
+    fontSize: 14,
+    color: neutralColorText[60],
+    marginTop: 4
+  },
 
-    containerModal: {
-        backgroundColor: 'rgba(0,0,0,0.3)',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent:'center'
-    },
+  textTime: {
+    color: neutralColor[90]
+  },
 
-    contentModal: {
-        width: '80%',
-        backgroundColor: colors.white,
-        borderRadius: 16,
-        paddingTop: 25,
-        overflow:'hidden'
-    },
+  containerModal: {
+    backgroundColor: "rgba(0,0,0,0.3)",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
 
-    boxHeadModal: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 25,
-    },
+  contentModal: {
+    width: "80%",
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    paddingTop: 25,
+    overflow: "hidden"
+  },
 
-    boxTime: {
-    backgroundColor: '#ECF1F7',
-       marginVertical: 20 
-    },
+  boxHeadModal: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 25
+  },
 
-    textInput: {
-        fontSize: 35,
-        padding: 0,
-        color: neutralColor[90],
-    },
+  boxTime: {
+    backgroundColor: "#ECF1F7",
+    marginVertical: 20
+  },
 
-    boxAction: {
-        paddingHorizontal: 0,
-    },
+  textInput: {
+    fontSize: 35,
+    padding: 0,
+    color: neutralColor[90]
+  },
 
-    btnAction: {
-        flex: 1,
-        alignItems: 'center',
-        paddingVertical: 6,
-        borderTopWidth: 1,
-        borderColor: neutralColor[30]
-    },
+  boxAction: {
+    paddingHorizontal: 0
+  },
 
-    btnSimpan: {
-        backgroundColor: neutralColor[90],
-        borderColor: neutralColor[90]
-    }
+  btnAction: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 6,
+    borderTopWidth: 1,
+    borderColor: neutralColor[30]
+  },
 
-})
+  btnSimpan: {
+    backgroundColor: neutralColor[90],
+    borderColor: neutralColor[90]
+  }
+});
 
 export default styles;

@@ -538,12 +538,12 @@ export default function Listening({ navigation, route }: any) {
                 layout={skeleton.listening.timing}
               >
                 <View style={styles.boxTextTime}>
-                  <TextItem type={"r.14.nc.90"}>
+                  <TextItem type={"r.14.ncb.90"}>
                     {new Date(progress.position * 1000)
                       .toISOString()
                       .substr(14, 5)}
                   </TextItem>
-                  <TextItem type={"r.14.nc.90"}>
+                  <TextItem type={"r.14.ncb.90"}>
                     {new Date(progress.duration * 1000)
                       .toISOString()
                       .substr(14, 5)}
@@ -587,7 +587,7 @@ export default function Listening({ navigation, route }: any) {
             </View>
             <View style={styles.boxFooter}>
               <Button onPress={() => refRBSheet.current.open()}>
-                <TextItem type={"b.14.nc.90"} style={styles.speedText}>
+                <TextItem type={"b.14.ncb.90"} style={styles.speedText}>
                   {strings.kecepatan + speed.toString() + strings.x}
                 </TextItem>
               </Button>
@@ -596,7 +596,7 @@ export default function Listening({ navigation, route }: any) {
                   onPress={() => navigationTopBar("reading")}
                   style={styles.btnBar}
                 >
-                  <File stroke={"#FCCF32"} strokeWidth={2} />
+                  <File stroke={primaryColor.main} strokeWidth={2} />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
                 {book.video_link !== "" && (
@@ -604,7 +604,7 @@ export default function Listening({ navigation, route }: any) {
                     onPress={() => navigationTopBar("watching")}
                     style={styles.btnBar}
                   >
-                    <Video stroke={"#FCCF32"} strokeWidth={2} />
+                    <Video stroke={primaryColor.main} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.tonton}
                     </TextItem>

@@ -7,7 +7,7 @@ import {
   StoryIndicator,
   TextItem
 } from "@atom";
-import { neutralColor, spacer } from "@constants";
+import { neutralColor, neutralColorText, spacer } from "@constants";
 import {
   heightPercent,
   logger,
@@ -175,7 +175,7 @@ const StoryShort = forwardRef<any, any>(
           <Fragment>
             <View style={styles.header}>
               <Button style={styles.iconButton} onPress={onClosePress}>
-                <Assets.svg.CloseX stroke={neutralColor["10"]} />
+                <Assets.svg.CloseX stroke={neutralColorText["10"]} />
               </Button>
               <Gap horizontal={spacer.xs} />
               <View style={{ flex: 1 }}>
@@ -240,7 +240,7 @@ const StoryShort = forwardRef<any, any>(
                         <View style={{ width: "100%" }} key={`${item}${index}`}>
                           <AdaptiveText
                             type="textMd/normal"
-                            textColor={neutralColor["10"]}
+                            textColor={neutralColorText["10"]}
                             style={{
                               fontSize: adjustTextShorts()
                             }}
@@ -263,10 +263,10 @@ const StoryShort = forwardRef<any, any>(
                     <View style={{ width: "100%" }}>
                       <AdaptiveText
                         type="textMd/normal"
-                        textColor={neutralColor["10"]}
+                        textColor={neutralColorText["10"]}
                       >
                         {storyData?.shorts[storyIndex]?.details}{" "}
-                        asefarwerawerwerawerawerawer
+                        {/* asefarwerawerwerawerawerawer */}
                       </AdaptiveText>
                     </View>
                   </>
@@ -288,13 +288,13 @@ const StoryShort = forwardRef<any, any>(
                   <Gap horizontal={widthDp(8)} />
                   <View style={{ flex: 1 }}>
                     <AdaptiveText
-                      textColor={neutralColor["70"]}
+                      textColor={neutralColorText["70"]}
                       type="textXs/medium"
                     >
                       Baca lebih lanjut
                     </AdaptiveText>
                     <AdaptiveText
-                      textColor={neutralColor["100"]}
+                      textColor={neutralColorText["100"]}
                       type="textBase/bold"
                       numberOfLines={1}
                     >
@@ -304,7 +304,7 @@ const StoryShort = forwardRef<any, any>(
                   <Gap horizontal={widthDp(8)} />
                   <View style={styles.box}>
                     <ArrowLeft
-                      stroke={neutralColor["80"]}
+                      stroke={neutralColorText["80"]}
                       width={24}
                       height={24}
                       style={{ transform: [{ rotate: "180deg" }] }}
@@ -317,7 +317,7 @@ const StoryShort = forwardRef<any, any>(
                     <TextItem type="b.16.nc.10">Bagikan</TextItem>
                     <Gap horizontal={spacer.xxs} />
                     <Assets.svg.ShareIcon
-                      stroke={neutralColor["10"]}
+                      stroke={neutralColorText["10"]}
                       width={16}
                       height={16}
                     />
@@ -337,11 +337,11 @@ const StoryShort = forwardRef<any, any>(
                       <BookmarkDetail
                         width={16}
                         height={16}
-                        color={neutralColor["10"]}
+                        color={neutralColorText["10"]}
                       />
                     ) : (
                       <Assets.svg.Bookmark
-                        stroke={neutralColor["10"]}
+                        stroke={neutralColorText["10"]}
                         width={16}
                         height={16}
                       />

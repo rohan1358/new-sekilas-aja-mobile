@@ -1,11 +1,11 @@
 import { ArrowLeft, CloseX, Search } from "@assets";
-import { neutralColor, strings } from "@constants";
+import { neutralColor, neutralColorText, strings } from "@constants";
 import React, { forwardRef, useEffect } from "react";
 import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import { Button } from "../../atom";
 import { TextField } from "../../molecule";
@@ -19,7 +19,7 @@ const SearchHeader = forwardRef<any, SearchHeaderProps>(
     const xPosition = useSharedValue(X_INITIAL);
 
     const closeStyle = useAnimatedStyle(() => ({
-      transform: [{ translateX: xPosition.value }],
+      transform: [{ translateX: xPosition.value }]
     }));
 
     const animateClose = () =>
@@ -42,7 +42,7 @@ const SearchHeader = forwardRef<any, SearchHeaderProps>(
         </Button>
         <View style={styles.boxesContainer}>
           <View style={styles.iconContainer}>
-            <Search stroke={neutralColor[90]} />
+            <Search stroke={neutralColorText[90]} />
           </View>
           <TextField
             placeholder={strings.findFavBookPlaceholder}

@@ -130,8 +130,9 @@ const Home = () => {
               <View style={styles.headerContainer}>
                 <Gap vertical={sp.sm} />
                 <View style={styles.headerTitle}>
-                  <TextItem type="b.24.nc.90">
-                    {strings.groupMentoring}
+                  <TextItem type="b.24.ncb.90">
+                    {/* string Group Mentoring */}
+                    Group Mentoring
                   </TextItem>
                 </View>
                 <Gap vertical={sp.sm} />

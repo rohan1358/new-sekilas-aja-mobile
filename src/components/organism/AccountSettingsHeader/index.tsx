@@ -17,7 +17,7 @@ export default function AccountSettingsHeader({
         <Button onPress={() => navigation.goBack()}>
           <Exit />
         </Button>
-        <TextItem type="b.20.nc.90.c" style={styles.textMenu}>
+        <TextItem type="b.20.ncb.90.c" style={styles.textMenu}>
           Menu
         </TextItem>
       </View>
@@ -38,7 +38,7 @@ export default function AccountSettingsHeader({
             </View>
           )}
 
-          <TextItem type="b.24.nc.90.c">{name}</TextItem>
+          <TextItem type="b.24.ncb.90.c">{name}</TextItem>
         </View>
         <Button onPress={() => navigation.navigate("Profile")}>
           <Edit />

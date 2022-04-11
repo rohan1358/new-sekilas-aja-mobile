@@ -1,16 +1,21 @@
-import { colors, neutralColor, primaryColor } from "@constants";
+import {
+  colors,
+  neutralColor,
+  neutralColorText,
+  primaryColor
+} from "@constants";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   skeleton: { flex: 1 },
 
   content: {
-    padding: 32,
+    padding: 32
   },
   title: {
     fontSize: 20,
-    color: neutralColor[90],
-    fontWeight: "700",
+    color: neutralColorText[90],
+    fontWeight: "700"
   },
 
   boxItem: {
@@ -22,28 +27,28 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: neutralColor[50],
     marginBottom: 16,
-    alignItems: "center",
+    alignItems: "center"
   },
 
   textInput: {
     flex: 1,
     fontSize: 16,
-    color: neutralColor[90],
+    color: neutralColorText[90]
   },
 
   btnKeluar: {
     marginTop: 24,
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 10
   },
 
   contaonerSheet: {
-    marginTop: 24,
+    marginTop: 24
   },
 
   titleGantiFoto: {
     marginLeft: 32,
-    marginBottom: 20,
+    marginBottom: 20
   },
 
   btnTakeAction: {
@@ -52,20 +57,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingVertical: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
 
   textTake: {
     fontSize: 20,
     fontWeight: "500",
-    color: neutralColor[70],
+    color: neutralColor[70]
   },
 
   containerModal: {
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0,0,0,0.3)"
   },
 
   contentModal: {
@@ -73,65 +78,65 @@ const styles = StyleSheet.create({
     maxHeight: "50%",
     backgroundColor: colors.white,
     padding: 20,
-    borderRadius: 8,
+    borderRadius: 8
   },
 
   btnExit: {
     position: "absolute",
     right: 5,
     top: 5,
-    padding: 5,
+    padding: 5
   },
 
   textLanguage: {
     marginTop: 10,
     fontSize: 16,
-    color: neutralColor[90],
+    color: neutralColor[90]
   },
 
   boxListLanguage: {
     borderBottomWidth: 1,
     borderBottomColor: neutralColor[60],
     paddingBottom: 10,
-    alignItems: "center",
+    alignItems: "center"
   },
 
   language: {
     fontSize: 16,
     fontWeight: "bold",
-    color: neutralColor[90],
+    color: neutralColor[90]
   },
 
   dropdown: {
-    borderWidth: 0,
+    borderWidth: 0
   },
   containerDropdown: {
-    width: 100,
+    width: 100
   },
   textDropdown: {
     fontSize: 14,
     color: neutralColor[80],
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   containerList: {
     borderWidth: 0.5,
-    borderColor: neutralColor[30],
+    borderColor: neutralColor[30]
   },
 
   boxHapusDownload: {
-    alignItems: "center",
+    alignItems: "center"
   },
 
   textBtnHapus: {
-    color: "#CB3168",
+    color: "#CB3168"
   },
 
   btnUp: {
-    borderBottomWidth: 0,
+    borderBottomWidth: 0
   },
 
   boxTentang: {
-    marginBottom: 16,
+    marginBottom: 16
   },
 
   contentAlert: {
@@ -139,11 +144,11 @@ const styles = StyleSheet.create({
     maxHeight: "50%",
     backgroundColor: colors.white,
     padding: 20,
-    borderRadius: 8,
+    borderRadius: 8
   },
 
   boxContentAlert: {
-    alignItems: "center",
+    alignItems: "center"
   },
 
   textAlert: {
@@ -152,32 +157,32 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     marginVertical: 16,
-    width: 250,
+    width: 250
   },
 
   textActionAlert: {
     fontSize: 24,
     color: neutralColor[60],
     fontWeight: "700",
-    textAlign: "center",
+    textAlign: "center"
   },
 
   textButtonAlert: {
     fontSize: 24,
     color: primaryColor.main,
     fontWeight: "700",
-    textAlign: "center",
+    textAlign: "center"
   },
 
   btnAlert: {
     height: 64,
-    justifyContent: "center",
+    justifyContent: "center"
   },
 
   btnAlertSecond: {
     backgroundColor: neutralColor[90],
-    borderRadius: 16,
-  },
+    borderRadius: 16
+  }
 });
 
 export default styles;

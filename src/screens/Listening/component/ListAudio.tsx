@@ -44,13 +44,13 @@ const ListAudio = ({ audio, id, onPress, active }: any) => {
                     width: "90%"
                   }}
                 >
-                  <TextItem type={"r.18.nc.90"} numberOfLines={2}>
+                  <TextItem type={"r.18.ncb.90"} numberOfLines={2}>
                     Kilas {id + 1} :{" "}
                     {checkData(audio.text) ? audio.text : "Ringkasan Akhir"}
                   </TextItem>
                 </View>
               </View>
-              <TextItem type={"n.15.nc.90"}>
+              <TextItem type={"n.15.ncb.90"}>
                 {checkData(audio.duration) ? (
                   <>
                     {new Date(audio.duration * 1000)

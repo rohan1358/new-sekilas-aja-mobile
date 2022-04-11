@@ -66,14 +66,16 @@ const MyShortsList = ({ navigation, route }: SpecialBookListProps) => {
 
       setIsLoading(true);
 
-      fetchMyShorts(profile.id)
-        .then((res: any) => {
-          setShorts(res);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          setIsLoading(false);
-        });
+      if (profile.id) {
+        fetchMyShorts(profile.id)
+          .then((res: any) => {
+            setShorts(res);
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            setIsLoading(false);
+          });
+      }
 
       return () => {
         isActive = false;

@@ -818,7 +818,10 @@ function OriFloatingMedia() {
                                 onPress={() => navigationTopBar("reading")}
                                 style={stylesScreen.btnBar}
                               >
-                                <File stroke={"#FCCF32"} strokeWidth={2} />
+                                <File
+                                  stroke={primaryColor.main}
+                                  strokeWidth={2}
+                                />
                                 <TextItem style={stylesScreen.titleSelect}>
                                   {strings.baca}
                                 </TextItem>
@@ -828,7 +831,10 @@ function OriFloatingMedia() {
                                   onPress={() => navigationTopBar("watching")}
                                   style={stylesScreen.btnBar}
                                 >
-                                  <Video stroke={"#FCCF32"} strokeWidth={2} />
+                                  <Video
+                                    stroke={primaryColor.main}
+                                    strokeWidth={2}
+                                  />
                                   <TextItem style={stylesScreen.titleSelect}>
                                     {strings.tonton}
                                   </TextItem>

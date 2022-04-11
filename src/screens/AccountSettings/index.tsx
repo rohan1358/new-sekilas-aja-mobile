@@ -191,12 +191,14 @@ export default function AccountSettings({ navigation }: any) {
           />
           <View style={styles.sectionContent}>
             <TextItem type="b.24.nc.90" style={styles.title}>
-              {strings.title_Account}
+              {/* string Pengaturan */}
+              Pengaturan
             </TextItem>
 
             <View style={styles.listContent}>
               <TextItem type="b.16.nc.90" style={styles.subTitle}>
-                {strings.berlangganan_Account}
+                {/* string Berlangganan */}
+                Berlangganan
               </TextItem>
               <View style={styles.list}>
                 <TextItem style={styles.titleList}>
@@ -219,8 +221,9 @@ export default function AccountSettings({ navigation }: any) {
                     style={styles.btnPilih}
                     onPress={() => setModalSubsVisible(!modalSubscribeRedux)}
                   >
-                    <TextItem style={styles.txtBtnPilih} type="b.14.nc.90">
-                      {strings.upgrade_premium}
+                    <TextItem style={styles.txtBtnPilih} type="b.14.ncb.90">
+                      {/* string Upgrade ke premium  */}
+                      Upgrade ke premium
                     </TextItem>
                   </Button>
                 )}
@@ -312,7 +315,8 @@ export default function AccountSettings({ navigation }: any) {
                 <View>
                   <TextItem style={styles.titleList}>{strings.notif}</TextItem>
                   <TextItem style={styles.textContent}>
-                    {strings.text_notif}
+                    {/* string Sesuaikan notifikasi. */}
+                    Sesuaikan notifikasi.
                   </TextItem>
                 </View>
                 <ChevronRight color={neutralColor[50]} />

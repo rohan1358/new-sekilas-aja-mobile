@@ -1,5 +1,10 @@
 import { Camera, Search } from "@assets";
-import { neutralColor, primaryColor, strings } from "@constants";
+import {
+  neutralColor,
+  neutralColorText,
+  primaryColor,
+  strings
+} from "@constants";
 import React from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
@@ -11,7 +16,7 @@ const ExploreSearch = ({ cameraPress, onPress }: ExploreSesarchProps) => {
   return (
     <Button style={styles.boxesContainer} onPress={onPress}>
       <View style={styles.iconContainer}>
-        <Search stroke={neutralColor[90]} />
+        <Search stroke={neutralColorText[90]} />
       </View>
       <View style={styles.input}>
         <TextItem type="r.14.nc.70">{strings.findFavBookPlaceholder}</TextItem>

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
   boxtitle: {
     paddingHorizontal: adjust(25),
-    marginTop: 5
+    marginTop: 16
   },
 
   title: {

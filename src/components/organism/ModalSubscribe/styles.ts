@@ -211,10 +211,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderLeftWidth: 1,
     borderBottomLeftRadius: 10,
-    backgroundColor: "#FCCF32"
+    backgroundColor: primaryColor.main
   },
   bgYellow: {
-    backgroundColor: "#FCCF32"
+    backgroundColor: primaryColor.main
   }
 });
 

@@ -12,7 +12,7 @@ const BigButton = ({
   ...props
 }: BigButtonProps) => {
   const s = styles({ disabled });
-  const textType = disabled ? "b.24.nc.60" : "b.24.pc.main";
+  const textType = disabled ? "b.24.ncb.60" : "b.24.pc.main";
   return (
     <Button style={s.container} disabled={disabled} {...props}>
       {isLoading ? (

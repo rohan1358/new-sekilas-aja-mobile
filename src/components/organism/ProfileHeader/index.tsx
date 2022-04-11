@@ -12,7 +12,7 @@ export default function ProfileHeader({ navigation, uri, onPress }: any) {
         <Button onPress={() => navigation.goBack()}>
           <ArrowLeft color={neutralColor[90]} />
         </Button>
-        <TextItem type="b.20.nc.90.c" style={styles.textMenu}>
+        <TextItem type="b.20.ncb.90.c" style={styles.textMenu}>
           {strings.edit_profile}
         </TextItem>
       </View>
@@ -24,7 +24,10 @@ export default function ProfileHeader({ navigation, uri, onPress }: any) {
             <Amage placeholder={UserPlaceholder} />
           )}
         </View>
-        <TextItem type="b.24.nc.90.c">{strings.edit_profile}</TextItem>
+        <TextItem type="b.24.ncb.90.c">
+          {/* string edit profile */}
+          Edit Profile
+        </TextItem>
       </Button>
       <Image source={BgHeader1} style={styles.bgHeader} />
     </View>

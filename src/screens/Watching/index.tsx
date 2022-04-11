@@ -18,6 +18,7 @@ import {
   colors,
   firebaseNode,
   neutralColor,
+  neutralColorText,
   pages,
   primaryColor,
   snackState as ss,
@@ -530,7 +531,7 @@ export default function Watching({ navigation, route }: any) {
                       ]}
                     >
                       <Button onPress={() => handlePrev()}>
-                        <RotateCcw height={25} color={neutralColor[10]} />
+                        <RotateCcw height={25} color={neutralColorText[10]} />
                       </Button>
                       <Button>
                         <SkipBackFullScreen color={neutralColor[10]} />
@@ -538,18 +539,18 @@ export default function Watching({ navigation, route }: any) {
                       <Button onPress={() => setPlay(!play)}>
                         {play ? (
                           <Play
-                            color={neutralColor[10]}
+                            color={neutralColorText[10]}
                             style={styles.iconPlay}
                           />
                         ) : (
-                          <Pause color={neutralColor[10]} />
+                          <Pause color={neutralColorText[10]} />
                         )}
                       </Button>
                       <Button>
-                        <SkipForwardFullScreen color={neutralColor[10]} />
+                        <SkipForwardFullScreen color={neutralColorText[10]} />
                       </Button>
                       <Button onPress={() => handleNext()}>
-                        <RotateCw height={25} color={neutralColor[10]} />
+                        <RotateCw height={25} color={neutralColorText[10]} />
                       </Button>
                     </View>
                     <View
@@ -569,7 +570,7 @@ export default function Watching({ navigation, route }: any) {
                           <Minimize
                             width={25}
                             height={25}
-                            color={neutralColor[10]}
+                            color={neutralColorText[10]}
                           />
                         </Button>
                         {/* <TextItem type={"r.14.nc.10"}>
@@ -619,7 +620,7 @@ export default function Watching({ navigation, route }: any) {
                       }}
                     />
                     <View style={styles.boxTextTime}>
-                      <TextItem type={"r.14.nc.90"}>
+                      <TextItem type={"r.14.ncb.90"}>
                         {_convertDuration(currentTime)}/
                         {_convertDuration(duration)}
                       </TextItem>
@@ -666,7 +667,7 @@ export default function Watching({ navigation, route }: any) {
                   </View>
                   <View style={styles.boxFooter}>
                     <Button onPress={() => refRBSheet.current.open()}>
-                      <TextItem type={"b.14.nc.90"} style={styles.speedText}>
+                      <TextItem type={"b.14.ncb.90"} style={styles.speedText}>
                         {strings.kecepatan + speed.toString() + strings.x}
                       </TextItem>
                     </Button>
@@ -675,7 +676,7 @@ export default function Watching({ navigation, route }: any) {
                         onPress={() => navigationTopBar("reading")}
                         style={styles.btnBar}
                       >
-                        <File stroke={"#FCCF32"} strokeWidth={2} />
+                        <File stroke={primaryColor.main} strokeWidth={2} />
                         <TextItem style={styles.titleSelect}>
                           {strings.baca}
                         </TextItem>
@@ -684,7 +685,10 @@ export default function Watching({ navigation, route }: any) {
                         onPress={() => navigationTopBar("listening")}
                         style={styles.btnBar}
                       >
-                        <Headphones stroke={"#FCCF32"} strokeWidth={2} />
+                        <Headphones
+                          stroke={primaryColor.main}
+                          strokeWidth={2}
+                        />
                         <TextItem style={styles.titleSelect}>
                           {strings.dengar}
                         </TextItem>

@@ -6,8 +6,9 @@ import auth from "@react-native-firebase/auth";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./src/redux/store";
-import { LogBox, Text } from "react-native";
+import { LogBox, Text, Appearance } from "react-native";
 import firestore from "@react-native-firebase/firestore";
+import { decrypt } from "./src/utils";
 
 const App = () => {
   LogBox.ignoreLogs([
@@ -28,6 +29,9 @@ const App = () => {
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // const dec = decrypt("U2FsdGVkX19sYU7CpVclqo7l7/9sm5Xh1rwO8Q90eqM=");
+
+    // console.log("dec", dec);
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 
     // new splash screen

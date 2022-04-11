@@ -4,7 +4,8 @@ import {
   primaryColor,
   spacing as sp,
   colors,
-  neutralColor
+  neutralColor,
+  neutralColorText
 } from "../../constants";
 import { heightPercent, widthPercent } from "../../helpers";
 
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
   textBtnLewati: {
-    color: neutralColor[80]
+    color: neutralColorText[80]
   },
 
   buttonLanjut: {

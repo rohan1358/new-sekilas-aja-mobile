@@ -10,6 +10,7 @@ import {
 } from "@assets";
 import {
   neutralColor,
+  neutralColorText,
   pages,
   primaryColor,
   skeleton,
@@ -18,14 +19,8 @@ import {
   strings
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  TextInput,
-  View,
-  Text
-} from "react-native";
-import { AirbnbRating } from "react-native-ratings";
+import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
+// import { AirbnbRating } from "react-native-ratings";
 import Animated, {
   useAnimatedStyle,
   useSharedValue
@@ -37,10 +32,10 @@ import {
   Base,
   BookTile,
   Button,
-  CardComent,
+  // CardComent,
   Gap,
   HeaderBookDetail,
-  ModalSubscribe,
+  // ModalSubscribe,
   TextItem
 } from "../../components";
 import { SnackStateProps } from "../../components/atom/Base/types";
@@ -61,6 +56,7 @@ import { WebView } from "react-native-webview";
 import styles from "./styles";
 import { useIsFocused } from "@react-navigation/native";
 import { handleOpenModalSubscribe } from "@actions";
+import { newCategories } from "../../../assets/dummy";
 
 const openRate = false;
 
@@ -81,8 +77,7 @@ export default function BookDetail({ navigation, route }: any) {
   const [ratingCount, setRatingCount] = useState(4.5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [active, setActive] = useState<boolean>(false);
-  const [recommendedBooks, setRecommendedBooks] =
-    useState<CompactBooksProps[]>();
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
   const [statusSub, setStatusSub] = useState(false);
   const [daftarIsi, setDaftarIsi] = useState([]);
   const [favorite, setFavorite] = useState<any>([]);
@@ -248,6 +243,8 @@ export default function BookDetail({ navigation, route }: any) {
   const lockReadingListenViewBook =
     statusSub || profile.owned_books.includes(book?.book_title) ? true : false;
 
+  const IconCategory = newCategories(book?.category[1]);
+
   return (
     <>
       <Base
@@ -277,14 +274,14 @@ export default function BookDetail({ navigation, route }: any) {
                   onPress={() => navigationTopBar("reading")}
                   style={styles.btnBar}
                 >
-                  <File stroke={"#FCCF32"} strokeWidth={2} />
+                  <File stroke={primaryColor.main} strokeWidth={2} />
                   <TextItem style={styles.titleSelect}>{strings.baca}</TextItem>
                 </Button>
                 <Button
                   onPress={() => navigationTopBar("listening")}
                   style={styles.btnBar}
                 >
-                  <Headphones stroke={"#FCCF32"} strokeWidth={2} />
+                  <Headphones stroke={primaryColor.main} strokeWidth={2} />
                   <TextItem style={styles.titleSelect}>
                     {strings.dengar}
                   </TextItem>
@@ -294,7 +291,7 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("watching")}
                     style={styles.btnBar}
                   >
-                    <Video stroke={"#FCCF32"} strokeWidth={2} />
+                    <Video stroke={primaryColor.main} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.tonton}
                     </TextItem>
@@ -346,7 +343,7 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("reading")}
                     style={styles.btnBar}
                   >
-                    <File stroke={"#FCCF32"} strokeWidth={2} />
+                    <File stroke={primaryColor.main} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.baca}
                     </TextItem>
@@ -356,7 +353,7 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("listening")}
                     style={styles.btnBar}
                   >
-                    <Headphones stroke={"#FCCF32"} strokeWidth={2} />
+                    <Headphones stroke={primaryColor.main} strokeWidth={2} />
                     <TextItem style={styles.titleSelect}>
                       {strings.dengar}
                     </TextItem>
@@ -367,7 +364,7 @@ export default function BookDetail({ navigation, route }: any) {
                       onPress={() => navigationTopBar("watching")}
                       style={styles.btnBar}
                     >
-                      <Video stroke={"#FCCF32"} strokeWidth={2} />
+                      <Video stroke={primaryColor.main} strokeWidth={2} />
                       <TextItem style={styles.titleSelect}>
                         {strings.tonton}
                       </TextItem>
@@ -397,13 +394,20 @@ export default function BookDetail({ navigation, route }: any) {
                 </TextItem> */}
                 <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
                 <View style={styles.info}>
-                  <Clock style={styles.iconInfo} stroke={neutralColor[70]} />
+                  <Clock
+                    style={styles.iconInfo}
+                    stroke={neutralColorText[70]}
+                  />
                   <View style={styles.boxTextInfo}>
                     <TextItem style={styles.textInfo}>
                       {book?.read_time + " min"}
                     </TextItem>
                   </View>
-                  <Sunrise style={styles.iconInfo} />
+                  <Sunrise
+                    style={styles.iconInfo}
+                    stroke={neutralColorText[70]}
+                    strokeWidth={2}
+                  />
                   <View style={styles.boxTextInfo}>
                     <TextItem style={styles.textInfo}>
                       {daftarIsi.length + " " + strings.kilas}
@@ -421,21 +425,24 @@ export default function BookDetail({ navigation, route }: any) {
                     <TextItem style={styles.textKategori}>
                       {book?.category[1]}
                     </TextItem>
-                    <Bank />
+                    {newCategories(book?.category[1])}
+                    {/* <Bank /> */}
                   </View>
                 </View>
               </View>
 
-              <View style={styles.sectionList}>
-                <TextItem style={styles.titleSection}>
-                  {strings.tentang_buku}
-                </TextItem>
-                <View style={styles.boxTextTentang}>
-                  {book?.descriptions.map((desc, index) => (
-                    <TextItem style={styles.textTentang}>{desc}</TextItem>
-                  ))}
+              {book?.descriptions.length > 0 && book?.descriptions[0] !== "" && (
+                <View style={styles.sectionList}>
+                  <TextItem style={styles.titleSection}>
+                    {strings.tentang_buku}
+                  </TextItem>
+                  <View style={styles.boxTextTentang}>
+                    {book?.descriptions.map((desc, index) => (
+                      <TextItem style={styles.textTentang}>{desc}</TextItem>
+                    ))}
+                  </View>
                 </View>
-              </View>
+              )}
 
               <>
                 {/* <View style={styles.boxRelease}>
@@ -605,7 +612,7 @@ export default function BookDetail({ navigation, route }: any) {
                 </Button>
               </View>
               <View style={styles.boxListBook}>
-                {recommendedBooks?.map((item: CompactBooksProps, index) => {
+                {recommendedBooks?.map((item: any, index) => {
                   return (
                     <View key={index} style={styles.columnWrapperStyle}>
                       <BookTile

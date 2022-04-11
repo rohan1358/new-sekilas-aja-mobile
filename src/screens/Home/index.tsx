@@ -29,6 +29,7 @@ import firestore from "@react-native-firebase/firestore";
 import {
   dangerColor,
   neutralColor,
+  neutralColorText,
   primaryColor,
   skeleton,
   snackState as ss,
@@ -84,6 +85,7 @@ import { checkData } from "../../utils";
 import { pageParser } from "./helper";
 import styles from "./styles";
 import { HORIZONTAL_GAP } from "./values";
+import auth from "@react-native-firebase/auth";
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -136,6 +138,15 @@ const Home = () => {
   const storyColorIndex = getRandomInt(0, 3);
 
   useEffect(() => {
+    // auth()
+    //   .currentUser?.updatePassword("testing")
+    //   .then((res) => {
+    //     console.log("success edit password");
+    //   })
+    //   .catch((res) => {
+    //     console.log("failed edit password");
+    //   });
+
     fetchNotifPromo();
     fetchNotifInbox();
     fetchNotifPrivate();
@@ -364,7 +375,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchMyShorts(profile.id);
+    if (profile.id) {
+      fetchMyShorts(profile.id);
+    }
   }, []);
 
   let mountedSnapshot = false;
@@ -684,7 +697,7 @@ const Home = () => {
                       </TextItem>
                     </TouchableOpacity> */}
                   </View>
-                  <Gap vertical={spacer.sl} />
+                  <Gap vertical={spacer.xs} />
                   <View style={styles.clickTitle}>
                     {childMenuChallengeGroupDiscuss.map((Cb) => {
                       return (
@@ -720,7 +733,7 @@ const Home = () => {
                       <Gap horizontal={HORIZONTAL_GAP}>
                         <AdaptiveText
                           type="text3xl/black"
-                          textColor={neutralColor["90"]}
+                          textColor={neutralColorText["90"]}
                         >
                           {"Sekilas Shorts"}
                         </AdaptiveText>
@@ -749,7 +762,7 @@ const Home = () => {
                         <Gap horizontal={HORIZONTAL_GAP}>
                           <AdaptiveText
                             type="text3xl/black"
-                            textColor={neutralColor["90"]}
+                            textColor={neutralColorText["90"]}
                           >
                             {strings.bookCategory}
                           </AdaptiveText>
@@ -824,7 +837,7 @@ const Home = () => {
                         <View style={{ maxWidth: "60%" }}>
                           <AdaptiveText
                             type="text3xl/black"
-                            textColor={neutralColor["90"]}
+                            textColor={neutralColorText["90"]}
                             // style={styles.longTitle}
                           >
                             {strings.recommendedBook}
@@ -865,10 +878,11 @@ const Home = () => {
                         <View style={[styles.clickTitle]}>
                           <View style={{ maxWidth: "60%" }}>
                             <AdaptiveText
-                              textColor={neutralColor["90"]}
+                              textColor={neutralColorText["90"]}
                               type="text3xl/black"
                             >
-                              {strings.mostRead}
+                              {/* string paling banyak dibaca */}
+                              Paling Banyak Dibaca
                             </AdaptiveText>
                           </View>
                           <Gap horizontal={10} />

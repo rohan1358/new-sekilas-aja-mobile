@@ -92,15 +92,16 @@ const HomeHeader = ({
               onPress={() => {
                 name && onPressProfile();
               }}
-              type="r.14.nc.80"
+              type="r.14.ncb.80"
             >
-              {strings.happyReading}
+              {/* string selamat membaca */}
+              Selamat membaca
             </TextItem>
             <TextItem
               onPress={() => {
                 name && onPressProfile();
               }}
-              type="b.24.nc.90.c"
+              type="b.24.ncb.90.c"
             >
               {name}
             </TextItem>

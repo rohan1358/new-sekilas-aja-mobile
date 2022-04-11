@@ -39,11 +39,13 @@ const Library = (navigation: any) => {
   };
 
   const getTotalShorts = () => {
-    fetchMyShorts(profile.id).then((res) => {
-      if (Array.isArray(res) && res.length > 0) {
-        setTotalShorts(res.length);
-      }
-    });
+    if (profile.id) {
+      fetchMyShorts(profile.id).then((res) => {
+        if (Array.isArray(res) && res.length > 0) {
+          setTotalShorts(res.length);
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -88,7 +90,7 @@ const Library = (navigation: any) => {
       <View style={styles.headerContainer}>
         <Gap vertical={sp.sm} />
         <View style={styles.headerTitle}>
-          <TextItem type="b.24.nc.90">Koleksi Bukuku</TextItem>
+          <TextItem type="b.24.ncb.90">Koleksi Bukuku</TextItem>
           {/* <Button style={styles.icon}>
             <Search stroke={neutralColor[90]} />
           </Button> */}

@@ -1,8 +1,6 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { neutralColor, primaryColor, spacing as sp } from "../../constants";
-import { widthPercent } from "../../helpers";
+import { StyleSheet } from "react-native";
+import { primaryColor, spacing as sp } from "../../constants";
 const HEADER_RADIUS = 24;
-const { width } = Dimensions.get("screen");
 const styles = StyleSheet.create({
   headerContainer: {
     paddingHorizontal: sp.sl,

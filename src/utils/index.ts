@@ -1,6 +1,10 @@
-import { PixelRatio } from "react-native";
+import { PixelRatio, Dimensions, Appearance } from "react-native";
+import CryptoJS from "crypto-es";
+import RNRestart from "react-native-restart";
 
 const pixelRatio = PixelRatio.get();
+
+// const { width, height } = Dimensions.get("window");
 
 const padTo2Digits = (num: number) => {
   return num.toString().padStart(2, "0");
@@ -18,9 +22,39 @@ const adjust = (size?: any) => {
   };
 
   if (size >= 5) {
-    if (pixelRatio <= 1.5) {
-      return size - calculate(4);
-    } else if (pixelRatio <= 2) {
+    if (pixelRatio <= 1.2) {
+      return size - calculate(15);
+    }
+    // 1.4
+    else if (pixelRatio <= 1.4) {
+      return size - calculate(13);
+    }
+    // 1.8
+    else if (pixelRatio <= 1.8) {
+      return size - calculate(11);
+    }
+    // 2
+    else if (pixelRatio <= 2) {
+      return size - calculate(9);
+    }
+    // 2.2
+    else if (pixelRatio <= 2.2) {
+      return size - calculate(7);
+    }
+    // 2.4
+    else if (pixelRatio <= 2.4) {
+      return size - calculate(5);
+    }
+    // 2.6
+    else if (pixelRatio <= 2.6) {
+      return size - calculate(3);
+    }
+    // 2.7
+    else if (pixelRatio <= 2.7) {
+      return size - calculate(2.5);
+    }
+    // 2.8
+    else if (pixelRatio <= 2.8) {
       return size - calculate(2);
     } else {
       return size;
@@ -85,7 +119,32 @@ const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const encrypt = (pw: string) => {
+  var encrypted = CryptoJS.AES.encrypt(pw, "p@sw0rd");
+  return encrypted.toString();
+};
+
+const decrypt = (encrypted: string) => {
+  var bytes = CryptoJS.AES.decrypt(encrypted, "p@sw0rd");
+  var decrypted = bytes.toString(CryptoJS.enc.Utf8);
+  return decrypted;
+};
+
 const openRate = false;
+
+let darkMode = Appearance.getColorScheme() === "dark";
+
+let refreshMode = Appearance.getColorScheme();
+
+setInterval(() => {
+  if (refreshMode !== Appearance.getColorScheme()) {
+    console.log("refreshMode", refreshMode);
+    console.log("Appearance", Appearance.getColorScheme());
+    refreshMode = Appearance.getColorScheme();
+    RNRestart.Restart();
+  }
+}, 1000);
+
 export {
   padTo2Digits,
   formatDate,
@@ -94,5 +153,8 @@ export {
   validateEmail,
   adjust,
   getRandomInt,
-  adjustLetterSpace
+  adjustLetterSpace,
+  encrypt,
+  decrypt,
+  darkMode
 };

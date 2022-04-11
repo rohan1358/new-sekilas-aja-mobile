@@ -821,7 +821,7 @@ function NewFloatingVideo() {
                                       style={styles.btnBar}
                                     >
                                       <File
-                                        stroke={"#FCCF32"}
+                                        stroke={primaryColor.main}
                                         strokeWidth={2}
                                       />
                                       <TextItem style={styles.titleSelect}>
@@ -835,7 +835,7 @@ function NewFloatingVideo() {
                                       style={styles.btnBar}
                                     >
                                       <Headphones
-                                        stroke={"#FCCF32"}
+                                        stroke={primaryColor.main}
                                         strokeWidth={2}
                                       />
                                       <TextItem style={styles.titleSelect}>
