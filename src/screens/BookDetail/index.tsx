@@ -474,10 +474,20 @@ export default function BookDetail({ navigation, route }: any) {
                     }
                   ]}
                 >
-                  {strings.kategori}
+                  {/* string kategori  */}
+                  Kategori
+                  {/* {strings.kategori} */}
                 </TextItem>
                 <View style={{ flexDirection: "row" }}>
-                  <View style={styles.boxTextKategori}>
+                  <View
+                    style={[
+                      styles.boxTextKategori,
+                      {
+                        backgroundColor: neutralColor[20],
+                        borderColor: neutralColor[60]
+                      }
+                    ]}
+                  >
                     <TextItem
                       style={[
                         styles.textKategori,

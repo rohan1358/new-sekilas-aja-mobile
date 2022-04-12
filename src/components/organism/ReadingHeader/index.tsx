@@ -1,5 +1,6 @@
 import { ArrowLeft, MenuDots } from "@assets";
 import { neutralColor, spacing as sp } from "@constants";
+import { ReduxState } from "@rux";
 import React, { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import Animated, {
@@ -7,8 +8,9 @@ import Animated, {
   useSharedValue,
   withDelay,
   withSequence,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 import { Button, Gap, TextItem } from "../../atom";
 import { ButtonIcon } from "../../molecule";
 import styles from "./styles";
@@ -17,8 +19,12 @@ const ReadingHeader = ({
   title,
   backPress,
   dotPress,
-  dotVisibility,
+  dotVisibility
 }: ReadingHeaderProps) => {
+  const {
+    mainContext: { mode }
+  } = useSelector((state: ReduxState) => state);
+
   const [textWidth, setTextWidth] = useState(1000);
   const [actualHeaderWidth, setActualHeaderWidth] = useState<number>(0);
 
@@ -32,7 +38,7 @@ const ReadingHeader = ({
   const position = useSharedValue(0);
 
   const textStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: position.value }],
+    transform: [{ translateX: position.value }]
   }));
 
   const animate = () => {
@@ -41,12 +47,12 @@ const ReadingHeader = ({
     }
     position.value = withSequence(
       withTiming(translate, {
-        duration: 5000,
+        duration: 5000
       }),
       withDelay(
         3000,
         withTiming(0, {
-          duration: 5000,
+          duration: 5000
         })
       )
     );
@@ -83,7 +89,7 @@ const ReadingHeader = ({
           </Animated.View>
         </Button>
         {/* <View style={[s.semiBlur, s.blurLeft]} /> */}
-        <View style={[s.semiBlur, s.blurRight]} />
+        {mode === "light" && <View style={[s.semiBlur, s.blurRight]} />}
       </View>
       <Gap horizontal={sp.sm} />
       <ButtonIcon onPress={dotPress} disabled={!dotVisibility} style={s.dot}>

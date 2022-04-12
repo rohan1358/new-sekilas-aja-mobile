@@ -88,7 +88,8 @@ const Reading = () => {
 
   const {
     sessionReducer: { email },
-    editProfile: { profile }
+    editProfile: { profile },
+    mainContext: { mode }
   } = useSelector((state: ReduxState) => state);
 
   const isMounted = useMounted();
@@ -664,10 +665,12 @@ Penggalan kilas ini merupakan bagian dari buku ${BOOK_ID}. Baca keseluruhan kila
           </DuoRender>
         </SkeletonContent>
         <Animated.View style={[s.actionWrapper, actionStyle]}>
-          <LinearGradient
-            colors={["#fff1", "#fff8", "#fff"]}
-            style={s.linearGradient}
-          ></LinearGradient>
+          {mode === "light" && (
+            <LinearGradient
+              colors={["#fff1", "#fff8", "#fff"]}
+              style={s.linearGradient}
+            ></LinearGradient>
+          )}
           <View style={s.actions}>
             <Button
               style={s.button}

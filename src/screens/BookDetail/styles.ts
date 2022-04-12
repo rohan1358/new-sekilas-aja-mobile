@@ -133,9 +133,8 @@ const styles = StyleSheet.create({
 
   boxTextKategori: {
     marginTop: 16,
-    backgroundColor: neutralColor[20],
+
     borderWidth: 1,
-    borderColor: neutralColor[60],
     paddingHorizontal: 10,
     borderRadius: 5,
     paddingVertical: 5,
