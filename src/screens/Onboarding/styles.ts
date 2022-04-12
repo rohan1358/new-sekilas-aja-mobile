@@ -77,9 +77,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  textBtnLewati: {
-    color: neutralColorText[80]
-  },
+  textBtnLewati: {},
 
   buttonLanjut: {
     flex: 1,

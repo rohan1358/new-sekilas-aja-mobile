@@ -30,7 +30,12 @@ const videoReducers = (
       return { ...state, progress: action.payload };
 
     case SET_VIDEO_BOOK:
-      return { ...state, book: action.payload, video_exist: true };
+      return {
+        ...state,
+        book: action.payload,
+        video_exist: true,
+        videoFooter: true
+      };
     case SET_DISPLAY_VIDEO:
       if (action.payload === "page") {
         return { ...state, videoFooter: false, videoPage: true };

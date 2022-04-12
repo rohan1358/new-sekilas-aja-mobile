@@ -560,7 +560,7 @@ function OriFloatingMedia() {
                           {titleKilas}
                         </TextTicker>
 
-                        <TextItem type={"r.14.nc.90"}>
+                        <TextItem type={"r.14.ncb.90"}>
                           {book.book_title}
                         </TextItem>
                       </View>
@@ -703,7 +703,13 @@ function OriFloatingMedia() {
                               showsHorizontalScrollIndicator={false}
                             >
                               <TextItem
-                                style={[stylesScreen.text, stylesScreen.title]}
+                                style={[
+                                  stylesScreen.text,
+                                  stylesScreen.title,
+                                  {
+                                    color: neutralColor[90]
+                                  }
+                                ]}
                               >
                                 {titleTrack}
                               </TextItem>
@@ -729,7 +735,14 @@ function OriFloatingMedia() {
                             )}
                           </View>
 
-                          <TextItem style={[stylesScreen.text]}>
+                          <TextItem
+                            style={[
+                              stylesScreen.text,
+                              {
+                                color: neutralColor[70]
+                              }
+                            ]}
+                          >
                             {authorTrack}
                           </TextItem>
                           <View>
@@ -752,12 +765,12 @@ function OriFloatingMedia() {
                               layout={skeleton.listening.timing}
                             >
                               <View style={stylesScreen.boxTextTime}>
-                                <TextItem type={"r.14.nc.90"}>
+                                <TextItem type={"r.14.ncb.90"}>
                                   {new Date(progress.position * 1000)
                                     .toISOString()
                                     .substr(14, 5)}
                                 </TextItem>
-                                <TextItem type={"r.14.nc.90"}>
+                                <TextItem type={"r.14.ncb.90"}>
                                   {new Date(progress.duration * 1000)
                                     .toISOString()
                                     .substr(14, 5)}
@@ -805,7 +818,7 @@ function OriFloatingMedia() {
                           <View style={stylesScreen.boxFooter}>
                             <Button onPress={() => refRBSheet.current.open()}>
                               <TextItem
-                                type={"b.14.nc.90"}
+                                type={"b.14.ncb.90"}
                                 style={stylesScreen.speedText}
                               >
                                 {strings.kecepatan +
@@ -917,7 +930,14 @@ function OriFloatingMedia() {
                         height={heightPercent(42)}
                       >
                         <View style={stylesScreen.boxTitleSheet}>
-                          <TextItem style={stylesScreen.titleSheet}>
+                          <TextItem
+                            style={[
+                              stylesScreen.titleSheet,
+                              {
+                                color: neutralColor[90]
+                              }
+                            ]}
+                          >
                             {strings.kecepatan_audio}
                           </TextItem>
                           <Button onPress={() => refRBSheet.current.close()}>
@@ -937,7 +957,7 @@ function OriFloatingMedia() {
                                 key={index}
                                 style={stylesScreen.listSpeed}
                               >
-                                <TextItem type={"r.16.nc.90"}>
+                                <TextItem type={"r.16.ncb.90"}>
                                   {item + strings.x}
                                 </TextItem>
                               </Button>

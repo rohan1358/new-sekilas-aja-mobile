@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 8,
     fontSize: 20,
-    color: neutralColor[70],
     fontWeight: "500"
   },
 
@@ -152,8 +151,7 @@ const styles = StyleSheet.create({
 
   titleSheet: {
     fontSize: 24,
-    fontWeight: "700",
-    color: neutralColor[90]
+    fontWeight: "700"
   },
 
   boxListSpeed: {

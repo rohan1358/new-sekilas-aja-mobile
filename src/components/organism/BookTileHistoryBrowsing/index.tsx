@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { adjust, checkData } from "../../../utils";
 import {
   neutralColor,
+  neutralColorText,
   primaryColor,
   spacing as sp,
   strings
@@ -113,7 +114,7 @@ const BookTileChallenge = ({
           <>
             <View style={styles.containerButton}>
               <TextItem>
-                <File stroke={"black"} strokeWidth={2} />
+                <File stroke={neutralColorText[90]} strokeWidth={2} />
               </TextItem>
               {/* <ProgressBarAndroid
                 styleAttr="Horizontal"
@@ -148,7 +149,7 @@ const BookTileChallenge = ({
           <>
             <View style={styles.containerButton}>
               <TextItem>
-                <Headphones stroke={"black"} strokeWidth={2} />
+                <Headphones stroke={neutralColorText[90]} strokeWidth={2} />
               </TextItem>
               {/* <ProgressBarAndroid
                 styleAttr="Horizontal"
@@ -184,7 +185,7 @@ const BookTileChallenge = ({
         {checkData(progress.watching) && (
           <View style={styles.containerButton}>
             <TextItem>
-              <Video stroke={"black"} strokeWidth={2} />
+              <Video stroke={neutralColorText[90]} strokeWidth={2} />
             </TextItem>
             {/* <ProgressBarAndroid
               styleAttr="Horizontal"

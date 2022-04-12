@@ -34,7 +34,13 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
         <View style={[s.container, innerContainerStyle]}>
           <TextInput
             {...props}
-            style={[s.input, inputStyle]}
+            style={[
+              s.input,
+              inputStyle,
+              {
+                color: neutralColorText[100]
+              }
+            ]}
             placeholderTextColor={neutralColorText[50]}
             ref={ref}
           />
@@ -42,7 +48,12 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
             <Button
               onPress={iconPress}
               disabled={iconDisbabled}
-              style={s.iconContainer}
+              style={[
+                s.iconContainer,
+                {
+                  // color: neutralColorText[90]
+                }
+              ]}
             >
               {Icon}
             </Button>

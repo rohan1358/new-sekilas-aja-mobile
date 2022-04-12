@@ -553,7 +553,14 @@ export default function RewatchWebinar({ navigation, route }: any) {
                 >
                   <View>
                     <View style={styles.boxTitleSheet}>
-                      <TextItem style={styles.titleSheet}>
+                      <TextItem
+                        style={[
+                          styles.titleSheet,
+                          {
+                            color: neutralColor[90]
+                          }
+                        ]}
+                      >
                         {strings.kecepatan_video}
                       </TextItem>
                       <Button onPress={() => refRBSheet.current.close()}>

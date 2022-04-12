@@ -31,19 +31,15 @@ const styles = StyleSheet.create({
 
   titleList: {
     fontSize: 15,
-    fontWeight: "500",
-    color: neutralColorText[80]
+    fontWeight: "500"
   },
 
   textContent: {
     fontSize: 14,
-    color: neutralColorText[60],
     marginTop: 4
   },
 
-  textTime: {
-    color: neutralColor[90]
-  },
+  textTime: {},
 
   containerModal: {
     backgroundColor: "rgba(0,0,0,0.3)",
@@ -74,8 +70,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     fontSize: 35,
-    padding: 0,
-    color: neutralColor[90]
+    padding: 0
   },
 
   boxAction: {

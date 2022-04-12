@@ -151,9 +151,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "-90deg" }]
   },
 
-  colorBlack: {
-    color: neutralColor[90]
-  },
+  colorBlack: {},
 
   colorWhite: {
     color: colors.white
@@ -183,7 +181,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 20,
     textAlign: "center",
-    color: neutralColor[90],
     marginVertical: 5
   },
 

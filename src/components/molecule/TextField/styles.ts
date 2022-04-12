@@ -40,13 +40,11 @@ const styles = ({ state }: { state: string }) => {
       width: FIELD_HEIGHT - 8,
       height: FIELD_HEIGHT - 8,
       justifyContent: "center",
-      alignItems: "center",
-      color: neutralColorText[90]
+      alignItems: "center"
     },
     input: {
       flex: 1,
-      paddingHorizontal: spacing.sm,
-      color: neutralColorText[100]
+      paddingHorizontal: spacing.sm
     }
   });
 };

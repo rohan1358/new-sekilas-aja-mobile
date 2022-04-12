@@ -11,7 +11,16 @@ export default function AboutHeader({ title, navigation }: AboutHeaderProps) {
       <Button onPress={() => navigation.goBack()} style={styles.btnBack}>
         <ArrowLeft color={neutralColorText[90]} />
       </Button>
-      <TextItem style={styles.title}>{title}</TextItem>
+      <TextItem
+        style={[
+          styles.title,
+          {
+            color: neutralColorText[90]
+          }
+        ]}
+      >
+        {title}
+      </TextItem>
     </View>
   );
 }

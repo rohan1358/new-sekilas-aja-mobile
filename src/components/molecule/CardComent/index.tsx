@@ -1,4 +1,4 @@
-import { strings, warningColor } from "@constants";
+import { neutralColor, strings, warningColor } from "@constants";
 import React from "react";
 import { View } from "react-native";
 import { AirbnbRating } from "react-native-ratings";
@@ -19,8 +19,26 @@ export default function CardComent({ rating, image, name, time, text }: any) {
         </View>
         <View style={styles.boxTitle}>
           <View style={styles.boxText}>
-            <TextItem style={styles.titleName}>{name}</TextItem>
-            <TextItem style={styles.time}>{time}</TextItem>
+            <TextItem
+              style={[
+                styles.titleName,
+                {
+                  color: neutralColor[90]
+                }
+              ]}
+            >
+              {name}
+            </TextItem>
+            <TextItem
+              style={[
+                styles.time,
+                {
+                  color: neutralColor[60]
+                }
+              ]}
+            >
+              {time}
+            </TextItem>
             {/* <TextItem style={styles.time}>{time + strings.lalu}</TextItem> */}
           </View>
           {openRate && (

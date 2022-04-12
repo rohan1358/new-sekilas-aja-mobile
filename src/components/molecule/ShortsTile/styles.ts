@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
 
-  title: { textAlign: "center", color: neutralColor["90"] },
+  title: { textAlign: "center" },
 
   wrapper: { flexDirection: "row" }
 });

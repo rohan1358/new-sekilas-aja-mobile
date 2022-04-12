@@ -1,7 +1,13 @@
 import React, { useRef, useState } from "react";
 import { StatusBar, View, Dimensions, Text } from "react-native";
 import styles from "./styles";
-import { pages, primaryColor, spacing as sp, strings } from "../../constants";
+import {
+  neutralColorText,
+  pages,
+  primaryColor,
+  spacing as sp,
+  strings
+} from "../../constants";
 import { Button, PagesOnboarding, TextItem } from "@components";
 import { ScrollView } from "react-native-gesture-handler";
 import { Arrowright, Hero1, Hero2, Hero3, Hero4 } from "@assets";
@@ -129,7 +135,15 @@ export default function Onboarding({ navigation }: any) {
           ) : (
             <View style={styles.boxBtnAction}>
               <Button onPress={() => navToSignIn()} style={styles.buttonLewati}>
-                <TextItem type="b.20" style={styles.textBtnLewati}>
+                <TextItem
+                  type="b.20"
+                  style={[
+                    styles.textBtnLewati,
+                    {
+                      color: neutralColorText[80]
+                    }
+                  ]}
+                >
                   {strings.btnLewati}
                 </TextItem>
               </Button>

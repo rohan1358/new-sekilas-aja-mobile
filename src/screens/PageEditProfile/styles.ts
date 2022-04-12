@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: neutralColorText[90],
     fontWeight: "700",
     textTransform: "capitalize",
     marginBottom: 8
@@ -28,8 +27,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    fontSize: 16,
-    color: neutralColorText[90]
+    fontSize: 16
   },
 
   textAlert: {
@@ -64,8 +62,7 @@ const styles = StyleSheet.create({
 
   textBatal: {
     fontSize: 24,
-    fontWeight: "700",
-    color: neutralColorText[60]
+    fontWeight: "700"
   }
 });
 

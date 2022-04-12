@@ -539,7 +539,7 @@ function NewFloatingVideo() {
                       {/* {listBab ? listBab[bab]?.title : "bab"} */}
                       {book.book_title}
                     </TextTicker>
-                    <TextItem type={"r.14.nc.80"}>{book.author}</TextItem>
+                    <TextItem type={"r.14.ncb.80"}>{book.author}</TextItem>
                   </View>
                   <View
                     style={{
@@ -743,7 +743,7 @@ function NewFloatingVideo() {
                                     }}
                                   />
                                   <View style={styles.boxTextTime}>
-                                    <TextItem type={"r.14.nc.90"}>
+                                    <TextItem type={"r.14.ncb.90"}>
                                       {_convertDuration(currentTime)}/
                                       {_convertDuration(duration)}
                                     </TextItem>
@@ -805,7 +805,7 @@ function NewFloatingVideo() {
                                     onPress={() => refRBSheet.current.open()}
                                   >
                                     <TextItem
-                                      type={"b.14.nc.90"}
+                                      type={"b.14.ncb.90"}
                                       style={styles.speedText}
                                     >
                                       {strings.kecepatan +
@@ -893,7 +893,14 @@ function NewFloatingVideo() {
                               >
                                 <View>
                                   <View style={styles.boxTitleSheet}>
-                                    <TextItem style={styles.titleSheet}>
+                                    <TextItem
+                                      style={[
+                                        styles.titleSheet,
+                                        {
+                                          color: neutralColor[90]
+                                        }
+                                      ]}
+                                    >
                                       {strings.kecepatan_video}
                                     </TextItem>
                                     <Button

@@ -1,17 +1,18 @@
 import { Appearance } from "react-native";
+import { store } from "../../redux/store";
 // import { darkMode } from "../../utils";
+// import {Selector}from 'react-redux'
 
-let { getColorScheme } = Appearance;
+const { mode } = store.getState().mainContext;
 
 const darkMode = () => {
-  return getColorScheme() === "dark";
+  return mode === "dark";
   // return setInterval(() => {
-  //   console.log("darkMode", getColorScheme() === "dark");
   //   return getColorScheme() === "dark";
   // }, 1000);
 };
 
-let neutralColor = {
+var neutralColor = {
   10: darkMode() ? "#1F264F" : "#FBFCFC",
   20: darkMode() ? "#464B73" : "#ECF1F7",
   30: "#E3E8EF",
@@ -41,7 +42,7 @@ const neutralColorNormal = {
   darkFocus: "#1E264E20"
 };
 
-let neutralColorText = {
+var neutralColorText = {
   10: darkMode() ? "#d2d4dc" : "#FBFCFC",
   20: darkMode() ? "#dadbe2" : "#ECF1F7",
   30: darkMode() ? "#dfe0e5" : "#E3E8EF",
@@ -110,12 +111,89 @@ const dangerColor = {
   focus: "#F1D3DE"
 };
 
-const colors = {
+var colors = {
   white: darkMode() ? "#808080" : "#FFFFFF",
   white1: darkMode() ? "#dde0e7" : "#BBC0CE",
   lightYellow: "#FDD95E",
   yellow1: darkMode() ? "#7e681a" : "#FCD033",
   yellow2: darkMode() ? "#7e6a24" : "#FBD448"
+};
+
+const handleChangeMode = (mode: any) => {
+  if (mode === "dark") {
+    neutralColorText = {
+      10: darkMode() ? "#d2d4dc" : "#FBFCFC",
+      20: darkMode() ? "#dadbe2" : "#ECF1F7",
+      30: darkMode() ? "#dfe0e5" : "#E3E8EF",
+      40: darkMode() ? "#e4e5e9" : "#D9DDDC",
+      50: darkMode() ? "#ebecf0" : "#BBC0CE",
+      60: darkMode() ? "#f1f2f5" : "#9BA2B5",
+      70: darkMode() ? "#f7f8f8" : "#767C91",
+      80: darkMode() ? "#f9fafc" : "#5F647E",
+      90: darkMode() ? "#fbfcfd" : "#464D6F",
+      100: darkMode() ? "#fefefe" : "#1E264E",
+
+      darkFocus: "#1E264E20"
+    };
+    colors = {
+      white: darkMode() ? "#808080" : "#FFFFFF",
+      white1: darkMode() ? "#dde0e7" : "#BBC0CE",
+      lightYellow: "#FDD95E",
+      yellow1: darkMode() ? "#7e681a" : "#FCD033",
+      yellow2: darkMode() ? "#7e6a24" : "#FBD448"
+    };
+    neutralColor = {
+      10: darkMode() ? "#1F264F" : "#FBFCFC",
+      20: darkMode() ? "#464B73" : "#ECF1F7",
+      30: "#E3E8EF",
+      40: "#D9DDDC",
+      50: "#BBC0CE",
+      60: "#9BA2B5",
+      70: "#767C91",
+      80: "#5F647E",
+      90: darkMode() ? "#5F657F" : "#464D6F",
+      100: "#1E264E",
+
+      darkFocus: "#1E264E20"
+    };
+  } else {
+    neutralColor = {
+      10: "#FBFCFC",
+      20: "#ECF1F7",
+      30: "#E3E8EF",
+      40: "#D9DDDC",
+      50: "#BBC0CE",
+      60: "#9BA2B5",
+      70: "#767C91",
+      80: "#5F647E",
+      90: "#464D6F",
+      100: "#1E264E",
+
+      darkFocus: "#1E264E20"
+    };
+
+    colors = {
+      white: "#FFFFFF",
+      white1: "#BBC0CE",
+      lightYellow: "#FDD95E",
+      yellow1: "#FCD033",
+      yellow2: "#FBD448"
+    };
+    neutralColorText = {
+      10: "#FBFCFC",
+      20: "#ECF1F7",
+      30: "#E3E8EF",
+      40: "#D9DDDC",
+      50: "#BBC0CE",
+      60: "#9BA2B5",
+      70: "#767C91",
+      80: "#5F647E",
+      90: "#464D6F",
+      100: "#1E264E",
+
+      darkFocus: "#1E264E20"
+    };
+  }
 };
 
 export {
@@ -128,5 +206,6 @@ export {
   warningColor,
   neutralColorText,
   primaryColorText,
-  neutralColorNormal
+  neutralColorNormal,
+  handleChangeMode
 };

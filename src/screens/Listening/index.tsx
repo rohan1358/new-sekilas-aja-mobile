@@ -492,7 +492,15 @@ export default function Listening({ navigation, route }: any) {
             useNativeDriver={true}
           > */}
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <TextItem style={[styles.text, styles.title]}>
+                <TextItem
+                  style={[
+                    styles.text,
+                    styles.title,
+                    {
+                      color: neutralColor[90]
+                    }
+                  ]}
+                >
                   {titleTrack}
                 </TextItem>
               </ScrollView>
@@ -517,7 +525,16 @@ export default function Listening({ navigation, route }: any) {
               )}
             </View>
 
-            <TextItem style={[styles.text]}>{authorTrack}</TextItem>
+            <TextItem
+              style={[
+                styles.text,
+                {
+                  color: neutralColor[70]
+                }
+              ]}
+            >
+              {authorTrack}
+            </TextItem>
             <View>
               <Slider
                 value={newValueProgress}
@@ -674,7 +691,14 @@ export default function Listening({ navigation, route }: any) {
           height={heightPercent(42)}
         >
           <View style={styles.boxTitleSheet}>
-            <TextItem style={styles.titleSheet}>
+            <TextItem
+              style={[
+                styles.titleSheet,
+                {
+                  color: neutralColor[90]
+                }
+              ]}
+            >
               {strings.kecepatan_audio}
             </TextItem>
             <Button onPress={() => refRBSheet.current.close()}>

@@ -9,6 +9,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import {
+  neutralColor,
+  neutralColorText,
   pages,
   primaryColor,
   skeleton,
@@ -159,7 +161,16 @@ export default function Profile({ navigation }: any) {
           uri={imageUrl}
         />
         <View style={styles.content}>
-          <TextItem style={styles.title}>{strings.name}</TextItem>
+          <TextItem
+            style={[
+              styles.title,
+              {
+                color: neutralColorText[90]
+              }
+            ]}
+          >
+            {strings.name}
+          </TextItem>
           <Button
             onPress={() =>
               navToEditProfile({
@@ -171,13 +182,21 @@ export default function Profile({ navigation }: any) {
             style={styles.boxItem}
           >
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                {
+                  color: neutralColorText[90]
+                }
+              ]}
               editable={false}
               value={profile?.firstName}
             />
             <EditGray />
           </Button>
-          {/* <TextItem style={styles.title}>{strings.alamat}</TextItem> */}
+          {/* <TextItem style={[styles.title, {
+    color: neutralColorText[90],
+
+          }]}>{strings.alamat}</TextItem> */}
           {/* <Button
             onPress={() =>
               navToEditProfile({
@@ -189,7 +208,10 @@ export default function Profile({ navigation }: any) {
             style={styles.boxItem}
           >
             <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, {
+    color: neutralColorText[90]
+
+              }]}
               editable={false}
               value={profile?.email}
               keyboardType="email-address"
@@ -197,7 +219,16 @@ export default function Profile({ navigation }: any) {
             <EditGray />
           </Button> */}
           {/* string password */}
-          <TextItem style={styles.title}>{strings.password}</TextItem>
+          <TextItem
+            style={[
+              styles.title,
+              {
+                color: neutralColorText[90]
+              }
+            ]}
+          >
+            {strings.password}
+          </TextItem>
           <Button
             onPress={() =>
               navToEditProfile({ type: "password", title: "Ubah Password" })
@@ -205,7 +236,12 @@ export default function Profile({ navigation }: any) {
             style={styles.boxItem}
           >
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                {
+                  color: neutralColorText[90]
+                }
+              ]}
               editable={false}
               value={profile?.email + "sj897"}
               secureTextEntry={true}
@@ -223,7 +259,10 @@ export default function Profile({ navigation }: any) {
             }}
             style={styles.btnKeluar}
           >
-            <TextItem style={styles.title}>{strings.btn_keluar}</TextItem>
+            <TextItem style={[styles.title, {
+    color: neutralColorText[90],
+
+            }]}>{strings.btn_keluar}</TextItem>
           </Button> */}
         </View>
       </DummyFlatList>
@@ -243,14 +282,29 @@ export default function Profile({ navigation }: any) {
         height={165}
       >
         <View style={styles.contaonerSheet}>
-          <TextItem style={[styles.title, styles.titleGantiFoto]}>
+          <TextItem
+            style={[
+              styles.title,
+              styles.titleGantiFoto,
+              {
+                color: neutralColorText[90]
+              }
+            ]}
+          >
             {strings.ganti_foto}
           </TextItem>
           <Button
             onPress={() => handleImagePicker("camera")}
             style={styles.btnTakeAction}
           >
-            <TextItem style={styles.textTake}>
+            <TextItem
+              style={[
+                styles.textTake,
+                {
+                  color: neutralColor[70]
+                }
+              ]}
+            >
               {strings.ambil_langsung}
             </TextItem>
             <ChevronRight />
@@ -259,7 +313,16 @@ export default function Profile({ navigation }: any) {
             onPress={() => handleImagePicker("galery")}
             style={styles.btnTakeAction}
           >
-            <TextItem style={styles.textTake}>{strings.ambil_galery}</TextItem>
+            <TextItem
+              style={[
+                styles.textTake,
+                {
+                  color: neutralColor[70]
+                }
+              ]}
+            >
+              {strings.ambil_galery}
+            </TextItem>
             <ChevronRight />
           </Button>
         </View>
@@ -277,13 +340,29 @@ export default function Profile({ navigation }: any) {
             <DummyFlatList>
               <View style={styles.boxContentAlert}>
                 <AlertModal />
-                <TextItem style={styles.textAlert}>{textAlert.text}</TextItem>
+                <TextItem
+                  style={[
+                    styles.textAlert,
+                    {
+                      color: neutralColor[90]
+                    }
+                  ]}
+                >
+                  {textAlert.text}
+                </TextItem>
               </View>
               <Button
                 onPress={() => setModalAlert(!modalAlert)}
                 style={styles.btnAlert}
               >
-                <TextItem style={styles.textActionAlert}>
+                <TextItem
+                  style={[
+                    styles.textActionAlert,
+                    {
+                      color: neutralColor[60]
+                    }
+                  ]}
+                >
                   {textAlert.action}
                 </TextItem>
               </Button>

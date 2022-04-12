@@ -1,11 +1,18 @@
-import { CLOSE_MODAL_SUBSCRIBE, OPEN_MODAL_SUBSCRIBE } from "../actionTypes";
+import { Appearance } from "react-native";
+import {
+  CLOSE_MODAL_SUBSCRIBE,
+  MODE,
+  OPEN_MODAL_SUBSCRIBE
+} from "../actionTypes";
 
 interface initialStateItf {
   modalSubscribeRedux: any;
+  mode: any;
 }
 
 const inisialState: initialStateItf = {
-  modalSubscribeRedux: true
+  modalSubscribeRedux: true,
+  mode: Appearance.getColorScheme()
 };
 
 const mainRedux = (
@@ -17,6 +24,9 @@ const mainRedux = (
       return { ...state, modalSubscribeRedux: true };
     case CLOSE_MODAL_SUBSCRIBE:
       return { ...state, modalSubscribeRedux: false };
+
+    case MODE:
+      return { ...state, mode: action.payload };
 
     default:
       return state;

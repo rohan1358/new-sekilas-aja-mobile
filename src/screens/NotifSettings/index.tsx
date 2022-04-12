@@ -3,16 +3,17 @@ import {
   Base,
   Button,
   DummyFlatList,
-  TextItem,
+  TextItem
 } from "../../components";
 import React, { useState } from "react";
 import { Modal, StyleSheet, Switch, Text, TextInput, View } from "react-native";
 import {
   neutralColor,
+  neutralColorText,
   primaryColor,
   skeleton,
   snackState as ss,
-  strings,
+  strings
 } from "@constants";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import styles from "./styles";
@@ -46,10 +47,16 @@ export default function NotifSettings({ navigation }: any) {
             </TextItem>
             <View style={[styles.list, styles.listPreferens]}>
               <View style={styles.boxText}>
-                <TextItem style={styles.titleList}>
+                <TextItem style={[styles.titleList, {
+    color: neutralColorText[80]
+
+                }]}>
                   {strings.pengingat}
                 </TextItem>
-                <TextItem style={styles.textContent}>
+                <TextItem style={[styles.textContent, {
+    color: neutralColorText[60],
+
+                }]}>
                   {strings.text_pengingat}
                 </TextItem>
               </View>
@@ -63,12 +70,18 @@ export default function NotifSettings({ navigation }: any) {
             </View>
             <View style={[styles.list, styles.listPreferens]}>
               <View style={styles.boxText}>
-                <TextItem style={styles.textContent}>
+                <TextItem style={[styles.textContent, {
+    color: neutralColorText[60],
+
+                }]}>
                   {strings.ingatkan}
                 </TextItem>
               </View>
               <Button onPress={() => setModalVisible(!modalVisible)}>
-                <TextItem style={[styles.textContent, styles.textTime]}>
+                <TextItem style={[styles.textContent, styles.textTime, {
+    color: neutralColor[90]
+
+                }]}>
                   {jam + ":" + menit} PM
                 </TextItem>
               </Button>
@@ -78,10 +91,24 @@ export default function NotifSettings({ navigation }: any) {
             </TextItem>
             <View style={[styles.list, styles.listPreferens]}>
               <View style={styles.boxText}>
-                <TextItem style={styles.titleList}>
+                <TextItem
+                  style={[
+                    styles.titleList,
+                    {
+                      color: neutralColorText[80]
+                    }
+                  ]}
+                >
                   {strings.promo_voucher}
                 </TextItem>
-                <TextItem style={styles.textContent}>
+                <TextItem
+                  style={[
+                    styles.textContent,
+                    {
+                      color: neutralColorText[60]
+                    }
+                  ]}
+                >
                   {strings.text_promo}
                 </TextItem>
               </View>
@@ -117,7 +144,12 @@ export default function NotifSettings({ navigation }: any) {
               <TextInput
                 value={jam}
                 placeholder="00"
-                style={styles.textInput}
+                style={[
+                  styles.textInput,
+                  {
+                    color: neutralColor[90]
+                  }
+                ]}
                 selectionColor={neutralColor[90]}
                 maxLength={2}
                 keyboardType="number-pad"
@@ -127,7 +159,12 @@ export default function NotifSettings({ navigation }: any) {
               <TextInput
                 value={menit}
                 placeholder="00"
-                style={styles.textInput}
+                style={[
+                  styles.textInput,
+                  {
+                    color: neutralColor[90]
+                  }
+                ]}
                 selectionColor={neutralColor[90]}
                 maxLength={2}
                 keyboardType="number-pad"

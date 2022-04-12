@@ -47,11 +47,25 @@ export default function Subscribe({ navigation }: SubscribeProps) {
       <Button onPress={() => handlePressCard(item.type)} style={styles.card}>
         <View style={[styles.headCard, statusBest && styles.backPrimaryColor]}>
           <TextItem
-            style={[styles.textBestValue, statusBest && styles.colorBlack]}
+            style={[
+              styles.textBestValue,
+              statusBest && {
+                color: neutralColor[90]
+              }
+            ]}
           >
             {strings.best_value}
           </TextItem>
-          <TextItem type="b.20.c.white" style={statusBest && styles.colorBlack}>
+          <TextItem
+            type="b.20.c.white"
+            style={
+              statusBest && [
+                {
+                  color: neutralColor[90]
+                }
+              ]
+            }
+          >
             {item.mount + strings.bulan}
           </TextItem>
         </View>
@@ -59,7 +73,15 @@ export default function Subscribe({ navigation }: SubscribeProps) {
           <TextItem
             style={[styles.hemat, statusBest && styles.colorPink]}
           >{`${strings.hemat} ${strings.rp} ${item.hemat}`}</TextItem>
-          <TextItem style={[styles.price, statusBest && styles.colorPrimary]}>
+          <TextItem
+            style={[
+              styles.price,
+              {
+                color: neutralColor[90]
+              },
+              statusBest && styles.colorPrimary
+            ]}
+          >
             <TextItem
               style={styles.textBold}
             >{`${strings.rp} ${item.harga}/ `}</TextItem>
@@ -79,7 +101,11 @@ export default function Subscribe({ navigation }: SubscribeProps) {
         <View style={[styles.headCard, statusNormal && styles.backWhite]}>
           <TextItem
             type="b.20.c.white"
-            style={statusNormal && styles.colorBlack}
+            style={
+              statusNormal && {
+                color: neutralColor[90]
+              }
+            }
           >
             {item.mount + strings.bulan}
           </TextItem>
@@ -90,7 +116,15 @@ export default function Subscribe({ navigation }: SubscribeProps) {
             statusNormal ? styles.backBlack : styles.backWhite
           ]}
         >
-          <TextItem style={[styles.price, statusNormal && styles.colorWhite]}>
+          <TextItem
+            style={[
+              styles.price,
+              {
+                color: neutralColor[90]
+              },
+              statusNormal && styles.colorWhite
+            ]}
+          >
             <TextItem
               style={styles.textBold}
             >{`${strings.rp} ${item.harga}/ `}</TextItem>

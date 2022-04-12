@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: neutralColorText[90],
     fontWeight: "700"
   },
 
@@ -32,8 +31,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    fontSize: 16,
-    color: neutralColorText[90]
+    fontSize: 16
   },
 
   btnKeluar: {
@@ -62,8 +60,7 @@ const styles = StyleSheet.create({
 
   textTake: {
     fontSize: 20,
-    fontWeight: "500",
-    color: neutralColor[70]
+    fontWeight: "500"
   },
 
   containerModal: {
@@ -90,8 +87,8 @@ const styles = StyleSheet.create({
 
   textLanguage: {
     marginTop: 10,
-    fontSize: 16,
-    color: neutralColor[90]
+    fontSize: 16
+    // color: neutralColor[90]
   },
 
   boxListLanguage: {
@@ -103,8 +100,8 @@ const styles = StyleSheet.create({
 
   language: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: neutralColor[90]
+    fontWeight: "bold"
+    // color: neutralColor[90]
   },
 
   dropdown: {
@@ -115,12 +112,12 @@ const styles = StyleSheet.create({
   },
   textDropdown: {
     fontSize: 14,
-    color: neutralColor[80],
+    // color: neutralColor[80],
     fontWeight: "bold"
   },
   containerList: {
-    borderWidth: 0.5,
-    borderColor: neutralColor[30]
+    borderWidth: 0.5
+    // borderColor: neutralColor[30]
   },
 
   boxHapusDownload: {
@@ -153,7 +150,6 @@ const styles = StyleSheet.create({
 
   textAlert: {
     fontSize: 24,
-    color: neutralColor[90],
     fontWeight: "700",
     textAlign: "center",
     marginVertical: 16,
@@ -162,7 +158,6 @@ const styles = StyleSheet.create({
 
   textActionAlert: {
     fontSize: 24,
-    color: neutralColor[60],
     fontWeight: "700",
     textAlign: "center"
   },

@@ -127,7 +127,14 @@ export default function ModalSubscribe({
           <TextItem type="b.18.ncb.90">
             Paket {item.month + " " + strings.bulan}
           </TextItem>
-          <TextItem style={[styles.price]}>
+          <TextItem
+            style={[
+              styles.price,
+              {
+                color: neutralColor[90]
+              }
+            ]}
+          >
             <TextItem style={styles.textBold}>{`${
               strings.rp
             }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>
@@ -157,10 +164,25 @@ export default function ModalSubscribe({
           style={[styles.headCard, statusNormal && styles.backWhite]}
         ></View> */}
         <View style={[styles.contentCard]}>
-          <TextItem type="b.18.nc.90" style={styles.colorBlack}>
+          <TextItem
+            type="b.18.nc.90"
+            style={[
+              styles.colorBlack,
+              {
+                color: neutralColor[90]
+              }
+            ]}
+          >
             Paket {item.month + " " + strings.bulan}
           </TextItem>
-          <TextItem style={[styles.price]}>
+          <TextItem
+            style={[
+              styles.price,
+              {
+                color: neutralColor[90]
+              }
+            ]}
+          >
             <TextItem style={styles.textBold}>{`${
               strings.rp
             }${Intl.NumberFormat()?.format(item.harga)}`}</TextItem>

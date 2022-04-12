@@ -22,14 +22,12 @@ const styles = StyleSheet.create({
 
   notifEmpty: {
     fontSize: 32,
-    fontWeight: "900",
-    color: neutralColor[90]
+    fontWeight: "900"
   },
 
   tidak_ada_notif: {
     fontSize: 16,
     fontWeight: "500",
-    color: neutralColor[60],
     marginTop: 8
   },
   image: {

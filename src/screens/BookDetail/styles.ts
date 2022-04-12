@@ -87,14 +87,12 @@ const styles = StyleSheet.create({
 
   titleBook: {
     fontSize: 32,
-    fontWeight: "700",
-    color: neutralColorText[90]
+    fontWeight: "700"
   },
 
   titleOuthor: {
     fontWeight: "500",
     fontSize: 20,
-    color: neutralColorText[70],
     marginTop: 14,
     fontStyle: "italic"
     // textDecorationLine: 'underline'
@@ -107,7 +105,6 @@ const styles = StyleSheet.create({
   },
 
   boxTextInfo: {
-    backgroundColor: neutralColor[20],
     paddingHorizontal: 5,
     marginLeft: 10,
     borderRadius: 5,
@@ -121,7 +118,6 @@ const styles = StyleSheet.create({
 
   textInfo: {
     fontSize: 10,
-    color: neutralColorText[90],
     fontWeight: "500"
   },
 
@@ -132,8 +128,7 @@ const styles = StyleSheet.create({
 
   titleSection: {
     fontSize: 24,
-    fontWeight: "900",
-    color: neutralColorText[90]
+    fontWeight: "900"
   },
 
   boxTextKategori: {
@@ -150,8 +145,7 @@ const styles = StyleSheet.create({
 
   textKategori: {
     fontSize: 16,
-    marginRight: 6,
-    color: neutralColorText[80]
+    marginRight: 6
   },
 
   boxTextTentang: {
@@ -164,14 +158,12 @@ const styles = StyleSheet.create({
 
   textTentang: {
     fontSize: 16,
-    color: neutralColorText[70],
     marginBottom: 10
   },
 
   textShortDesc: {
     marginTop: 6,
-    fontSize: 16,
-    color: neutralColor[70]
+    fontSize: 16
   },
 
   boxRelease: {
@@ -180,20 +172,17 @@ const styles = StyleSheet.create({
 
   texttglRelease: {
     fontSize: 16,
-    fontWeight: "500",
-    color: neutralColor[90]
+    fontWeight: "500"
   },
 
   tgl: {
     fontSize: 16,
     fontWeight: "500",
-    color: neutralColor[70],
     marginTop: 8
   },
 
   textpublikasi: {
     fontSize: 14,
-    color: neutralColor[60],
     marginTop: 3
   },
 
@@ -243,8 +232,7 @@ const styles = StyleSheet.create({
 
   textDfatar: {
     fontSize: 16,
-    fontWeight: "500",
-    color: neutralColorText[90]
+    fontWeight: "500"
   },
 
   boxTitleUlasan: {
@@ -257,7 +245,6 @@ const styles = StyleSheet.create({
   textLihatSemua: {
     fontSize: 16,
     fontWeight: "700",
-    color: neutralColor[90],
     textDecorationLine: "underline"
   },
 
@@ -276,14 +263,12 @@ const styles = StyleSheet.create({
   textRating: {
     fontSize: 40,
     fontWeight: "700",
-    color: neutralColor[90],
     marginRight: 10
   },
 
   textUlasanDari: {
     marginLeft: 25,
     fontSize: 20,
-    color: neutralColor[60],
     fontWeight: "500",
     marginVertical: 10
   },
@@ -291,12 +276,10 @@ const styles = StyleSheet.create({
   textKomentar: {
     fontSize: 16,
     fontWeight: "700",
-    color: neutralColor[90],
     marginBottom: 8
   },
   textTidakAdaKomentar: {
     fontSize: 16,
-    color: neutralColor[90],
     marginBottom: 8
   },
 

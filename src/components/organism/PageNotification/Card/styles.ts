@@ -18,30 +18,25 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 20,
-    fontWeight: "700",
-    color: neutralColor[60]
+    fontWeight: "700"
   },
   title_active: {
     fontSize: 20,
-    fontWeight: "700",
-    color: neutralColor[90]
+    fontWeight: "700"
   },
 
   text: {
     fontSize: 16,
-    color: neutralColor[50],
     marginVertical: 8
   },
   text_active: {
     fontSize: 16,
-    color: neutralColor[80],
     marginVertical: 8
   },
 
   time: {
     fontSize: 12,
-    fontWeight: "500",
-    color: neutralColor[60]
+    fontWeight: "500"
   },
   time_active: {
     fontSize: 12,

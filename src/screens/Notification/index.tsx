@@ -46,7 +46,7 @@ export default function Notification({ navigation }: any) {
   const layout = useWindowDimensions();
 
   const Riwayat = () => (
-    <DummyFlatList style={{ flex: 1, backgroundColor: "white" }}>
+    <DummyFlatList style={{ flex: 1, backgroundColor: neutralColor[10] }}>
       <>
         {!loading && (
           <>
@@ -75,10 +75,24 @@ export default function Notification({ navigation }: any) {
                       resizeMode="contain"
                     />
                   </View>
-                  <TextItem style={styles.notifEmpty}>
+                  <TextItem
+                    style={[
+                      styles.notifEmpty,
+                      {
+                        color: neutralColor[90]
+                      }
+                    ]}
+                  >
                     {strings.notif_empty}
                   </TextItem>
-                  <TextItem style={styles.tidak_ada_notif}>
+                  <TextItem
+                    style={[
+                      styles.tidak_ada_notif,
+                      {
+                        color: neutralColor[60]
+                      }
+                    ]}
+                  >
                     {strings.tidak_ada_notif}
                   </TextItem>
                 </View>
@@ -95,7 +109,7 @@ export default function Notification({ navigation }: any) {
   };
 
   const Promo = () => (
-    <DummyFlatList style={{ flex: 1, backgroundColor: "white" }}>
+    <DummyFlatList style={{ flex: 1, backgroundColor: neutralColor[10] }}>
       <View>
         {loading ? (
           <></>
@@ -125,10 +139,24 @@ export default function Notification({ navigation }: any) {
                     resizeMode="contain"
                   />
                 </View>
-                <TextItem style={styles.notifEmpty}>
+                <TextItem
+                  style={[
+                    styles.notifEmpty,
+                    {
+                      color: neutralColor[90]
+                    }
+                  ]}
+                >
                   {strings.promo_empty}
                 </TextItem>
-                <TextItem style={styles.tidak_ada_notif}>
+                <TextItem
+                  style={[
+                    styles.tidak_ada_notif,
+                    {
+                      color: neutralColor[60]
+                    }
+                  ]}
+                >
                   {strings.tidak_ada_promo}
                 </TextItem>
               </View>
@@ -153,7 +181,7 @@ export default function Notification({ navigation }: any) {
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      activeColor={neutralColor[90]}
+      activeColor={neutralColor[100]}
       inactiveColor={neutralColor[50]}
       indicatorStyle={{ backgroundColor: primaryColor.main }}
       style={{ backgroundColor: colors.white }}

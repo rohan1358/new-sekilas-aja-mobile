@@ -388,18 +388,53 @@ export default function BookDetail({ navigation, route }: any) {
 
             <View style={styles.sectionDetail}>
               <View style={styles.boxTitle}>
-                <TextItem style={styles.titleBook}>{book?.book_title}</TextItem>
-                {/* <TextItem style={styles.textShortDesc}>
+                <TextItem
+                  style={[
+                    styles.titleBook,
+                    {
+                      color: neutralColorText[90]
+                    }
+                  ]}
+                >
+                  {book?.book_title}
+                </TextItem>
+                {/* <TextItem style={[styles.textShortDesc, {
+    color: neutralColor[70]
+
+                }]}>
                   {book?.short_desc}
                 </TextItem> */}
-                <TextItem style={styles.titleOuthor}>{book?.author}</TextItem>
+                <TextItem
+                  style={[
+                    styles.titleOuthor,
+                    {
+                      color: neutralColorText[70]
+                    }
+                  ]}
+                >
+                  {book?.author}
+                </TextItem>
                 <View style={styles.info}>
                   <Clock
                     style={styles.iconInfo}
                     stroke={neutralColorText[70]}
                   />
-                  <View style={styles.boxTextInfo}>
-                    <TextItem style={styles.textInfo}>
+                  <View
+                    style={[
+                      styles.boxTextInfo,
+                      {
+                        backgroundColor: neutralColor[20]
+                      }
+                    ]}
+                  >
+                    <TextItem
+                      style={[
+                        styles.textInfo,
+                        {
+                          color: neutralColorText[90]
+                        }
+                      ]}
+                    >
                       {book?.read_time + " min"}
                     </TextItem>
                   </View>
@@ -408,8 +443,22 @@ export default function BookDetail({ navigation, route }: any) {
                     stroke={neutralColorText[70]}
                     strokeWidth={2}
                   />
-                  <View style={styles.boxTextInfo}>
-                    <TextItem style={styles.textInfo}>
+                  <View
+                    style={[
+                      styles.boxTextInfo,
+                      {
+                        backgroundColor: neutralColor[20]
+                      }
+                    ]}
+                  >
+                    <TextItem
+                      style={[
+                        styles.textInfo,
+                        {
+                          color: neutralColorText[90]
+                        }
+                      ]}
+                    >
                       {daftarIsi.length + " " + strings.kilas}
                     </TextItem>
                   </View>
@@ -417,12 +466,26 @@ export default function BookDetail({ navigation, route }: any) {
               </View>
 
               <View style={styles.sectionList}>
-                <TextItem style={styles.titleSection}>
+                <TextItem
+                  style={[
+                    styles.titleSection,
+                    {
+                      color: neutralColorText[90]
+                    }
+                  ]}
+                >
                   {strings.kategori}
                 </TextItem>
                 <View style={{ flexDirection: "row" }}>
                   <View style={styles.boxTextKategori}>
-                    <TextItem style={styles.textKategori}>
+                    <TextItem
+                      style={[
+                        styles.textKategori,
+                        {
+                          color: neutralColorText[80]
+                        }
+                      ]}
+                    >
                       {book?.category[1]}
                     </TextItem>
                     {newCategories(book?.category[1])}
@@ -433,12 +496,28 @@ export default function BookDetail({ navigation, route }: any) {
 
               {book?.descriptions.length > 0 && book?.descriptions[0] !== "" && (
                 <View style={styles.sectionList}>
-                  <TextItem style={styles.titleSection}>
+                  <TextItem
+                    style={[
+                      styles.titleSection,
+                      {
+                        color: neutralColorText[90]
+                      }
+                    ]}
+                  >
                     {strings.tentang_buku}
                   </TextItem>
                   <View style={styles.boxTextTentang}>
                     {book?.descriptions.map((desc, index) => (
-                      <TextItem style={styles.textTentang}>{desc}</TextItem>
+                      <TextItem
+                        style={[
+                          styles.textTentang,
+                          {
+                            color: neutralColorText[70]
+                          }
+                        ]}
+                      >
+                        {desc}
+                      </TextItem>
                     ))}
                   </View>
                 </View>
@@ -446,16 +525,28 @@ export default function BookDetail({ navigation, route }: any) {
 
               <>
                 {/* <View style={styles.boxRelease}>
-                <TextItem style={styles.texttglRelease}>
+                <TextItem style={[styles.texttglRelease, {
+    color: neutralColor[90]
+
+                }]}>
                   {strings.tgl_release}
                 </TextItem>
-                <TextItem style={styles.tgl}>{"8 September 2020"}</TextItem>
-                <TextItem style={styles.textpublikasi}>
+                <TextItem style={[styles.tgl, {
+    color: neutralColor[70],
+
+                }]}>{"8 September 2020"}</TextItem>
+                <TextItem style={[styles.textpublikasi, {
+    color: neutralColor[60],
+
+                }]}>
                   {strings.publikasi}
                   {"Amerika Serikat"}
                 </TextItem>
                 <View style={styles.listTentang}>
-                  <TextItem style={styles.texttglRelease}>
+                  <TextItem style={[styles.texttglRelease, {
+    color: neutralColor[90]
+
+                  }]}>
                     {strings.penulis}
                   </TextItem>
                   <View style={styles.boxAvatar}>
@@ -463,8 +554,14 @@ export default function BookDetail({ navigation, route }: any) {
                       <Amage style={styles.imageAvatar} resizeMode="contain" />
                     </View>
                     <View>
-                      <TextItem style={styles.tgl}>{"Morgan Housel "}</TextItem>
-                      <TextItem style={styles.textpublikasi}>
+                      <TextItem style={[styles.tgl, {
+    color: neutralColor[70],
+
+                      }]}>{"Morgan Housel "}</TextItem>
+                      <TextItem style={[styles.textpublikasi, {
+    color: neutralColor[60],
+
+                      }]}>
                         {"Mitra di The Collaborative Fund"}
                       </TextItem>
                     </View>
@@ -473,7 +570,15 @@ export default function BookDetail({ navigation, route }: any) {
               </View> */}
 
                 <View style={styles.boxDaftarIsi}>
-                  <TextItem style={[styles.titleSection, styles.textDaftarIsi]}>
+                  <TextItem
+                    style={[
+                      styles.titleSection,
+                      styles.textDaftarIsi,
+                      {
+                        color: neutralColorText[90]
+                      }
+                    ]}
+                  >
                     {strings.daftar_isi}
                   </TextItem>
                   <View style={styles.boxListDaftar}>
@@ -487,7 +592,14 @@ export default function BookDetail({ navigation, route }: any) {
                         key={index}
                         style={styles.listDaftar}
                       >
-                        <TextItem style={styles.textDfatar}>
+                        <TextItem
+                          style={[
+                            styles.textDfatar,
+                            {
+                              color: neutralColorText[90]
+                            }
+                          ]}
+                        >
                           Kilas {index + 1}: {title || ""}
                         </TextItem>
                         <ChevronRight
@@ -503,11 +615,17 @@ export default function BookDetail({ navigation, route }: any) {
                   </View>
                 </View>
                 {/* <View style={styles.boxTitleUlasan}>
-                <TextItem style={styles.titleSection}>
+                <TextItem style={[styles.titleSection, {
+    color: neutralColorText[90]
+
+                }]}>
                   {strings.ulasan}
                 </TextItem>
                 <Button>
-                  <TextItem style={styles.textLihatSemua}>
+                  <TextItem style={[styles.textLihatSemua, {
+    color: neutralColor[90],
+
+                  }]}>
                     {strings.lihat_semua}
                   </TextItem>
                 </Button>
@@ -517,7 +635,10 @@ export default function BookDetail({ navigation, route }: any) {
                   <>
                     <View style={styles.containerRating}>
                       <View style={styles.boxRating}>
-                        <TextItem style={styles.textRating}>
+                        <TextItem style={[styles.textRating, {
+    color: neutralColor[90],
+
+                        }]}>
                           {ratingCount.toString()}
                         </TextItem>
                         <AirbnbRating
@@ -529,7 +650,10 @@ export default function BookDetail({ navigation, route }: any) {
                           selectedColor="#E27814"
                         />
                       </View>
-                      <TextItem style={styles.textUlasanDari}>
+                      <TextItem style={[styles.textUlasanDari, {
+    color: neutralColor[60],
+
+                      }]}>
                         {`${strings.ulasan_dari} ${
                           listComment ? listComment.length : 0
                         } ${strings.pembaca}`}
@@ -539,7 +663,10 @@ export default function BookDetail({ navigation, route }: any) {
                 )}
 
                 <View style={styles.boxKomentar}>
-                  <TextItem style={styles.textKomentar}>
+                  <TextItem style={[styles.textKomentar, {
+    color: neutralColor[90],
+
+                  }]}>
                     {strings.komentar}
                   </TextItem>
                   {listComment ? (
@@ -558,7 +685,12 @@ export default function BookDetail({ navigation, route }: any) {
                       ))
                   ) : (
                     <>
-                      <TextItem style={styles.textTidakAdaKomentar}>
+                      <TextItem style={[styles.textTidakAdaKomentar, 
+                      {
+    color: neutralColor[90],
+
+                      }
+                      ]}>
                         {strings.tidak_ada_komentar}
                       </TextItem>
                     </>
@@ -567,7 +699,10 @@ export default function BookDetail({ navigation, route }: any) {
               </View>
 
               <View style={styles.sectionList}>
-                <TextItem style={styles.titleSection}>
+                <TextItem style={[styles.titleSection, {
+    color: neutralColorText[90]
+
+                }]}>
                   {strings.beri_ulasan}
                 </TextItem>
                 <AirbnbRating
@@ -602,11 +737,21 @@ export default function BookDetail({ navigation, route }: any) {
 
             <View style={styles.sectionSaran}>
               <View style={styles.headSaran}>
-                <TextItem style={styles.titleSection}>
+                <TextItem
+                  style={[
+                    styles.titleSection,
+                    {
+                      color: neutralColorText[90]
+                    }
+                  ]}
+                >
                   {strings.buku_serupa}
                 </TextItem>
                 <Button>
-                  {/* <TextItem style={styles.textLihatSemua}>
+                  {/* <TextItem style={[styles.textLihatSemua, {
+    color: neutralColor[90],
+
+                  }]}>
                     {strings.lihat_semua}
                   </TextItem> */}
                 </Button>

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { checkData, formatDate } from "../../../../utils";
 import styles from "./styles";
 import { getCoverNotification } from "./../../../../services/notification/index";
+import { neutralColor } from "@constants";
 
 export default function Card({ item, onPress }: any) {
   const {
@@ -41,8 +42,25 @@ export default function Card({ item, onPress }: any) {
               <Image style={styles.image} source={{ uri: coverLink }} />
             </View>
           )}
-          <TextItem style={styles.title_active}>{title}</TextItem>
-          <TextItem style={styles.text_active} numberOfLines={2}>
+          <TextItem
+            style={[
+              styles.title_active,
+              {
+                color: neutralColor[90]
+              }
+            ]}
+          >
+            {title}
+          </TextItem>
+          <TextItem
+            style={[
+              styles.text_active,
+              {
+                color: neutralColor[80]
+              }
+            ]}
+            numberOfLines={2}
+          >
             {text || content}
           </TextItem>
           <TextItem style={styles.time_active}>
@@ -59,11 +77,35 @@ export default function Card({ item, onPress }: any) {
               <Image style={styles.image} source={{ uri: coverLink }} />
             </View>
           )}
-          <TextItem style={styles.title}>{title}</TextItem>
-          <TextItem style={styles.text} numberOfLines={2}>
+          <TextItem
+            style={[
+              styles.title,
+              {
+                color: neutralColor[60]
+              }
+            ]}
+          >
+            {title}
+          </TextItem>
+          <TextItem
+            style={[
+              styles.text,
+              {
+                color: neutralColor[50]
+              }
+            ]}
+            numberOfLines={2}
+          >
             {text || content}
           </TextItem>
-          <TextItem style={styles.time}>
+          <TextItem
+            style={[
+              styles.time,
+              {
+                color: neutralColor[60]
+              }
+            ]}
+          >
             {checkData(timestamp) && formatDate(timestamp.toDate())}
           </TextItem>
         </Button>

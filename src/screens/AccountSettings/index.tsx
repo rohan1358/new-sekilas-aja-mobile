@@ -6,7 +6,9 @@ import {
   TextItem
 } from "../../components";
 import {
+  handleChangeMode,
   neutralColor,
+  neutralColorText,
   pages,
   primaryColor,
   skeleton,
@@ -14,7 +16,14 @@ import {
   strings
 } from "@constants";
 import React, { useEffect, useRef, useState } from "react";
-import { Modal, StyleSheet, Switch, Text, View } from "react-native";
+import {
+  Appearance,
+  Modal,
+  StyleSheet,
+  Switch,
+  Text,
+  View
+} from "react-native";
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import { useDispatch, useSelector } from "react-redux";
 import AccountSettingsHeader from "../../components/organism/AccountSettingsHeader";
@@ -33,6 +42,7 @@ import {
   IconTw
 } from "@assets";
 import {
+  handleMode,
   handleOpenModalSubscribe,
   loggingIn,
   setProfileRedux
@@ -45,8 +55,12 @@ export default function AccountSettings({ navigation }: any) {
   const {
     sessionReducer: { email },
     editProfile: { profile },
-    mainContext: { modalSubscribeRedux }
+    mainContext: { modalSubscribeRedux, mode }
   } = useSelector((state: ReduxState) => state);
+
+  // setInterval(() => {
+  // }, 1000);
+
   const profileRedux = useSelector((state: ReduxState) => state).editProfile
     .profile;
   const isMounted = useRef<boolean>();
@@ -59,7 +73,7 @@ export default function AccountSettings({ navigation }: any) {
   const [profiles, setProfile] = useState<ProfileProps>(profileRedux);
   const [language, setLanguage] = useState<string>("Indoneisa");
   const [modeOffline, setModeOffline] = useState(false);
-  const [modeGelap, setModeGelap] = useState(false);
+  const [modeGelap, setModeGelap] = useState(mode === "dark");
   const [putarAudio, setPutarAudio] = useState(false);
   const [putarVideo, setPutarVideo] = useState(false);
   const [kualitasDown, setKualitasDown] = useState(false);
@@ -201,14 +215,19 @@ export default function AccountSettings({ navigation }: any) {
                 Berlangganan
               </TextItem>
               <View style={styles.list}>
-                <TextItem style={styles.titleList}>
+                <TextItem type="n.15.nc.80" style={styles.titleList}>
                   {strings.tipeAkun_Account}
                 </TextItem>
                 <TextItem
                   style={
                     profile?.is_subscribed
                       ? styles.textLevel
-                      : styles.textLevelNonSubs
+                      : [
+                          styles.textLevelNonSubs,
+                          {
+                            color: neutralColorText[80]
+                          }
+                        ]
                   }
                 >
                   {/* is_subscribed */}
@@ -231,11 +250,14 @@ export default function AccountSettings({ navigation }: any) {
 
               {profile?.is_subscribed && (
                 <View style={styles.list}>
-                  <TextItem style={styles.titleList}>
+                  <TextItem type="n.15.nc.80" style={styles.titleList}>
                     {strings.masa_Account}
                   </TextItem>
                   {!isLoading && profile?.end_date && (
-                    <TextItem style={styles.textLevelNonSubs}>
+                    <TextItem
+                      // style={styles.textLevelNonSubs}
+                      type="n.14.nc.80"
+                    >
                       {/* {formatDate(new Date())} */}
                       {checkData(profile?.end_date) &&
                         formatDate(profile?.end_date.toDate(), "d-m-y")}
@@ -271,7 +293,10 @@ export default function AccountSettings({ navigation }: any) {
                   </TextItem>
                 </View>
                 <Button onPress={() => setModalVisible(!modalVisible)}>
-                  <TextItem style={styles.language}>{language}</TextItem>
+                  <TextItem style={[styles.language, {
+    color: neutralColor[90]
+
+                  }]}>{language}</TextItem>
                 </Button>
               </View>
               <View style={[styles.list, styles.listPreferens]}>
@@ -308,13 +333,49 @@ export default function AccountSettings({ navigation }: any) {
                   value={modeGelap}
                 />
               </View> */}
+
+              <View style={[styles.list, styles.listPreferens]}>
+                <View
+                // style={styles.boxText}
+                >
+                  <TextItem type="n.15.nc.80" style={styles.titleList}>
+                    {strings.mode_gelap}
+                  </TextItem>
+                  {/* <TextItem style={styles.textContent}>
+                    {strings.segera}
+                  </TextItem> */}
+                </View>
+                <View>
+                  <Switch
+                    trackColor={{ false: "#E3E8EF", true: "#464D6F" }}
+                    thumbColor={modeGelap ? "#f5dd4b" : "#BBC0CE"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={() => {
+                      handleChangeMode(!modeGelap ? "dark" : "light");
+                      dispatch(handleMode(!modeGelap ? "dark" : "light"));
+                      setModeGelap(!modeGelap);
+                    }}
+                    value={modeGelap}
+                  />
+                </View>
+              </View>
+
               <Button
                 onPress={() => navigation.navigate("NotifSettings")}
                 style={[styles.list, styles.listPreferens]}
               >
                 <View>
-                  <TextItem style={styles.titleList}>{strings.notif}</TextItem>
-                  <TextItem style={styles.textContent}>
+                  <TextItem type="n.15.nc.80" style={styles.titleList}>
+                    {strings.notif}
+                  </TextItem>
+                  <TextItem
+                    style={[
+                      styles.textContent,
+                      {
+                        color: neutralColorText[60]
+                      }
+                    ]}
+                  >
                     {/* string Sesuaikan notifikasi. */}
                     Sesuaikan notifikasi.
                   </TextItem>
@@ -561,13 +622,31 @@ export default function AccountSettings({ navigation }: any) {
                 style={styles.boxListLanguage}
                 onPress={() => handleLanguage("Indonesia")}
               >
-                <TextItem style={styles.textLanguage}>Indonesia</TextItem>
+                <TextItem
+                  style={[
+                    styles.textLanguage,
+                    {
+                      color: neutralColor[90]
+                    }
+                  ]}
+                >
+                  Indonesia
+                </TextItem>
               </Button>
               <Button
                 style={styles.boxListLanguage}
                 onPress={() => handleLanguage("English")}
               >
-                <TextItem style={styles.textLanguage}>English</TextItem>
+                <TextItem
+                  style={[
+                    styles.textLanguage,
+                    {
+                      color: neutralColor[90]
+                    }
+                  ]}
+                >
+                  English
+                </TextItem>
               </Button>
             </DummyFlatList>
           </View>
@@ -586,13 +665,29 @@ export default function AccountSettings({ navigation }: any) {
             <DummyFlatList>
               <View style={styles.boxContentAlert}>
                 <AlertModal />
-                <TextItem style={styles.textAlert}>{textAlert.text}</TextItem>
+                <TextItem
+                  style={[
+                    styles.textAlert,
+                    {
+                      color: neutralColor[90]
+                    }
+                  ]}
+                >
+                  {textAlert.text}
+                </TextItem>
               </View>
               <Button
                 onPress={() => setModalAlert(!modalAlert)}
                 style={styles.btnAlert}
               >
-                <TextItem style={styles.textActionAlert}>
+                <TextItem
+                  style={[
+                    styles.textActionAlert,
+                    {
+                      color: neutralColor[60]
+                    }
+                  ]}
+                >
                   {textAlert.action}
                 </TextItem>
               </Button>

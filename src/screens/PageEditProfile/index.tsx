@@ -409,7 +409,14 @@ export default function PageEditProfile({ route, navigation }: any) {
           {type === "password" ? (
             <>
               <View>
-                <TextItem style={styles.title}>
+                <TextItem
+                  style={[
+                    styles.title,
+                    {
+                      color: neutralColorText[90]
+                    }
+                  ]}
+                >
                   {strings.password_lama}
                 </TextItem>
                 <TextField
@@ -436,7 +443,14 @@ export default function PageEditProfile({ route, navigation }: any) {
                 {strings.alertEditProfile}
               </TextItem> */}
 
-                <TextItem style={styles.title}>
+                <TextItem
+                  style={[
+                    styles.title,
+                    {
+                      color: neutralColorText[90]
+                    }
+                  ]}
+                >
                   {strings.password_baru}
                 </TextItem>
                 <TextField
@@ -460,7 +474,10 @@ export default function PageEditProfile({ route, navigation }: any) {
                 {strings.password_minimal}
               </TextItem> */}
 
-                {/* <TextItem style={styles.title}>
+                {/* <TextItem style={[styles.title, {
+    color: neutralColorText[90],
+
+                }]}>
                 {strings.password_konfir}
               </TextItem>
               <TextField
@@ -481,7 +498,16 @@ export default function PageEditProfile({ route, navigation }: any) {
             </>
           ) : (
             <>
-              <TextItem style={styles.title}>{type}</TextItem>
+              <TextItem
+                style={[
+                  styles.title,
+                  {
+                    color: neutralColorText[90]
+                  }
+                ]}
+              >
+                {type}
+              </TextItem>
               {type == "email" ? (
                 <View>
                   <TextField
@@ -510,7 +536,12 @@ export default function PageEditProfile({ route, navigation }: any) {
               ) : (
                 <View style={styles.boxItem}>
                   <TextInput
-                    style={styles.textInput}
+                    style={[
+                      styles.textInput,
+                      {
+                        color: neutralColorText[90]
+                      }
+                    ]}
                     selectionColor={neutralColor[90]}
                     onChangeText={(e) => setValue(e)}
                     value={value}
@@ -549,7 +580,15 @@ export default function PageEditProfile({ route, navigation }: any) {
               onPress={() => navigation.goBack()}
               style={[styles.btnAction, styles.btnBatal]}
             >
-              <TextItem style={[styles.textBtn, styles.textBatal]}>
+              <TextItem
+                style={[
+                  styles.textBtn,
+                  styles.textBatal,
+                  {
+                    color: neutralColorText[60]
+                  }
+                ]}
+              >
                 {/* string Batal */}
                 Batal
               </TextItem>

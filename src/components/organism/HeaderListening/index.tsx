@@ -48,7 +48,16 @@ export default function HeaderListening({
                     marqueeDelay={1000}
                 > */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <TextItem style={styles.title}>{title}</TextItem>
+            <TextItem
+              style={[
+                styles.title,
+                {
+                  color: neutralColor[90]
+                }
+              ]}
+            >
+              {title}
+            </TextItem>
           </ScrollView>
           {/* </TextTicker> */}
         </View>

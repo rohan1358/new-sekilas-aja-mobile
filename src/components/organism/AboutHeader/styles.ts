@@ -15,8 +15,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 20,
-    fontWeight: "900",
-    color: neutralColorText[90]
+    fontWeight: "900"
   }
 });
 

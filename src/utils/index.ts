@@ -138,8 +138,6 @@ let refreshMode = Appearance.getColorScheme();
 
 setInterval(() => {
   if (refreshMode !== Appearance.getColorScheme()) {
-    console.log("refreshMode", refreshMode);
-    console.log("Appearance", Appearance.getColorScheme());
     refreshMode = Appearance.getColorScheme();
     RNRestart.Restart();
   }

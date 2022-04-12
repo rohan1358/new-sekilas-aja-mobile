@@ -32,9 +32,7 @@ const styles = StyleSheet.create({
   },
 
   titleList: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: neutralColorText[80]
+    fontWeight: "500"
   },
 
   textLevel: {
@@ -44,13 +42,11 @@ const styles = StyleSheet.create({
   },
   textLevelNonSubs: {
     fontSize: 14,
-    color: neutralColorText[80],
     marginTop: 4
   },
 
   textContent: {
     fontSize: 14,
-    color: neutralColorText[60],
     marginTop: 4
   },
 
@@ -74,8 +70,9 @@ const styles = StyleSheet.create({
 
   listPreferens: {
     flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between"
+    // alignItems: "flex-end",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
 
   containerModal: {
@@ -102,8 +99,7 @@ const styles = StyleSheet.create({
 
   textLanguage: {
     marginTop: 10,
-    fontSize: 16,
-    color: neutralColor[90]
+    fontSize: 16
   },
 
   boxListLanguage: {
@@ -115,8 +111,7 @@ const styles = StyleSheet.create({
 
   language: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: neutralColor[90]
+    fontWeight: "bold"
   },
 
   dropdown: {
@@ -127,7 +122,7 @@ const styles = StyleSheet.create({
   },
   textDropdown: {
     fontSize: 14,
-    color: neutralColor[80],
+    // color: neutralColor[80],
     fontWeight: "bold"
   },
   containerList: {
@@ -167,7 +162,6 @@ const styles = StyleSheet.create({
 
   textAlert: {
     fontSize: 24,
-    color: neutralColor[90],
     fontWeight: "700",
     textAlign: "center",
     marginVertical: 16,
@@ -176,7 +170,6 @@ const styles = StyleSheet.create({
 
   textActionAlert: {
     fontSize: 24,
-    color: neutralColor[60],
     fontWeight: "700",
     textAlign: "center"
   },

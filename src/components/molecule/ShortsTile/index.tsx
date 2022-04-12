@@ -60,7 +60,12 @@ const ShortsTile = ({ index, onPress, title, cover }: ShortsTileProps) => {
           <View style={styles.smallCircle}>
             <AdaptiveText
               type="textBase/black"
-              style={styles.title}
+              style={[
+                styles.title,
+                {
+                  color: neutralColor["90"]
+                }
+              ]}
               numberOfLines={2}
             >
               {title}

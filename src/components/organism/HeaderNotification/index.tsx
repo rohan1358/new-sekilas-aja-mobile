@@ -12,7 +12,7 @@ export default function HeaderNotification({ navigation, title }: any) {
       <Button onPress={() => navigation.goBack()} style={styles.btnBack}>
         <ArrowLeft color={neutralColor[90]} />
       </Button>
-      <TextItem type="b.20.nc.90">{title || strings.notification}</TextItem>
+      <TextItem type="b.20.ncb.90">{title || strings.notification}</TextItem>
     </View>
   );
 }
