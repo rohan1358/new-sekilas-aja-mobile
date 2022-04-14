@@ -127,7 +127,7 @@ const BookTileChallenge = ({
                 {loadDoneReading ? (
                   <ActivityIndicator size="small" color={neutralColor[90]} />
                 ) : (
-                  <TextItem type="b.14.nc.90.c">Selesai</TextItem>
+                  <TextItem type="b.14.ncb.90.c">Selesai</TextItem>
                 )}
               </Button>
             </>

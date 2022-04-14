@@ -95,7 +95,7 @@ const Blog = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: neutralColor[90] }}>
+    <View style={{ flex: 1, backgroundColor: neutralColor[10] }}>
       <View style={styles.headerContainer}>
         <Gap vertical={spacing.sm} />
 

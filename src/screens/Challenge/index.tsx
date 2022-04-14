@@ -31,7 +31,7 @@ const Challenge = () => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: neutralColor[10] }}>
       <View style={styles.headerContainer}>
         <Gap vertical={spacing.sm} />
 
@@ -43,7 +43,7 @@ const Challenge = () => {
             style={{
               marginLeft: 5
             }}
-            type="b.24.nc.90"
+            type="b.24.ncb.90"
           >
             {"Challenge"}
           </TextItem>

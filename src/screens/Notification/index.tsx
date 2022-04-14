@@ -18,6 +18,7 @@ import {
   colors,
   firebaseNode,
   neutralColor,
+  neutralColorText,
   pages,
   primaryColor,
   skeleton,
@@ -181,10 +182,10 @@ export default function Notification({ navigation }: any) {
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      activeColor={neutralColor[100]}
-      inactiveColor={neutralColor[50]}
+      activeColor={neutralColorText[100]}
+      inactiveColor={neutralColorText[50]}
       indicatorStyle={{ backgroundColor: primaryColor.main }}
-      style={{ backgroundColor: colors.white }}
+      style={{ backgroundColor: neutralColor[10] }}
       labelStyle={{
         fontSize: 20,
         fontWeight: "700",
