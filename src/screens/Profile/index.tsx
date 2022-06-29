@@ -28,7 +28,7 @@ import { CommonActions } from "@react-navigation/routers";
 import { SnackStateProps } from "../../components/atom/Base/types";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import { logger } from "../../helpers";
+import { heightPercent, logger } from "../../helpers";
 
 export default function Profile({ navigation }: any) {
   const dispatch = useDispatch();
@@ -277,9 +277,10 @@ export default function Profile({ navigation }: any) {
           container: {
             borderTopLeftRadius: 24,
             borderTopRightRadius: 24
+            // flex: 0.4
           }
         }}
-        height={165}
+        height={heightPercent(25)}
       >
         <View style={styles.contaonerSheet}>
           <TextItem

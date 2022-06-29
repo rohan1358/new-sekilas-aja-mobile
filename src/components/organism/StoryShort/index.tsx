@@ -22,7 +22,7 @@ import React, {
   useImperativeHandle,
   useState
 } from "react";
-import { Pressable, Share, View } from "react-native";
+import { Pressable, ScrollView, Share, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -202,8 +202,8 @@ const StoryShort = forwardRef<any, any>(
             </View>
             <Gap vertical={spacer.xs} />
             <Pressable
+              style={{ flex: 1, overflow: "scroll" }}
               onLongPress={(e) => (paused.value = true)}
-              style={{ flex: 1 }}
               onPressOut={() => (paused.value = false)}
               onPress={async ({ nativeEvent }) => {
                 const tapPosition = nativeEvent.pageX;
@@ -212,7 +212,6 @@ const StoryShort = forwardRef<any, any>(
                   if (storyIndex === 0) {
                     onEnd();
                     setStoryIndex(0);
-                    // newCheckSavedShorts();
 
                     position.value = withTiming(closePosition);
                     return;
@@ -222,7 +221,6 @@ const StoryShort = forwardRef<any, any>(
                   if (storyIndex === storyData?.shorts.length - 1) {
                     onEnd();
                     setStoryIndex(0);
-                    // newCheckSavedShorts();
 
                     position.value = withTiming(closePosition);
 
@@ -232,45 +230,50 @@ const StoryShort = forwardRef<any, any>(
                 }
               }}
             >
-              <Animated.View style={styles.content}>
-                {Array.isArray(storyData?.shorts[storyIndex]?.details) ? (
-                  storyData?.shorts[storyIndex]?.details.map(
-                    (item: string, index: number) => {
-                      return (
-                        <View style={{ width: "100%" }} key={`${item}${index}`}>
-                          <AdaptiveText
-                            type="textMd/normal"
-                            textColor={neutralColorText["10"]}
-                            style={{
-                              fontSize: adjustTextShorts()
-                            }}
+              <Animated.View style={[styles.content]}>
+                <ScrollView>
+                  {Array.isArray(storyData?.shorts[storyIndex]?.details) ? (
+                    storyData?.shorts[storyIndex]?.details.map(
+                      (item: string, index: number) => {
+                        return (
+                          <View
+                            style={{ width: "100%", overflow: "scroll" }}
+                            key={`${item}${index}`}
                           >
-                            {item[0] === "•" ? (
-                              <>{item}</>
-                            ) : (
-                              <>
-                                {item}
-                                {"\n"}
-                              </>
-                            )}
-                          </AdaptiveText>
-                        </View>
-                      );
-                    }
-                  )
-                ) : (
-                  <>
-                    <View style={{ width: "100%" }}>
-                      <AdaptiveText
-                        type="textMd/normal"
-                        textColor={neutralColorText["10"]}
-                      >
-                        {storyData?.shorts[storyIndex]?.details}{" "}
-                        {/* asefarwerawerwerawerawerawer */}
-                      </AdaptiveText>
-                    </View>
-                  </>
-                )}
+                            <AdaptiveText
+                              type="textMd/normal"
+                              textColor={neutralColorText["10"]}
+                              style={{
+                                fontSize: adjustTextShorts()
+                              }}
+                            >
+                              {item[0] === "•" ? (
+                                <>{item}</>
+                              ) : (
+                                <>
+                                  {item}
+                                  {"\n"}
+                                </>
+                              )}
+                            </AdaptiveText>
+                          </View>
+                        );
+                      }
+                    )
+                  ) : (
+                    <>
+                      <View style={{ width: "100%" }}>
+                        <AdaptiveText
+                          type="textMd/normal"
+                          textColor={neutralColorText["10"]}
+                        >
+                          {storyData?.shorts[storyIndex]?.details}{" "}
+                          {/* asefarwerawerwerawerawerawer */}
+                        </AdaptiveText>
+                      </View>
+                    </>
+                  )}
+                </ScrollView>
               </Animated.View>
             </Pressable>
             <View style={styles.footer}>

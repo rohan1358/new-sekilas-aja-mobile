@@ -20,7 +20,9 @@ const OngoingTile = ({
       >
         <View style={{ flex: 1 }}>
           <TextItem type="r.14.nc.70">
-            {isAvailable ? strings.continueReading : strings.lastReadClue}
+            {isAvailable
+              ? strings.continueReading
+              : "Eksplor kilas buku terpopuler"}
           </TextItem>
           <TextItem numberOfLines={1} type="b.20.nc.90">
             {isAvailable ? bookTitle : strings.pursueRead}

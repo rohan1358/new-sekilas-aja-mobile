@@ -4,6 +4,7 @@ import {
   defaultValue,
   neutralColor,
   neutralColorText,
+  neutralColorText2,
   spacing
 } from "../../../constants";
 import { Gap, TextItem, Button } from "../../atom";
@@ -38,10 +39,10 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
               s.input,
               inputStyle,
               {
-                color: neutralColorText[100]
+                color: neutralColorText2[100]
               }
             ]}
-            placeholderTextColor={neutralColorText[50]}
+            placeholderTextColor={neutralColorText2[50]}
             ref={ref}
           />
           {Icon && (

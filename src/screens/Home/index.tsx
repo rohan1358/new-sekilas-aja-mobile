@@ -29,6 +29,7 @@ import firestore from "@react-native-firebase/firestore";
 import {
   dangerColor,
   neutralColor,
+  neutralColorNormalKebalikan,
   neutralColorText,
   primaryColor,
   skeleton,
@@ -141,10 +142,8 @@ const Home = () => {
     // auth()
     //   .currentUser?.updatePassword("testing")
     //   .then((res) => {
-    //     console.log("success edit password");
     //   })
     //   .catch((res) => {
-    //     console.log("failed edit password");
     //   });
 
     fetchNotifPromo();
@@ -672,11 +671,18 @@ const Home = () => {
                           }}
                           style={styles.btnNewMenu}
                         >
-                          <View style={styles.iconNewMenu}>
+                          <View
+                            style={[
+                              styles.iconNewMenu,
+                              {
+                                backgroundColor: neutralColorNormalKebalikan[20]
+                              }
+                            ]}
+                          >
                             <Cb.icon
                               width={width <= 320 ? 30 / 1.5 : 30}
                               height={width <= 320 ? 30 / 1.5 : 30}
-                              stroke={"#5F647E"}
+                              stroke={neutralColorText[90]}
                             />
                           </View>
                           <TextItem
@@ -709,11 +715,18 @@ const Home = () => {
                           }}
                           style={styles.btnNewMenu}
                         >
-                          <View style={styles.iconNewMenu}>
+                          <View
+                            style={[
+                              styles.iconNewMenu,
+                              {
+                                backgroundColor: neutralColorNormalKebalikan[20]
+                              }
+                            ]}
+                          >
                             <Cb.icon
                               width={width <= 320 ? 30 / 1.5 : 30}
                               height={width <= 320 ? 30 / 1.5 : 30}
-                              stroke={"#5F647E"}
+                              stroke={neutralColorText[90]}
                             />
                           </View>
                           <TextItem

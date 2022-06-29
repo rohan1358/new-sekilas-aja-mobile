@@ -1,5 +1,11 @@
 import { ArrowLeft, Check, ChevronRight, ExitSubs } from "@assets";
-import { firebaseNode, neutralColor, primaryColor, strings } from "@constants";
+import {
+  firebaseNode,
+  neutralColor,
+  neutralColorText,
+  primaryColor,
+  strings
+} from "@constants";
 import { fetchProfileRealtime } from "@services";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, ScrollView, View } from "react-native";
@@ -244,7 +250,14 @@ export default function ModalSubscribe({
                 <TextItem type="r.20.ncb.90" style={styles.subTextTitle}>
                   {strings.keuntungan}
                 </TextItem>
-                <View style={styles.boxWhite}>
+                <View
+                  style={[
+                    styles.boxWhite,
+                    {
+                      backgroundColor: neutralColor[10]
+                    }
+                  ]}
+                >
                   {/* <View style={styles.list}>
                 // <Check color={neutralColor[70]} />
                 <TextItem type="r.16.nc.70" style={styles.textList}>
@@ -256,9 +269,11 @@ export default function ModalSubscribe({
                     return (
                       <View style={styles.list}>
                         {/* <Check color={neutralColor[70]} /> */}
-                        <TextItem>✔️</TextItem>
+                        {/* <TextItem type="b.16.nct2.70"> */}
+                        <Check stroke={neutralColorText[70]} />
+                        {/* </TextItem> */}
 
-                        <TextItem type="r.16.nc.70" style={styles.textList}>
+                        <TextItem type="r.16.nct2.70" style={styles.textList}>
                           {txt}
                         </TextItem>
                       </View>

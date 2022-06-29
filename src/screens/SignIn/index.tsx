@@ -180,7 +180,7 @@ const SignIn = ({ navigation }: any) => {
         keyboardShouldPersistTaps="handled"
       >
         <Gap vertical={sp.sm} />
-        <TextItem type="b.20.nc.90">{strings.emailAddress}</TextItem>
+        <TextItem type="b.20.nct2.90">{strings.emailAddress}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           ref={refFocus}
@@ -194,7 +194,7 @@ const SignIn = ({ navigation }: any) => {
           {...emailCheck}
         />
         <Gap vertical={sp.xs} />
-        <TextItem type="b.20.nc.90">{strings.enterPassword}</TextItem>
+        <TextItem type="b.20.nct2.90">{strings.enterPassword}</TextItem>
         <Gap vertical={sp.xs} />
         <TextField
           autoCapitalize="none"
@@ -220,7 +220,7 @@ const SignIn = ({ navigation }: any) => {
               Linking.openURL("https://sekilasaja.com/lupa-password")
             }
           >
-            <TextItem style={styles.underlineText} type="b.14.nc.90">
+            <TextItem style={styles.underlineText} type="b.14.nct2.90">
               {strings.forgotPassword}
             </TextItem>
           </Button>
@@ -234,9 +234,9 @@ const SignIn = ({ navigation }: any) => {
         />
         <Gap vertical={sp.sm} />
         <View style={styles.bottomCta}>
-          <TextItem type="r.14.nc.90">{`${strings.dontHaveAcc} `}</TextItem>
+          <TextItem type="r.14.nct2.90">{`${strings.dontHaveAcc} `}</TextItem>
           <Button onPress={() => navigation.navigate(pages.SignUp)}>
-            <TextItem type="b.14.nc.90">{strings.registHere}</TextItem>
+            <TextItem type="b.14.nct2.90">{strings.registHere}</TextItem>
           </Button>
         </View>
       </ScrollView>

@@ -7,7 +7,7 @@ const Seed = ({ label, bg, textColor = "nc.100" }: SeedProps) => {
   const s = styles({ bg });
   return (
     <View style={s.seed}>
-      <TextItem type={`r.10.${textColor}`}>{label}</TextItem>
+      <TextItem type={`m.10.${textColor}`}>{label}</TextItem>
     </View>
   );
 };

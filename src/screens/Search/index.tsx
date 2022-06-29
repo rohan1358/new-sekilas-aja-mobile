@@ -9,14 +9,14 @@ import {
   Gap,
   SearchHeader,
   TextIcon,
-  TextItem,
+  TextItem
 } from "@components";
 import {
   neutralColor,
   primaryColor,
   skeleton,
   spacing as sp,
-  strings,
+  strings
 } from "@constants";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, Keyboard, View } from "react-native";
@@ -90,7 +90,7 @@ const Search = ({ navigation }: SearchProps) => {
     navigation.navigate("Category", {
       type: "category",
       title: item.label,
-      payload: item.id,
+      payload: item.id
     });
 
   const closePress = () => {
@@ -191,6 +191,7 @@ const Search = ({ navigation }: SearchProps) => {
     <Base
       barColor={primaryColor.main}
       backgroundColor={neutralColor[isSearched ? 10 : 20]}
+      // backgroundColor={neutralColor[isSearched ? 10 : 20]}
     >
       <SkeletonContent
         isLoading={isLoading}
@@ -225,7 +226,7 @@ const Search = ({ navigation }: SearchProps) => {
               </View>
             ) : (
               <>
-                <View style={styles.newSearchContainer}>
+                <View style={{ backgroundColor: neutralColor[10] }}>
                   {bookCandidate?.length === 0 ? (
                     <>
                       <View style={styles.newSearchText}>
@@ -276,7 +277,14 @@ const Search = ({ navigation }: SearchProps) => {
                   )}
                 </View>
                 <Gap vertical={sp.sm} />
-                <View style={styles.categoriesContainer}>
+                <View
+                  style={[
+                    styles.categoriesContainer,
+                    {
+                      backgroundColor: neutralColor[10]
+                    }
+                  ]}
+                >
                   <TextItem type="b.24.nc.90.c">
                     {strings.bookCategory}
                   </TextItem>

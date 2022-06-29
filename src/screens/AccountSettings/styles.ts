@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
   contentAlert: {
     width: "85%",
     // maxHeight: "50%",
-    backgroundColor: colors.white,
     padding: 20,
     borderRadius: 8,
     // height: 100

@@ -4,11 +4,13 @@ import { Text, PixelRatio } from "react-native";
 import { adjust, adjustLetterSpace } from "../../../utils";
 import {
   colors,
+  colorTextButton,
   dangerColor,
   fontFamily as ff,
   neutralColor,
   neutralColorNormal,
   neutralColorText,
+  neutralColorText2,
   NotoSans,
   primaryColor,
   primaryColorText
@@ -71,8 +73,12 @@ const colorFinder = (code: string) => {
       return dangerColor;
     case "nc":
       return neutralColorText;
+    case "nct2":
+      return neutralColorText2;
     case "ncb":
       return neutralColorNormal;
+    case "ncbtn":
+      return colorTextButton;
     case "c":
       return colors;
     case "pc":

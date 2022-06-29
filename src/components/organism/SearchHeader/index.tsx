@@ -41,20 +41,39 @@ const SearchHeader = forwardRef<any, SearchHeaderProps>(
           <ArrowLeft stroke={neutralColor[90]} width={24} height={24} />
         </Button>
         <View style={styles.boxesContainer}>
-          <View style={styles.iconContainer}>
+          <View
+            style={[
+              styles.iconContainer,
+              {
+                backgroundColor: neutralColor[10]
+              }
+            ]}
+          >
             <Search stroke={neutralColorText[90]} />
           </View>
           <TextField
             placeholder={strings.findFavBookPlaceholder}
             containerStyle={styles.inputContainerStyle}
             noBottomGap
-            innerContainerStyle={styles.inputInnerContainerStyle}
+            innerContainerStyle={[
+              styles.inputInnerContainerStyle,
+              {
+                backgroundColor: neutralColor[10]
+              }
+            ]}
             inputStyle={styles.inputStyle}
             ref={ref}
             defaultValue={keyword}
             {...props}
           />
-          <View style={styles.iconContainer}>
+          <View
+            style={[
+              styles.iconContainer,
+              {
+                backgroundColor: neutralColor[10]
+              }
+            ]}
+          >
             <Animated.View style={closeStyle}>
               <Button onPress={closePress}>
                 <CloseX stroke={neutralColor[90]} />

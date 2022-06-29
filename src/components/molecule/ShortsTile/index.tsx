@@ -1,7 +1,14 @@
 import { handleOpenModalSubscribe } from "@actions";
 import { Lock } from "@assets";
 import { AdaptiveText, Amage, Button, Gap, TextItem } from "@atom";
-import { neutralColor, primaryColor, spacer } from "@constants";
+import {
+  colorTextButton,
+  neutralColor,
+  neutralColorNormalKebalikan,
+  neutralColorText,
+  primaryColor,
+  spacer
+} from "@constants";
 import { ReduxState } from "@rux";
 import React from "react";
 import { View } from "react-native";
@@ -44,7 +51,7 @@ const ShortsTile = ({ index, onPress, title, cover }: ShortsTileProps) => {
           }}
         >
           <Lock
-            color={neutralColor[90]}
+            color={neutralColorNormalKebalikan[90]}
             height={adjust(50)}
             width={adjust(50)}
           />

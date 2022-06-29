@@ -585,7 +585,7 @@ export default function AccountSettings({ navigation }: any) {
             <Button
               onPress={() => {
                 handleModalAlert({
-                  text: strings.yakin_keluar,
+                  text: "Yakin ingin keluar?",
                   action: strings.cacel,
                   button: strings.btn_keluar
                 });
@@ -661,7 +661,14 @@ export default function AccountSettings({ navigation }: any) {
         }}
       >
         <View style={styles.containerModal}>
-          <View style={styles.contentAlert}>
+          <View
+            style={[
+              styles.contentAlert,
+              {
+                backgroundColor: neutralColor[10]
+              }
+            ]}
+          >
             <DummyFlatList>
               <View style={styles.boxContentAlert}>
                 <AlertModal />
@@ -669,7 +676,7 @@ export default function AccountSettings({ navigation }: any) {
                   style={[
                     styles.textAlert,
                     {
-                      color: neutralColor[90]
+                      color: neutralColorText[90]
                     }
                   ]}
                 >

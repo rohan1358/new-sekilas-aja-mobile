@@ -2,6 +2,9 @@ import React, { useRef, useState } from "react";
 import { StatusBar, View, Dimensions, Text } from "react-native";
 import styles from "./styles";
 import {
+  colorTextButton,
+  neutralColor,
+  neutralColorButton,
   neutralColorText,
   pages,
   primaryColor,
@@ -19,9 +22,9 @@ const dataPage = [
     title: <>Aplikasi RANGKUMAN BUKU Terbaik Dunia!</>,
     subTitle: (
       <>
-        Dapatkan <TextItem type="b.16.nc.90">100+ RANGKUMAN BUKU</TextItem>{" "}
+        Dapatkan <TextItem type="b.16.nct2.90">100+ RANGKUMAN BUKU</TextItem>{" "}
         terbaik dunia dalam versi{" "}
-        <TextItem type="b.16.nc.90">VIDEO, AUDIO, & TEKS.</TextItem>
+        <TextItem type="b.16.nct2.90">VIDEO, AUDIO, & TEKS.</TextItem>
       </>
     )
   },
@@ -30,9 +33,9 @@ const dataPage = [
     title: <>MEMBACA adalah {"\n"} habit orang sukses!</>,
     subTitle: (
       <>
-        <TextItem type="b.16.nc.90">CEO TERSUKSES</TextItem> di dunia, rata-rata
-        membaca kurang lebih <TextItem type="b.16.nc.90">60 BUKU</TextItem>{" "}
-        dalam setahun.
+        <TextItem type="b.16.nct2.90">CEO TERSUKSES</TextItem> di dunia,
+        rata-rata membaca kurang lebih{" "}
+        <TextItem type="b.16.nct2.90">60 BUKU</TextItem> dalam setahun.
       </>
     )
   },
@@ -43,7 +46,7 @@ const dataPage = [
       <>
         Belajar rangkuman buku bisnis, investasi, kesehatan, dan pengembangan
         diri terbaik dunia hanya dalam{" "}
-        <TextItem type="b.16.nc.90">15 MENIT.</TextItem>
+        <TextItem type="b.16.nct2.90">15 MENIT.</TextItem>
       </>
     )
   },
@@ -52,9 +55,9 @@ const dataPage = [
     title: <>Saatnya INVESTASI ILMU kepada dirimu!</>,
     subTitle: (
       <>
-        Jadilah <TextItem type="b.16.nc.90">VERSI TERBAIK</TextItem> dirimu
+        Jadilah <TextItem type="b.16.nct2.90">VERSI TERBAIK</TextItem> dirimu
         dengan belajar{" "}
-        <TextItem type="b.16.nc.90">DI MANA PUN & KAPAN PUN</TextItem>
+        <TextItem type="b.16.nct2.90">DI MANA PUN & KAPAN PUN</TextItem>
       </>
     )
   }
@@ -90,7 +93,14 @@ export default function Onboarding({ navigation }: any) {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: neutralColor[10]
+        }
+      ]}
+    >
       <StatusBar backgroundColor={primaryColor.main} barStyle="dark-content" />
       <View style={styles.content}>
         <ScrollView
@@ -127,31 +137,46 @@ export default function Onboarding({ navigation }: any) {
             })}
           </View>
           {currentIndex == 0 ? (
-            <Button onPress={() => handleNext()} style={styles.button}>
-              <TextItem type="b.20" style={styles.textBtn}>
+            <Button
+              onPress={() => handleNext()}
+              style={[
+                styles.button,
+                {
+                  backgroundColor: neutralColorButton[80]
+                }
+              ]}
+            >
+              <TextItem
+                type="b.20"
+                style={{
+                  color: colorTextButton[90]
+                }}
+              >
                 {strings.button_onBoard_1}
               </TextItem>
             </Button>
           ) : (
             <View style={styles.boxBtnAction}>
               <Button onPress={() => navToSignIn()} style={styles.buttonLewati}>
-                <TextItem
-                  type="b.20"
-                  style={[
-                    styles.textBtnLewati,
-                    {
-                      color: neutralColorText[80]
-                    }
-                  ]}
-                >
+                <TextItem type="b.20.cn.90" style={[styles.textBtnLewati]}>
                   {strings.btnLewati}
                 </TextItem>
               </Button>
-              <Button onPress={() => handleNext()} style={styles.buttonLanjut}>
-                <TextItem type="b.20" style={styles.textBtn}>
-                  {strings.btnLanjut}
-                </TextItem>
-                <Arrowright style={styles.iconArrow} />
+              <Button
+                onPress={() => handleNext()}
+                style={[
+                  styles.buttonLanjut,
+                  {
+                    backgroundColor: neutralColorButton[80]
+                  }
+                ]}
+              >
+                <TextItem type="b.20.ncbtn.90">{strings.btnLanjut}</TextItem>
+                <Arrowright
+                  stroke={colorTextButton[90]}
+                  // color={"black"}
+                  // style={[styles.iconArrow]}
+                />
               </Button>
             </View>
           )}

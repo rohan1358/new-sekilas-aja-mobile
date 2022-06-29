@@ -9,7 +9,9 @@ import {
   Video
 } from "@assets";
 import {
+  colorTextButton,
   neutralColor,
+  neutralColorButton,
   neutralColorText,
   pages,
   primaryColor,
@@ -305,8 +307,8 @@ export default function BookDetail({ navigation, route }: any) {
                 style={[styles.SelectBarUp, styles.upgrade_yuk, stylez]}
               >
                 <Button onPress={() => setModalAllPlan()} style={styles.btnBar}>
-                  <Lock color={primaryColor.main} width={28} />
-                  <TextItem style={styles.titleSelect}>
+                  <Lock color={colorTextButton[80]} width={28} />
+                  <TextItem style={[styles.titleSelect]}>
                     {strings.yuk_upgrade}
                   </TextItem>
                 </Button>
@@ -338,13 +340,27 @@ export default function BookDetail({ navigation, route }: any) {
             </View>
             <View style={[styles.boxSelect]}>
               {lockReadingListenViewBook ? (
-                <View style={styles.SelectBar}>
+                <View
+                  style={[
+                    styles.SelectBar,
+                    {
+                      backgroundColor: neutralColorButton[80]
+                    }
+                  ]}
+                >
                   <Button
                     onPress={() => navigationTopBar("reading")}
                     style={styles.btnBar}
                   >
-                    <File stroke={primaryColor.main} strokeWidth={2} />
-                    <TextItem style={styles.titleSelect}>
+                    <File stroke={colorTextButton[80]} strokeWidth={2} />
+                    <TextItem
+                      style={[
+                        styles.titleSelect,
+                        {
+                          color: colorTextButton[80]
+                        }
+                      ]}
+                    >
                       {strings.baca}
                     </TextItem>
                   </Button>
@@ -353,8 +369,15 @@ export default function BookDetail({ navigation, route }: any) {
                     onPress={() => navigationTopBar("listening")}
                     style={styles.btnBar}
                   >
-                    <Headphones stroke={primaryColor.main} strokeWidth={2} />
-                    <TextItem style={styles.titleSelect}>
+                    <Headphones stroke={colorTextButton[80]} strokeWidth={2} />
+                    <TextItem
+                      style={[
+                        styles.titleSelect,
+                        {
+                          color: colorTextButton[80]
+                        }
+                      ]}
+                    >
                       {strings.dengar}
                     </TextItem>
                   </Button>
@@ -364,21 +387,43 @@ export default function BookDetail({ navigation, route }: any) {
                       onPress={() => navigationTopBar("watching")}
                       style={styles.btnBar}
                     >
-                      <Video stroke={primaryColor.main} strokeWidth={2} />
-                      <TextItem style={styles.titleSelect}>
+                      <Video stroke={colorTextButton[80]} strokeWidth={2} />
+                      <TextItem
+                        style={[
+                          styles.titleSelect,
+                          {
+                            color: colorTextButton[80]
+                          }
+                        ]}
+                      >
                         {strings.tonton}
                       </TextItem>
                     </Button>
                   )}
                 </View>
               ) : (
-                <View style={[styles.SelectBar, styles.upgrade_yuk]}>
+                <View
+                  style={[
+                    styles.SelectBar,
+                    styles.upgrade_yuk,
+                    {
+                      backgroundColor: neutralColorButton[80]
+                    }
+                  ]}
+                >
                   <Button
                     onPress={() => setModalAllPlan()}
                     style={styles.btnBar}
                   >
-                    <Lock color={primaryColor.main} width={28} />
-                    <TextItem style={styles.titleSelect}>
+                    <Lock color={colorTextButton[80]} width={28} />
+                    <TextItem
+                      style={[
+                        styles.titleSelect,
+                        {
+                          color: colorTextButton[80]
+                        }
+                      ]}
+                    >
                       {strings.yuk_upgrade}
                     </TextItem>
                   </Button>

@@ -3,7 +3,13 @@ import { getBookCoverImageURL } from "@services";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
-import { neutralColor, spacing as sp, strings } from "../../../constants";
+import {
+  neutralColor,
+  neutralColorButton,
+  neutralColorText,
+  spacing as sp,
+  strings
+} from "../../../constants";
 import { ReduxState } from "../../../redux/reducers";
 import { Amage, Button, Gap, Seed, TextItem } from "../../atom";
 import styles from "./styles";
@@ -70,7 +76,7 @@ const BookTile = ({
           </TextItem>
           {lockReadingListenViewBook && (
             <Button onPress={subsPress} style={styles.lock}>
-              <Lock color={neutralColor[90]} width={30} />
+              <Lock color={neutralColorText[90]} width={30} />
             </Button>
           )}
         </View>
@@ -83,8 +89,8 @@ const BookTile = ({
         {isVideoAvailable && (
           <Seed
             label={strings.video}
-            bg={neutralColor[90]}
-            textColor="pc.main"
+            bg={neutralColorButton[90]}
+            textColor={"ncbtn.100"}
           />
         )}
       </View>

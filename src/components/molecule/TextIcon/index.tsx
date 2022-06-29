@@ -2,13 +2,13 @@ import { Button, Gap, TextItem } from "../../atom";
 import { Search } from "@assets";
 import React from "react";
 import styles from "./styles";
-import { neutralColor, spacing as sp } from "@constants";
+import { neutralColor, neutralColorText, spacing as sp } from "@constants";
 import { TextIconProps } from "./types";
 
 const TextIcon = ({
   item,
   onPress,
-  Icon = <Search stroke={neutralColor[70]} />,
+  Icon = <Search stroke={neutralColorText[90]} />
 }: TextIconProps) => {
   const onItemPress = () => onPress && onPress(item);
   return (

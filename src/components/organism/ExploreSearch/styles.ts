@@ -7,33 +7,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 12,
-    overflow: "hidden",
+    overflow: "hidden"
   },
 
   iconContainer: {
-    backgroundColor: neutralColor[10],
+    // backgroundColor: neutralColor[10],
     width: 48,
     height: 48,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   input: {
     height: 48,
     backgroundColor: neutralColor[10],
     justifyContent: "center",
-    flex: 1,
+    flex: 1
   },
   inputStyle: { paddingLeft: 0 },
   inputContainerStyle: { flex: 1 },
   inputInnerContainerStyle: {
     borderWidth: 0,
     backgroundColor: neutralColor[10],
-    borderRadius: 0,
+    borderRadius: 0
   },
 
   primaryIcon: {
-    backgroundColor: neutralColor[90],
-  },
+    backgroundColor: neutralColor[90]
+  }
 });
 
 export default styles;

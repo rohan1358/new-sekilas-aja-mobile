@@ -13,11 +13,11 @@ export default function PagesOnboarding({ image, title, subTitle }: any) {
           <Image source={image} style={styles.image} />
         </View>
         <View style={styles.boxtitle}>
-          <TextItem type="b.24.nc.90" style={styles.title}>
+          <TextItem type="b.24.nct2.90" style={styles.title}>
             {title}
           </TextItem>
           {/* {height > 700 && ( */}
-          <TextItem type="r.16.nc.70" style={styles.sub_title}>
+          <TextItem type="r.16.nct2.70" style={styles.sub_title}>
             {subTitle}
           </TextItem>
           {/* )} */}

@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Amage, Button, Gap, TextItem } from "../../atom";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import { neutralColor, primaryColor } from "@constants";
+import { neutralColor, neutralColorButton, primaryColor } from "@constants";
 import { Calendar } from "@assets";
 
 const ImageBanner = ({
@@ -103,9 +103,14 @@ const ImageBanner = ({
           onPress={() => {
             handleNavigation();
           }}
-          style={styles.btnBar}
+          style={[
+            styles.btnBar,
+            {
+              backgroundColor: neutralColorButton[90]
+            }
+          ]}
         >
-          <TextItem type="b.15.pc.main">{newTxtButton()}</TextItem>
+          <TextItem type="b.15.ncbtn.80">{newTxtButton()}</TextItem>
         </Button>
 
         <Gap vertical={20} />

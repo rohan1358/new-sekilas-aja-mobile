@@ -11,7 +11,6 @@ import { heightPercent, widthPercent } from "../../helpers";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
     flex: 1
   },
 

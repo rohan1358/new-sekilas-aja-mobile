@@ -1,6 +1,11 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { adjust } from "../../utils";
-import { neutralColor, primaryColor, spacing as sp } from "../../constants";
+import {
+  neutralColor,
+  neutralColorNormalKebalikan,
+  primaryColor,
+  spacing as sp
+} from "../../constants";
 import { widthPercent } from "../../helpers";
 
 const { width } = Dimensions.get("screen");
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 50,
     padding: 10,
-    backgroundColor: "#ECF1F7"
+    backgroundColor: neutralColorNormalKebalikan[20]
   },
   containerNewMenu: {
     flexDirection: "row",

@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { checkData } from "../../../utils";
 import {
   neutralColor,
+  neutralColorButton,
+  neutralColorNormalKebalikan,
+  neutralColorText,
   primaryColor,
   spacing as sp,
   strings
@@ -87,7 +90,7 @@ const BookTileChallenge = ({
             </TextItem>
             {lockReadingListenViewBook && (
               <Button onPress={subsPress} style={styles.lock}>
-                <Lock color={neutralColor[90]} width={30} />
+                <Lock color={neutralColorText[90]} width={30} />
               </Button>
             )}
           </View>
@@ -107,13 +110,38 @@ const BookTileChallenge = ({
         </View> */}
         <View style={styles.containerButton}>
           {checkData(checkBook) ? (
-            <Button onPress={tilePress} style={[styles.btn, styles.btnDone]}>
-              <TextItem type="b.14.nc.90.c">Baca Ulang</TextItem>
+            <Button
+              onPress={tilePress}
+              style={[
+                styles.btn,
+                styles.btnDone,
+                {
+                  backgroundColor: neutralColorNormalKebalikan[20]
+                }
+              ]}
+            >
+              <TextItem
+                type="b.14"
+                style={{
+                  color: neutralColorNormalKebalikan[90]
+                }}
+              >
+                Baca Ulang
+              </TextItem>
             </Button>
           ) : (
             <>
-              <Button onPress={tilePress} style={[styles.btn, styles.btnRead]}>
-                <TextItem type="b.14.pc.main">Baca</TextItem>
+              <Button
+                onPress={tilePress}
+                style={[
+                  styles.btn,
+                  styles.btnRead,
+                  {
+                    backgroundColor: neutralColorButton[80]
+                  }
+                ]}
+              >
+                <TextItem type="b.14.ncbtn.80">Baca</TextItem>
               </Button>
               <Button
                 onPress={async () => {
@@ -122,12 +150,28 @@ const BookTileChallenge = ({
                     btnDonePress();
                   }, 500);
                 }}
-                style={[styles.btn, styles.btnDone]}
+                style={[
+                  styles.btn,
+                  styles.btnDone,
+                  {
+                    backgroundColor: neutralColorNormalKebalikan[20]
+                  }
+                ]}
               >
                 {loadDoneReading ? (
-                  <ActivityIndicator size="small" color={neutralColor[90]} />
+                  <ActivityIndicator
+                    size="small"
+                    color={neutralColorNormalKebalikan[90]}
+                  />
                 ) : (
-                  <TextItem type="b.14.ncb.90.c">Selesai</TextItem>
+                  <TextItem
+                    type="b.14"
+                    style={{
+                      color: neutralColorNormalKebalikan[90]
+                    }}
+                  >
+                    Selesai
+                  </TextItem>
                 )}
               </Button>
             </>

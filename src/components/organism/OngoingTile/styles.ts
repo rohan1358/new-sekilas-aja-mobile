@@ -1,5 +1,9 @@
 import { StyleSheet } from "react-native";
-import { neutralColor, spacing as sp } from "../../../constants";
+import {
+  neutralColor,
+  neutralColorNormalKebalikan,
+  spacing as sp
+} from "../../../constants";
 import { widthPercent } from "../../../helpers";
 
 const styles = ({ tileHeight }: { tileHeight: number }) =>
@@ -9,22 +13,22 @@ const styles = ({ tileHeight }: { tileHeight: number }) =>
       justifyContent: "space-between",
       paddingVertical: sp.xs,
       paddingHorizontal: sp.sm,
-      alignItems: "center",
+      alignItems: "center"
     },
     container: {
       width: widthPercent(100) - sp.sl * 2,
       left: sp.sl,
-      backgroundColor: neutralColor[10],
+      backgroundColor: neutralColorNormalKebalikan[20],
       top: -24 - tileHeight / 2,
       borderRadius: 12,
-      shadowColor: '#000',
+      shadowColor: "#000",
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
       shadowRadius: 2,
       elevation: 3
     },
 
-    imageContainer: { width: 40, height: 60 },
+    imageContainer: { width: 40, height: 60 }
   });
 
 export default styles;
